@@ -50,31 +50,22 @@ function Screen() {
 
     const handleInput = async ({ target: {value}}) => {      
         let inputval = value // event.target.value
+
         let isInputInteger = value.replace(/[a-z]/g, '')     // this is escaping/removing all letters/alpha-char. 
-        const newInput = `${preInputValue} ${inputval}`                
-        let cleaninput = newInput.replace(/[\s[a-z]/g, '')
+        const newInput = `${preInputValue} ${inputval}`    
+                    
+        let cleaninput = newInput.replace(/[\s[a-z]/g, '') 
         let length = cleaninput.length - 1
-        let inputstate = cleaninput[`${length}`]
-        await setPreInputValue(`${preInputValue} ${inputstate}`)
+        // let length = cleaninput.length - 1
+        let inputstate = cleaninput[`${length}`] || 'please enter a number'
+        if (inputstate == 'please enter a number' ) {
+            console.log("hey were over here")
+            await setPreInputValue('')
+            await setPreInputValue(`${inputstate}`)
+        } else {
+            await setPreInputValue(`${preInputValue} ${inputstate}`)
+        }
 
-        // console.log('cleaninput BEFORE')
-        // console.log(cleaninput)
-        // if (cleaninput.length > 1) cleaninput = cleaninput.slice(0, 0)
-        // // if (cleaninput.length > 1) console.log(cleaninput.slice(0))
-        // console.log('cleaninput after the slice trick')
-        // console.log(cleaninput)
-        // console.log(cleaninput.length)
-        // if (cleaninput.length > 3) cleaninput = 'clean'
-        // else  await setPreInputValue(cleaninput)
-
-        // problem:
-        // [1] this creates a fun problem in which: 
-        // [2] typing '1' then '5' into the input (as if you were typing in 151, the maximum total length onto which our pokemon API could cover. )
-        // [3] 1 gets typed in and then when you type in 5: '115' The original "1" which is still a value of the input element is being transferred to the state. 
-        // [4] typine in 151: sets the state to 1155. 
-
-        // solution
-        // [5] : store cleaninput.length as a value. reference the char.At().. set to length of input -1 (factoring in array-indexing)
 
 
 // setPreInputValue(preInputValue.toString() + {value}) no/fair-guess ([object Object][object Object][object Object])
@@ -100,14 +91,18 @@ function Screen() {
 
     }
     keyDownHandler()
+
     
+
+
+
+
     return (
         <div className="Screen-Wrapper">
             <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
-            <label htmlFor={'Screen-Input'}> {preInputValue || ''}  </label>
-            {/* <input onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text" value={isInputHovered == 'false'  ? 'How Many Pokemon?' :  }/> */}
+            <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
             <button className="navBall"> </button>
-            {/* <input onMouseEnter={inputEnter}onChange={inputEnter}type="text" value={isInputHovered == 'false' ? 'how many pokemon?' : '' }/> */}
+
 
             <button onClick={APIcall} className="navBall" id="Pokeball"> </button>      
             <button onClick={updateValue} className="navBall" id="Greatball"> </button>
@@ -121,13 +116,3 @@ function Screen() {
     )
 }
 export default Screen
-
-
-// 
-{/* {pokemon.map( (pokemap, index) => {
-                return (
-                    <div key={index+1}  className="Map-Parent">
-                    <li className="Poke-Card" key={index}> {pokemap.name} </li>                    
-                    </div>
-                    )
-                })}   */}
