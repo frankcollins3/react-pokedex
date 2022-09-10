@@ -50,15 +50,31 @@ function Screen() {
 
     const handleInput = async ({ target: {value}}) => {      
         let inputval = value // event.target.value
-        console.log('inputval')
-        console.log(inputval.toString())
         let isInputInteger = value.replace(/[a-z]/g, '')     // this is escaping/removing all letters/alpha-char. 
         const newInput = `${preInputValue} ${inputval}`                
         let cleaninput = newInput.replace(/[\s[a-z]/g, '')
-        console.log('cleaninput')
-        console.log(cleaninput)
-        if (cleaninput.length > 3) cleaninput = 'clean'
-        else  await setPreInputValue(cleaninput)
+        let length = cleaninput.length - 1
+        let inputstate = cleaninput[`${length}`]
+        await setPreInputValue(`${preInputValue} ${inputstate}`)
+
+        // console.log('cleaninput BEFORE')
+        // console.log(cleaninput)
+        // if (cleaninput.length > 1) cleaninput = cleaninput.slice(0, 0)
+        // // if (cleaninput.length > 1) console.log(cleaninput.slice(0))
+        // console.log('cleaninput after the slice trick')
+        // console.log(cleaninput)
+        // console.log(cleaninput.length)
+        // if (cleaninput.length > 3) cleaninput = 'clean'
+        // else  await setPreInputValue(cleaninput)
+
+        // problem:
+        // [1] this creates a fun problem in which: 
+        // [2] typing '1' then '5' into the input (as if you were typing in 151, the maximum total length onto which our pokemon API could cover. )
+        // [3] 1 gets typed in and then when you type in 5: '115' The original "1" which is still a value of the input element is being transferred to the state. 
+        // [4] typine in 151: sets the state to 1155. 
+
+        // solution
+        // [5] : store cleaninput.length as a value. reference the char.At().. set to length of input -1 (factoring in array-indexing)
 
 
 // setPreInputValue(preInputValue.toString() + {value}) no/fair-guess ([object Object][object Object][object Object])
@@ -84,12 +100,7 @@ function Screen() {
 
     }
     keyDownHandler()
-
     
-
-
-
-
     return (
         <div className="Screen-Wrapper">
             <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
