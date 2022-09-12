@@ -14,51 +14,50 @@ function Screen() {
     const [preInputValue, setPreInputValue] = useState([])
     const [isInputHovered, setIsInputHovered] = useState('false')
     const [dexClick, setDexClick] = useState('false')
+    const [pokeBgState, setPokeBgState] = useState('false')
 
     const [hoverCount, setHoverCount] = useState(0)
 
-
-
-
     let pokeRefs = useRef([]);      
-    // let pokeRefs = [createRef(), createRef()]
+
+
+    // useEffect
     useEffect( () => {
-        APIcall().then(async(pokedata) => {
-            console.log('pokedata')
-            console.log(pokedata)
+        let pokedexObj = createRef()
+        let pokedex = $(pokedexObj)
+        console.log('pokedex')
+        console.log(pokedex)
+
+        APIcall().then(async(pokedata) => {        
             await setPokemon(pokedata.pokemon)
         })
     }, [])
 
-    const checkRefs = () => {        
-        console.log('in the checkRefs function')
-        pokeRefs.current.map( (el, i) => {
-            console.log('el')
-            console.log(el)
-        })
-    }
+    
 
-    const updateValue = ( {target: {value}}) => {   // didn't know you could set {value} object as value for key value pair.
-        console.log(`value ${value}`)
-        if (value) console.log(value)
+    const checkRefs = () => {              
+        console.log('pokeBgState')
+        console.log(pokeBgState)
+    }
+    
+
+    const updateValue = ( {target: {value}}) => {   // didn't know you could set {value} object as value for key value pair.        if (value) console.log(value)
         setRefLength({value}) // this is basically event.target.value
     }
-
     // const inputEnter = () => setIsInputHovered(true)
     const inputEnter = async (event) => { 
         await setHoverCount(hoverCount + 1)
         if (isInputHovered == 'false' && hoverCount < 2) await setIsInputHovered('true') 
     }
-    const inputExit = async (event) => { 
+    const inputExit = async (event) => 
+    { 
         if (isInputHovered == 'true' && hoverCount < 2) setIsInputHovered('false')     
         await setPreInputValue('')
-        return    
+        return
     }
-
-
     // have to get these two strings connected.
-
-    const handleInput = async ({ target: {value}}) => {      
+    const handleInput = async ({ target: {value}}) => 
+    {      
         let inputval = value // event.target.value
         let isInputInteger = value.replace(/[a-z]/g, '')     // this is escaping/removing all letters/alpha-char. 
         const newInput = `${preInputValue} ${inputval}`                        
@@ -73,11 +72,7 @@ function Screen() {
         } else {
             await setPreInputValue(`${preInputValue} ${inputstate}`)
         }
-
-
-
 // setPreInputValue(preInputValue.toString() + {value}) no/fair-guess ([object Object][object Object][object Object])
-
         if (isInputInteger.length) { 
         await setRefLength(isInputInteger) 
         pokeRefs.current = pokeRefs.current.splice(0, isInputInteger)    
@@ -87,42 +82,29 @@ function Screen() {
         }
         else {
             setRefLength('')
-            console.log('no integer')
             return 
         }    
             // if its true, return/stop/get-out.
         // else return 
     }
-
-    const keyDownHandler = (event) => {
-        console.log('lets see that')
-
-    }
-    keyDownHandler()
-
-    $('.Close-Pokedex').click((event)=> {
-        // $(event.target).css('border', '20px solid orange');
+    $('.Close-Pokedex').click(async(event)=> {
         $(event.target).addClass('Pokedex-Animate')
-        // $(event.target).css('background-image', "url('/img/openPokeDex.png')")
-        console.log($(event.target))
         let classbucket = $(event.target)[0].attributes.class.textContent
-        
-
-
+        await setPokeBgState('true')
+        // await console.log('spokeBgState')
+        // await console.log(pokeBgState)
 
     })
-
-
+    
     if (dexClick == 'true') {
     return (
         <>
-
             <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
+           
             </div>
-
         <div className="Screen Column-Between">
                <ul>
                {pokeRefs.current.map((el, i) =>
@@ -136,20 +118,20 @@ function Screen() {
                     </ul>      
         </div>               {/* screen end  */}
         </div>
-                    </>
+    </>
     )
-}       // if (dexClick  == 'true') { end }
+} 
 else { 
     return (
-            <div className="Close-Pokedex"> </div>
-
-            
+        <>
+            <div className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex Pokedex-Animate" }> </div>      
+            <button onClick={APIcall} className="navBall" id="Pokeball"> </button>      
+            <button onClick={updateValue} className="navBall" id="Greatball"> </button>
+            <button onClick={checkRefs} className="navBall" id="Ultraball"> </button>        
+        </>    
     )
 }
 }       // function Screen() { end }
 export default Screen
 
 
-{/* <button onClick={APIcall} className="navBall" id="Pokeball"> </button>      
-<button onClick={updateValue} className="navBall" id="Greatball"> </button>
-<button onClick={checkRefs} className="navBall" id="Ultraball"> </button>  */}
