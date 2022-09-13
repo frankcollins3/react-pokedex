@@ -138,8 +138,9 @@ function BootstrapScreen() {
     }
     $('.Pokedex').dblclick( () => setPokedexClick('true'))
     
-    
-
+    let noChange = () => {
+        return ''|| []
+    }
 
     if (pokedexClick == 'true') {
     return (
@@ -156,8 +157,7 @@ function BootstrapScreen() {
                         <img 
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
-                        <Button variant={"primary"}Primray Pimary> </Button>
-                        {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
+                        <Button onMouseEnter={noChange} className="Bootstrap-Screen-Btn" variant={"primary"}> </Button>   {/* [] square bootstrap button */}
                     </div>
                     )}
                     </ul>      
@@ -181,9 +181,9 @@ else  {
             />
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>    
 
-            <div className="Header-Container">    
-            <h1 className="Pokedex-Text Row-Center" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> How many Pokemon </h1>        
-            <h4 className="Pokedex-Text Row-Center" style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>        
+            <div className="Header-Container Column-Center">    
+            <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> How many Pokemon </h1>        
+            <h4 className="Pokedex-Text" style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>        
             </div>
         </>    
     )
