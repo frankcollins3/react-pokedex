@@ -51,21 +51,11 @@ function BootstrapScreen() {
     useEffect( () => {
         let pokedexObj = createRef()
         let pokedex = $(pokedexObj)
-        console.log('pokedex')
-        console.log(pokedex)
-
         APIcall().then(async(pokedata) => {        
             await setPokemon(pokedata.pokemon)
         })
     }, [])
-
     
-
-    const checkRefs = () => {              
-        
-    }
-    
-
     const updateValue = ( {target: {value}}) => {   // didn't know you could set {value} object as value for key value pair.        if (value) console.log(value)
         setRefLength({value}) // this is basically event.target.value
     }
@@ -117,56 +107,36 @@ function BootstrapScreen() {
     const pokedexBg = async () => await setPokeBgState('true');
     const removeClosePokedexClass = () => $('.Pokedex').removeClass('Close-Pokedex')
 
-    const checkconsole1 = () => console.log("lets see")
-    const checkconsole2 = () => console.log("lets see some more")
     // const hideinput = () => setInputHide('true')
     const hideinput = (event) => $(event.target).hide() || hideThis($(event.target))
 
     const pokedexClickHandler = (e) => {
         let clickEventClass = e.target.attributes.class.nodeValue
-        console.log('clickEventClass')
-        console.log(clickEventClass)
-
         let objClassNames = clickEventClass.split('x ')           
-        console.log('objClassNames')
-        console.log(objClassNames)
-
         objClassNames.forEach(async (objectClass) => {
             if (objectClass.includes('Close') || objectClass === 'Close') {
                 // hideThis($('#Ultraball'))
-                $(e.target).addClass('Pokedex-Animate')
+                try { if (e.target) $(e.target).addClass('Pokedex-Animate') } catch { console.log('weve got nothing') }
                 // setTimeout([pokedexBg(), checkconsole1(), checkconsole2()] , 4000) 
                 // [setTimeout(pokedexBg(), 4000), setTimeout(checkconsole1(), 4000), setTimeout(checkconsole2(), 4000)]
                 setTimeout( () => {
-                    pokedexBg()
-)
-  
-                }, 4000)
-                    setTimeout( () => {
-
-                        // [Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')]
-                    }, 5000)
-                    // setTimeout( () => [Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')], 5000)
-
-                    // setTimeout([Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')], 5000)     
-                    // the above code returns an unexpected identifier because it is an array instead of a function, setTimeouts first parameter is a function
-                    
-                    // setTimeout([Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')], 5000)
+                    pokedexBg()                    
+                }, 4000)                    
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
-                setPokedexClick('true')
-                // $('*').removeClass('Pokedex')
+                setPokedexClick('true')                
                 $('*').removeClass('Pokedex-Animate')
-
             }
         })
-
+        
     }
     $('.Pokedex').dblclick( () => setPokedexClick('true'))
+
+
     
-    if (pokedexClick == 'true' && animateHappened == 'false') {
+    if (pokedexClick == 'true') {
     return (
         <>
-            <div id="Screen-Wrapper-ID" className="Screen-Wrapper">
+            <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
@@ -178,6 +148,7 @@ function BootstrapScreen() {
                         <img 
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
+                        <Button variant={"primary"}Primray Pimary> </Button>
                         {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
                     </div>
                     )}
@@ -188,7 +159,7 @@ function BootstrapScreen() {
     </>
     )
 } 
-else { 
+else  { 
     return (
         <>  
             <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>      
@@ -202,8 +173,7 @@ else {
             onChange={handleInput}
             type="text"
             />
-            <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
-
+            <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>    
         </>    
     )
 }
