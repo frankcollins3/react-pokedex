@@ -35,10 +35,15 @@ function BootstrapScreen() {
 
     // ******** JQ/DOM referenec
     const Pokedex = $('.Pokedex')
+    const pokedexText = $('.Pokedex-Text')
+    const hCont = $('.Header-Container')
 
+    
 
     // Jq backup DOM functionality
     const hideThis = (elem) => $(elem).hide()
+    hCont.ready((event)=> $(event.target).children().addClass("Row-Center") )
+
 
     // useEffect
     useEffect( () => {
@@ -55,7 +60,7 @@ function BootstrapScreen() {
     
 
     const checkRefs = () => {              
-        
+        // workflow function: uncomment the ultraball onClick={checkRefs} and fire away: adding any relevant-to-the-then-task console.logs for quick checking. especially in state
     }
     
 
@@ -133,6 +138,9 @@ function BootstrapScreen() {
     }
     $('.Pokedex').dblclick( () => setPokedexClick('true'))
     
+    
+
+
     if (pokedexClick == 'true') {
     return (
         <>
@@ -172,10 +180,10 @@ else  {
             type="text"
             />
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>    
-            
-            <div className="Header-Container Column-Center">    
-            <h1 style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> How many Pokemon </h1>        
-            <h4 style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>        
+
+            <div className="Header-Container">    
+            <h1 className="Pokedex-Text Row-Center" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> How many Pokemon </h1>        
+            <h4 className="Pokedex-Text Row-Center" style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>        
             </div>
         </>    
     )
