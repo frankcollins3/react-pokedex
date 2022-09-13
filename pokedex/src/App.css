@@ -122,9 +122,20 @@
 }
 
 .Bootstrap-Screen-Btn {
-  border-radius: 100%;
   background-image: url("/public/img/pokeball.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-color: transparent;
+  pointer-events: none;
+}
 
+
+
+.Map-Parent {
+  height: 15em;
+  width: 15em;
+  background-image: url("/public/img/pokemontemplate.png")
 }
 /* SCREEN */
 
