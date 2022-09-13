@@ -33,6 +33,10 @@ function BootstrapScreen() {
     const Pokedex = $('.Pokedex')
 
 
+    // Jq backup DOM functionality
+    const hideThis = (elem) => $(elem).hide()
+
+
   
 
     // useEffect
@@ -110,6 +114,8 @@ function BootstrapScreen() {
 
     const checkconsole1 = () => console.log("lets see")
     const checkconsole2 = () => console.log("lets see some more")
+    // const hideinput = () => setInputHide('true')
+    const hideinput = (event) => $(event.target).hide() || hideThis($(event.target))
 
     const pokedexClickHandler = (e) => {
         console.log(e)
@@ -123,9 +129,8 @@ function BootstrapScreen() {
             console.log('objectClass')
             console.log(objectClass)
             if (objectClass.includes('Close') || objectClass === 'Close') {
-                console.log('it sure does')
+                hideThis($('#Ultraball'))
                 $(e.target).addClass('Pokedex-Animate')
-
                 // setTimeout([pokedexBg(), checkconsole1(), checkconsole2()] , 4000) // for some reaosn the 
                 // [setTimeout(pokedexBg(), 4000), setTimeout(checkconsole1(), 4000), setTimeout(checkconsole2(), 4000)]
                 setTimeout( () => {
@@ -135,18 +140,15 @@ function BootstrapScreen() {
                     $('.Pokedex').addClass('Pokedex-Animate')
                     $('.Pokedex').removeClass('Close-Pokedex')
                 }, 4000)
-
-                // setTimeout(removeClosePokedexClass, 5000)
-                // setTimeout(await setPokeBgState('true'), 4000)
-                // await setPokeBgState('true');
-                // $(e.target).removeClass('Close-Pokedex')
-                // $(e.target).addClass('Open-Pokedex')
+            } else if (objectClass.includes('Open') || objectClass === 'Open') {
+                setPokedexClick('true')
+                console.log("see our Open-ing")
             }
         })
         // console.log([objClassNames[0]])
         // console.log([objClassNames[1]])
-
     }
+    $('.Pokedex').dblclick( () => setPokedexClick('true'))
 
 
     // $('.Pokedex').click(async function pokedexClick(event) {  
@@ -214,7 +216,16 @@ else {
     return (
         <>  
             <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>      
-            <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
+            <input 
+            style={{ display: inputHide === 'false' ? 'none' : 'block'}}
+            // style={{ border: pokedexClick === 'false' ? '5px dotted hotpink' : '20px solid goldenrod'}}
+            // style={{ display: pokedexClick === 'false' ? 'hidden' : 'block'}}
+            id={'Screen-Input'} 
+            onMouseEnter={inputEnter} 
+            onMouseLeave={inputExit} 
+            onChange={handleInput}
+            type="text"
+            />
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
      
 
