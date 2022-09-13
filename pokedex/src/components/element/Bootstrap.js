@@ -1,13 +1,24 @@
 import APIcall from '../utility/pokeAPI'
 import React, { useEffect, useState, useRef, createRef } from 'react';
-import Alert from 'react-bootstrap/Alert';
-import { $ } from 'react-jquery-plugin';
+import {Alert, Button}  from 'react-bootstrap'; 
+// nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
+// (1) didn't know i was still importing from /Alert endpoint from react-bootstrap API. 
+// (2) while typing this i notice its so much easier to see these tools as APIs when you would access different elements/features-of-tool from different endpoints. (in this example react-bootstrap/Alert vs not)
+// 
+import { $ } from 'react-jquery-plugin'; 
+
+
+// import {Alert, Button} from 'react-bootstrap/Alert';
+console.log('Alert')
+console.log(Alert)
+console.log('Button')
+console.log(Button)
+
 
 console.log('Alert')
 console.log(Alert)
 
 
-console.log({ $ })
 
 
 function BootstrapScreen() {
@@ -36,9 +47,6 @@ function BootstrapScreen() {
     // Jq backup DOM functionality
     const hideThis = (elem) => $(elem).hide()
 
-
-  
-
     // useEffect
     useEffect( () => {
         let pokedexObj = createRef()
@@ -54,10 +62,7 @@ function BootstrapScreen() {
     
 
     const checkRefs = () => {              
-        console.log('pokeBgState')
-        console.log(pokeBgState)
-        console.log('animateHappened')
-        console.log(animateHappened)
+        
     }
     
 
@@ -71,7 +76,7 @@ function BootstrapScreen() {
         // $(event.target).hide()
     }
     const inputExit = async (event) => 
-    { 
+    {                                   
         if (isInputHovered == 'true' && hoverCount < 2) setIsInputHovered('false')     
         await setPreInputValue('')
         $()
@@ -118,31 +123,29 @@ function BootstrapScreen() {
     const hideinput = (event) => $(event.target).hide() || hideThis($(event.target))
 
     const pokedexClickHandler = (e) => {
-        console.log(e)
-        console.log(e.target)
-        console.log(e.target.attributes.class.nodeValue)
         let clickEventClass = e.target.attributes.class.nodeValue
-        console.log('clickEventClass')
-        console.log(clickEventClass)
         let objClassNames = clickEventClass.split('x ')     
+
         objClassNames.forEach(async (objectClass) => {
-            console.log('objectClass')
-            console.log(objectClass)
             if (objectClass.includes('Close') || objectClass === 'Close') {
-                hideThis($('#Ultraball'))
+                // hideThis($('#Ultraball'))
                 $(e.target).addClass('Pokedex-Animate')
-                // setTimeout([pokedexBg(), checkconsole1(), checkconsole2()] , 4000) // for some reaosn the 
+                // setTimeout([pokedexBg(), checkconsole1(), checkconsole2()] , 4000) 
                 // [setTimeout(pokedexBg(), 4000), setTimeout(checkconsole1(), 4000), setTimeout(checkconsole2(), 4000)]
                 setTimeout( () => {
                     pokedexBg()
                     checkconsole1()
                     checkconsole2()
-                    $('.Pokedex').addClass('Pokedex-Animate')
-                    $('.Pokedex').removeClass('Close-Pokedex')
+                    Pokedex
+                    .addClass('Pokedex-Animate')
+                    .removeClass('Close-Pokedex')
                 }, 4000)
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
                 setPokedexClick('true')
-                console.log("see our Open-ing")
+                Pokedex.detach()
+                // $('*').removeClass('Pokedex')
+                $('*').removeClass('Pokedex-Animate')
+                console.log("here's our Open-ing")
             }
         })
         // console.log([objClassNames[0]])
@@ -151,41 +154,7 @@ function BootstrapScreen() {
     $('.Pokedex').dblclick( () => setPokedexClick('true'))
 
 
-    // $('.Pokedex').click(async function pokedexClick(event) {  
-    //     console.log("clicking on the pokedex")
-    //     console.log($(event.target)) 
-    //     $(event.target).on('click', () => {
-    //         console.log("this is a skip function and would only be triggered if you clicked during the click")
-    //          setPokeBgState('true')
-    //         //  $(event.target).removeClass('Open-Pokedex')
-    //         //  $(event.target).removeClass('Close-Pokedex')
-    //     }) 
-    //     await setAnimateHappened('true')
-
-    //     // $(event.target).hide()     
-    //     let currentTargetClass = event.currentTarget.attributes.class.nodeValue 
-    //    if (animateHappened == 'false') $(event.target).addClass('Pokedex-Animate')
-    // // even creating boolean-like state to check true/false is applying this $(e.tgt)animationClass to the input, .Input-Wrapper,  .Screen, 
-    // if (currentTargetClass.includes('Open-Pokedex')) {
-    //         setTimeout($(event.target).removeClass("Close-Pokedex"), 3000);
-    //         setPokedexClick('true')
-    //         // $(event.target).removeClass("Closed-Pokedex")
-    //         // fun little error without $(event.target).remove Class(ClosePokedex) this code repeats over and over. 
-    //         // our if/includes block of code, if below the .addClass('Pokedex-Animate') makes the encased cons.log() run 4x. 
-    //     }
-    //     // if (currentTargetClass.includes('Close')) console.log("yeah and????")
-    //     if (currentTargetClass.includes('Close')) {
-    //         setTimeout( () => {
-    //             console.log("yeah and?")
-    //             setPokeBgState('true')
-    //             console.log("hey were down over here")
-    //             console.log($(event.target)) 
-                           
-    //             // $(event.target).unbind(pokedexClick)
-
-    //         }, 4000)          
-    //     }             
-    // })
+    
     
     if (pokedexClick == 'true') {
     return (
@@ -229,7 +198,7 @@ else {
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
      
 
-            <button onClick={checkRefs} className="navBall" id="Ultraball"> </button>  
+            {/* <button onClick={checkRefs} className="navBall" id="Ultraball"> </button>   */}
             {/* <button onClick={APIcall} className="navBall" id="Pokeball"> </button>      
             <button onClick={updateValue} className="navBall" id="Greatball"> </button> */}
            
@@ -241,3 +210,35 @@ else {
 export default BootstrapScreen
 
 
+// $('.Pokedex').click(async function pokedexClick(event) {  
+    //     console.log("clicking on the pokedex")
+    //     console.log($(event.target)) 
+    //     $(event.target).on('click', () => {
+    //         console.log("this is a skip function and would only be triggered if you clicked during the click")
+    //          setPokeBgState('true')
+    //         //  $(event.target).removeClass('Open-Pokedex')
+    //         //  $(event.target).removeClass('Close-Pokedex')
+    //     }) 
+    //     await setAnimateHappened('true')
+
+    //     // $(event.target).hide()     
+    //     let currentTargetClass = event.currentTarget.attributes.class.nodeValue 
+    //    if (animateHappened == 'false') $(event.target).addClass('Pokedex-Animate')
+    // // even creating boolean-like state to check true/false is applying this $(e.tgt)animationClass to the input, .Input-Wrapper,  .Screen, 
+    // if (currentTargetClass.includes('Open-Pokedex')) {
+    //         setTimeout($(event.target).removeClass("Close-Pokedex"), 3000);
+    //         setPokedexClick('true')
+    //         // $(event.target).removeClass("Closed-Pokedex")
+    //         // fun little error without $(event.target).remove Class(ClosePokedex) this code repeats over and over. 
+    //         // our if/includes block of code, if below the .addClass('Pokedex-Animate') makes the encased cons.log() run 4x. 
+    //     }
+    //     // if (currentTargetClass.includes('Close')) console.log("yeah and????")
+    //     if (currentTargetClass.includes('Close')) {
+    //         setTimeout( () => {
+   
+    //             setPokeBgState('true')                        
+    //             // $(event.target).unbind(pokedexClick)
+
+    //         }, 4000)          
+    //     }             
+    // })
