@@ -23,6 +23,8 @@ function BootstrapScreen() {
     const [isInputHovered, setIsInputHovered] = useState('false')
     const [pokedexClick, setPokedexClick] = useState('false')
     const [pokeBgState, setPokeBgState] = useState('false')
+    const [inputHide, setInputHide] = useState('false')
+    const [animateHappened, setAnimateHappened] = useState('false')
 
     const [hoverCount, setHoverCount] = useState(0)
 
@@ -47,6 +49,8 @@ function BootstrapScreen() {
     const checkRefs = () => {              
         console.log('pokeBgState')
         console.log(pokeBgState)
+        console.log('animateHappened')
+        console.log(animateHappened)
     }
     
 
@@ -57,11 +61,13 @@ function BootstrapScreen() {
     const inputEnter = async (event) => { 
         await setHoverCount(hoverCount + 1)
         if (isInputHovered == 'false' && hoverCount < 2) await setIsInputHovered('true') 
+        // $(event.target).hide()
     }
     const inputExit = async (event) => 
     { 
         if (isInputHovered == 'true' && hoverCount < 2) setIsInputHovered('false')     
         await setPreInputValue('')
+        $()
         return
     }
     // have to get these two strings connected.
@@ -96,17 +102,20 @@ function BootstrapScreen() {
             // if its true, return/stop/get-out.
         // else return 
     }
-    $('.Pokedex').click(async(event)=> {   
+    $('.Pokedex').click(async function pokedexClick(event) {   
         $(event.target).on('click', () => {
-            console.log("clicking during animation")
+            console.log("this is a skip function and would only be triggered if you clicked during the click")
              setPokeBgState('true')
         }) 
+        await setAnimateHappened('true')
 
         // $(event.target).hide()     
         let currentTargetClass = event.currentTarget.attributes.class.nodeValue 
-        $(event.target).addClass('Pokedex-Animate')
+    //    if (animateHappened == 'false') $(event.target).addClass('Pokedex-Animate')
+    // even creating boolean-like state to check true/false is applying this $(e.tgt)animationClass to the input, .Input-Wrapper,  .Screen, 
         if (currentTargetClass.includes('Open-Pokedex')) {
             setPokedexClick('true')
+            
             // fun little error without $(event.target).remove Class(ClosePokedex) this code repeats over and over. 
             // our if/includes block of code, if below the .addClass('Pokedex-Animate') makes the encased cons.log() run 4x. 
         }
@@ -115,6 +124,11 @@ function BootstrapScreen() {
             setTimeout( () => {
                 console.log("yeah and?")
                 setPokeBgState('true')
+                console.log("hey were down over here")
+                console.log($(event.target)) 
+                           
+                // $(event.target).unbind(pokedexClick)
+
             }, 4000)
             
         } 
@@ -152,25 +166,10 @@ else {
             <div className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>      
             <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
-            {[
-    //     'primary',
-    //     'secondary',
-    //     'success',
-    //     'danger',
-    //     'warning',
-    //     'info',
-    //     'light',
-    //     'dark',
-    //   ].map((variant) => (
-    //     <Alert key={variant} variant={variant}>
-    //       This is a {variant} alert with{' '}
-    //       <Alert.Link href="#">an example link</Alert.Link>. Give it a click if
-    //       you like.
-    //     </Alert>
-    //   ))}
+     
 
-            {/* <button onClick={APIcall} className="navBall" id="Pokeball"> </button>      
             <button onClick={checkRefs} className="navBall" id="Ultraball"> </button>  
+            {/* <button onClick={APIcall} className="navBall" id="Pokeball"> </button>      
             <button onClick={updateValue} className="navBall" id="Greatball"> </button> */}
            
             {/* <p> hey  </p> */}
