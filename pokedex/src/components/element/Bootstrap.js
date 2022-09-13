@@ -139,13 +139,8 @@ function BootstrapScreen() {
                 // [setTimeout(pokedexBg(), 4000), setTimeout(checkconsole1(), 4000), setTimeout(checkconsole2(), 4000)]
                 setTimeout( () => {
                     pokedexBg()
-                    checkconsole1()
-                    checkconsole2()
-                    Pokedex
-                    .addClass('Pokedex-Animate')
-                    .removeClass('Close-Pokedex')
-                    console.log("lets see that id") 
-                    console.log($('#Screen-Wrapper-ID'))
+)
+  
                 }, 4000)
                     setTimeout( () => {
 
@@ -159,19 +154,14 @@ function BootstrapScreen() {
                     // setTimeout([Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')], 5000)
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
                 setPokedexClick('true')
-                // Pokedex.detach()
                 // $('*').removeClass('Pokedex')
                 $('*').removeClass('Pokedex-Animate')
-                console.log("here's our Open-ing")
+
             }
         })
-        // console.log([objClassNames[0]])
-        // console.log([objClassNames[1]])
+
     }
     $('.Pokedex').dblclick( () => setPokedexClick('true'))
-
-
-    
     
     if (pokedexClick == 'true' && animateHappened == 'false') {
     return (
@@ -213,13 +203,7 @@ else {
             type="text"
             />
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
-     
 
-            {/* <button onClick={checkRefs} className="navBall" id="Ultraball"> </button>   */}
-            {/* <button onClick={APIcall} className="navBall" id="Pokeball"> </button>      
-            <button onClick={updateValue} className="navBall" id="Greatball"> </button> */}
-           
-            {/* <p> hey  </p> */}
         </>    
     )
 }
