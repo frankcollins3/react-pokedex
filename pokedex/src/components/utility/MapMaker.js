@@ -3,11 +3,10 @@ import {Alert, Button, Card}  from 'react-bootstrap';   // ---> || import Alert 
 import { $ } from 'react-jquery-plugin'; 
 
 
-function InputMap (props) {
+function burgermap (props) {
 
     let mapsideInput = props.inputTarget
     $(mapsideInput).css('height', '500px')
-    // tried to send over a reference to jqObject as props. 
 
     
 
@@ -18,22 +17,31 @@ function InputMap (props) {
     let pokeRefs = useRef([]);     
     
     const checkRefs = () => {
+        console.log('pokeRefs')
         console.log(pokeRefs)
     }
+
+    const resetRef = () => console.log("resetRefs is not working!")
     
     useEffect( () => {
         console.log("useEffect()=> MapMaker <Component/>!!")
         let inputlength = props.specifiedLength[0] 
-        console.log('inputlength')
-        console.log(inputlength)
+        
 //  */ better to have this within useEffect since this should be updated every time that state is being changed. The state is houed 1 level above in Bootstrap.js
         let i = 0; 
         for (i; i < inputlength; i++) {
             pokeRefs.current[i] = pokeRefs.current[i] || createRef()
         }
+        
+        
+        
         }, [props.specifiedLength])
 
- 
+        // for (let i = 0; i < parseInt(updatedLength);
+
+    const saveToFakeDbState = () => {
+        console.log("hey how is you");
+    }
     return (
         <div>
             <ul>
@@ -47,10 +55,11 @@ function InputMap (props) {
                     )}
                     </ul>   
                     <button type="button" onClick={checkRefs} className="navBall" id="Ultraball"> </button>
+                    <button type="button" onClick={resetRef} className="navBall" id="Ultraball"> </button>
         </div>
     )
 }
-export default InputMap
+export nothing 
 
 
 
