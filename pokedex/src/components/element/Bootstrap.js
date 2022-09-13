@@ -25,10 +25,13 @@ function BootstrapScreen() {
     const [pokeBgState, setPokeBgState] = useState('false')
     const [inputHide, setInputHide] = useState('false')
     const [animateHappened, setAnimateHappened] = useState('false')
-
     const [hoverCount, setHoverCount] = useState(0)
 
     let pokeRefs = useRef([]);      
+
+    // ******** JQ/DOM referenec
+    const Pokedex = $('.Pokedex')
+
 
   
 
@@ -102,38 +105,85 @@ function BootstrapScreen() {
             // if its true, return/stop/get-out.
         // else return 
     }
-    $('.Pokedex').click(async function pokedexClick(event) {   
-        $(event.target).on('click', () => {
-            console.log("this is a skip function and would only be triggered if you clicked during the click")
-             setPokeBgState('true')
-        }) 
-        await setAnimateHappened('true')
+    const pokedexBg = async () => await setPokeBgState('true');
+    const removeClosePokedexClass = () => $('.Pokedex').removeClass('Close-Pokedex')
 
-        // $(event.target).hide()     
-        let currentTargetClass = event.currentTarget.attributes.class.nodeValue 
+    const checkconsole1 = () => console.log("lets see")
+    const checkconsole2 = () => console.log("lets see some more")
+
+    const pokedexClickHandler = (e) => {
+        console.log(e)
+        console.log(e.target)
+        console.log(e.target.attributes.class.nodeValue)
+        let clickEventClass = e.target.attributes.class.nodeValue
+        console.log('clickEventClass')
+        console.log(clickEventClass)
+        let objClassNames = clickEventClass.split('x ')     
+        objClassNames.forEach(async (objectClass) => {
+            console.log('objectClass')
+            console.log(objectClass)
+            if (objectClass.includes('Close') || objectClass === 'Close') {
+                console.log('it sure does')
+                $(e.target).addClass('Pokedex-Animate')
+
+                // setTimeout([pokedexBg(), checkconsole1(), checkconsole2()] , 4000) // for some reaosn the 
+                // [setTimeout(pokedexBg(), 4000), setTimeout(checkconsole1(), 4000), setTimeout(checkconsole2(), 4000)]
+                setTimeout( () => {
+                    pokedexBg()
+                    checkconsole1()
+                    checkconsole2()
+                    $('.Pokedex').addClass('Pokedex-Animate')
+                    $('.Pokedex').removeClass('Close-Pokedex')
+                }, 4000)
+
+                // setTimeout(removeClosePokedexClass, 5000)
+                // setTimeout(await setPokeBgState('true'), 4000)
+                // await setPokeBgState('true');
+                // $(e.target).removeClass('Close-Pokedex')
+                // $(e.target).addClass('Open-Pokedex')
+            }
+        })
+        // console.log([objClassNames[0]])
+        // console.log([objClassNames[1]])
+
+    }
+
+
+    // $('.Pokedex').click(async function pokedexClick(event) {  
+    //     console.log("clicking on the pokedex")
+    //     console.log($(event.target)) 
+    //     $(event.target).on('click', () => {
+    //         console.log("this is a skip function and would only be triggered if you clicked during the click")
+    //          setPokeBgState('true')
+    //         //  $(event.target).removeClass('Open-Pokedex')
+    //         //  $(event.target).removeClass('Close-Pokedex')
+    //     }) 
+    //     await setAnimateHappened('true')
+
+    //     // $(event.target).hide()     
+    //     let currentTargetClass = event.currentTarget.attributes.class.nodeValue 
     //    if (animateHappened == 'false') $(event.target).addClass('Pokedex-Animate')
-    // even creating boolean-like state to check true/false is applying this $(e.tgt)animationClass to the input, .Input-Wrapper,  .Screen, 
-        if (currentTargetClass.includes('Open-Pokedex')) {
-            setPokedexClick('true')
-            
-            // fun little error without $(event.target).remove Class(ClosePokedex) this code repeats over and over. 
-            // our if/includes block of code, if below the .addClass('Pokedex-Animate') makes the encased cons.log() run 4x. 
-        }
-        // if (currentTargetClass.includes('Close')) console.log("yeah and????")
-        if (currentTargetClass.includes('Close')) {
-            setTimeout( () => {
-                console.log("yeah and?")
-                setPokeBgState('true')
-                console.log("hey were down over here")
-                console.log($(event.target)) 
+    // // even creating boolean-like state to check true/false is applying this $(e.tgt)animationClass to the input, .Input-Wrapper,  .Screen, 
+    // if (currentTargetClass.includes('Open-Pokedex')) {
+    //         setTimeout($(event.target).removeClass("Close-Pokedex"), 3000);
+    //         setPokedexClick('true')
+    //         // $(event.target).removeClass("Closed-Pokedex")
+    //         // fun little error without $(event.target).remove Class(ClosePokedex) this code repeats over and over. 
+    //         // our if/includes block of code, if below the .addClass('Pokedex-Animate') makes the encased cons.log() run 4x. 
+    //     }
+    //     // if (currentTargetClass.includes('Close')) console.log("yeah and????")
+    //     if (currentTargetClass.includes('Close')) {
+    //         setTimeout( () => {
+    //             console.log("yeah and?")
+    //             setPokeBgState('true')
+    //             console.log("hey were down over here")
+    //             console.log($(event.target)) 
                            
-                // $(event.target).unbind(pokedexClick)
+    //             // $(event.target).unbind(pokedexClick)
 
-            }, 4000)
-            
-        } 
-            
-    })
+    //         }, 4000)          
+    //     }             
+    // })
     
     if (pokedexClick == 'true') {
     return (
@@ -163,7 +213,7 @@ function BootstrapScreen() {
 else { 
     return (
         <>  
-            <div className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>      
+            <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>      
             <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
      
