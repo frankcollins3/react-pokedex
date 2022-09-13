@@ -1,6 +1,6 @@
 import APIcall from '../utility/pokeAPI'
 import React, { useEffect, useState, useRef, createRef } from 'react';
-import {Alert, Button}  from 'react-bootstrap'; 
+import {Alert, Button, Card}  from 'react-bootstrap';   // ---> || import Alert from 'react-bootstrap/Alert'
 // nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
 // (1) didn't know i was still importing from /Alert endpoint from react-bootstrap API. 
 // (2) while typing this i notice its so much easier to see these tools as APIs when you would access different elements/features-of-tool from different endpoints. (in this example react-bootstrap/Alert vs not)
@@ -9,14 +9,7 @@ import { $ } from 'react-jquery-plugin';
 
 
 // import {Alert, Button} from 'react-bootstrap/Alert';
-console.log('Alert')
-console.log(Alert)
-console.log('Button')
-console.log(Button)
 
-
-console.log('Alert')
-console.log(Alert)
 
 
 
@@ -51,11 +44,21 @@ function BootstrapScreen() {
     useEffect( () => {
         let pokedexObj = createRef()
         let pokedex = $(pokedexObj)
+        console.log('pokedex')
+        console.log(pokedex)
+
         APIcall().then(async(pokedata) => {        
             await setPokemon(pokedata.pokemon)
         })
     }, [])
+
     
+
+    const checkRefs = () => {              
+        
+    }
+    
+
     const updateValue = ( {target: {value}}) => {   // didn't know you could set {value} object as value for key value pair.        if (value) console.log(value)
         setRefLength({value}) // this is basically event.target.value
     }
@@ -68,8 +71,7 @@ function BootstrapScreen() {
     const inputExit = async (event) => 
     {                                   
         if (isInputHovered == 'true' && hoverCount < 2) setIsInputHovered('false')     
-        await setPreInputValue('')
-        $()
+        await setPreInputValue('')        
         return
     }
     // have to get these two strings connected.
@@ -107,7 +109,6 @@ function BootstrapScreen() {
     const pokedexBg = async () => await setPokeBgState('true');
     const removeClosePokedexClass = () => $('.Pokedex').removeClass('Close-Pokedex')
 
-    // const hideinput = () => setInputHide('true')
     const hideinput = (event) => $(event.target).hide() || hideThis($(event.target))
 
     const pokedexClickHandler = (e) => {
@@ -120,7 +121,8 @@ function BootstrapScreen() {
                 // setTimeout([pokedexBg(), checkconsole1(), checkconsole2()] , 4000) 
                 // [setTimeout(pokedexBg(), 4000), setTimeout(checkconsole1(), 4000), setTimeout(checkconsole2(), 4000)]
                 setTimeout( () => {
-                    pokedexBg()                    
+                    pokedexBg()      
+                    setInputHide('true')              
                 }, 4000)                    
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
                 setPokedexClick('true')                
@@ -130,8 +132,6 @@ function BootstrapScreen() {
         
     }
     $('.Pokedex').dblclick( () => setPokedexClick('true'))
-
-
     
     if (pokedexClick == 'true') {
     return (
@@ -144,7 +144,7 @@ function BootstrapScreen() {
         <div className="Screen Column-Between">
                <ul>
                {pokeRefs.current.map((el, i) =>
-                    <div key={`key${i}`} className="Map-Parent">
+                    <div key={`key${i}`} className="Map-Parent Column-Center">
                         <img 
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
@@ -164,9 +164,7 @@ else  {
         <>  
             <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>      
             <input 
-            style={{ display: inputHide === 'false' ? 'none' : 'block'}}
-            // style={{ border: pokedexClick === 'false' ? '5px dotted hotpink' : '20px solid goldenrod'}}
-            // style={{ display: pokedexClick === 'false' ? 'hidden' : 'block'}}
+            style={{ display: inputHide === 'false' ? 'none' : 'block'}}            
             id={'Screen-Input'} 
             onMouseEnter={inputEnter} 
             onMouseLeave={inputExit} 
@@ -174,6 +172,11 @@ else  {
             type="text"
             />
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>    
+            
+            <div className="Header-Container Column-Center">    
+            <h1 style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> How many Pokemon </h1>        
+            <h4 style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>        
+            </div>
         </>    
     )
 }
