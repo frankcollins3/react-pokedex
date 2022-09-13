@@ -124,7 +124,12 @@ function BootstrapScreen() {
 
     const pokedexClickHandler = (e) => {
         let clickEventClass = e.target.attributes.class.nodeValue
-        let objClassNames = clickEventClass.split('x ')     
+        console.log('clickEventClass')
+        console.log(clickEventClass)
+
+        let objClassNames = clickEventClass.split('x ')           
+        console.log('objClassNames')
+        console.log(objClassNames)
 
         objClassNames.forEach(async (objectClass) => {
             if (objectClass.includes('Close') || objectClass === 'Close') {
@@ -139,10 +144,22 @@ function BootstrapScreen() {
                     Pokedex
                     .addClass('Pokedex-Animate')
                     .removeClass('Close-Pokedex')
+                    console.log("lets see that id") 
+                    console.log($('#Screen-Wrapper-ID'))
                 }, 4000)
+                    setTimeout( () => {
+
+                        // [Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')]
+                    }, 5000)
+                    // setTimeout( () => [Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')], 5000)
+
+                    // setTimeout([Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')], 5000)     
+                    // the above code returns an unexpected identifier because it is an array instead of a function, setTimeouts first parameter is a function
+                    
+                    // setTimeout([Pokedex.parents().removeClass('Pokedex-Animate'), Pokedex.siblings().removeClass('Pokedex-Animate')], 5000)
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
                 setPokedexClick('true')
-                Pokedex.detach()
+                // Pokedex.detach()
                 // $('*').removeClass('Pokedex')
                 $('*').removeClass('Pokedex-Animate')
                 console.log("here's our Open-ing")
@@ -156,10 +173,10 @@ function BootstrapScreen() {
 
     
     
-    if (pokedexClick == 'true') {
+    if (pokedexClick == 'true' && animateHappened == 'false') {
     return (
         <>
-            <div className="Screen-Wrapper">
+            <div id="Screen-Wrapper-ID" className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
@@ -208,37 +225,3 @@ else {
 }
 }       // function Screen() { end }
 export default BootstrapScreen
-
-
-// $('.Pokedex').click(async function pokedexClick(event) {  
-    //     console.log("clicking on the pokedex")
-    //     console.log($(event.target)) 
-    //     $(event.target).on('click', () => {
-    //         console.log("this is a skip function and would only be triggered if you clicked during the click")
-    //          setPokeBgState('true')
-    //         //  $(event.target).removeClass('Open-Pokedex')
-    //         //  $(event.target).removeClass('Close-Pokedex')
-    //     }) 
-    //     await setAnimateHappened('true')
-
-    //     // $(event.target).hide()     
-    //     let currentTargetClass = event.currentTarget.attributes.class.nodeValue 
-    //    if (animateHappened == 'false') $(event.target).addClass('Pokedex-Animate')
-    // // even creating boolean-like state to check true/false is applying this $(e.tgt)animationClass to the input, .Input-Wrapper,  .Screen, 
-    // if (currentTargetClass.includes('Open-Pokedex')) {
-    //         setTimeout($(event.target).removeClass("Close-Pokedex"), 3000);
-    //         setPokedexClick('true')
-    //         // $(event.target).removeClass("Closed-Pokedex")
-    //         // fun little error without $(event.target).remove Class(ClosePokedex) this code repeats over and over. 
-    //         // our if/includes block of code, if below the .addClass('Pokedex-Animate') makes the encased cons.log() run 4x. 
-    //     }
-    //     // if (currentTargetClass.includes('Close')) console.log("yeah and????")
-    //     if (currentTargetClass.includes('Close')) {
-    //         setTimeout( () => {
-   
-    //             setPokeBgState('true')                        
-    //             // $(event.target).unbind(pokedexClick)
-
-    //         }, 4000)          
-    //     }             
-    // })
