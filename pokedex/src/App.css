@@ -94,6 +94,11 @@
   list-style-type: none;  
 }
 
+.Poke-Card-Image {
+  height: 85px;
+  width: 85px;
+}
+
 .Pokedex {
   height: 400px;
   width: 400px;
@@ -121,6 +126,12 @@
   border: rgb(151, 135, 135);
 }
 
+.Hidden-Input-Container {
+  height: 300px;
+  /* height: 20em; */
+  margin: 0px;
+}
+
 .Bootstrap-Screen-Btn {
   background-image: url("/public/img/pokeball.png");
   background-size: cover;
@@ -130,13 +141,52 @@
   pointer-events: none;
 }
 
+.Invisible-P {
+  color: transparent;
+}
+
+/* glad only took 2 seconds but feels silly to try putting elem:hover when there  */
+.Bootstrap-Screen-Btn:hover {
+  
+}
+
 
 
 .Map-Parent {
-  height: 15em;
-  width: 15em;
-  background-image: url("/public/img/pokemontemplate.png")
+  height: 400px;
+  width: 400px;
+  background-image: url("/public/img/pokemontemplate.png");
+  margin-top: 500px;
 }
+
+#Render-Ul {
+  /* border: 5px solid maroon; */
+  margin-top: 5em;
+}
+
+.Sprite {
+  height: 85px;
+  width: 85px;
+}
+
+.Carousel-Item {
+  transform: scale(2.0);
+  height: 100px;
+  width: 100px;
+  /* background-color: maroon; */
+}
+
+#Screen-Input {
+  margin-top: -2em;
+  border: 5px solid whitesmoke;
+}
+
+.Double-Size { transform: scale(2.0);}
+.Half-Size { transform: scale(0.5);}
+.Quarter-Size { transform: scale(0.25);}
+.Tenth-Size { transform: scale(0.1)}
+
+
 /* SCREEN */
 
 
@@ -224,6 +274,49 @@
   }
   100% {
     position: relative;
+
+  }
+}
+
+
+/* considering doing this animation on [Bootstrap.js] side because of jquerys .animate().complete() The complete function that allows you to set the end state for when the animation is complete.   */
+/* If the clickBehavior is saving the pokemon to the database i'd like the element to have some kind of indication that you wouldn't be clicking it again.  */
+/* You could also: setTimeout(makePokeBallOpacity0.1(), 5000) a timeout of 5000 would apply the pokeball.css('opacity', 0.1') in 5 seconds while this animation takes "Gentle-Rotate 4seconds'
+(slight paradox) this would be a manually performed lazyComplete()
+*/ 
+.Pokeball-Animate {
+animation: Gentle-Rotate 4s; 
+animation-iteration-count: 1
+}
+
+@keyframes Gentle-Rotate {
+  0% {
+    transform: rotate()
+  }
+  20% {
+    transform: rotate(-9deg);
+  }
+  40% {
+    transform: rotate(18deg)
+  }
+  43% {
+    transform: rotate(0deg)
+  }
+  46% {
+    transform: rotate(-3deg)
+  }
+  49% {
+    transform: rotate(3deg)
+  }
+  65% {
+    transform: rotate(-3deg)
+  }
+  80% {
+    transform: rotate(5deg)
+  }
+  
+  100% {
+    transform: rotate(0)
 
   }
 }
