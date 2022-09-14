@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import APIcall from './pokeAPI'
 
-export default function ReturnRandomPoke (nPoke) {
+export default function ReturnRandomPoke () {
     
     const randomPokeBucket = [] || new Array() 
-    console.log("we are in the return random pokemon function")
     useEffect( () =>{
         APIcall().then(async(data) => {
             let pokemon = data.pokemon
@@ -15,23 +14,52 @@ export default function ReturnRandomPoke (nPoke) {
             let preSliceURL = pokemonvalue.url.slice(pokemonvalue.url.length - 10)
             
             let cleanid = preSliceURL.replace(/[/\/a-z]/g, '')
-            let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${cleanid}.png`
-            
-            if (nPoke) {
-                if (typeof nPoke === 'number' && nPoke < 5 && nPoke % 2 == 0) {
-                    console.log("hey weve got a number")
-
-                } else return
-            }
-            const random = {
-                pokemon: randomPokemon,
+            let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${cleanid}.png`        
+            const randompokemon = {
+                // pokemon: randomPokemon,  // then weve got the redundant url over there
+                name: randomPokemon.name,
+                id: cleanid,            // probably dont need but just in case.
                 image: imageurl
-            }
-            return { random } 
-            // could also do a separate randomizer utility function
+            }               //             console.log(typeof random)
+            console.log('random')
+            console.log(randompokemon)
+            return { randompokemon } 
         })
     }, [])
 }
+
+// export default function ReturnRandomPoke (nPoke) {    
+//     const randomPokeBucket = [] || new Array() 
+//     console.log("we are in the return random pokemon function")
+//     useEffect( () =>{
+//         APIcall().then(async(data) => {
+//             let pokemon = data.pokemon
+//             let randomPokemon = pokemon[Math.floor(Math.random() * pokemon.length)]
+//             randomPokeBucket.push(randomPokemon)  // 
+//             let pokemonvalue =  randomPokeBucket[0]    
+//             let preSliceURL = pokemonvalue.url.slice(pokemonvalue.url.length - 10)            
+//             let cleanid = preSliceURL.replace(/[/\/a-z]/g, '')
+//             let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${cleanid}.png`        
+//             if (nPoke) {
+//                 if (typeof nPoke === 'number' && nPoke < 5 && nPoke % 2 == 0) {
+//                     console.log("hey weve got a number")
+//                 } else return
+//             }
+//             const random = {
+//                 pokemon: randomPokemon,
+//                 image: imageurl
+//             }
+//             return { random } 
+//         })
+//     }, [])
+// }
+
+
+
+
+
+
+
 
             // [{…}] RandomPokemon.js(16) mankey
             // [{…}] RandomPokemon.js(16) geodude
