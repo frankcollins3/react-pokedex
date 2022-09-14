@@ -1,8 +1,12 @@
 import APIcall from '../utility/pokeAPI'
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || import Alert from 'react-bootstrap/Alert'
-import InputMap from '../utility/MapMaker'
+// import InputMap from '../utility/MapMaker'
+import ClassAction from '../utility/ClassAction'
 import { $ } from 'react-jquery-plugin'; 
+
+console.log('ClassAction')
+console.log(ClassAction)
 
 
 // nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
@@ -215,9 +219,16 @@ function BootstrapScreen() {
                         className="Poke-Card-Img"
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
-                        <Button className="Bootstrap-Screen-Btn" variant={'outline-primary'}> 
+                        <Button 
+                        className="Bootstrap-Screen-Btn" 
+                        variant={'outline-primary'}
+                        onMouseEnter={null}
+                        > 
                         </Button>
-                        <p onMouseEnter={()=> console.log("found it")} className="Invisible-P"> P </p>
+                        {/* <p onClick={ClassAction()} className="Invisible-P"> P </p> */}
+                        <p onClick={ClassAction} className="Invisible-P"> P </p>
+                        {/* <p onClick={ClassAction(elem, action)} // if i want to pass through ClassAction(elem, action) it calls this function automatically as everything is rendered when we setPokedexClick('true') */}
+
                         {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
                      </div>
                     )}                      
