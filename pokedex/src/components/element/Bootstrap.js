@@ -41,6 +41,8 @@ function BootstrapScreen() {
 
     const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
 
+    const [observerEntryState, setObserverEntryState] = useState([])
+
 
     let pokeRefs = useRef([]);      
 
@@ -72,13 +74,16 @@ function BootstrapScreen() {
             // if (entry.intersectionRatio > 0) {
             if (entry.isIntersecting) {
 
-                console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
+                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
                 let siblingButton = $(entry.target).siblings()[0]
+
+                setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to 
                 
                 // $(siblingOfSiblings).css('border-radius', '50%')
                 // $(siblingButton).css('border', '2px solid hotpink')     // o.O again forgot the $(siblingButton).css() v.s. siblingButton.css()
                 hiddenTag.click( (event) => {
-                    ClassAction('add', $(siblingButton), 'Pokeball-Animate')
+                    ClassAction('add', $(observerEntryState), 'Pokeball-Animate')
+                    // ClassAction('add', $(siblingButton), 'Pokeball-Animate')
                 })
 
                 // console.log(entry.target)
@@ -89,6 +94,9 @@ function BootstrapScreen() {
 
                 // setObserverTarget(entries.)
             } else {
+                setObserverEntryState([])
+                // ClassAction('remove', entry.target.siblings()[0], 'Pokeball-Animate')        we have lost reference of our jqObject
+
                 // jqObserver.unobserve(entry.target)
                 // jqObserver.unobserve(entry.target)
                 entry.target.style.border = '';
