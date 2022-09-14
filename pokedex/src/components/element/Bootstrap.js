@@ -5,6 +5,11 @@ import InputMap from '../utility/MapMaker'
 import { $ } from 'react-jquery-plugin'; 
 
 
+// nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
+// (1) didn't know i was still importing from /Alert endpoint from react-bootstrap API. 
+// (2) while typing this i notice its so much easier to see these tools as APIs when you would access different elements/features-of-tool from different endpoints. (in this example react-bootstrap/Alert vs not)
+// 
+
 
 // import {Alert, Button} from 'react-bootstrap/Alert';
 
@@ -49,23 +54,29 @@ function BootstrapScreen() {
         // })
         entries.forEach( (entry) => {
             // console.log(entry)
-            if (entry.isIntersecting) {
+            if (entry.intersectionRatio > 0) {
+            // if (entry.isIntersecting) {
                 console.log(entry.target)
                 console.log(entry.target.currentSrc)
                 console.log(entry.target.currentSrc.replace(/[0-9]/g, ''))  // cant do this in the regular pokeapi url because of /api/v2/ the number 2. Can do a more sophisticated regex. 
-                entry.target.style.border = '5px solid hotpink';    
+                entry.target.style.border = '5px solid hotpink';
                 // setObserverTarget(entries.)
             } else {
+                // jqObserver.unobserve(entry.target)
                 // jqObserver.unobserve(entry.target)
                 entry.target.style.border = '';
             }
         })
 
+        // console.log('entries')
+        // console.log(entries)
 
-    }, {threshold: 0.9, root: null, rootMargin: "0px"})
+    }, {threshold: 0.9})
 
     // jqObserver.observe($('.Poke-Card-Img'))
 
+    // console.log('document')
+    // console.log(document)
     let allCards = document.querySelectorAll('.Poke-Card-Img')
 
     allCards.forEach( (card) => {
@@ -195,7 +206,7 @@ function BootstrapScreen() {
                         className="Poke-Card-Img"
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
-                        <Button className="Bootstrap-Screen-Btn" variant={'primary'}> </Button>
+                        <Button className="Bootstrap-Screen-Btn" variant={'primary'} size="lg"> </Button>
                         {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
                      </div>
                     )}                      
