@@ -5,11 +5,6 @@ import InputMap from '../utility/MapMaker'
 import { $ } from 'react-jquery-plugin'; 
 
 
-// nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
-// (1) didn't know i was still importing from /Alert endpoint from react-bootstrap API. 
-// (2) while typing this i notice its so much easier to see these tools as APIs when you would access different elements/features-of-tool from different endpoints. (in this example react-bootstrap/Alert vs not)
-// 
-
 
 // import {Alert, Button} from 'react-bootstrap/Alert';
 
@@ -57,24 +52,20 @@ function BootstrapScreen() {
             if (entry.isIntersecting) {
                 console.log(entry.target)
                 console.log(entry.target.currentSrc)
-                console.log(entry.target.currentSrc.replace(/[a-z]/g, ''))
-                entry.target.style.border = '5px solid hotpink';
+                console.log(entry.target.currentSrc.replace(/[0-9]/g, ''))  // cant do this in the regular pokeapi url because of /api/v2/ the number 2. Can do a more sophisticated regex. 
+                entry.target.style.border = '5px solid hotpink';    
                 // setObserverTarget(entries.)
             } else {
+                // jqObserver.unobserve(entry.target)
                 entry.target.style.border = '';
-                jqObserver.unobserve(entry.target)
             }
         })
 
-        // console.log('entries')
-        // console.log(entries)
 
-    }, {threshold: 0.4, root: null, rootMargin: "0px"})
+    }, {threshold: 0.9, root: null, rootMargin: "0px"})
 
     // jqObserver.observe($('.Poke-Card-Img'))
 
-    // console.log('document')
-    // console.log(document)
     let allCards = document.querySelectorAll('.Poke-Card-Img')
 
     allCards.forEach( (card) => {
@@ -115,7 +106,6 @@ function BootstrapScreen() {
     }
     const inputExit = async (event) => 
     {                                   
-        console.log("we are exiting the input!!!")
         if (isInputHovered == 'true' && hoverCount < 2) setIsInputHovered('false')     
         await setPreInputValue('')  
         await setRefLength([])      
@@ -165,7 +155,7 @@ function BootstrapScreen() {
                 setTimeout( () => {
                     pokedexBg()      
                     setInputHide('true')              
-                }, 4000)                    
+                }, 1000)                       
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
                 setPokedexClick('true')                
                 $('*').removeClass('Pokedex-Animate')
@@ -176,16 +166,19 @@ function BootstrapScreen() {
     $('.Pokedex').dblclick( () => setPokedexClick('true'))
 
     const saveToFakeDbState = () => {
-        console.log("fakeDbState function!!!")
+        // console.log("fakeDbState function!!!")
     }
 
     const pokedexIconHover = (event) => {
-        console.log(event)
+        // doing functions this way || $('.Hidden-Input-Container').onMouseEnter( ()=> ) minding jQuery and keeping it out of way as much as possible of react in-line-styles. 
+        // I had trouble passing $('jQobject') a jQ object stored as a variable as props. might give it time/research later. but you're probably not supposed to do that either. Using judgment. 
         let classValues = event.target.attributes.class.nodeValue
-        console.log('classValues')
-        console.log(classValues)
+        let splitClassVals = classValues.split(' ')     
+        splitClassVals.forEach( (v) => {             // v as in value            
+            if (v.includes('Close'))    setPokedexHover('true') // this feels very thinking-in-code like.
+            if (v.includes('Open'))    setPokedexHover('false')
 
-        setPokedexHover('true')
+        })
     }
 
     if (pokedexClick == 'true') {
@@ -209,8 +202,9 @@ function BootstrapScreen() {
                     </ul>      
                     {/* <InputMap specifiedLength={[refLength, setRefLength]} inputTarget={ {target: jqInput } } /> */}                  
         </div>               {/* screen end  */}
-            <div onMouseEnter={pokedexIconHover} className="Hidden-Input-Container Row-Center Half-Size">                
+            <div  className="Hidden-Input-Container Row-Center Half-Size">                  
                     <div 
+                    onMouseEnter={pokedexIconHover}
                     style = {
                         {
                             //  backgroundImage: pokedexHover == 'false' ? 'block' : 'none'
