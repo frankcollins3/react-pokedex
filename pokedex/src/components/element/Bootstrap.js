@@ -5,6 +5,17 @@ import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || imp
 import ClassAction from '../utility/ClassAction'
 import { $ } from 'react-jquery-plugin'; 
 
+console.log('ClassAction')
+console.log(ClassAction)
+
+
+// nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
+// (1) didn't know i was still importing from /Alert endpoint from react-bootstrap API. 
+// (2) while typing this i notice its so much easier to see these tools as APIs when you would access different elements/features-of-tool from different endpoints. (in this example react-bootstrap/Alert vs not)
+// 
+
+
+// import {Alert, Button} from 'react-bootstrap/Alert';
 
 
 
@@ -39,11 +50,15 @@ function BootstrapScreen() {
     const hCont = $('.Header-Container')
     const jqInput = $('#Screen-Input')
     const hiddenTag = $('.Invisible-P')
+    const bootButton = $('.Bootstrap-Screen-Btn')
 
-    hiddenTag.click( (event) => {
-        // console.log('hey')
-        ClassAction('elemString', 'classString')
-    })
+    // ***** ***** ***** ***
+
+    // hiddenTag.click( (event) => {
+        //     ClassAction('add', bootButton, 'Pokeball-Animate')
+        // })
+
+    // ***** ***** ***** ***
 
     // observer intersection init. i'm using react & jq observer instead of useRef && inView. I ended up using createRef() and looping instead of pokemonState.map()'ing.     // i was able to set it up with a container but not for the map data 
     //  react amplifies why its easy to see why people just about demand an answer of why you're using jquery. DOM-in-node-ejs kind of makes sense to reaccess poke api without browser refresh. react and unidirectional data flow and things being concrete in react with inline styling, ternary-ops etc. This example is a very smiple data api access and img src change upon behavior from /front_default || /shiny_front
@@ -52,14 +67,26 @@ function BootstrapScreen() {
         //     console.info(`${entry} && ${entries.isIntersecting}`)
         // })
         entries.forEach( (entry) => {
-            // console.log(entry)
-            if (entry.intersectionRatio > 0) {
-            // if (entry.isIntersecting) {
+
+            // console.log(entry)       // this will show .log() for every single element that could be observed, not under observation. 
+            // if (entry.intersectionRatio > 0) {
+            if (entry.isIntersecting) {
+
+                console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
+                let siblingButton = $(entry.target).siblings()[0]
+                
+                // $(siblingOfSiblings).css('border-radius', '50%')
+                // $(siblingButton).css('border', '2px solid hotpink')     // o.O again forgot the $(siblingButton).css() v.s. siblingButton.css()
+                hiddenTag.click( (event) => {
+                    ClassAction('add', $(siblingButton), 'Pokeball-Animate')
+                })
+
                 // console.log(entry.target)
                 // console.log(entry.target.currentSrc)
                 // console.log(entry.target.currentSrc.replace(/[0-9]/g, ''))  // cant do this in the regular pokeapi url because of /api/v2/ the number 2. Can do a more sophisticated regex. 
 
                 entry.target.style.border = '5px solid hotpink';
+
                 // setObserverTarget(entries.)
             } else {
                 // jqObserver.unobserve(entry.target)
@@ -220,7 +247,7 @@ function BootstrapScreen() {
                         onMouseEnter={null}
                         > 
                         </Button>
-                        <p className="Invisible-P"> P </p>
+                        <p className="Invisible-P"> 'click me' </p>
                         {/* // if i want to pass through ClassAction(elem, action) it calls this function automatically as everything is rendered when we setPokedexClick('true') */}
 
                         {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
