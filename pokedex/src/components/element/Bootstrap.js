@@ -5,17 +5,6 @@ import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || imp
 import ClassAction from '../utility/ClassAction'
 import { $ } from 'react-jquery-plugin'; 
 
-console.log('ClassAction')
-console.log(ClassAction)
-
-
-// nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
-// (1) didn't know i was still importing from /Alert endpoint from react-bootstrap API. 
-// (2) while typing this i notice its so much easier to see these tools as APIs when you would access different elements/features-of-tool from different endpoints. (in this example react-bootstrap/Alert vs not)
-// 
-
-
-// import {Alert, Button} from 'react-bootstrap/Alert';
 
 
 
@@ -49,6 +38,12 @@ function BootstrapScreen() {
     const pokedexText = $('.Pokedex-Text')
     const hCont = $('.Header-Container')
     const jqInput = $('#Screen-Input')
+    const hiddenTag = $('.Invisible-P')
+
+    hiddenTag.click( (event) => {
+        // console.log('hey')
+        ClassAction('elemString', 'classString')
+    })
 
     // observer intersection init. i'm using react & jq observer instead of useRef && inView. I ended up using createRef() and looping instead of pokemonState.map()'ing.     // i was able to set it up with a container but not for the map data 
     //  react amplifies why its easy to see why people just about demand an answer of why you're using jquery. DOM-in-node-ejs kind of makes sense to reaccess poke api without browser refresh. react and unidirectional data flow and things being concrete in react with inline styling, ternary-ops etc. This example is a very smiple data api access and img src change upon behavior from /front_default || /shiny_front
@@ -225,9 +220,8 @@ function BootstrapScreen() {
                         onMouseEnter={null}
                         > 
                         </Button>
-                        {/* <p onClick={ClassAction()} className="Invisible-P"> P </p> */}
-                        <p onClick={ClassAction} className="Invisible-P"> P </p>
-                        {/* <p onClick={ClassAction(elem, action)} // if i want to pass through ClassAction(elem, action) it calls this function automatically as everything is rendered when we setPokedexClick('true') */}
+                        <p className="Invisible-P"> P </p>
+                        {/* // if i want to pass through ClassAction(elem, action) it calls this function automatically as everything is rendered when we setPokedexClick('true') */}
 
                         {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
                      </div>
