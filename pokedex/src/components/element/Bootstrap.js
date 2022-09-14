@@ -5,15 +5,6 @@ import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || imp
 import ClassAction from '../utility/ClassAction'
 import { $ } from 'react-jquery-plugin'; 
 
-console.log('ClassAction')
-console.log(ClassAction)
-
-
-// nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
-// (1) didn't know i was still importing from /Alert endpoint from react-bootstrap API. 
-// (2) while typing this i notice its so much easier to see these tools as APIs when you would access different elements/features-of-tool from different endpoints. (in this example react-bootstrap/Alert vs not)
-// 
-
 
 // import {Alert, Button} from 'react-bootstrap/Alert';
 
@@ -244,23 +235,29 @@ function BootstrapScreen() {
         <div className="Screen Column-Between">
                <ul id="Render-Ul">
                 {pokeRefs.current.map((el, i) =>
-                        <div key={`key${i}`} className="Map-Parent Column-Center">
-                        <img 
-                        className="Poke-Card-Img"
+                    //     <div key={`key${i}`} className="Map-Parent Column-Center">
+                    //     {/* <Card> */}
+                    //     <img 
+                    //     className="Poke-Card-Img"
+                    //     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
+                    //     />
+                    //     <Button 
+                    //     className="Bootstrap-Screen-Btn" 
+                    //     variant={'outline-primary'}
+                    //     onMouseEnter={null}
+                    //     > 
+                    //     </Button>
+                    //     <p className="Invisible-P"> 'click me' </p>
+                    //     {/* </Card> */}
+                    //  </div>
+                    <Card key={`cardkey ${i}`} body="true">
+                        <Card.Img     
+                        className="Map-Parent"
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
+                        variant={'bottom'}
                         />
-                        <Button 
-                        className="Bootstrap-Screen-Btn" 
-                        variant={'outline-primary'}
-                        onMouseEnter={null}
-                        > 
-                        </Button>
-                        <p className="Invisible-P"> 'click me' </p>
-                        {/* // if i want to pass through ClassAction(elem, action) it calls this function automatically as everything is rendered when we setPokedexClick('true') */}
-
-                        {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
-                     </div>
-                    )}                      
+                    </Card>                        
+                    )}                       
                     </ul>      
                     {/* <InputMap specifiedLength={[refLength, setRefLength]} inputTarget={ {target: jqInput } } /> */}                  
         </div>               {/* screen end  */}
