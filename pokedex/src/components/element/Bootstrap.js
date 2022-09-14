@@ -56,9 +56,10 @@ function BootstrapScreen() {
             // console.log(entry)
             if (entry.intersectionRatio > 0) {
             // if (entry.isIntersecting) {
-                console.log(entry.target)
-                console.log(entry.target.currentSrc)
-                console.log(entry.target.currentSrc.replace(/[0-9]/g, ''))  // cant do this in the regular pokeapi url because of /api/v2/ the number 2. Can do a more sophisticated regex. 
+                // console.log(entry.target)
+                // console.log(entry.target.currentSrc)
+                // console.log(entry.target.currentSrc.replace(/[0-9]/g, ''))  // cant do this in the regular pokeapi url because of /api/v2/ the number 2. Can do a more sophisticated regex. 
+
                 entry.target.style.border = '5px solid hotpink';
                 // setObserverTarget(entries.)
             } else {
@@ -192,6 +193,14 @@ function BootstrapScreen() {
         })
     }
 
+    $('.Bootstrap-Screen-Btn').click( (event) => {
+        console.log('click')
+    })
+
+    // $('.Invisible-P').on('mouseenter', () => {
+    //     console.log("hey were hovering on pointer-events: none")
+    // })
+
     if (pokedexClick == 'true') {
     return (
         <>
@@ -206,7 +215,9 @@ function BootstrapScreen() {
                         className="Poke-Card-Img"
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
-                        <Button className="Bootstrap-Screen-Btn" variant={'primary'} size="lg"> </Button>
+                        <Button className="Bootstrap-Screen-Btn" variant={'outline-primary'}> 
+                        </Button>
+                        <p onMouseEnter={()=> console.log("found it")} className="Invisible-P"> P </p>
                         {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
                      </div>
                     )}                      
