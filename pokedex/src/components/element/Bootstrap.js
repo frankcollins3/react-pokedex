@@ -1,11 +1,14 @@
 import APIcall from '../utility/pokeAPI'
 import React, { useEffect, useState, useRef, createRef } from 'react';
-import {Alert, Button, Card}  from 'react-bootstrap';   // ---> || import Alert from 'react-bootstrap/Alert'
+import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || import Alert from 'react-bootstrap/Alert'
+import InputMap from '../utility/MapMaker'
+import { $ } from 'react-jquery-plugin'; 
+
+
 // nice error: import { Alert, Button } from 'react-bootstrap/Alert .... 
 // (1) didn't know i was still importing from /Alert endpoint from react-bootstrap API. 
 // (2) while typing this i notice its so much easier to see these tools as APIs when you would access different elements/features-of-tool from different endpoints. (in this example react-bootstrap/Alert vs not)
 // 
-import { $ } from 'react-jquery-plugin'; 
 
 
 // import {Alert, Button} from 'react-bootstrap/Alert';
@@ -30,6 +33,10 @@ function BootstrapScreen() {
     const [inputHide, setInputHide] = useState('false')
     const [animateHappened, setAnimateHappened] = useState('false')
     const [hoverCount, setHoverCount] = useState(0)
+    const [pokedexHover, setPokedexHover] = useState('false')
+
+    const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
+
 
     let pokeRefs = useRef([]);      
 
@@ -37,20 +44,53 @@ function BootstrapScreen() {
     const Pokedex = $('.Pokedex')
     const pokedexText = $('.Pokedex-Text')
     const hCont = $('.Header-Container')
+    const jqInput = $('#Screen-Input')
 
-    
+    // observer intersection init. i'm using react & jq observer instead of useRef && inView. I ended up using createRef() and looping instead of pokemonState.map()'ing.     // i was able to set it up with a container but not for the map data 
+    //  react amplifies why its easy to see why people just about demand an answer of why you're using jquery. DOM-in-node-ejs kind of makes sense to reaccess poke api without browser refresh. react and unidirectional data flow and things being concrete in react with inline styling, ternary-ops etc. This example is a very smiple data api access and img src change upon behavior from /front_default || /shiny_front
+    let jqObserver = new IntersectionObserver((entries) => {
+        // $(entries).each( (entry) => {
+        //     console.info(`${entry} && ${entries.isIntersecting}`)
+        // })
+        entries.forEach( (entry) => {
+            // console.log(entry)
+            if (entry.isIntersecting) {
+                console.log(entry.target)
+                console.log(entry.target.currentSrc)
+                console.log(entry.target.currentSrc.replace(/[a-z]/g, ''))
+                entry.target.style.border = '5px solid hotpink';
+                // setObserverTarget(entries.)
+            } else {
+                entry.target.style.border = '';
+                jqObserver.unobserve(entry.target)
+            }
+        })
+
+        // console.log('entries')
+        // console.log(entries)
+
+    }, {threshold: 0.4, root: null, rootMargin: "0px"})
+
+    // jqObserver.observe($('.Poke-Card-Img'))
+
+    // console.log('document')
+    // console.log(document)
+    let allCards = document.querySelectorAll('.Poke-Card-Img')
+
+    allCards.forEach( (card) => {
+        jqObserver.observe(card)
+    })
 
     // Jq backup DOM functionality
-    const hideThis = (elem) => $(elem).hide()
-    hCont.ready((event)=> $(event.target).children().addClass("Row-Center") )
+    const hideThis = (elem) => $(elem).hide();
+    hCont.ready((event)=> $(event.target).children().addClass("Row-Center"));
 
 
     // useEffect
     useEffect( () => {
         let pokedexObj = createRef()
         let pokedex = $(pokedexObj)
-        console.log('pokedex')
-        console.log(pokedex)
+        
 
         APIcall().then(async(pokedata) => {        
             await setPokemon(pokedata.pokemon)
@@ -75,8 +115,10 @@ function BootstrapScreen() {
     }
     const inputExit = async (event) => 
     {                                   
+        console.log("we are exiting the input!!!")
         if (isInputHovered == 'true' && hoverCount < 2) setIsInputHovered('false')     
-        await setPreInputValue('')        
+        await setPreInputValue('')  
+        await setRefLength([])      
         return
     }
     // have to get these two strings connected.
@@ -87,16 +129,13 @@ function BootstrapScreen() {
         const newInput = `${preInputValue} ${inputval}`                        
         let cleaninput = newInput.replace(/[\s[a-z]/g, '') 
         let length = cleaninput.length - 1
-        // let length = cleaninput.length - 1
         let inputstate = cleaninput[`${length}`] || 'please enter a number'
         if (inputstate == 'please enter a number' ) {
-            console.log("hey were over here")
             await setPreInputValue('')
             await setPreInputValue(`${inputstate}`)
         } else {
             await setPreInputValue(`${preInputValue} ${inputstate}`)
         }
-// setPreInputValue(preInputValue.toString() + {value}) no/fair-guess ([object Object][object Object][object Object])
         if (isInputInteger.length) { 
         await setRefLength(isInputInteger) 
         pokeRefs.current = pokeRefs.current.splice(0, isInputInteger)    
@@ -107,9 +146,7 @@ function BootstrapScreen() {
         else {
             setRefLength('')
             return 
-        }    
-            // if its true, return/stop/get-out.
-        // else return 
+        }            
     }
     const pokedexBg = async () => await setPokeBgState('true');
     const removeClosePokedexClass = () => $('.Pokedex').removeClass('Close-Pokedex')
@@ -137,9 +174,18 @@ function BootstrapScreen() {
         
     }
     $('.Pokedex').dblclick( () => setPokedexClick('true'))
-    
-    let noChange = () => {
-        return ''|| []
+
+    const saveToFakeDbState = () => {
+        console.log("fakeDbState function!!!")
+    }
+
+    const pokedexIconHover = (event) => {
+        console.log(event)
+        let classValues = event.target.attributes.class.nodeValue
+        console.log('classValues')
+        console.log(classValues)
+
+        setPokedexHover('true')
     }
 
     if (pokedexClick == 'true') {
@@ -147,22 +193,41 @@ function BootstrapScreen() {
         <>
             <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
-            <input id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"/>
-            <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>
             </div>
         <div className="Screen Column-Between">
-               <ul>
-               {pokeRefs.current.map((el, i) =>
-                    <div key={`key${i}`} className="Map-Parent Column-Center">
+               <ul id="Render-Ul">
+                {pokeRefs.current.map((el, i) =>
+                        <div key={`key${i}`} className="Map-Parent Column-Center">
                         <img 
+                        className="Poke-Card-Img"
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
-                        <Button onMouseEnter={noChange} className="Bootstrap-Screen-Btn" variant={"primary"}> </Button>   {/* [] square bootstrap button */}
-                    </div>
-                    )}
+                        <Button className="Bootstrap-Screen-Btn" variant={'primary'}> </Button>
+                        {/* <p key={i}> {el.name} </p>  took coming up an on-ramp to see why this wouldn't work. The original pokemon reference is gone.              */}
+                     </div>
+                    )}                      
                     </ul>      
-                  
+                    {/* <InputMap specifiedLength={[refLength, setRefLength]} inputTarget={ {target: jqInput } } /> */}                  
         </div>               {/* screen end  */}
+            <div onMouseEnter={pokedexIconHover} className="Hidden-Input-Container Row-Center Half-Size">                
+                    <div 
+                    style = {
+                        {
+                            //  backgroundImage: pokedexHover == 'false' ? 'block' : 'none'
+                            //  display: pokedexHover == 'false' ? 'block' : 'none',
+                         }
+                    }
+                    className = {pokedexHover === 'false' ? "Pokedex Close-Pokedex Quarter-Size" : "Open-Pokedex Pokedex Quarter-Size" }                     
+                    // className="Pokedex Close-Pokedex Quarter-Size"                     
+                    >
+                    </div>
+                    <input 
+                     style = { { display: pokedexHover == 'false' ? "none" : "block" }}
+                     id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"
+                     />
+
+                    {/* <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label> */}
+                        </div>
         </div>
     </>
     )
