@@ -28,34 +28,22 @@ function Bar(props) {
     // react_devtools_backend.js:4026 Warning: Cannot update a component (`BootstrapScreen`) while rendering a different component (`Bar`). To locate the bad setState() call inside `Bar`, follow the stack trace as described in
     // console.log("atleast were over here")
     useEffect(  () => {
-        // console.log('useeffect in the randomPokemonBar')
-        const randomizer = async () => {
-            ReturnRandomPoke(1).then(async(data) => {
-                ReturnRandomPoke(2).then(async(info) => {              
-                    ReturnRandomPoke(3).then(async(poke) => {                  
-                        await props.setRandomPokemon([data, info, poke])      // heaven stairway
-                    })
-                })
-            })
-        }
-        randomizer()
+    
 
         const randomizer2 = () => {
             console.log("in the randomizer 2 function")
-            APIcall('random', null, null, 3)                    
+            APIcall('random', null, null, 3).then(async(data) => {      // 3 hours. this now works for 1 or 3
+                    console.log(data)
+                    await props.setRandomPokemon(data)
+            })        
+            // a little weird. if you enter 3 it returns 4 pokemon.     (4) [{…}, {…}, {…}, {…}] !! ha. changed 3 to 2 and was rejected by condition [% 2 !== 0] not being met. I took out condition and now it (2) creates 3 randomPokemon. 
         }
         randomizer2()
-// a little weird. if you enter 3 it returns 4 pokemon.     (4) [{…}, {…}, {…}, {…}] !! ha. changed 3 to 2 and was rejected by condition [% 2 !== 0] not being met. I took out condition and now it (2) creates 3 randomPokemon. 
+
         const checkTypes = () => {
             console.log('check types function')
-            props.randomPokemon.forEach(async(proprandom) => {
-                // console.log('proprandom')
-                // console.log(proprandom)
-                let name = proprandom.name
-                // console.log('name')
-                // console.log(name)
-                await GiveAndGet(name, 'type')
-            })
+            console.log('props.randomPokemon')
+            console.log(props.randomPokemon)
         }
         checkTypes()
 
@@ -84,21 +72,17 @@ function Bar(props) {
         )
         // return ( <li className="Poke-Bar-Pokemon" key={idx}> {mapitem.name} </li> )
     })
+    console.log(pokemap.length)
 
     const checkState = async () => {
         // checkTypes()
     }
 
-    
-
-
-
-    
     return (
         <>
-        <div className="Poke-Bar Row-Between"> </div>
-        <button onClick={checkAgain} type="button" className="navBall" id="Ultraball"> </button>
-            <ul className="Row-Between">
+        <div className={pokemap.length === 3 ? "Row-Between" : "Row-Center"}> </div>
+        {/* <button onClick={checkAgain} type="button" className="navBall" id="Ultraball"> </button> */}
+            <ul className={pokemap.length === 3 ? "Row-Between" : "Row-Center"}>
             {/* {randomPokeStateMap} */}
             {pokemap}
             </ul>
@@ -109,3 +93,16 @@ function Bar(props) {
     )
 }
 export default Bar
+
+
+//     // console.log('useeffect in the randomPokemonBar')
+    //     const randomizer = async () => {
+    //         ReturnRandomPoke(1).then(async(data) => {
+    //             ReturnRandomPoke(2).then(async(info) => {              
+    //                 ReturnRandomPoke(3).then(async(poke) => {                  
+    //                     await props.setRandomPokemon([data, info, poke])      // heaven stairway || farewell good stairwell. 
+    //                 })
+    //             })
+    //         })
+    //     }
+        // randomizer()
