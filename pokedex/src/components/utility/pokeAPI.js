@@ -3,7 +3,7 @@ let apiurl = `https://pokeapi.co/api/v2/pokemon?limit=151`
 // import bootstrapState from '../element/Bootstrap'    you are not able to export state within useEffect. exports && imports have to be at the top level above where state would be. 
 
 
-export default async function APIcall(method, specify, type, randomAmount) {    
+export default async function APIcall(method, pokemon, type, randomAmount) {    
     // console.log("in the api call")
     // console.log('method')
     // console.log(method)
@@ -35,40 +35,51 @@ export default async function APIcall(method, specify, type, randomAmount) {
                 id: cleanid,
                 img: imageurl
             }
+            return pokemon
+
             // console.log('pokemon')
             // console.log(pokemon)
             await randombucket.push(pokemon)                            
         }                
 
         if (typeof randomAmount == 'number' && randomAmount < 5 && randomAmount % 2 !== 0) {            
-        // if (typeof randomAmount == 'number' && randomAmount < 5 && randomAmount + 1 % 2 !== 0) {            
-            for (i; i < randomAmount-1; i++) {        
-                RandomAndReset()                
+        // if (typeof randomAmount == 'number' && randomAmount < 5 && randomAmount + 1 % 2 !== 0) {   
+            if (randomAmount > 1) {
+                for (i; i < randomAmount-1; i++) {    
+                // for (i; i < randomAmount-1; i++) {    
+                    console.log(`this is running ${[i]} times!`)        // displaying a visual of the problem.  
+                    // RandomAndReset()   
+                    let newbucket = [await RandomAndReset(), await RandomAndReset(), await RandomAndReset()]     
+                    return newbucket
+                }
+            }  else {
+               let newbucket = [await RandomAndReset()]
+               return newbucket
             }
-        }
-        const checkBucket = () => {
-            console.log(randombucket)
-            if (randomAmount.length < 3) return randombucket[0]
-            if (randombucket.length === 3) return randombucket
-        }
-        const doEmBoth = async () => {
-            await RandomAndReset()
-            await checkBucket()
-        }
-        console.log('here goes doEmBot')
-        doEmBoth()
-
-    
+        }    
+    }       // typeOf method == 'string' && method == 'random'
+    if (typeof method === 'string' && method === 'specify' && pokemon) {            // pokemon || pokemon.length or : [pokemon !== null || pokemon !== undefined)
+        console.log('method')
+        console.log(method)
+        console.log('pokemon')
+        console.log(pokemon)
+        
+        results.forEach( (result) => {
+            // pokemon === result.name ? console.log(`thats ${result.name} signature move!`) : console.log('there is no equal value') // 150pokeAPI.js:70 nope no value 
+            if (pokemon == result.name) {
+                console.log("yeah weve got the value")
+            } else { return }  
+            // else { console.log('nope no value!') 
+            // 1)  150pokeAPI.js:70 nope no value!  2) I thought this was wrong that it runs 150x "nope no value" That condition is met for every result.name that doesn't satisfy the condition.
+            // 3) looking at this logic: lets say I pick charizard for [pokemon.id# "6"]    3.1  else { return } if i set a return statement i'm guessing the 1st value: bulbasaur. which doesn't satisfy the if but satisfies the else return statement: 
+            // 4) this logic tells me that our return statement would end this entire forEach loop, and it would be met on the first id if we picked anybody besides the first pokemon "bulbasaur"
+            // 5) wrongful assumption! charizard will run and the return will only apply to that specific instance of .forEach(result). Return for that result, the loop moves on. Return does not end the loop like a function does. 
+        })
     }
     
 }
 
-// Parameters
-// * Method (what type of datacall are we initializing): 1) returnAllpokemon 2) returnRandomPokemon 3) returnSpecifiedPokemon (by poke.name || poke.id) 
-// * Specify: if (arg1/method == 'random') specify: 'pokemon.name/string i.e. bulbasaur' || id by int i.e. 1 (bulbasaur)
-// * type: if (arg1/method == 'random') type of randomPokemon       <!- i also might allow type as an optional argument just to validate the specified pokemon against itself. Sounds useless and not needed but is an extra measure of validation/overcommunication -!>
 
-// * random Amount: if (method == 'random' the amount of randomPokemon we will be returning. limited by 5. must be an odd number that will be validated against modulo % 2 !== 0; (odd number)
  
 
 // Parameters
