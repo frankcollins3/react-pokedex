@@ -2,41 +2,61 @@ import React, { useEffect, useState } from 'react'
 import APIcall from '../utility/pokeAPI'
 import ReturnRandomPoke from '../utility/RandomPokemon'
 
-ReturnRandomPoke(3).then( (data) => {
-    
-})
+let i = 0;
 
 console.log("hey from randompokemon bar.js")    
 function Bar(props) {
-    console.log('props')
-    console.log(props)
-            
+    // 
+    let looplength = props.randomPokemon.length        
     
     // doesnt like accepting [state, setState] as props and trying to use setState. warning:
     // react_devtools_backend.js:4026 Warning: Cannot update a component (`BootstrapScreen`) while rendering a different component (`Bar`). To locate the bad setState() call inside `Bar`, follow the stack trace as described in
+    useEffect( () => {
+        ReturnRandomPoke(3).then(async (data) => {
+            // console.log("use effect!")
+            // console.log('data')
+            // console.log(data)
+            await props.setRandomPokemon(data)
+        })
+    }, []) // canceling-out-dependency array.
+
+    let randomPokeStateMap = props.randomPokemon.map( (pokemapitem, idx) => {
+        console.log('pokemapitem')
+        console.log(pokemapitem)
+        return (
+            <div key={`div ${idx}`}>
+            <li key={idx}> {pokemapitem.name} </li>
+            <p key={`ptag $`}> hey </p>
+            </div>
+        )
+    })
+
     
-    const changeState = async () => {
-        console.log("lets change the state")
-        // await barSetRandomPokemon('sure why not', 'yes', 'yeah')
-        props.setRandomPokemon('hey')
-        
-    }
     const checkState = async () => {
-        console.log('check state')
-        console.log('randomPokemon')
-        console.log(props.randomPokemon)
-        
+        console.log('props.randomPokemon check state')        
+        await console.log(props.randomPokemon)        
+        console.log(props.randomPokemon.length)        
     }
-    const doEmBoth = async () => {
-        console.log('doemboth function')
-        await changeState()
-    }
+
+
+    let createDisplay = document.createElement('div')
+
+
+
     
     return (
-        <div className="Poke-Bar Row-Center"> 
-                <h1> hey </h1>
-                <button onClick={doEmBoth} className="navBall" id="Greatball"> </button>
-        </div>
+        <>
+        <div className="Poke-Bar Row-Center"> </div>
+        <button onClick={checkState} type="button" className="navBall" id="Greatball"> </button>
+            <ul className="Row-Center">
+            {randomPokeStateMap}
+            </ul>
+        {/* {for (i; i < looplength; i++) {
+            {createDisplay}
+        })} */}
+        </>
+        // {for (i; i < props.randomPokemon.length)}
+        // possible carousel
     )
 }
 export default Bar
