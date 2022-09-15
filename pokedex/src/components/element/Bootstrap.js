@@ -1,21 +1,18 @@
 import APIcall from '../utility/pokeAPI'
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || import Alert from 'react-bootstrap/Alert'
-// import InputMap from '../utility/MapMaker'
-import ClassAction from '../utility/ClassAction'
 import { $ } from 'react-jquery-plugin'; 
+// import InputMap from '../utility/MapMaker' works additively, but not subtractively. May bookmark to save and work out. 
+import Bar from './RandomPokemonBar'
+import ClassAction from '../utility/ClassAction'
+
+// console.log('Bar')
+// console.log(Bar)
 
 
 // import {Alert, Button} from 'react-bootstrap/Alert';
 
-
-
-
-
 function BootstrapScreen() {
-
-
-
 
     // state and jquery functions
     const [pokemon, setPokemon] = useState([])
@@ -33,6 +30,11 @@ function BootstrapScreen() {
     const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
 
     const [observerEntryState, setObserverEntryState] = useState([])
+    const [randomPokemon, setRandomPokemon] = useState([])
+
+    const [ghost, setGhost] = useState('false')
+
+
 
 
     let pokeRefs = useRef([]);      
@@ -46,63 +48,28 @@ function BootstrapScreen() {
     const bootButton = $('.Bootstrap-Screen-Btn')
 
     // ***** ***** ***** ***
-
     // hiddenTag.click( (event) => {
         //     ClassAction('add', bootButton, 'Pokeball-Animate')
         // })
-
     // ***** ***** ***** ***
 
-    // observer intersection init. i'm using react & jq observer instead of useRef && inView. I ended up using createRef() and looping instead of pokemonState.map()'ing.     // i was able to set it up with a container but not for the map data 
-    //  react amplifies why its easy to see why people just about demand an answer of why you're using jquery. DOM-in-node-ejs kind of makes sense to reaccess poke api without browser refresh. react and unidirectional data flow and things being concrete in react with inline styling, ternary-ops etc. This example is a very smiple data api access and img src change upon behavior from /front_default || /shiny_front
+    
     let jqObserver = new IntersectionObserver((entries) => {
-        // $(entries).each( (entry) => {
-        //     console.info(`${entry} && ${entries.isIntersecting}`)
-        // })
-        entries.forEach( (entry) => {
-
-            // console.log(entry)       // this will show .log() for every single element that could be observed, not under observation. 
-            // if (entry.intersectionRatio > 0) {
+        entries.forEach( (entry) => {            
             if (entry.isIntersecting) {
-
-                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
-                let siblingButton = $(entry.target).siblings()[0]
-
-                setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to 
-                
-                // $(siblingOfSiblings).css('border-radius', '50%')
-                // $(siblingButton).css('border', '2px solid hotpink')     // o.O again forgot the $(siblingButton).css() v.s. siblingButton.css()
+                let siblingButton = $(entry.target).siblings()[0]                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
+                setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
                 hiddenTag.click( (event) => {
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')
-                    // ClassAction('add', $(siblingButton), 'Pokeball-Animate')
                 })
-
-                // console.log(entry.target)
-                // console.log(entry.target.currentSrc)
-                // console.log(entry.target.currentSrc.replace(/[0-9]/g, ''))  // cant do this in the regular pokeapi url because of /api/v2/ the number 2. Can do a more sophisticated regex. 
-
                 entry.target.style.border = '5px solid hotpink';
-
-                // setObserverTarget(entries.)
             } else {
-                setObserverEntryState([])
+                setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
                 // ClassAction('remove', entry.target.siblings()[0], 'Pokeball-Animate')        we have lost reference of our jqObject
-
-                // jqObserver.unobserve(entry.target)
-                // jqObserver.unobserve(entry.target)
                 entry.target.style.border = '';
             }
         })
-
-        // console.log('entries')
-        // console.log(entries)
-
     }, {threshold: 0.9})
-
-    // jqObserver.observe($('.Poke-Card-Img'))
-
-    // console.log('document')
-    // console.log(document)
     let allCards = document.querySelectorAll('.Poke-Card-Img')
 
     allCards.forEach( (card) => {
@@ -112,34 +79,28 @@ function BootstrapScreen() {
     // Jq backup DOM functionality
     const hideThis = (elem) => $(elem).hide();
     hCont.ready((event)=> $(event.target).children().addClass("Row-Center"));
-
+    Pokedex.dblclick( () => setPokedexClick('true'))
 
     // useEffect
     useEffect( () => {
         let pokedexObj = createRef()
-        let pokedex = $(pokedexObj)
-        
-
+        let pokedex = $(pokedexObj)    
         APIcall().then(async(pokedata) => {        
             await setPokemon(pokedata.pokemon)
         })
     }, [])
-
-    
 
     const checkRefs = () => {              
         // workflow function: uncomment the ultraball onClick={checkRefs} and fire away: adding any relevant-to-the-then-task console.logs for quick checking. especially in state
     }
     
 
-    const updateValue = ( {target: {value}}) => {   // didn't know you could set {value} object as value for key value pair.        if (value) console.log(value)
+    const updateValue = ( {target: {value}}) => {   
         setRefLength({value}) // this is basically event.target.value
     }
-    // const inputEnter = () => setIsInputHovered(true)
     const inputEnter = async (event) => { 
         await setHoverCount(hoverCount + 1)
         if (isInputHovered == 'false' && hoverCount < 2) await setIsInputHovered('true') 
-        // $(event.target).hide()
     }
     const inputExit = async (event) => 
     {                                   
@@ -187,8 +148,6 @@ function BootstrapScreen() {
             if (objectClass.includes('Close') || objectClass === 'Close') {
                 // hideThis($('#Ultraball'))
                 try { if (e.target) $(e.target).addClass('Pokedex-Animate') } catch { console.log('weve got nothing') }
-                // setTimeout([pokedexBg(), checkconsole1(), checkconsole2()] , 4000) 
-                // [setTimeout(pokedexBg(), 4000), setTimeout(checkconsole1(), 4000), setTimeout(checkconsole2(), 4000)]
                 setTimeout( () => {
                     pokedexBg()      
                     setInputHide('true')              
@@ -200,15 +159,10 @@ function BootstrapScreen() {
         })
         
     }
-    $('.Pokedex').dblclick( () => setPokedexClick('true'))
 
-    const saveToFakeDbState = () => {
-        // console.log("fakeDbState function!!!")
-    }
+    
 
-    const pokedexIconHover = (event) => {
-        // doing functions this way || $('.Hidden-Input-Container').onMouseEnter( ()=> ) minding jQuery and keeping it out of way as much as possible of react in-line-styles. 
-        // I had trouble passing $('jQobject') a jQ object stored as a variable as props. might give it time/research later. but you're probably not supposed to do that either. Using judgment. 
+    const pokedexIconHover = (event) => {        
         let classValues = event.target.attributes.class.nodeValue
         let splitClassVals = classValues.split(' ')     
         splitClassVals.forEach( (v) => {             // v as in value            
@@ -235,33 +189,29 @@ function BootstrapScreen() {
         <div className="Screen Column-Between">
                <ul id="Render-Ul">
                 {pokeRefs.current.map((el, i) =>
-                    //     <div key={`key${i}`} className="Map-Parent Column-Center">
-                    //     {/* <Card> */}
-                    //     <img 
-                    //     className="Poke-Card-Img"
-                    //     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
-                    //     />
-                    //     <Button 
-                    //     className="Bootstrap-Screen-Btn" 
-                    //     variant={'outline-primary'}
-                    //     onMouseEnter={null}
-                    //     > 
-                    //     </Button>
-                    //     <p className="Invisible-P"> 'click me' </p>
-                    //     {/* </Card> */}
-                    //  </div>
-                    <Card key={`cardkey ${i}`} body="true">
-                        <Card.Img     
-                        className="Map-Parent"
+                        <div key={`key${i}`} className="Map-Parent Column-Center">
+                        {/* <Card> */}
+                        <img 
+                        className="Poke-Card-Img"
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
-                        variant={'bottom'}
                         />
-                    </Card>                        
+                        <Button 
+                        size="lg"
+                        className="Bootstrap-Screen-Btn" 
+                        variant={'outline-primary'}
+                        onMouseEnter={null}
+                        > 
+                        </Button>
+                        <p className="Invisible-P"> 'click me' </p>
+                        {/* </Card> */}
+                     </div>
+
+                                          
                     )}                       
                     </ul>      
                     {/* <InputMap specifiedLength={[refLength, setRefLength]} inputTarget={ {target: jqInput } } /> */}                  
         </div>               {/* screen end  */}
-            <div  className="Hidden-Input-Container Row-Center Half-Size">                  
+            <div  className="Hidden-Input-Container Row-Center Half-Size">    
                     <div 
                     onMouseEnter={pokedexIconHover}
                     style = {
@@ -287,8 +237,11 @@ function BootstrapScreen() {
 } 
 else  { 
     return (
-        <>  
-            <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>      
+            <div className="Main-Wrap Column-Between">
+
+            <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>   
+            <Bar randomPokemon={randomPokemon} setRandomPokemon={setRandomPokemon} ghost={ghost} setGhost={setGhost}/>              
+  
             <input 
             style={{ display: inputHide === 'false' ? 'none' : 'block'}}            
             id={'Screen-Input'} 
@@ -303,8 +256,32 @@ else  {
             <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> How many Pokemon </h1>        
             <h4 className="Pokedex-Text" style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>        
             </div>
-        </>    
+            </div>    
     )
 }
 }       // function Screen() { end }
 export default BootstrapScreen
+
+
+/* This is a working <Card /> imported component from react-bootstrap/Card API
+
+ this takes an already iffy & non-seamless thing like clicking the invisible <p> tag to assert changes upon the <Button.pokeball  and makes it even worse. 
+ PROOF of CONCEPT! switching back from bootstrap to the other layout which also looks better.
+                                        {pokeRefs.current.map((el, i) =>
+                     <Card key={`cardkey ${i}`} body="true" bg="danger" bsprefix="" className="Map-Parent">    
+                         <Card.Img     
+                         className="Poke-Card-Img"
+                         src={`https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
+                         variant={'bottom'}
+                         />  
+                              <Button 
+                              className="Bootstrap-Screen-Btn" 
+                              variant={'outline-primary'}
+                              onMouseEnter={null}
+                              > 
+                              </Button>
+                         <Card.Body>
+                             <p className="Invisible-P"> 'click me' </p>
+                         </Card.Body>
+                     </Card>  
+ */
