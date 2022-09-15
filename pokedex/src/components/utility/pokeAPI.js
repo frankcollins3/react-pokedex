@@ -1,5 +1,7 @@
 import Axios from 'axios';
 let apiurl = `https://pokeapi.co/api/v2/pokemon?limit=151`
+// import bootstrapState from '../element/Bootstrap'    you are not able to export state within useEffect. exports && imports have to be at the top level above where state would be. 
+
 
 export default async function APIcall(method, specify, type, randomAmount) {    
     // console.log("in the api call")
@@ -10,6 +12,7 @@ export default async function APIcall(method, specify, type, randomAmount) {
 
     let response = await Axios.get(apiurl)
     let results = response.data.results
+    //  *****   ******  **** very simple return-ALL-Pokemon 1-151 specified by above url with endpoint -> limit = 151
     if (typeof method === 'string' && method == 'all') {
         return results = {
             pokemon: results,
@@ -17,12 +20,11 @@ export default async function APIcall(method, specify, type, randomAmount) {
         }
     }
 
+    // **** ***** ****** **** ***** ****** **** return randomPokemon
     if (typeof method === 'string' && method == 'random') {
         // console.log('we have the random method here we go')
         // console.log('results down here')
         const RandomAndReset = async () => {
-            // console.log("random and reset")            
-
             let randomPokemon = results[Math.floor(Math.random()*results.length)]           
             let preSliceURL = randomPokemon.url.slice(randomPokemon.url.length - 5)
             let cleanid = preSliceURL.replace(/[/\/a-z]/g, '')
@@ -33,23 +35,32 @@ export default async function APIcall(method, specify, type, randomAmount) {
                 id: cleanid,
                 img: imageurl
             }
-            await randombucket.push(pokemon)
-            console.log('randombucket')
-            console.log(randombucket)
-            
-            
-        }
-        if (typeof randomAmount == 'number' && randomAmount < 5 && randomAmount % 2 !== 0) {
-            for (i; i < randomAmount; i++) {
-                RandomAndReset()
+            // console.log('pokemon')
+            // console.log(pokemon)
+            await randombucket.push(pokemon)                            
+        }                
+
+        if (typeof randomAmount == 'number' && randomAmount < 5 && randomAmount % 2 !== 0) {            
+        // if (typeof randomAmount == 'number' && randomAmount < 5 && randomAmount + 1 % 2 !== 0) {            
+            for (i; i < randomAmount-1; i++) {        
+                RandomAndReset()                
             }
         }
-        RandomAndReset()
-        
+        const checkBucket = () => {
+            console.log(randombucket)
+            if (randomAmount.length < 3) return randombucket[0]
+            if (randombucket.length === 3) return randombucket
+        }
+        const doEmBoth = async () => {
+            await RandomAndReset()
+            await checkBucket()
+        }
+        console.log('here goes doEmBot')
+        doEmBoth()
 
-
+    
     }
-
+    
 }
 
 // Parameters
