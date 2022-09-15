@@ -6,11 +6,6 @@ import { $ } from 'react-jquery-plugin';
 import Bar from './RandomPokemonBar'
 import ClassAction from '../utility/ClassAction'
 
-// console.log('Bar')
-// console.log(Bar)
-
-
-// import {Alert, Button} from 'react-bootstrap/Alert';
 
 function BootstrapScreen() {
 
@@ -46,13 +41,6 @@ function BootstrapScreen() {
     const jqInput = $('#Screen-Input')
     const hiddenTag = $('.Invisible-P')
     const bootButton = $('.Bootstrap-Screen-Btn')
-
-    // ***** ***** ***** ***
-    // hiddenTag.click( (event) => {
-        //     ClassAction('add', bootButton, 'Pokeball-Animate')
-        // })
-    // ***** ***** ***** ***
-
     
     let jqObserver = new IntersectionObserver((entries) => {
         entries.forEach( (entry) => {            
@@ -85,7 +73,7 @@ function BootstrapScreen() {
     useEffect( () => {
         let pokedexObj = createRef()
         let pokedex = $(pokedexObj)    
-        APIcall().then(async(pokedata) => {        
+        APIcall('all').then(async(pokedata) => {        
             await setPokemon(pokedata.pokemon)
         })
     }, [])
@@ -240,7 +228,7 @@ else  {
             <div className="Main-Wrap Column-Between">
 
             <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>   
-            <Bar randomPokemon={randomPokemon} setRandomPokemon={setRandomPokemon} ghost={ghost} setGhost={setGhost}/>              
+            <Bar randomPokemon={randomPokemon} setRandomPokemon={setRandomPokemon} ghost={ghost}/>              
   
             <input 
             style={{ display: inputHide === 'false' ? 'none' : 'block'}}            
@@ -263,25 +251,3 @@ else  {
 export default BootstrapScreen
 
 
-/* This is a working <Card /> imported component from react-bootstrap/Card API
-
- this takes an already iffy & non-seamless thing like clicking the invisible <p> tag to assert changes upon the <Button.pokeball  and makes it even worse. 
- PROOF of CONCEPT! switching back from bootstrap to the other layout which also looks better.
-                                        {pokeRefs.current.map((el, i) =>
-                     <Card key={`cardkey ${i}`} body="true" bg="danger" bsprefix="" className="Map-Parent">    
-                         <Card.Img     
-                         className="Poke-Card-Img"
-                         src={`https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
-                         variant={'bottom'}
-                         />  
-                              <Button 
-                              className="Bootstrap-Screen-Btn" 
-                              variant={'outline-primary'}
-                              onMouseEnter={null}
-                              > 
-                              </Button>
-                         <Card.Body>
-                             <p className="Invisible-P"> 'click me' </p>
-                         </Card.Body>
-                     </Card>  
- */
