@@ -1,12 +1,17 @@
 import Axios from 'axios';
 let apiurl = `https://pokeapi.co/api/v2/pokemon?limit=151`
+let singleurl = `https://pokeapi.co/api/v2/pokemon/`
 // import bootstrapState from '../element/Bootstrap'    you are not able to export state within useEffect. exports && imports have to be at the top level above where state would be. 
 
 
-export default async function APIcall(method, pokemon, type, randomAmount) {    
-    // console.log("in the api call")
-    // console.log('method')
-    // console.log(method)
+// let  specifyBucket = [] || new Array()   // pushed to see if the other [null || undefined] variables were being pushed and that they were being rendered instead of the one that had a value
+// specifyBucket.push(method)
+export default async function APIcall(method, poke, type, randomAmount) {          
+    // if (poke == result.name) {
+    //     let clean1liner = result.url.slice(result.url.length - 5).replace(/[/\/a-z]/g, '')
+    //     let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${clean1liner}.png`
+
+
     const randombucket = [] || new Array()
     let i = 0; 
 
@@ -20,8 +25,30 @@ export default async function APIcall(method, pokemon, type, randomAmount) {
         }
     }
 
+    if (method === 'specify' && poke) {
+        let singledatacall = await Axios.get(`${singleurl}${poke}`)        
+        let singledata = singledatacall.data
+        return poke = {
+            name: singledata.name,
+            id: singledata.id,
+            image: `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${singledata.id}.png`
+        }        
+        /*
+        results.forEach( (result) => {
+            if (poke === result.name) {
+                return poke = { name: result.name, id: result.url.slice(urlLength-5).replace(/\/a-z), image: github/cleanid }
+                1) i had this function set up under the others so it had access to the: [VScodeLine42: let results = response.data.results]
+                2) huge separation-of-concerns problem. In terms of using specify/method and different datacalls from the randomPokemon && APIcallALL being relevant/part of console.logs() on this side.                
+                *** $(this).approach.current()=> more boring than using the other results and validating on the .each(loop) for equivalency to our "poke" 2nd function parameter. proof-of-concept/isMinimViable / any-means-necessary at this point.
+            }
+        }
+         */      
+    }
+
+    
+
     // **** ***** ****** **** ***** ****** **** return randomPokemon
-    if (typeof method === 'string' && method == 'random') {
+    if (typeof method === 'string' && method === 'random') {
         // console.log('we have the random method here we go')
         // console.log('results down here')
         const RandomAndReset = async () => {
@@ -42,7 +69,9 @@ export default async function APIcall(method, pokemon, type, randomAmount) {
             await randombucket.push(pokemon)                            
         }                
 
-        if (typeof randomAmount == 'number' && randomAmount < 5 && randomAmount % 2 !== 0) {            
+        if (typeof randomAmount === 'number' && randomAmount < 5 && randomAmount % 2 !== 0) {            
+            console.log('randomAmount')
+            console.log(randomAmount)
         // if (typeof randomAmount == 'number' && randomAmount < 5 && randomAmount + 1 % 2 !== 0) {   
             if (randomAmount > 1) {
                 for (i; i < randomAmount-1; i++) {    
@@ -57,29 +86,16 @@ export default async function APIcall(method, pokemon, type, randomAmount) {
                return newbucket
             }
         }    
-    }       // typeOf method == 'string' && method == 'random'
-    if (typeof method === 'string' && method === 'specify' && pokemon) {            // pokemon || pokemon.length or : [pokemon !== null || pokemon !== undefined)
-        console.log('method')
-        console.log(method)
-        console.log('pokemon')
-        console.log(pokemon)
-        
-        results.forEach( (result) => {
-            // pokemon === result.name ? console.log(`thats ${result.name} signature move!`) : console.log('there is no equal value') // 150pokeAPI.js:70 nope no value 
-            if (pokemon == result.name) {
-                console.log("yeah weve got the value")
-            } else { return }  
-            // else { console.log('nope no value!') 
-            // 1)  150pokeAPI.js:70 nope no value!  2) I thought this was wrong that it runs 150x "nope no value" That condition is met for every result.name that doesn't satisfy the condition.
-            // 3) looking at this logic: lets say I pick charizard for [pokemon.id# "6"]    3.1  else { return } if i set a return statement i'm guessing the 1st value: bulbasaur. which doesn't satisfy the if but satisfies the else return statement: 
-            // 4) this logic tells me that our return statement would end this entire forEach loop, and it would be met on the first id if we picked anybody besides the first pokemon "bulbasaur"
-            // 5) wrongful assumption! charizard will run and the return will only apply to that specific instance of .forEach(result). Return for that result, the loop moves on. Return does not end the loop like a function does. 
-        })
-    }
+        console.log(`heres our methods: ${poke}`)
     
 }
+}
 
-
+// Parameters
+// * Method (what type of datacall are we initializing): 1) returnAllpokemon 2) returnRandomPokemon 3) returnSpecifiedPokemon (by poke.name || poke.id) 
+// * pokemon: if (arg1/method == 'random') specify: 'pokemon.name/string i.e. bulbasaur' || id by int i.e. 1 (bulbasaur)
+// * type: if (arg1/method == 'random') type of randomPokemon       <!- i also might allow type as an optional argument just to validate the specified pokemon against itself. Sounds useless and not needed but is an extra measure of validation/overcommunication -!>
+// * random Amount: if (method == 'random' the amount of randomPokemon we will be returning. limited by 5. must be an odd number that will be validated against modulo % 2 !== 0; (odd number)
  
 
 // Parameters
