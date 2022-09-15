@@ -1,88 +1,73 @@
+// this utility function is an exercise in wondering if its against practices/unidirectional-flow to: 1) send props into an exportable-to-be-invoked-function 2)export that function and use with outside props. It seems an ideal utility function would be more of a pure function?
 import { useState, useEffect } from 'react';
 import APIcall from './pokeAPI'
+import Axios from 'axios'
 
-export default function ReturnRandomPoke () {
-    
-    const randomPokeBucket = [] || new Array() 
-    useEffect( () =>{
-        APIcall().then(async(data) => {
-            let pokemon = data.pokemon
-            let randomPokemon = pokemon[Math.floor(Math.random() * pokemon.length)]
-            randomPokeBucket.push(randomPokemon)  // 
 
-            let pokemonvalue =  randomPokeBucket[0]    
-            let preSliceURL = pokemonvalue.url.slice(pokemonvalue.url.length - 10)
-            
+console.log("hello from randomPokemon.js")
+let axiosurl = `https://pokeapi.co/api/v2/pokemon?limit=151`
+let i = 0;
+
+export default async function ReturnRandomPoke(nPoke) {    
+    let response = await Axios.get(axiosurl)
+    let results = response.data.results
+    APIcall().then( (data) => console.log(data))
+    console.log('nPoke')
+    console.log(nPoke)
+    const bucketOfRandoms = [] || new Array()
+
+    if (typeof nPoke === 'number' && nPoke <= 5 && nPoke % 0 !== 2) {
+        console.log('hey weve got a number')
+        for (i; i < nPoke; i++) {
+            let randomPokemon = results[Math.floor(Math.random()*results.length)]
+            console.log('randomPokemon')
+            console.log(randomPokemon)
+            let pokename = randomPokemon.name
+            let pokeurl = randomPokemon.url
+            let url = randomPokemon.url
+
+            let preSliceURL = url.slice(url.length-5)            
             let cleanid = preSliceURL.replace(/[/\/a-z]/g, '')
-            let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${cleanid}.png`        
-            const randompokemon = {
-                // pokemon: randomPokemon,  // then weve got the redundant url over there
+            let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${cleanid}.png`
+            
+            const random = {
                 name: randomPokemon.name,
-                id: cleanid,            // probably dont need but just in case.
-                image: imageurl
-            }               //             console.log(typeof random)
-            console.log('random')
-            console.log(randompokemon)
-            return { randompokemon } 
-        })
-    }, [])
+                pokeid: cleanid,
+                img: imageurl
+            }
+            bucketOfRandoms.push(random)
+            if (bucketOfRandoms.length) {
+                console.log("atleast were in the .length condition")
+                const resetRandom = async () => {
+                    randomPokemon = ''
+                    randomPokemon = results[Math.floor(Math.random()*results.length)]
+
+                    let rangePokemon = results.forEach((pokeresult) => {
+                        let idOneLine = pokeresult.url.slice(pokeresult.url.slice-10).replace(/[/\/a-z 2]/g, '')
+                        console.log('idOneLine')
+                        console.log(idOneLine)
+                        // if ()
+                        // if (pokeresult.url.slice(pokeresult.url.slice-10).replace(/[/\/a-z 2]/g, ''))
+                    })
+
+                    let newPokemonCall = await Axios.get(axiosurl)
+                    let newResults = newPokemonCall.data.results
+                    let newRandomPokemon = newResults[Math.floor(Math.random()*newResults.length)]  // newResults or results probably might not matter at this point. 
+                    
+          
+                    bucketOfRandoms.push(randomPokemon, newRandomPokemon)       // the darnest problem of our randomizers only grabbing pokemon within like < 20 ids. Not the end of the world, in fact, kind of themely, as if you are just beginning the intro. Would be nice to fix. 
+                    
+
+                }
+                resetRandom()
+            }
+          
+            return bucketOfRandoms
+
+        }
+
+    }
 }
 
-// export default function ReturnRandomPoke (nPoke) {    
-//     const randomPokeBucket = [] || new Array() 
-//     console.log("we are in the return random pokemon function")
-//     useEffect( () =>{
-//         APIcall().then(async(data) => {
-//             let pokemon = data.pokemon
-//             let randomPokemon = pokemon[Math.floor(Math.random() * pokemon.length)]
-//             randomPokeBucket.push(randomPokemon)  // 
-//             let pokemonvalue =  randomPokeBucket[0]    
-//             let preSliceURL = pokemonvalue.url.slice(pokemonvalue.url.length - 10)            
-//             let cleanid = preSliceURL.replace(/[/\/a-z]/g, '')
-//             let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${cleanid}.png`        
-//             if (nPoke) {
-//                 if (typeof nPoke === 'number' && nPoke < 5 && nPoke % 2 == 0) {
-//                     console.log("hey weve got a number")
-//                 } else return
-//             }
-//             const random = {
-//                 pokemon: randomPokemon,
-//                 image: imageurl
-//             }
-//             return { random } 
-//         })
-//     }, [])
-// }
 
 
-
-
-
-
-
-
-            // [{…}] RandomPokemon.js(16) mankey
-            // [{…}] RandomPokemon.js(16) geodude
-            // for some reason: .log(randomPokemon) returns 2 console inputs for 2 successfully grabbed and different random pokeapi value-objects.
-            // when i push: pokeBucket.push(randomPokemon) only 1 of the 2 random values is entered into the array. 
-
-            // ********* ****************** ********* ********* ********* ********* Nevermind: useEffect with empty-dependencyArray yields us one value.
-
-                   // let [randomPokemon] = pokemon[Math.floor(Math.random() * pokemon.length)]
-            // randomPokemon.forEach( (r) => {      // not iterable yet throwing 2 values back. I tried to set declaration of: randomPokemon as an array to see if we can pinpoint the reason behind returning more than 1.
-            //     console.log('r')
-            //     console.log(r)
-            // })
-        
-            // pokemonvalue
-// RandomPokemon.js:16 {name: 'abra', url: 'https://pokeapi.co/api/v2/pokemon/63/'}
-// RandomPokemon.js:15 pokemonvalue
-// RandomPokemon.js:16 {name: 'charmeleon', url: 'https://pokeapi.co/api/v2/pokemon/5/'}
-
-
-
-// while finishing this functionality; the decision to allow randomPokemon() function to accept a specified, to-be-data-validated-as-int-parameter that does all the pokemon retrieving on this side.
-// since i'd like 3 random Pokemon to be retrieved. I'd rather handle all of the randomPokemon computations on this side rather than run a: [return 1 pokemon] function 3 times on the pokemonBar.js side.
-
-// while finishing this up, i noticed this code that explaining why we are returning 2 different random values when the code seems to be asking for one. 
-//  2RandomPokemon.js:22 hey weve got a number      // actual terminal output from the component that is importing this function .
