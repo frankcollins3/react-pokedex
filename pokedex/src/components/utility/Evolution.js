@@ -1,67 +1,77 @@
 import APIcall from './pokeAPI'
 import Axios from 'axios';
+import ObjectTemplate from './ObjectTool'
+import URLcleaner from './UrlTool'
+URLcleaner(`https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/50.png`)
 
 let evolveurl = `https://pokeapi.co/api/v2/evolution-chain/`
 
 export default async function EvolutionChain (starter) {
+
     let evolveArray = [] || new Array()
     // APIcall('specify', starter).then(async(data) => {
     //     console.log(data)
     //     console.log(data.name)
     // })
     let singlepoke = await APIcall('specify', starter)
+    console.log('singlepoke')
+    console.log(singlepoke)
     
+    let prestarter1 = await ObjectTemplate(starter)
+    let starter1 = {
+        name: prestarter1[0].name,
+        id: prestarter1[1].id,
+        image: prestarter1[1].image
+    }
+    evolveArray.push(starter1)
     
-    let originalpokemon = {
-        name: singlepoke.name,
-        id: singlepoke.id,
-        image: `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${singlepoke.id}.png`
-    }
-    console.log("first original pokemon")
-    console.log('originalpokemon')
-    console.log(originalpokemon)
+    // ****** ****  babyEvolvesTo && evolveEvolvesTo && singlepoke we have our 3 starter pokemon. ****** ****
+    const getDataPushData = () => {
+        Axios.get(evolveurl).then( (ev) => {
+        console.log(ev)
+        console.log(ev)
+           const chain = ev.data.results // oops forgot the .results
+           chain.forEach(async(jewelryjoketime) => {                      
+               let precleanurl = jewelryjoketime.url
+               let len = precleanurl.length            
+               let evolvechainurlint = precleanurl.slice(len - 5).replace(/[/\/a-z]/g, '')
+               let evolveaccess = await Axios.get(`${evolveurl}${evolvechainurlint}`)            
+               let individualchain = evolveaccess.data.chain                        
+               let name = evolveaccess.data.chain.species.name
+               
+               if (singlepoke[1].name === name) {                                       
+                   let babyEvolvesTo = individualchain.evolves_to[0].species.name                   
 
-    originalpokemon = {
-        name: 'hey',
-        id: 'license',
-        image: 'no thank you'
-    }
-    // hmm seeing how many simple/similar pokeObjects we are handmaking kind of makes me wish I made an object template to export/import and mutate. 
-    console.log('originalpokemon AFTER MUTATE!')
-    console.log(originalpokemon)
+                   let prestarter2 = await ObjectTemplate(babyEvolvesTo)
+                   let starter2 = {
+                    name: prestarter2[0].name,
+                    id: prestarter2[1].id,
+                    image: prestarter2[1].image
+                   }
 
-    evolveArray.push(originalpokemon)
-
-    evolveArray.push(singlepoke)
-
-     Axios.get(evolveurl).then( (ev) => {
-        const chain = ev.data.results // oops forgot the .results
-
-        chain.forEach(async(jewelryjoketime) => {            
-            let precleanurl = jewelryjoketime.url
-            let len = precleanurl.length
-            let evolvechainurlint = precleanurl.slice(len - 5).replace(/[/\/a-z]/g, '')
-            let evolveaccess = await Axios.get(`${evolveurl}${evolvechainurlint}`)
-            
-            let individualchain = evolveaccess.data.chain                        
-            let name = evolveaccess.data.chain.species.name
-            if (singlepoke.name === name) {
-                console.log('individualchain')
-                console.log(individualchain)
-                let babyEvolvesTo = individualchain.evolves_to[0].species.name
-                let evolveEvolvesTo = individualchain.evolves_to[0].evolves_to[0].species.name
-                
-                // let evolveEvolvesTo = individualchain.evolves_to[0].evolves_To[0].species.name
-
-            }
-            // if (singlepoke.name === name) console.log(`heres the ${name}`)
-            // else { return }
-            // if (name == )            
-
+                   let evolveEvolvesTo = individualchain.evolves_to[0].evolves_to[0].species.name
+                   let prestarter3  = await ObjectTemplate(evolveEvolvesTo)
+                   let starter3 = {
+                    name: prestarter3[0].name,
+                    id: prestarter3[1].id,
+                    image: prestarter3[1].image
+                   }
+                   evolveArray.push(starter2, starter3)
+                //    nameArray.push(babyEvolvesTo, evolveEvolvesTo)                            
+               }
+           })
         })
-        
-     })
-}
+        }
+        // getDataPushData()
+    const checkBucket = () => {
+        console.log(evolveArray)
+    }
+        const getDataCheckData = async () => {
+            await getDataPushData()
+            await checkBucket()
+        }
+        getDataCheckData()            
+}       // default end 
 
 
 // Hello! Would you like to be a pokemon trainer? [sign-in-state && O O O ] 3 pokeballs pick one just like the game.
