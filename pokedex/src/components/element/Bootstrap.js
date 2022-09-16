@@ -5,6 +5,14 @@ import { $ } from 'react-jquery-plugin';
 // import InputMap from '../utility/MapMaker' works additively, but not subtractively. May bookmark to save and work out. 
 import Bar from './RandomPokemonBar'
 import ClassAction from '../utility/ClassAction'
+import TrueFalseTool from '../utility/BooleanStateTool'
+import EvolutionChain from '../utility/Evolution'
+
+let id = [1, 4, 7]
+let randomid = id[Math.floor(Math.random()*id.length)]
+
+
+
 
 
 function BootstrapScreen() {
@@ -21,11 +29,17 @@ function BootstrapScreen() {
     const [animateHappened, setAnimateHappened] = useState('false')
     const [hoverCount, setHoverCount] = useState(0)
     const [pokedexHover, setPokedexHover] = useState('false')
+    const [mainWrapHover, setMainWrapHover] = useState('false')
+
+    const [evolvePokemon, setEvolvePokemon] = useState([])
+
+
 
     const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
 
     const [observerEntryState, setObserverEntryState] = useState([])
     const [randomPokemon, setRandomPokemon] = useState([])
+    
 
     const [ghost, setGhost] = useState('false')
 
@@ -71,6 +85,27 @@ function BootstrapScreen() {
 
     // useEffect
     useEffect( () => {
+        (async () => {
+            // let [starterchainevolve] = await EvolutionChain(randomid)            
+            let starterchainevolve = await EvolutionChain(randomid)            
+            let starterchainevolve2 = await EvolutionChain('squirtle')            
+
+            
+            await console.log(starterchainevolve)             // [{…}]        confused why this cons.log returns this output below
+            // 0: {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+            // 1: {name: 'wartortle', id: 8, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'}
+            // 2: {name: 'blastoise', id: 9, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'}
+            await starterchainevolve.map( (mapitem) => console.log(mapitem))   // but when you map it only returns the first value. 
+            // {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+
+            // console.log(starterchainevolve[0]) charmander
+            // console.log(starterchainevolve[1]) undefined
+            // console.log(starterchainevolve[2]) undefined
+            
+            
+        })()
+       
+
         let pokedexObj = createRef()
         let pokedex = $(pokedexObj)    
         APIcall('all').then(async(pokedata) => {        
@@ -97,6 +132,9 @@ function BootstrapScreen() {
         await setRefLength([])      
         return
     }
+
+    const handleWrapHover = () => setMainWrapHover("true")
+
     // have to get these two strings connected.
     const handleInput = async ({ target: {value}}) => 
     {      
@@ -225,10 +263,11 @@ function BootstrapScreen() {
 } 
 else  { 
     return (
-            <div className="Main-Wrap Column-Between">
+            <div onMouseEnter={handleWrapHover} className="Main-Wrap Column-Between">
+            {/* <div onMouseEnter={TrueFalseTool([mainWrapHover], [setMainWrapHover()], 'true' )} className="Main-Wrap Column-Between"> */}
 
             <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>   
-            <Bar randomPokemon={randomPokemon} setRandomPokemon={setRandomPokemon} ghost={ghost}/>              
+            <Bar randomPokemon={randomPokemon} setRandomPokemon={setRandomPokemon} ghost={ghost} mainWrapHover={mainWrapHover}/>              
   
             <input 
             style={{ display: inputHide === 'false' ? 'none' : 'block'}}            
