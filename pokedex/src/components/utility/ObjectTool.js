@@ -1,27 +1,24 @@
 import APIcall from './pokeAPI'
+let pokemonObject = {
+    name: '',
+    id: '',
+    url: `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/`
+}
 export default async function ObjectTemplate(nameOrId) {
+    
     if (typeof nameOrId === 'string') {    
-       let specificFetch = await APIcall('specify', nameOrId)         
-        let pokemonObject = {
-            name: '',
-            id: '',
-            url: `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/`
-        }
+        let specificFetch = await APIcall('specify', nameOrId)                    
         let emptyObject = {empty: pokemonObject}
-        specificFetch.push(emptyObject)             // relative-to-personal-experience-level but this is insane that you can do this. it is defeating the purpose of this being a quick tool to get a quick object to render.
-        // i kind of want to make this a component so that we could have inputs to check how many object keys the user wants to specify. Then they can enter the names of the keys and leave the values blank 
-
-        console.log('specificFetch')
-        console.log(specificFetch)
-        console.log(specificFetch[0])
-        console.log(specificFetch[1])
-        console.log(specificFetch[2])
+        specificFetch.push(emptyObject)             
+        return specificFetch
+        // relative-to-personal-experience-level but this is insane that you can do this. it is defeating the purpose of this being a quick tool to get a quick object to render.
         
-        
-
     } else if (typeof nameOrId === 'number') {
         console.log("nice numbers")
         let dataForObject = await APIcall('specify', nameOrId)           
+        let emptyObject = {empty: pokemonObject}
+        dataForObject.push(emptyObject)
+        return dataForObject    
     }
 }
 
