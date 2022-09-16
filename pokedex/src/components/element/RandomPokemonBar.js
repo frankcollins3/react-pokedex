@@ -25,13 +25,15 @@ let evolvebucket = [];                 // i like all lowercase variable declarat
 
 
 function Bar(props) {
-        
+    
+
     for (i; i < props.randomPokemon; i++) {
         // let button = document.createElement('div').addClass('PokeDisplay')
     }
 
     let looplength = props.randomPokemon.length        
     useEffect(() => {
+        
         (async () => {
             evolvebucket = await (EvolutionChain(randomid))    
             evolvebucket.map( (map) => {
@@ -48,15 +50,18 @@ function Bar(props) {
         }
         randomizer2()
 
+        const checkTypes = () => {
+        }
         checkTypes()
     }, [])  
 
-    let checkAgain = () => { console.log(evolvebucket }
-    
+    let checkAgain = () => {
+        console.log(evolvebucket)
+    }
     evolvebucket.map( (map) => {
         console.log('map')
     })
-    
+
     let pokemap = props.randomPokemon.map( (mapitem, idx) => {
         return ( 
         <img 
@@ -68,18 +73,48 @@ function Bar(props) {
         )
     })
 
+    setTimeout( () => {
+        console.log(evolvebucket)
+    }, 1000)
+    
+    // $(document).ready( (event) => {
+        // console.log(event)
+
+    const lookInTheBucket = async () => {
+        // if evolvebucket.includes('hey') {
+        //     console.log('hey weve got a hey')
+        // }
+         if (evolvebucket.includes('hey')) console.log('friend')
+        else {
+            console.log('finally good!')
+            console.log('evolvebucket')
+            console.log(evolvebucket)
+        }
+    }
+    
+
+
+
+    
+
     return (
         <>
         <div className={pokemap.length === 3 ? "Row-Between" : "Row-Center"}> </div>
         <button onClick={checkAgain} type="button" className="navBall" id="Ultraball"> </button>
             <ul className={pokemap.length === 3 ? "Row-Between" : "Row-Center"}>
             {/* {randomPokeStateMap} */}
-             {evolvebucket} || {pokemap}
-            {/* {evolvebucket} {pokemap} */}
+             {/* {{evolvebucket} || {pokemap}}      WRONG! */}
+             {pokemap}
+             {setTimeout( () => lookInTheBucket(), 2000)}
+             {/* {pokemap} */}
+             {/* {evolvebucket || pokemap} */}
             </ul>
         {/* <button onClick={checkState} type="button" className="navBall" id="Greatball"> </button> */}
         </>     
     )
+
+// }) cant enclose useEffect with a callback. 
+
 }
 export default Bar
 
