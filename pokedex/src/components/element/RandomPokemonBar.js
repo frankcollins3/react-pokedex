@@ -19,12 +19,17 @@ let i = 0;
 // jquery
 let BarCont = $('.Poke-Bar')
 
-let evolvebucket = [];                 // i like all lowercase variable declarations now because it can give a visual separator from Components or imported utility functions like EvolutionChain
+let evolvebucket = ['heyy', 'yeah', 'sure'];                    // set them all equal to 4 and if evolvebucket||evolvePokemonState.map( (mapitem) => if (mapitem.length === 4) return else (return <img .src={evolvePokemonState.img}))
+// i like all lowercase variable declarations now because it can give a visual separator from Components or imported utility functions like EvolutionChain
 
 
 
 
 function Bar(props) {
+    
+    
+
+    const [evolvePokemon, setEvolvePokemon] = useState([])
     
 
     for (i; i < props.randomPokemon; i++) {
@@ -33,14 +38,15 @@ function Bar(props) {
 
     let looplength = props.randomPokemon.length        
     useEffect(() => {
-        
-        (async () => {
-            evolvebucket = await (EvolutionChain(randomid))    
-            evolvebucket.map( (map) => {
-                // console.log('map')
-                // console.log(map)
-            })        
+        ( async() => {
+            let evolve = await EvolutionChain(randomid)   
+            console.log('evolve') 
+            await console.log(evolve) 
+            // await setEvolvePokemon(evolve)
+            console.log('evolvePokemon')
+            await console.log(evolvePokemon)
         })()
+        
 
         const randomizer2 = () => {
             APIcall('random', null, null, 3).then(async(data) => {      // 3 hours. this now works for 1 or 3
@@ -56,10 +62,12 @@ function Bar(props) {
     }, [])  
 
     let checkAgain = () => {
-        console.log(evolvebucket)
+        // console.log(evolvebucket)
+        console.log('evolvePokemon')
+        console.log(evolvePokemon)
     }
     evolvebucket.map( (map) => {
-        console.log('map')
+        // console.log('map')
     })
 
     let pokemap = props.randomPokemon.map( (mapitem, idx) => {
@@ -73,26 +81,38 @@ function Bar(props) {
         )
     })
 
+    let evolvemap = evolvePokemon.map( (map, idx) => {
+        console.log(map.length)     // getting somewhere with this.
+
+        return (
+            <p key={idx}> {map} </p>
+        )
+    })
+
+    
+
     setTimeout( () => {
-        console.log(evolvebucket)
+        // console.log(evolvebucket)
+        console.log(evolvePokemon)
     }, 1000)
     
     // $(document).ready( (event) => {
         // console.log(event)
 
-    const lookInTheBucket = async () => {
-        // if evolvebucket.includes('hey') {
-        //     console.log('hey weve got a hey')
-        // }
-         if (evolvebucket.includes('hey')) console.log('friend')
-        else {
-            console.log('finally good!')
-            console.log('evolvebucket')
-            console.log(evolvebucket)
-        }
-    }
+    // const lookInTheBucket = async () => {    NO ASYNC in react.js rendering return
+    //     setTimeout( () => {
+    //         let evolvemap = evolvebucket.map( (item, idx) => {
+    //             return (
+    //                 <img 
+    //                 className="Poke-Bar-Pokemon"
+    //                 key={idx}
+    //                 src={item.image}
+    //                 />
+    //                 )
+    //             })
+    //         }, 2000)     
+    // }
     
-
 
 
     
@@ -101,13 +121,19 @@ function Bar(props) {
         <>
         <div className={pokemap.length === 3 ? "Row-Between" : "Row-Center"}> </div>
         <button onClick={checkAgain} type="button" className="navBall" id="Ultraball"> </button>
-            <ul className={pokemap.length === 3 ? "Row-Between" : "Row-Center"}>
-            {/* {randomPokeStateMap} */}
-             {/* {{evolvebucket} || {pokemap}}      WRONG! */}
-             {pokemap}
-             {setTimeout( () => lookInTheBucket(), 2000)}
+            <p> {props.mainWrapHover == 'false' ? "It is false" : "it is true"} </p>
+            <ul className={$('.Row-Between').children().length === 3 ? "Row-Between" : "Row-Center"}>
+                {}
              {/* {pokemap} */}
-             {/* {evolvebucket || pokemap} */}
+
+            {/* {evolvePokemon.map((map)=> {
+                <p> {map} </p>
+            })}     */}
+            {props.mainWrapHover === 'false' ? pokemap : ':) '}
+        
+
+             {/* {setTimeout( () => lookInTheBucket(), 2000)} */}
+             {/* {evolvebucket || pokemap} */}               {/* {evolvebucket} || {pokemap} */}
             </ul>
         {/* <button onClick={checkState} type="button" className="navBall" id="Greatball"> </button> */}
         </>     
@@ -117,16 +143,10 @@ function Bar(props) {
 
 }
 export default Bar
-
-
-//     // console.log('useeffect in the randomPokemonBar')
-    //     const randomizer = async () => {
-    //         ReturnRandomPoke(1).then(async(data) => {
-    //             ReturnRandomPoke(2).then(async(info) => {              
-    //                 ReturnRandomPoke(3).then(async(poke) => {                  
-    //                     await props.setRandomPokemon([data, info, poke])      // heaven stairway || farewell good stairwell. 
-    //                 })
-    //             })
-    //         })
-    //     }
-        // randomizer()
+        // (async () => {           
+            // evolvebucket = await (EvolutionChain(randomid))    
+            // evolvebucket.map( (map) => {
+                // console.log('map')
+                // console.log(map)
+            // })        
+        // })()
