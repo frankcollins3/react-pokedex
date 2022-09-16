@@ -1,6 +1,7 @@
 import Axios from 'axios';
 let apiurl = `https://pokeapi.co/api/v2/pokemon?limit=151`
 let singleurl = `https://pokeapi.co/api/v2/pokemon/`
+
 // import bootstrapState from '../element/Bootstrap'    you are not able to export state within useEffect. exports && imports have to be at the top level above where state would be. 
 
 
@@ -9,7 +10,7 @@ let singleurl = `https://pokeapi.co/api/v2/pokemon/`
 export default async function APIcall(method, poke, type, randomAmount) {          
     // if (poke == result.name) {
     //     let clean1liner = result.url.slice(result.url.length - 5).replace(/[/\/a-z]/g, '')
-    //     let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${clean1liner}.png`
+//     let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${clean1liner}.png`
 
 
     const randombucket = [] || new Array()
@@ -28,11 +29,22 @@ export default async function APIcall(method, poke, type, randomAmount) {
     if (method === 'specify' && poke) {
         let singledatacall = await Axios.get(`${singleurl}${poke}`)        
         let singledata = singledatacall.data
-        return poke = {
+        let imageurl = `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${singledata.id}.png`
+        console.log('singledata')
+        console.log(singledata)
+        
+        // return poke = {
+        //     name: singledata.name,
+        //     id: singledata.id,
+        //     image: `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${singledata.id}.png`
+        // }        
+        const  mypoke = {
             name: singledata.name,
             id: singledata.id,
             image: `https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${singledata.id}.png`
         }        
+        return [singledata, mypoke]
+        
         /*
         results.forEach( (result) => {
             if (poke === result.name) {
