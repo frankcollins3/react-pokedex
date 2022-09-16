@@ -1,26 +1,38 @@
 import APIcall from './pokeAPI'
 import Axios from 'axios';
 
-let evolveurl = `https://pokeapi.co/api/v2/evolution-chain`
+let evolveurl = `https://pokeapi.co/api/v2/evolution-chain/`
 
-export default function EvolutionChain (starter) {
+export default async function EvolutionChain (starter) {
     
-    APIcall('specify', starter).then(async(data) => {
-        console.log(data)
-        console.log(data.name)
-    })
+    // APIcall('specify', starter).then(async(data) => {
+    //     console.log(data)
+    //     console.log(data.name)
+    // })
+    let singlepoke = await APIcall('specify', starter)
+    // console.log('singlepoke')
+    // console.log(singlepoke)
 
      Axios.get(evolveurl).then( (ev) => {
         const chain = ev.data.results // oops forgot the .results
 
-        chain.forEach( (jewelryjoketime) => {
-            console.log('jewelryjoketime')
-            console.log(jewelryjoketime)
+        chain.forEach(async(jewelryjoketime) => {
+            // console.log('jewelryjoketime')
+            // console.log(jewelryjoketime)
             let precleanurl = jewelryjoketime.url
             let len = precleanurl.length
             let evolvechainurlint = precleanurl.slice(len - 5).replace(/[/\/a-z]/g, '')
-            console.log('evolvechainurl')
-            console.log(evolvechainurlint)
+            let evolveaccess = await Axios.get(`${evolveurl}${evolvechainurlint}`)
+            
+            let individualchain = evolveaccess.data.chain
+            console.log('individualchain')
+            console.log(individualchain)
+            
+            let name = evolveaccess.data.chain.species.name
+            if (singlepoke.name === name) console.log(`heres the ${name}`)
+            else { return }
+            // if (name == )            
+
         })
         
      })
