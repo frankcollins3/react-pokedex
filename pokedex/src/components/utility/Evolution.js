@@ -7,15 +7,8 @@ URLcleaner(`https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokem
 let evolveurl = `https://pokeapi.co/api/v2/evolution-chain/`
 
 export default async function EvolutionChain (starter) {
-
     let evolveArray = [] || new Array()
-    // APIcall('specify', starter).then(async(data) => {
-    //     console.log(data)
-    //     console.log(data.name)
-    // })
-    let singlepoke = await APIcall('specify', starter)
-    console.log('singlepoke')
-    console.log(singlepoke)
+    let singlepoke = await APIcall('specify', starter)    
     
     let prestarter1 = await ObjectTemplate(starter)
     let starter1 = {
@@ -23,13 +16,12 @@ export default async function EvolutionChain (starter) {
         id: prestarter1[1].id,
         image: prestarter1[1].image
     }
-    evolveArray.push(starter1)
+    evolveArray.push(starter1)         
+    // hmm seeing how many simple/similar pokeObjects we are handmaking kind of makes me wish I made an object template to export/import and mutate. 
     
     // ****** ****  babyEvolvesTo && evolveEvolvesTo && singlepoke we have our 3 starter pokemon. ****** ****
     const getDataPushData = () => {
-        Axios.get(evolveurl).then( (ev) => {
-        console.log(ev)
-        console.log(ev)
+        Axios.get(evolveurl).then( (ev) => {        
            const chain = ev.data.results // oops forgot the .results
            chain.forEach(async(jewelryjoketime) => {                      
                let precleanurl = jewelryjoketime.url
@@ -69,8 +61,10 @@ export default async function EvolutionChain (starter) {
         const getDataCheckData = async () => {
             await getDataPushData()
             await checkBucket()
+
+            return evolveArray
         }
-        getDataCheckData()            
+        return getDataCheckData()            
 }       // default end 
 
 
