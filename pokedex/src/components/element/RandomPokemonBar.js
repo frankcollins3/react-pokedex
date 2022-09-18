@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef, createRef } from 'react'
 import APIcall from '../utility/pokeAPI'
 import ReturnRandomPoke from '../utility/RandomPokemon'
 import { $ } from 'react-jquery-plugin'; 
 import GiveAndGet from '../utility/GiveAndGetData'
 import EvolutionChain from '../utility/Evolution'
+import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || import Alert from 'react-bootstrap/Alert'
+
 // console.log('GiveAndGet')
 // console.log(GiveAndGet)
-let id = [1, 4, 7]
-let randomid = id[Math.floor(Math.random()*id.length)]
+// let id = [1, 4, 7]
+// let randomid = id[Math.floor(Math.random()*id.length)]
 
 // EvolutionChain(randomid)
 
@@ -26,25 +28,36 @@ let evolvebucket = ['heyy', 'yeah', 'sure'];                    // set them all 
 
 
 function Bar(props) {
+    // console.log('props')
+    // console.log(props)
+    // console.log('props.pokedexClick')
+    // console.log(props.pokedexClick)
+
+    let BAR = $('.Bar-Wrap')
+    
+    const screenTestObj = useRef(BAR)
+    console.log('screenTestObj')
+    console.log(screenTestObj)
+    let parent = screenTestObj.current.offsetParent
+    
+
     
     
 
-    const [evolvePokemon, setEvolvePokemon] = useState([])
+    const [evolvePokemon, setEvolvePokemon] = useState(['yeah', 'sure', 'this', 'works'])
     
 
     for (i; i < props.randomPokemon; i++) {
-        // let button = document.createElement('div').addClass('PokeDisplay')
+
     }
 
+
     let looplength = props.randomPokemon.length        
+
     useEffect(() => {
-        ( async() => {
-            let evolve = await EvolutionChain(randomid)   
-            console.log('evolve') 
-            await console.log(evolve) 
-            // await setEvolvePokemon(evolve)
-            console.log('evolvePokemon')
-            await console.log(evolvePokemon)
+
+        ( async() => { 
+            
         })()
         
 
@@ -52,19 +65,16 @@ function Bar(props) {
             APIcall('random', null, null, 3).then(async(data) => {      // 3 hours. this now works for 1 or 3
                     await props.setRandomPokemon(data)
             })        
-            // a little weird. if you enter 3 it returns 4 pokemon.     (4) [{…}, {…}, {…}, {…}] !! ha. changed 3 to 2 and was rejected by condition [% 2 !== 0] not being met. I took out condition and now it (2) creates 3 randomPokemon. 
+
         }
         randomizer2()
 
-        const checkTypes = () => {
+        const checkTypes = () => {            
         }
         checkTypes()
     }, [])  
 
-    let checkAgain = () => {
-        // console.log(evolvebucket)
-        console.log('evolvePokemon')
-        console.log(evolvePokemon)
+    let checkAgain = () => {        
     }
     evolvebucket.map( (map) => {
         // console.log('map')
@@ -73,6 +83,8 @@ function Bar(props) {
     let pokemap = props.randomPokemon.map( (mapitem, idx) => {
         return ( 
         <img 
+        // props.pokedexClick == true? display block if true none if false
+        // style= {{ display: }}
         className="Poke-Bar-Pokemon" 
         key={idx}
         src={mapitem.img}
@@ -81,61 +93,49 @@ function Bar(props) {
         )
     })
 
-    let evolvemap = evolvePokemon.map( (map, idx) => {
-        console.log(map.length)     // getting somewhere with this.
-
-        return (
-            <p key={idx}> {map} </p>
+    let evolvemap = props.evolvePokemon.map( (mapitem, idx) => {            // just tried to put a pokemap over here. no good.
+        return (        
+        <img
+        className="Poke-Bar-Pokemon"
+        key={idx}
+        src={mapitem}
+        />
         )
     })
 
+
+        
     
 
     setTimeout( () => {
-        // console.log(evolvebucket)
-        console.log(evolvePokemon)
+
+
     }, 1000)
     
-    // $(document).ready( (event) => {
-        // console.log(event)
+    const screenTest = () => {
 
-    // const lookInTheBucket = async () => {    NO ASYNC in react.js rendering return
-    //     setTimeout( () => {
-    //         let evolvemap = evolvebucket.map( (item, idx) => {
-    //             return (
-    //                 <img 
-    //                 className="Poke-Bar-Pokemon"
-    //                 key={idx}
-    //                 src={item.image}
-    //                 />
-    //                 )
-    //             })
-    //         }, 2000)     
-    // }
-    
-
-
-    
+        
+    }
 
     return (
         <>
-        <div className={pokemap.length === 3 ? "Row-Between" : "Row-Center"}> </div>
-        <button onClick={checkAgain} type="button" className="navBall" id="Ultraball"> </button>
-            <p> {props.mainWrapHover == 'false' ? "It is false" : "it is true"} </p>
-            <ul className={$('.Row-Between').children().length === 3 ? "Row-Between" : "Row-Center"}>
-                {}
-             {/* {pokemap} */}
-
-            {/* {evolvePokemon.map((map)=> {
-                <p> {map} </p>
-            })}     */}
-            {props.mainWrapHover === 'false' ? pokemap : ':) '}
-        
-
-             {/* {setTimeout( () => lookInTheBucket(), 2000)} */}
-             {/* {evolvebucket || pokemap} */}               {/* {evolvebucket} || {pokemap} */}
+        <div id="Bar-Wrap" ref={screenTestObj} className={$('#Poke-Bar-UL').children().length > 1 ? "Row-Between" : "Row-Center"}> 
+            {/* {props.mainWrapHover === 'false' ? pokemap : evolvemap } */}
+            <ul id="Poke-Bar-UL" className="Row-Between">
+            {props.mainWrapHover === 'false'  && props.pokedexClick !== 'true' ? pokemap : evolvemap }
+            {/* <ul className={$('#Bar-Wrap').children().length > 1 ? "Row-Between" : "Row-Center"}> */}
+            {/* <ul className={$('.Row-Between').children().length > 0 ? "Row-Between" : "Row-Center"}> */}
+            {/* <Carousel>
+            <Carousel.Item> */}
+            {/* {props.pokedexClick === 'false' ? pokemap : evolvemap } */}
+            {/* </Carousel.Item>
+            </Carousel> */}
             </ul>
-        {/* <button onClick={checkState} type="button" className="navBall" id="Greatball"> </button> */}
+        </div>
+
+            
+            
+        {/* <button onClick={checkAgain} type="button" className="navBall" id="Ultraball"> </button> */}
         </>     
     )
 
