@@ -39,16 +39,42 @@ function Bar(props) {
 
 
     let BAR = $('.Bar-Wrap')
+    let ul = $('#Poke-Bar-UL')
+
+
+    // $(ul).children().css('opacity', '0.5')
     
     const screenTestObj = useRef(BAR)
     let refTarget = screenTestObj.current
     let parent = screenTestObj.current.offsetBody
 
     let topOfElem = refTarget.offsetHeight 
-    $(refTarget).css('border', '5px solid hotpink')
-    
-    
 
+    // $(refTarget).children().css('border', '5px solid pink')
+
+    // $(refTarget).css('border', '5px solid hotpink')
+    $(refTarget)
+    .css('opacity', '0.1')
+    .animate({
+        opacity: 0.1
+    }, "1000")
+    .animate({
+        opacity: 0.3
+    }, "1000")
+    .animate({
+        opacity: 0.5        
+    }, "1000")
+    .animate({
+        opacity: 0.6        
+    }, "1000")
+    .animate({
+        opacity: 0.8        
+    }, "1000")
+    .animate({
+        opacity: 1.0        
+    }, "1000")
+    
+    console.log($(refTarget))
 
     
     
@@ -64,6 +90,7 @@ function Bar(props) {
     let looplength = props.randomPokemon.length        
 
     useEffect(() => {
+        // if (url)
 
         ( async() => { 
             
@@ -83,10 +110,11 @@ function Bar(props) {
         checkTypes()
     }, [])  
 
-    let checkAgain = () => {        
-    }
+    // let checkAgain = () => {    
+    // }
+            
     evolvebucket.map( (map) => {
-        // console.log('map')
+
     })
 
     let pokemap = props.randomPokemon.map( (mapitem, idx) => {
@@ -116,22 +144,18 @@ function Bar(props) {
         
     
 
-    setTimeout( () => {
-
-
-    }, 1000)
-    
-    const screenTest = () => {
-
-        
-    }
 
     return (
         <>
         <div id="Bar-Wrap" ref={screenTestObj} className={$('#Poke-Bar-UL').children().length > 1 ? "Row-Between" : "Row-Center"}> 
             {/* {props.mainWrapHover === 'false' ? pokemap : evolvemap } */}
-            <ul id="Poke-Bar-UL" className="Row-Between">
-            {props.mainWrapHover === 'false'  && props.pokedexClick !== 'true' ? pokemap : evolvemap }
+            <ul 
+            style={ { border: props.mainWrapHover === 'false' ? '3px solid papayawhip' : '' }}
+            id="Poke-Bar-UL" className="Row-Between Pokedex-Float">
+
+            {props.mainWrapHover === 'false' ? '' : evolvemap }
+            {/* {props.mainWrapHover === 'false' ? pokemap : evolvemap } */}
+
             {/* <ul className={$('#Bar-Wrap').children().length > 1 ? "Row-Between" : "Row-Center"}> */}
             {/* <ul className={$('.Row-Between').children().length > 0 ? "Row-Between" : "Row-Center"}> */}
             {/* <Carousel>
