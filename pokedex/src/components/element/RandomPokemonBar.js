@@ -32,14 +32,23 @@ function Bar(props) {
     // console.log(props)
     // console.log('props.pokedexClick')
     // console.log(props.pokedexClick)
+    let pageHeight = $(document).height().toFixed()
+    let pageWidth = $(document).width().toFixed()
+    console.log('pageHeight')
+    console.log(pageHeight)
+
 
     let BAR = $('.Bar-Wrap')
     
     const screenTestObj = useRef(BAR)
-    console.log('screenTestObj')
-    console.log(screenTestObj)
-    let parent = screenTestObj.current.offsetParent
+    let refTarget = screenTestObj.current
+    let parent = screenTestObj.current.offsetBody
+
+    let topOfElem = refTarget.offsetHeight 
+    $(refTarget).css('border', '5px solid hotpink')
     
+    
+
 
     
     
