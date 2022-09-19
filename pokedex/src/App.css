@@ -14,6 +14,7 @@
 
 .Main-Wrap {
   overflow-y: hidden;
+  /* border: 3px solid brown; */
 }
   
 .Column-Center {
@@ -86,6 +87,13 @@
   background-repeat: no-repeat;
 }
 
+.BackPack {
+  background-image: url("/public/img/bag.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+
 /* SCREEN */
 .Screen {  
   padding: 4em 0 4em 0;
@@ -147,7 +155,7 @@
 
 .Header-Container {
   margin-top: 1.5em;
-  height: 2em;
+  height: 5em;
   width: 30%;
   border: rgb(151, 135, 135);
 }
@@ -318,6 +326,14 @@
 .Pokeball-Animate {
 animation: Gentle-Rotate 4s; 
 animation-iteration-count: 1
+}
+
+.Pokedex-Text {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  position: relative;
+  top: 1em;
 }
 
 @keyframes Gentle-Rotate {
