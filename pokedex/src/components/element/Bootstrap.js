@@ -7,6 +7,7 @@ import Bar from './RandomPokemonBar'
 import ClassAction from '../utility/ClassAction'
 import TrueFalseTool from '../utility/BooleanStateTool'
 import EvolutionChain from '../utility/Evolution'
+import myCSS from '../utility/CSStool'
 
 let id = [1, 4, 7]
 let randomid = id[Math.floor(Math.random()*id.length)]
@@ -36,6 +37,7 @@ function BootstrapScreen() {
 
 
     const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
+    // const observerRef = useRef(observerTarget)
 
     const [observerEntryState, setObserverEntryState] = useState([])
     const [randomPokemon, setRandomPokemon] = useState([])
@@ -43,8 +45,7 @@ function BootstrapScreen() {
 
     const [ghost, setGhost] = useState('false')
 
-
-
+    
 
     let pokeRefs = useRef([]);      
 
@@ -61,10 +62,16 @@ function BootstrapScreen() {
             if (entry.isIntersecting) {
                 let siblingButton = $(entry.target).siblings()[0]                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
                 setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
+                
                 hiddenTag.click( (event) => {
-                    ClassAction('add', $(observerEntryState), 'Pokeball-Animate')
+                    ClassAction('add', $(observerEntryState), 'Pokeball-Animate')                    
                 })
-                entry.target.style.border = '5px solid hotpink';
+                $(entry.target).on('mouseenter', () => {
+                    myCSS($(entry.target), 'border', '10px solid')
+                    // $(entry.target)
+                })
+                    
+
             } else {
                 setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
                 // ClassAction('remove', entry.target.siblings()[0], 'Pokeball-Animate')        we have lost reference of our jqObject
@@ -85,26 +92,20 @@ function BootstrapScreen() {
 
     // useEffect
     useEffect( () => {
-        (async () => {
-            // let [starterchainevolve] = await EvolutionChain(randomid)            
-            let starterchainevolve = await EvolutionChain(randomid)            
-            let starterchainevolve2 = await EvolutionChain('squirtle')            
 
-            
-            await console.log(starterchainevolve)             // [{…}]        confused why this cons.log returns this output below
-            // 0: {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
-            // 1: {name: 'wartortle', id: 8, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'}
-            // 2: {name: 'blastoise', id: 9, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'}
-            await starterchainevolve.map( (mapitem) => console.log(mapitem))   // but when you map it only returns the first value. 
-            // {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+        (async() => {
+            let squirtle = await APIcall('specify', 'squirtle')
+            let bulbasaur = await APIcall('specify', 'bulbasaur')
+            let charmander = await APIcall('specify', 'charmander')
 
-            // console.log(starterchainevolve[0]) charmander
-            // console.log(starterchainevolve[1]) undefined
-            // console.log(starterchainevolve[2]) undefined
-            
-            
+            let squirtleIMG = squirtle[1].image
+            let bulbasaurIMG = bulbasaur[1].image
+            let charmIMG = charmander[1].image
+            let imageArray = [squirtleIMG, bulbasaurIMG, charmIMG]
+            await setEvolvePokemon(imageArray)
+            // await console.log(imageArray)
         })()
-       
+
 
         let pokedexObj = createRef()
         let pokedex = $(pokedexObj)    
@@ -177,7 +178,8 @@ function BootstrapScreen() {
                 setTimeout( () => {
                     pokedexBg()      
                     setInputHide('true')              
-                }, 1000)                       
+                    
+                }, 4000)                       
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
                 setPokedexClick('true')                
                 $('*').removeClass('Pokedex-Animate')
@@ -202,9 +204,7 @@ function BootstrapScreen() {
         console.log('click')
     })
 
-    // $('.Invisible-P').on('mouseenter', () => {
-    //     console.log("hey were hovering on pointer-events: none")
-    // })
+    
 
     if (pokedexClick == 'true') {
     return (
@@ -214,6 +214,8 @@ function BootstrapScreen() {
             </div>
         <div className="Screen Column-Between">
                <ul id="Render-Ul">
+                
+
                 {pokeRefs.current.map((el, i) =>
                         <div key={`key${i}`} className="Map-Parent Column-Center">
                         {/* <Card> */}
@@ -242,8 +244,7 @@ function BootstrapScreen() {
                     onMouseEnter={pokedexIconHover}
                     style = {
                         {
-                            //  backgroundImage: pokedexHover == 'false' ? 'block' : 'none'
-                            //  display: pokedexHover == 'false' ? 'block' : 'none',
+
                          }
                     }
                     className = {pokedexHover === 'false' ? "Pokedex Close-Pokedex Quarter-Size" : "Open-Pokedex Pokedex Quarter-Size" }                     
@@ -267,7 +268,13 @@ else  {
             {/* <div onMouseEnter={TrueFalseTool([mainWrapHover], [setMainWrapHover()], 'true' )} className="Main-Wrap Column-Between"> */}
 
             <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>   
-            <Bar randomPokemon={randomPokemon} setRandomPokemon={setRandomPokemon} ghost={ghost} mainWrapHover={mainWrapHover}/>              
+
+            <Bar randomPokemon={randomPokemon} setRandomPokemon={setRandomPokemon} 
+            ghost={ghost} mainWrapHover={mainWrapHover} 
+            evolvePokemon={evolvePokemon} setEvolvePokemon={setEvolvePokemon}
+            pokedexClick={pokedexClick}
+            
+            />              
   
             <input 
             style={{ display: inputHide === 'false' ? 'none' : 'block'}}            
@@ -280,8 +287,10 @@ else  {
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>    
 
             <div className="Header-Container Column-Center">    
-            <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> How many Pokemon </h1>        
-            <h4 className="Pokedex-Text" style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>        
+            <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> Welcome!   </h1>        
+            <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}>  How many Pokemon  </h1>        
+            <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}>  Would You like to See?  </h1>        
+            {/* <h4 className="Pokedex-Text" style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>         */}
             </div>
             </div>    
     )
