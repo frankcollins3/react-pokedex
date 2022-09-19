@@ -60,14 +60,16 @@ function BootstrapScreen() {
     let jqObserver = new IntersectionObserver((entries) => {
         entries.forEach( (entry) => {            
             if (entry.isIntersecting) {
+        
                 let siblingButton = $(entry.target).siblings()[0]                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
+                
                 setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
                 
                 hiddenTag.click( (event) => {
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')                    
                 })
-                $(entry.target).on('mouseenter', () => {
-                    myCSS($(entry.target), 'border', '10px solid')
+                $(entry.target).on('mouseenter', (event) => {
+                    myCSS($(event.target), 'border', '10px solid goldenrod')
                     // $(entry.target)
                 })
                     
@@ -80,8 +82,10 @@ function BootstrapScreen() {
         })
     }, {threshold: 0.9})
     let allCards = document.querySelectorAll('.Poke-Card-Img')
+    // let allMapParents = document.querySelectorAll('.Map-Parent')
 
     allCards.forEach( (card) => {
+        // jqObserver.observe(card)
         jqObserver.observe(card)
     })
 
@@ -132,6 +136,11 @@ function BootstrapScreen() {
         await setPreInputValue('')  
         await setRefLength([])      
         return
+    }
+
+    const checkAgain = () => {
+        console.log('observerEntryState')
+        console.log(observerEntryState)
     }
 
     const handleWrapHover = () => setMainWrapHover("true")
@@ -200,10 +209,15 @@ function BootstrapScreen() {
         })
     }
 
-    $('.Bootstrap-Screen-Btn').click( (event) => {
-        console.log('click')
-    })
+    let letsSEE = (event) => {
+        console.log(event)
+       let imageSrc = event.target.src
+       let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
+       console.log('regexID')
+       console.log(regexID)
 
+
+    }
     
 
     if (pokedexClick == 'true') {
@@ -212,6 +226,7 @@ function BootstrapScreen() {
             <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             </div>
+            <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
         <div className="Screen Column-Between">
                <ul id="Render-Ul">
                 
@@ -220,6 +235,7 @@ function BootstrapScreen() {
                         <div key={`key${i}`} className="Map-Parent Column-Center">
                         {/* <Card> */}
                         <img 
+                        onMouseEnter={letsSEE}
                         className="Poke-Card-Img"
                         src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
@@ -299,3 +315,14 @@ else  {
 export default BootstrapScreen
 
 
+
+// await console.log(starterchainevolve)             // [{…}]        confused why this cons.log returns this output below
+// 0: {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+// 1: {name: 'wartortle', id: 8, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'}
+// 2: {name: 'blastoise', id: 9, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'}
+// await starterchainevolve.map( (mapitem) => console.log(mapitem))   // but when you map it only returns the first value. 
+// {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+
+// console.log(starterchainevolve[0]) charmander
+// console.log(starterchainevolve[1]) undefined
+// console.log(starterchainevolve[2]) undefined
