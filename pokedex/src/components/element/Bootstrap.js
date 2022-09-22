@@ -72,13 +72,14 @@ function BootstrapScreen() {
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')                    
                 })
                 $(entry.target).on('mouseenter', (event) => {
-                    myCSS($(event.target), 'border', '10px solid goldenrod')
+                    // myCSS($(event.tar))
+                    // myCSS($(event.target), 'border', '10px solid goldenrod')
                     // $(entry.target)
                 })
                     
 
             } else {
-                setHoverImage('')
+                setTimeout(setHoverImage(''), 2000)
                 setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
                 // ClassAction('remove', entry.target.siblings()[0], 'Pokeball-Animate')        we have lost reference of our jqObject
                 entry.target.style.border = '';
@@ -215,21 +216,44 @@ function BootstrapScreen() {
     }
 
     let hoverHandler = async (event) => {
-        console.log('hoverImage')
-        console.log(hoverImage)
-        // console.log('hoverHandler')
-        // console.log(hoverHandler)
         console.log(event)
-        console.log(event.target)
-       let imageSrc = event.target.src // am also going to use this to store the original image. 
-       let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
-       let backImage = await GetImage(regexID, 'back') // options are: front, back, shiny.
-       setHoverImage(backImage)
-       
+        let imageSrc = event.target.currentSrc 
 
+        // console.log('imageSrc')
+        // console.log(imageSrc)
 
+        let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
+        let backImage = await GetImage(regexID, 'back') 
+        let frontImage = await GetImage(regexID, 'front')
+        await $(event.target).attr('src', backImage)
+        imageSrc = ''
+        regexID = ''
+        backImage = ''
+        frontImage = ''
+    }
 
-    //    GetImage(regexID, 'back') // options are: front, back, shiny.
+    let mouseLeaveHandler = async ( event) => {
+        // let imageSrc = event.target.src 
+        // console.log('imageSrc')
+        // console.log(imageSrc)
+        // let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
+        // let backImage = await GetImage(regexID, 'back') 
+        // let frontImage = await GetImage(regexID, 'front')
+        // await $(event.target).attr('src', frontImage)
+    }
+
+    let imageClickHandler = async (event) => {
+        // let imageSrc = event.target.src 
+        // let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
+        // let backImage = await GetImage(regexID, 'back') 
+        // let frontImage = await GetImage(regexID, 'front')
+        // await $(event.target).attr('src', backImage)
+        // imageSrc = ''
+        // regexID = ''
+        // backImage = ''
+        // frontImage = ''
+        // const resetTarget = () => $(event.target).attr('src', frontImage ) // this will either make the image nothing or set it back to its inline style.
+        // await setTimeout(resetTarget, 2000)
     }
     
 
@@ -249,6 +273,8 @@ function BootstrapScreen() {
                         {/* <Card> */}
                         <img 
                         onMouseEnter={hoverHandler}
+                        onMouseLeave={mouseLeaveHandler}
+                        onClick={imageClickHandler}
                         className="Poke-Card-Img"
                         src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         // src={setHoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
@@ -328,16 +354,3 @@ else  {
 }
 }       // function Screen() { end }
 export default BootstrapScreen
-
-
-
-// await console.log(starterchainevolve)             // [{…}]        confused why this cons.log returns this output below
-// 0: {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
-// 1: {name: 'wartortle', id: 8, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'}
-// 2: {name: 'blastoise', id: 9, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'}
-// await starterchainevolve.map( (mapitem) => console.log(mapitem))   // but when you map it only returns the first value. 
-// {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
-
-// console.log(starterchainevolve[0]) charmander
-// console.log(starterchainevolve[1]) undefined
-// console.log(starterchainevolve[2]) undefined
