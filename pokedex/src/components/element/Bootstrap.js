@@ -9,6 +9,7 @@ import TrueFalseTool from '../utility/BooleanStateTool'
 import EvolutionChain from '../utility/Evolution'
 import GetImage from '../utility/ImageTool'
 import myCSS from '../utility/CSStool'
+import attrTool from '../utility/attrTool'
 
 
 let id = [1, 4, 7]
@@ -216,6 +217,17 @@ function BootstrapScreen() {
     }
 
     let hoverHandler = async (event) => {
+        console.log('event')
+        console.log(event)
+        let target = event.target
+        let classList = target.classList
+        // console.log(classList) DOMTokenList(2) ['Poke-Card-Img', 'id9', value: 'Poke-Card-Img id9'] // we run our [a-z] escaping regex to retrieve our ID # 9 (array based indexing) out of sync with pokeAPI.        
+        let pokeIDclass = classList[1].replace(/[a-z]/g, '') 
+        let idInt = parseInt(pokeIDclass)
+        let newId = idInt + 1        
+        let backImage = await GetImage(newId, 'back')
+        // await setHoverImage(backImage)
+        await attrTool(target, 'src', backImage)
         
     }
 
@@ -230,29 +242,18 @@ function BootstrapScreen() {
     }
 
     let imageClickHandler = async (event) => {
-        console.log('event')
-        console.log(event)
-        let target = event.target
-        let classList = target.classList
-        
-        let pokeIDclass = classList[1].replace(/[a-z]/g, '') 
-        let idInt = parseInt(pokeIDclass)
-        let newId = idInt + 1
-        console.log('newId')
-        console.log(newId)
-        
-
-        // let imageSrc = event.target.src 
-        // let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
-        // let backImage = await GetImage(regexID, 'back') 
-        // let frontImage = await GetImage(regexID, 'front')
-        // await $(event.target).attr('src', backImage)
-        // imageSrc = ''
-        // regexID = ''
-        // backImage = ''
-        // frontImage = ''
-        // const resetTarget = () => $(event.target).attr('src', frontImage ) // this will either make the image nothing or set it back to its inline style.
-        // await setTimeout(resetTarget, 2000)
+        // console.log('event')
+        // console.log(event)
+        // let target = event.target
+        // let classList = target.classList
+        // let pokeIDclass = classList[1].replace(/[a-z]/g, '') 
+        // let idInt = parseInt(pokeIDclass)
+        // let newId = idInt + 1        
+        // let backImage = await GetImage(newId, 'back')
+        // await attrTool(target, 'src', backImage)
+        // await setHoverImage(backImage)
+        // console.log(classList) DOMTokenList(2) ['Poke-Card-Img', 'id9', value: 'Poke-Card-Img id9'] // we run our [a-z] escaping regex to retrieve our ID # 9 (array based indexing) out of sync with pokeAPI.        
+       
     }
     
 
@@ -262,7 +263,7 @@ function BootstrapScreen() {
             <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             </div>
-            <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
+            {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
         <div className="Screen Column-Between">
                <ul id="Render-Ul">
                 
@@ -354,16 +355,3 @@ else  {
 }
 }       // function Screen() { end }
 export default BootstrapScreen
-
-
-
-// await console.log(starterchainevolve)             // [{…}]        confused why this cons.log returns this output below
-// 0: {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
-// 1: {name: 'wartortle', id: 8, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'}
-// 2: {name: 'blastoise', id: 9, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'}
-// await starterchainevolve.map( (mapitem) => console.log(mapitem))   // but when you map it only returns the first value. 
-// {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
-
-// console.log(starterchainevolve[0]) charmander
-// console.log(starterchainevolve[1]) undefined
-// console.log(starterchainevolve[2]) undefined
