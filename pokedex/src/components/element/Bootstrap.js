@@ -216,20 +216,7 @@ function BootstrapScreen() {
     }
 
     let hoverHandler = async (event) => {
-        console.log(event)
-        let imageSrc = event.target.currentSrc 
-
-        // console.log('imageSrc')
-        // console.log(imageSrc)
-
-        let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
-        let backImage = await GetImage(regexID, 'back') 
-        let frontImage = await GetImage(regexID, 'front')
-        await $(event.target).attr('src', backImage)
-        imageSrc = ''
-        regexID = ''
-        backImage = ''
-        frontImage = ''
+        
     }
 
     let mouseLeaveHandler = async ( event) => {
@@ -243,6 +230,14 @@ function BootstrapScreen() {
     }
 
     let imageClickHandler = async (event) => {
+        console.log('event')
+        console.log(event)
+        let target = event.target
+        let classList = target.classList
+        let pokeIDclass = classList[1].replace(/[a-z]/g, '')+1 // type inference changed this to a string so blastoise which is poke#9 came out to 81. '8 + 1'
+        console.log('pokeIDclass')
+        console.log(pokeIDclass)
+
         // let imageSrc = event.target.src 
         // let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
         // let backImage = await GetImage(regexID, 'back') 
@@ -275,7 +270,8 @@ function BootstrapScreen() {
                         onMouseEnter={hoverHandler}
                         onMouseLeave={mouseLeaveHandler}
                         onClick={imageClickHandler}
-                        className="Poke-Card-Img"
+                        className={`Poke-Card-Img id${i}`}
+                        // className="Poke-Card-Img"
                         src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         // src={setHoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         // src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
@@ -354,3 +350,16 @@ else  {
 }
 }       // function Screen() { end }
 export default BootstrapScreen
+
+
+
+// await console.log(starterchainevolve)             // [{…}]        confused why this cons.log returns this output below
+// 0: {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+// 1: {name: 'wartortle', id: 8, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'}
+// 2: {name: 'blastoise', id: 9, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'}
+// await starterchainevolve.map( (mapitem) => console.log(mapitem))   // but when you map it only returns the first value. 
+// {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+
+// console.log(starterchainevolve[0]) charmander
+// console.log(starterchainevolve[1]) undefined
+// console.log(starterchainevolve[2]) undefined
