@@ -7,7 +7,9 @@ import Bar from './RandomPokemonBar'
 import ClassAction from '../utility/ClassAction'
 import TrueFalseTool from '../utility/BooleanStateTool'
 import EvolutionChain from '../utility/Evolution'
+import GetImage from '../utility/ImageTool'
 import myCSS from '../utility/CSStool'
+
 
 let id = [1, 4, 7]
 let randomid = id[Math.floor(Math.random()*id.length)]
@@ -35,12 +37,13 @@ function BootstrapScreen() {
     const [evolvePokemon, setEvolvePokemon] = useState([])
 
 
-
     const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
+    const [hoverImage, setHoverImage] = useState('')
     // const observerRef = useRef(observerTarget)
 
     const [observerEntryState, setObserverEntryState] = useState([])
     const [randomPokemon, setRandomPokemon] = useState([])
+
     
 
     const [ghost, setGhost] = useState('false')
@@ -139,8 +142,9 @@ function BootstrapScreen() {
     }
 
     const checkAgain = () => {
-        console.log('observerEntryState')
-        console.log(observerEntryState)
+        console.log('hoverImage')
+        console.log(hoverImage)
+        console.log(hoverImage.length)
     }
 
     const handleWrapHover = () => setMainWrapHover("true")
@@ -209,14 +213,22 @@ function BootstrapScreen() {
         })
     }
 
-    let letsSEE = (event) => {
+    let hoverHandler = async (event) => {
+        console.log('hoverImage')
+        console.log(hoverImage)
+        // console.log('hoverHandler')
+        // console.log(hoverHandler)
         console.log(event)
-       let imageSrc = event.target.src
+        console.log(event.target)
+       let imageSrc = event.target.src // am also going to use this to store the original image. 
        let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
-       console.log('regexID')
-       console.log(regexID)
+       let backImage = await GetImage(regexID, 'back') // options are: front, back, shiny.
+       setHoverImage(backImage)
+       
 
 
+
+    //    GetImage(regexID, 'back') // options are: front, back, shiny.
     }
     
 
@@ -235,9 +247,10 @@ function BootstrapScreen() {
                         <div key={`key${i}`} className="Map-Parent Column-Center">
                         {/* <Card> */}
                         <img 
-                        onMouseEnter={letsSEE}
+                        onMouseEnter={hoverHandler}
                         className="Poke-Card-Img"
-                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
+                        src={setHoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
+                        // src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
                         />
                         <Button 
                         size="lg"
