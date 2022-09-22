@@ -78,6 +78,7 @@ function BootstrapScreen() {
                     
 
             } else {
+                setHoverImage('')
                 setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
                 // ClassAction('remove', entry.target.siblings()[0], 'Pokeball-Animate')        we have lost reference of our jqObject
                 entry.target.style.border = '';
