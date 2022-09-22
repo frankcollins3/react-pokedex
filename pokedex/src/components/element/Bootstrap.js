@@ -234,9 +234,13 @@ function BootstrapScreen() {
         console.log(event)
         let target = event.target
         let classList = target.classList
-        let pokeIDclass = classList[1].replace(/[a-z]/g, '')+1 // type inference changed this to a string so blastoise which is poke#9 came out to 81. '8 + 1'
-        console.log('pokeIDclass')
-        console.log(pokeIDclass)
+        
+        let pokeIDclass = classList[1].replace(/[a-z]/g, '') 
+        let idInt = parseInt(pokeIDclass)
+        let newId = idInt + 1
+        console.log('newId')
+        console.log(newId)
+        
 
         // let imageSrc = event.target.src 
         // let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
