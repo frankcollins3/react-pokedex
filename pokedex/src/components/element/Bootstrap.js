@@ -14,6 +14,8 @@ import GetImage from '../utility/ImageTool'
 import toggleHideShow from '../utility/hideShow'
 import myCSS from '../utility/CSStool'
 import attrTool from '../utility/attrTool'
+import animate from '../utility/animationTool'
+
 // strange error
 
 let id = [1, 4, 7]
@@ -83,14 +85,11 @@ function BootstrapScreen() {
                     $(observerEntryState)
                     .animate({
                         border: '5px solid transparent'
-                    }, 4000, function() {
+                    }, 4000, function(event) {
+                        console.log(event)
                         // $(observerEntryState).css("opacity", '0.1');
                         myCSS($(observerEntryState), 'opacity', '0.1' )
-                    })
-                    // setTimeout(myCSS($(observerEntryState), 'opacity', '0.1' ), 4500)
-                    
-                    
-                    // siblingButton.css('border', '5px solid orange')
+                    })                    
                 })                                    
                     
 
@@ -162,12 +161,13 @@ function BootstrapScreen() {
     }
 
     const checkAgain = () => {
-        console.log('hoverImage')
-        console.log(hoverImage)
-        console.log(hoverImage.length)
+    animate(hiddenTag, 4, ['opacity', 'border'], ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'], ['500', '1000', '3000'])  
     }
 
-    const handleWrapHover = () => setMainWrapHover("true")
+    const handleWrapHover = () => {
+
+        setMainWrapHover("true")
+    }
 
     // have to get these two strings connected.
     const handleInput = async ({ target: {value}}) => 
@@ -205,10 +205,12 @@ function BootstrapScreen() {
         toggleHideShow($('.Invisible-P'), 'hide')
     }
 
-    setInterval( () => {
-        if (clickHintAppear === 'false') setClickHintAppear('true')
-        else if (clickHintAppear === 'true') setClickHintAppear('false')
-    }, 2000)
+    // setInterval( () => {
+    //     if (clickHintAppear === 'false') setClickHintAppear('true')
+    //     else if (clickHintAppear === 'true') setClickHintAppear('false')
+    // }, 4000)
+    
+    // selector, n, propertyBucket, valueBucket, duration
 
     const pokedexClickHandler = (e) => {
         let clickEventClass = e.target.attributes.class.nodeValue
@@ -288,7 +290,7 @@ function BootstrapScreen() {
             <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             </div>
-            <button type="button" className="navBall" id="Greatball"> </button>
+            <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
         <div className="Screen Column-Between">
                <ul id="Render-Ul">
                 
@@ -314,8 +316,8 @@ function BootstrapScreen() {
                         > 
                         </Button>
                         <img
-                        style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }} 
-                        // style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }} 
+                        // style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }}     
+                        //  this style is set to be toggled from a setInterval. It is not a pretty sight and i think that can be fixed with a long animation that fades out.                         
                         className="Invisible-P" src={"/img/leftClick.png"} 
                         />
                         {/* <p onClick={hintText} className="Invisible-P"> 'click me' </p> */}
@@ -330,12 +332,7 @@ function BootstrapScreen() {
         </div>               {/* screen end  */}
             <div  className="Hidden-Input-Container Row-Center Half-Size">    
                     <div 
-                    onMouseEnter={pokedexIconHover}
-                    style = {
-                        {
-
-                         }
-                    }
+                    onMouseEnter={pokedexIconHover}                    
                     className = {pokedexHover === 'false' ? "Pokedex Close-Pokedex Quarter-Size" : "Open-Pokedex Pokedex Quarter-Size" }                     
                     // className="Pokedex Close-Pokedex Quarter-Size"                     
                     >
