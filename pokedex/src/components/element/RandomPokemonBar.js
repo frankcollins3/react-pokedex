@@ -4,21 +4,13 @@ import ReturnRandomPoke from '../utility/RandomPokemon'
 import { $ } from 'react-jquery-plugin'; 
 import GiveAndGet from '../utility/GiveAndGetData'
 import EvolutionChain from '../utility/Evolution'
+import toggleHideShow from '../utility/hideShow'
+import myCSS from '../utility/CSStool'
 import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || import Alert from 'react-bootstrap/Alert'
 
-// console.log('GiveAndGet')
-// console.log(GiveAndGet)
-// let id = [1, 4, 7]
-// let randomid = id[Math.floor(Math.random()*id.length)]
-
-// EvolutionChain(randomid)
-
-
-// EvolutionChain('charizard')
 
 
 let i = 0;
-// jquery
 let BarCont = $('.Poke-Bar')
 
 let evolvebucket = ['heyy', 'yeah', 'sure'];                    // set them all equal to 4 and if evolvebucket||evolvePokemonState.map( (mapitem) => if (mapitem.length === 4) return else (return <img .src={evolvePokemonState.img}))
@@ -28,21 +20,17 @@ let evolvebucket = ['heyy', 'yeah', 'sure'];                    // set them all 
 
 
 function Bar(props) {
-    // console.log('props')
-    // console.log(props)
-    // console.log('props.pokedexClick')
-    // console.log(props.pokedexClick)
+    
     let pageHeight = $(document).height().toFixed()
     let pageWidth = $(document).width().toFixed()
-    console.log('pageHeight')
-    console.log(pageHeight)
 
 
     let BAR = $('.Bar-Wrap')
     let ul = $('#Poke-Bar-UL')
+    let pokemon = $('.Poke-Bar-Pokemon')
 
-
-    // $(ul).children().css('opacity', '0.5')
+   
+    // JQ or useRef bank DOM targeting.
     
     const screenTestObj = useRef(BAR)
     let refTarget = screenTestObj.current
@@ -72,31 +60,36 @@ function Bar(props) {
     }, "1000")
     .animate({
         opacity: 1.0        
-    }, "1000")
+    }, "1000", () => {
+        $(refTarget)
+        .css('opacity', '0.1')
+        .fadeOut("3000")
+        
+    })
     
-    console.log($(refTarget))
+setTimeout(async() => {  
+    //      nice idea but i think it looks better without it. good habit to use every single selector based function
+    if (props.mainWrapHover === 'true') {
+        // toggleHideShow($(refTarget), 'hide')
+    }
+}, 5000)
 
     
+
+
+    // setTimeout(toggleHideShow($(refTarget), 'hide'),'4000')
+
     
 
     const [evolvePokemon, setEvolvePokemon] = useState(['yeah', 'sure', 'this', 'works'])
     
 
-    for (i; i < props.randomPokemon; i++) {
-
-    }
+    
 
 
     let looplength = props.randomPokemon.length        
 
-    useEffect(() => {
-        // if (url)
-
-        ( async() => { 
-            
-        })()
-        
-
+    useEffect(() => {    
         const randomizer2 = () => {
             APIcall('random', null, null, 3).then(async(data) => {      // 3 hours. this now works for 1 or 3
                     await props.setRandomPokemon(data)
@@ -110,13 +103,10 @@ function Bar(props) {
         checkTypes()
     }, [])  
 
-    // let checkAgain = () => {    
-    // }
-            
+
     evolvebucket.map( (map) => {
 
     })
-
     let pokemap = props.randomPokemon.map( (mapitem, idx) => {
         return ( 
         <img 
@@ -129,7 +119,6 @@ function Bar(props) {
         </img> 
         )
     })
-
     let evolvemap = props.evolvePokemon.map( (mapitem, idx) => {            // just tried to put a pokemap over here. no good.
         return (        
         <img
@@ -151,9 +140,13 @@ function Bar(props) {
             {/* {props.mainWrapHover === 'false' ? pokemap : evolvemap } */}
             <ul 
             style={ { border: props.mainWrapHover === 'false' ? '3px solid papayawhip' : '' }}
-            id="Poke-Bar-UL" className="Row-Between Pokedex-Float">
+            id="Poke-Bar-UL" 
+            className={props.mainWrapHover === 'false' ? 'Row-Between' : 'Row-Between Pokedex-Float'}>
+            {/* lassName="Row-Between Pokedex-Float"> */}
 
             {props.mainWrapHover === 'false' ? '' : evolvemap }
+            </ul>
+            
             {/* {props.mainWrapHover === 'false' ? pokemap : evolvemap } */}
 
             {/* <ul className={$('#Bar-Wrap').children().length > 1 ? "Row-Between" : "Row-Center"}> */}
@@ -163,8 +156,8 @@ function Bar(props) {
             {/* {props.pokedexClick === 'false' ? pokemap : evolvemap } */}
             {/* </Carousel.Item>
             </Carousel> */}
-            </ul>
         </div>
+        
 
             
             
