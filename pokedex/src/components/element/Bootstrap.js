@@ -2,8 +2,11 @@ import APIcall from '../utility/pokeAPI'
 import React, { useEffect, useState, useRef, createRef } from 'react';
 import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   // ---> || import Alert from 'react-bootstrap/Alert'
 import { $ } from 'react-jquery-plugin'; 
+// components
 // import InputMap from '../utility/MapMaker' works additively, but not subtractively. May bookmark to save and work out. 
 import Bar from './RandomPokemonBar'
+
+// utility functions
 import ClassAction from '../utility/ClassAction'
 import TrueFalseTool from '../utility/BooleanStateTool'
 import EvolutionChain from '../utility/Evolution'
@@ -16,20 +19,20 @@ import attrTool from '../utility/attrTool'
 let id = [1, 4, 7]
 let randomid = id[Math.floor(Math.random()*id.length)]
 
-
-
-
+// 
 
 function BootstrapScreen() {
 
     // state and jquery functions
-        // ******** JQ/DOM referenec
+        // ******** JQ/DOM reference
         const Pokedex = $('.Pokedex')
         const pokedexText = $('.Pokedex-Text')
         const hCont = $('.Header-Container')
         const jqInput = $('#Screen-Input')
         const hiddenTag = $('.Invisible-P')
         const bootButton = $('.Bootstrap-Screen-Btn')
+        const pokeText = $('.PokeText')
+
 
 
     const [pokemon, setPokemon] = useState([])
@@ -48,6 +51,8 @@ function BootstrapScreen() {
 
     const [evolvePokemon, setEvolvePokemon] = useState([])
 
+    const [clickedBall, setClickedBall] = useState([]) // an array for holding values to run conditional logic around preventing stateObjects from being seen.
+    const [clickHintAppear, setClickHintAppear] = useState('false')
 
     const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
     const [hoverImage, setHoverImage] = useState('')    // manipulate upon <pokemonImg mouseEnter={hoverHandler}
@@ -73,8 +78,22 @@ function BootstrapScreen() {
                 setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
                 
                 hiddenTag.click( (event) => {
-                    ClassAction('add', $(observerEntryState), 'Pokeball-Animate')                    
+                    // console.log("we are firing with this right here")
+                    ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
+                    $(observerEntryState)
+                    .animate({
+                        border: '5px solid transparent'
+                    }, 4000, function() {
+                        // $(observerEntryState).css("opacity", '0.1');
+                        myCSS($(observerEntryState), 'opacity', '0.1' )
+                    })
+                    // setTimeout(myCSS($(observerEntryState), 'opacity', '0.1' ), 4500)
+                    
+                    
+                    // siblingButton.css('border', '5px solid orange')
                 })                                    
+                    
+
             } else {
                 setTimeout(setHoverImage(''), 2000)
                 setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
@@ -258,14 +277,14 @@ function BootstrapScreen() {
        
     }
     
-
+    
     if (pokedexClick == 'true') {
     return (
         <>
             <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             </div>
-            {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
+            <button type="button" className="navBall" id="Greatball"> </button>
         <div className="Screen Column-Between">
                <ul id="Render-Ul">
                 
@@ -285,15 +304,18 @@ function BootstrapScreen() {
                         />
                         <Button 
                         size="lg"
-                        className="Bootstrap-Screen-Btn" 
+                        className="Bootstrap-Screen-Btn Double-Size" 
                         variant={'outline-primary'}
                         onMouseEnter={null}
                         > 
                         </Button>
-                        <p onClick={hintText} className="Invisible-P"> 'click me' </p>
-                        <p 
-
-                        className="PokeText"> pokemon </p>
+                        <img
+                        // style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }} 
+                        // style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }} 
+                        className="Invisible-P" src={"/img/leftClick.png"} 
+                        />
+                        {/* <p onClick={hintText} className="Invisible-P"> 'click me' </p> */}
+                        {/* <p className="PokeText"> pokemon </p> */}
                         {/* </Card> */}
                      </div>
 
@@ -360,16 +382,3 @@ else  {
 }
 }       // function Screen() { end }
 export default BootstrapScreen
-
-
-
-// await console.log(starterchainevolve)             // [{…}]        confused why this cons.log returns this output below
-// 0: {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
-// 1: {name: 'wartortle', id: 8, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'}
-// 2: {name: 'blastoise', id: 9, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'}
-// await starterchainevolve.map( (mapitem) => console.log(mapitem))   // but when you map it only returns the first value. 
-// {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
-
-// console.log(starterchainevolve[0]) charmander
-// console.log(starterchainevolve[1]) undefined
-// console.log(starterchainevolve[2]) undefined
