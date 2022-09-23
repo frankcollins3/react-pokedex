@@ -1,15 +1,20 @@
 import { $ } from 'react-jquery-plugin'; 
 export default async function toggleHideShow (elem, action) {
-        console.log('elem')
-        console.log(elem)
-
-        console.log('action')
-        console.log(action)
-
+      
     if (action === 'hide') {
         console.log('action')
+        if (typeof elem === 'object' && elem.length > 1) {
+            console.log('hey we have an array here we go')
+            elem.each( (argumentLoop) => {
+                $(elem).hide()
+            })
+        }
 
-        elem.hide()
+        if (typeof elem === 'object' && elem.length === undefined || elem.length === undefined) {
+            console.log("we have our object distinguished from any accessing of an array in this pure function")
+        }
+
+        if (elem.length === 1) elem.hide()
     // if (typeof elem === 'object' && action === 'hide') {
     } else if (typeof elem === 'object' && action === 'show') {
         elem.show()
