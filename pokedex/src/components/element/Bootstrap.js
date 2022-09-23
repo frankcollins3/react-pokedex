@@ -8,6 +8,7 @@ import ClassAction from '../utility/ClassAction'
 import TrueFalseTool from '../utility/BooleanStateTool'
 import EvolutionChain from '../utility/Evolution'
 import GetImage from '../utility/ImageTool'
+import toggleHideShow from '../utility/hideShow'
 import myCSS from '../utility/CSStool'
 import attrTool from '../utility/attrTool'
 
@@ -22,6 +23,15 @@ let randomid = id[Math.floor(Math.random()*id.length)]
 function BootstrapScreen() {
 
     // state and jquery functions
+        // ******** JQ/DOM referenec
+        const Pokedex = $('.Pokedex')
+        const pokedexText = $('.Pokedex-Text')
+        const hCont = $('.Header-Container')
+        const jqInput = $('#Screen-Input')
+        const hiddenTag = $('.Invisible-P')
+        const bootButton = $('.Bootstrap-Screen-Btn')
+
+
     const [pokemon, setPokemon] = useState([])
     const [refLength, setRefLength] = useState()
 
@@ -34,14 +44,15 @@ function BootstrapScreen() {
     const [hoverCount, setHoverCount] = useState(0)
     const [pokedexHover, setPokedexHover] = useState('false')
     const [mainWrapHover, setMainWrapHover] = useState('false')
+    const [elementsToHide, setElementsToHide] = useState([]) 
 
     const [evolvePokemon, setEvolvePokemon] = useState([])
 
 
     const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
-    const [hoverImage, setHoverImage] = useState('')
+    const [hoverImage, setHoverImage] = useState('')    // manipulate upon <pokemonImg mouseEnter={hoverHandler}
     // const observerRef = useRef(observerTarget)
-
+    const [clickShiny, setClickShiny] = useState('')
     const [observerEntryState, setObserverEntryState] = useState([])
     const [randomPokemon, setRandomPokemon] = useState([])
 
@@ -53,32 +64,17 @@ function BootstrapScreen() {
 
     let pokeRefs = useRef([]);      
 
-    // ******** JQ/DOM referenec
-    const Pokedex = $('.Pokedex')
-    const pokedexText = $('.Pokedex-Text')
-    const hCont = $('.Header-Container')
-    const jqInput = $('#Screen-Input')
-    const hiddenTag = $('.Invisible-P')
-    const bootButton = $('.Bootstrap-Screen-Btn')
     
     let jqObserver = new IntersectionObserver((entries) => {
         entries.forEach( (entry) => {            
-            if (entry.isIntersecting) {
-        
+            if (entry.isIntersecting) {                        
                 let siblingButton = $(entry.target).siblings()[0]                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
                 
                 setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
                 
                 hiddenTag.click( (event) => {
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')                    
-                })
-                $(entry.target).on('mouseenter', (event) => {
-                    // myCSS($(event.tar))
-                    // myCSS($(event.target), 'border', '10px solid goldenrod')
-                    // $(entry.target)
-                })
-                    
-
+                })                                    
             } else {
                 setTimeout(setHoverImage(''), 2000)
                 setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
@@ -112,8 +108,10 @@ function BootstrapScreen() {
             let bulbasaurIMG = bulbasaur[1].image
             let charmIMG = charmander[1].image
             let imageArray = [squirtleIMG, bulbasaurIMG, charmIMG]
+
+            
+
             await setEvolvePokemon(imageArray)
-            // await console.log(imageArray)
         })()
 
 
@@ -184,6 +182,11 @@ function BootstrapScreen() {
 
     const hideinput = (event) => $(event.target).hide() || hideThis($(event.target))
 
+    const hintText = () => {
+        toggleHideShow($('.Invisible-P'), 'hide')
+    }
+
+
     const pokedexClickHandler = (e) => {
         let clickEventClass = e.target.attributes.class.nodeValue
         let objClassNames = clickEventClass.split('x ')           
@@ -193,8 +196,7 @@ function BootstrapScreen() {
                 try { if (e.target) $(e.target).addClass('Pokedex-Animate') } catch { console.log('weve got nothing') }
                 setTimeout( () => {
                     pokedexBg()      
-                    setInputHide('true')              
-                    
+                    setInputHide('true')                                  
                 }, 4000)                       
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
                 setPokedexClick('true')                
@@ -231,14 +233,14 @@ function BootstrapScreen() {
         
     }
 
-    let mouseLeaveHandler = async ( event) => {
-        // let imageSrc = event.target.src 
-        // console.log('imageSrc')
-        // console.log(imageSrc)
-        // let regexID = imageSrc.slice(imageSrc.length-5).replace(/[/\/.a-z]/g, '')
-        // let backImage = await GetImage(regexID, 'back') 
-        // let frontImage = await GetImage(regexID, 'front')
-        // await $(event.target).attr('src', frontImage)
+    let mouseLeaveHandler = async (event) => {
+        let target = event.target
+        let classList = target.classList
+        let pokeIDclass = classList[1].replace(/[a-z]/g, '') 
+        let idInt = parseInt(pokeIDclass)
+        let newId = idInt + 1        
+        let frontImage = await GetImage(newId, 'front')        
+        await attrTool(target, 'src', frontImage)    
     }
 
     let imageClickHandler = async (event) => {
@@ -288,7 +290,10 @@ function BootstrapScreen() {
                         onMouseEnter={null}
                         > 
                         </Button>
-                        <p className="Invisible-P"> 'click me' </p>
+                        <p onClick={hintText} className="Invisible-P"> 'click me' </p>
+                        <p 
+
+                        className="PokeText"> pokemon </p>
                         {/* </Card> */}
                      </div>
 
@@ -355,3 +360,16 @@ else  {
 }
 }       // function Screen() { end }
 export default BootstrapScreen
+
+
+
+// await console.log(starterchainevolve)             // [{…}]        confused why this cons.log returns this output below
+// 0: {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+// 1: {name: 'wartortle', id: 8, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png'}
+// 2: {name: 'blastoise', id: 9, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png'}
+// await starterchainevolve.map( (mapitem) => console.log(mapitem))   // but when you map it only returns the first value. 
+// {name: 'squirtle', id: 7, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png'}
+
+// console.log(starterchainevolve[0]) charmander
+// console.log(starterchainevolve[1]) undefined
+// console.log(starterchainevolve[2]) undefined
