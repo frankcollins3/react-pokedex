@@ -14,7 +14,7 @@ import GetImage from '../utility/ImageTool'
 import toggleHideShow from '../utility/hideShow'
 import myCSS from '../utility/CSStool'
 import attrTool from '../utility/attrTool'
-
+// strange error
 
 let id = [1, 4, 7]
 let randomid = id[Math.floor(Math.random()*id.length)]
