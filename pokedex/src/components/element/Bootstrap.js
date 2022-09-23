@@ -205,6 +205,10 @@ function BootstrapScreen() {
         toggleHideShow($('.Invisible-P'), 'hide')
     }
 
+    setInterval( () => {
+        if (clickHintAppear === 'false') setClickHintAppear('true')
+        else if (clickHintAppear === 'true') setClickHintAppear('false')
+    }, 2000)
 
     const pokedexClickHandler = (e) => {
         let clickEventClass = e.target.attributes.class.nodeValue
@@ -310,7 +314,7 @@ function BootstrapScreen() {
                         > 
                         </Button>
                         <img
-                        // style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }} 
+                        style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }} 
                         // style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }} 
                         className="Invisible-P" src={"/img/leftClick.png"} 
                         />
