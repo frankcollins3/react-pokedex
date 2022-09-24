@@ -24,12 +24,7 @@ let randomid = id[Math.floor(Math.random()*id.length)]
 
 
 function BootstrapScreen(props) {
-    console.log('props')
-    console.log(props)
-
-
-
-
+    
     // state and jquery functions
         // ******** JQ/DOM reference
         const Pokedex = $('.Pokedex')
@@ -71,10 +66,6 @@ function BootstrapScreen(props) {
 
     
 
-    const [ghost, setGhost] = useState('false')
-
-    
-
     let pokeRefs = useRef([]);      
 
     
@@ -87,24 +78,36 @@ function BootstrapScreen(props) {
                 hiddenTag.on('click', (event) => {
                     setClickCountMouse(clickCountMouse + 1)            
                     let targetevent = event.target
+
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
                     animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
                     $(observerEntryState)
                     .animate({
                         border: '5px solid transparent'
                     }, 1000, async function(event) {
-                            // console.log($(targetevent).siblings())
-                            let nodesrc = $(targetevent).siblings()[0].attributes[1].nodeValue                            
-                            let targetpokemonurl = $(targetevent).siblings()[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
-                            let len = targetpokemonurl.length
-                            let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                        
-                            let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                                                    
-                            const eventpokemon = observerPoke[0]
-                            let name = eventpokemon.name                            
-                            setObserverTarget(name)
-                            let image;
-                            let shinyImage = eventpokemon.sprites.front_shiny
-                            myCSS($(observerEntryState), 'opacity', '0.1' )                                     
+                            let siblings = $(targetevent).siblings()                    
+                            let siblingPokeCard = siblings[0]
+
+                            // const handlePokemonCard = async () => {
+                            //     await animate($(siblingPokeCard), '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
+                            //      setTimeout($(siblingPokeCard).css('opacity', '0.1'), 4500)                              
+                            // }
+                            // handlePokemonCard()
+
+                            // setState: with cleanID check for styling in the img for {i + 1} since it will correspond with equality
+                        
+                            // const otherHandler = async () => {
+                                // let nodesrc = siblings[0].attributes[1].nodeValue                            
+                                // let targetpokemonurl = siblings[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
+                                // let len = targetpokemonurl.length
+                                // let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                                          
+                                // let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                                                    
+                                
+                            
+                                
+                                myCSS($(observerEntryState), 'opacity', '0.1' )                                     
+                            // }
+                            // otherHandler()
                         })                    
                 })                                    
 
@@ -173,14 +176,19 @@ function BootstrapScreen(props) {
     }
 
     const someState = () => {
-        console.log("somestate function")
-        props.setPokedexClick('true')
+        console.log('in the somestate function')
+        const randomWords = ['yeah', 'yeah i know', 'so what', 'aaand?', 'as if', 'coding', 'is', 'cool']
+        let randomWord = randomWords[Math.floor(Math.random()*randomWords.length)]
+        props.setGhost('true')
+        props.setFakeDbState([...props.fakeDbState, randomWord])
+    //    props.setFakeDbState(...props.fakeDbState, ...randomWord)
+       randomWord = ''
     }
 
     const checkAgain = () => {
-        console.log('props.pokedexClick BEFORE!')
-        console.log(props.pokedexClick)
-        // console.log(observerTarget)
+        console.log('in the check again function')
+        console.log(props.ghost)
+        console.log(props.fakeDbState)
     }
 
     const handleWrapHover = () => setMainWrapHover("true")
@@ -372,10 +380,9 @@ else  {
             <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>   
 
             <Bar randomPokemon={randomPokemon} setRandomPokemon={setRandomPokemon} 
-            ghost={ghost} mainWrapHover={mainWrapHover} 
+            mainWrapHover={mainWrapHover} 
             evolvePokemon={evolvePokemon} setEvolvePokemon={setEvolvePokemon}
-            pokedexClick={pokedexClick}
-            
+            pokedexClick={pokedexClick}            
             />              
   
             <input 
