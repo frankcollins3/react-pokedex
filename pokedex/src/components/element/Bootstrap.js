@@ -34,6 +34,8 @@ function BootstrapScreen() {
         const hiddenTag = $('.Invisible-P')
         const bootButton = $('.Bootstrap-Screen-Btn')
         const pokeText = $('.PokeText')
+        const pokemonCard = $('.Poke-Card-Img')
+
 
 
 
@@ -261,39 +263,44 @@ function BootstrapScreen() {
     }
 
     const applyName = async (event) => {
-        console.log(event)
-        console.log(event.target)
-        let tgt = event.target                  // let tgt = $(event.target)  // this will return undefined when you try to access the attributes endpoint/value of the event.target object/API
-        let imagesrc = tgt.attributes[1].nodeValue         // let imagesrc = tgt.attributes[1].toString()  if (tgt.attributes[1].src) { this won't work its not a string }  // src is not part of endpoint structure
-        // let imagesrc = tgt.currentSrc
-
-        console.log('imagesrc')
-        console.log(imagesrc)
-        
-        let len = imagesrc.length    
-        let idFromProps = event.target.attributes[1].nodeValue
-
-        console.log('idFromProps')
-        console.log(idFromProps)
-
-        let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '') 
+        if (scrollCheck === 'false') {
+            setScrollCheck('true') // this was going to be a scroll based event.
+            console.log(event)
+            console.log(event.target)
+            let tgt = event.target                  // let tgt = $(event.target)  // this will return undefined when you try to access the attributes endpoint/value of the event.target object/API
+            let imagesrc = tgt.attributes[1].nodeValue         // let imagesrc = tgt.attributes[1].toString()  if (tgt.attributes[1].src) { this won't work its not a string }  // src is not part of endpoint structure
+            // let imagesrc = tgt.currentSrc
             
-        let eventdata = await APIcall('specify', `${idFromProps}`)
-        let behaviorBasedName = eventdata[1].name
-        let siblings = $(event.target).siblings()  // family = $(event.target).siblings().siblings()         
-        let nametag = siblings[2]
-        ClassAction('remove', $(nametag), 'Invisible')             // (nametag, 'add', 'Invisible') did it this way first.    
-        TextTool(nametag, 'html', `${behaviorBasedName}: #${idFromProps}`)
-        // i would do this from state but then it would apply to all other elements indiscriminately. I may save this for last to export intersectionObserver to be its own component and provide to it the state it needs. 
-
-        // can see sign of becoming coder: this is non-needed and only for minimum-viability and don't feel like using nametag.css() 
-        // i just started using parameters and pure-functions so i suppose it checks out.     
+            let len = imagesrc.length    
+            let idFromProps = event.target.attributes[1].nodeValue
+            
+            console.log('idFromProps')
+            console.log(idFromProps)
+            
+            let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '') 
+            
+            let eventdata = await APIcall('specify', `${idFromProps}`)
+            let behaviorBasedName = eventdata[1].name
+            let siblings = $(event.target).siblings()  // family = $(event.target).siblings().siblings()         
+            let nametag = siblings[2]
+            ClassAction('remove', $(nametag), 'Invisible')             // (nametag, 'add', 'Invisible') did it this way first.    
+            TextTool(nametag, 'html', `${behaviorBasedName}: #${idFromProps}`)
+        } 
     }
 
-    const toggleScroll = () => {
-        console.log('just verify upon behavior that our scrollCheck useEffect will run and .log() the therein contained expressions ')
-        if (scrollCheck === 'false') setScrollCheck('true')
-        else if (scrollCheck === 'true') setScrollCheck('false')
+    
+    let scrollClicker = () => {
+        console.log('lets see about scrolling!')
+        if (scrollCheck === 'false') { 
+            // of all things jQ passes you use jQ object within a selector. You're pretty much selecting a selector it seems. $('.Pokemon-Card-Img') Bootstrap.js:297 Uncaught DOMException: Failed to execute 'querySelector' on 'Document': '[object Object]' is not a valid selector.
+            // myCSS(pokemonCard, 'border', '5px solid hotpink')
+            const allCards = document.querySelectorAll('.Poke-Card-Img')    // 3 minutes of using [.Pokemon-Card || .Poke-Card]
+            allCards.click()
+            setScrollCheck('true')
+        } else {
+            return 
+        }
+
     }
     
     
@@ -304,7 +311,7 @@ function BootstrapScreen() {
             <div className="Input-Wrapper Column-Center">                
             </div>
             {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
-        <div className="Screen Column-Between" onClick={toggleScroll} onScroll={EventTool}>
+        <div className="Screen Column-Between" onScroll={scrollClicker}>
                <ul id="Render-Ul">
                 
 
@@ -317,6 +324,7 @@ function BootstrapScreen() {
                         className={`Poke-Card-Img id${i}`}
                         id={i + 1} // hm can you even use a mathematical operation to set an id?                        
                         src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}                        
+                        // {...document.getElementById(i + 1).click()}
                         />
                         <Button 
                         size="lg"
