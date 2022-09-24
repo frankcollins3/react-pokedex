@@ -86,7 +86,7 @@ function BootstrapScreen() {
                     .animate({
                         border: '5px solid transparent'
                     }, 4000, function(event) {
-                        console.log(event)
+                        // console.log(event) this returns undefined 
                         // $(observerEntryState).css("opacity", '0.1');
                         myCSS($(observerEntryState), 'opacity', '0.1' )
                     })                    
@@ -161,7 +161,8 @@ function BootstrapScreen() {
     }
 
     const checkAgain = () => {
-    animate(hiddenTag, 4, ['opacity', 'border'], ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'], ['500', '1000', '3000'])  
+        animate(hiddenTag, '2', ['opacity', 'border'], ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'], ['500', '1000', '3000'], myCSS())  
+    // animate(hiddenTag, '2', 'opacity', ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'], ['500', '1000', '3000'], myCSS())  
     }
 
     const handleWrapHover = () => {
