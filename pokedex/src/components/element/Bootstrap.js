@@ -5,7 +5,7 @@ import { $ } from 'react-jquery-plugin';
 // components
 // import InputMap from '../utility/MapMaker' works additively, but not subtractively. May bookmark to save and work out. 
 import Bar from './RandomPokemonBar'
-
+import Axios from 'axios'
 // utility functions
 import ClassAction from '../utility/ClassAction'
 import TrueFalseTool from '../utility/BooleanStateTool'
@@ -20,6 +20,7 @@ import animate from '../utility/animationTool'
 
 let id = [1, 4, 7]
 let randomid = id[Math.floor(Math.random()*id.length)]
+
 
 // 
 
@@ -56,9 +57,9 @@ function BootstrapScreen() {
     const [clickedBall, setClickedBall] = useState([]) // an array for holding values to run conditional logic around preventing stateObjects from being seen.
     const [clickHintAppear, setClickHintAppear] = useState('false')
 
-    const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
     const [hoverImage, setHoverImage] = useState('')    // manipulate upon <pokemonImg mouseEnter={hoverHandler}
-    const [observerEntryState, setObserverEntryState] = useState([])
+    const [observerEntryState, setObserverEntryState] = useState([]) 
+    const [observerTarget, setObserverTarget] = useState('')    // try with array or string.
     const [randomPokemon, setRandomPokemon] = useState([])
     const [clickCountMouse, setClickCountMouse] = useState()
 
@@ -86,16 +87,26 @@ function BootstrapScreen() {
                     $(observerEntryState)
                     .animate({
                         border: '5px solid transparent'
-                    }, 1000, function(event) {
-                        const targetpokemonurl = $(targetevent).siblings()[0].currentSrc
-                        console.groupCollapsed()
-                        console.log('targetevent')
-                        console.log(targetevent)
-                        console.log($(targetevent).siblings())
+                    }, 1000, async function(event) {
+                        let targetpokemonurl = $(targetevent).siblings()[0].currentSrc
+                        let len = targetpokemonurl.length
+                        let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')
+                        console.log('cleanID')
+                        console.log(cleanID)
+                    let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await
+                        console.log('observerPoke')
+                        console.log(observerPoke)                        
+                        // const pokename = observerPoke.name  // was flying around kind of quickly and forgot that it wasn't clean return data from pokeAPI it comes from an array of three different objects.
+                        // console.log('pokename')
+                        // console.log(pokename)
+
+                        // almost put an Axios import up there when we have a utility function purposed for retrieval of pokemon API data.
+                        console.log('cleanID')
+                        console.log(cleanID)
+
+                        // Axios.get() forgot this code was uncommented and had nothing in in the axios method and thought something was wrong with my API call.
+                        // Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'protocol')
                         
-                        console.groupEnd()
-                        // console.log(event) this returns undefined 
-                        // $(observerEntryState).css("opacity", '0.1');
                         myCSS($(observerEntryState), 'opacity', '0.1' )
                     })                    
                 })                                    
