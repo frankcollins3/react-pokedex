@@ -13,6 +13,7 @@ import EvolutionChain from '../utility/Evolution'
 import GetImage from '../utility/ImageTool'
 import toggleHideShow from '../utility/hideShow'
 import myCSS from '../utility/CSStool'
+import TextTool from '../utility/TextTool'
 import attrTool from '../utility/attrTool'
 import animate from '../utility/animationTool'
 
@@ -83,7 +84,7 @@ function BootstrapScreen() {
                     .animate({
                         border: '5px solid transparent'
                     }, 1000, async function(event) {
-                        console.log($(targetevent).siblings())
+                            // console.log($(targetevent).siblings())
                             let nodesrc = $(targetevent).siblings()[0].attributes[1].nodeValue                            
                             let targetpokemonurl = $(targetevent).siblings()[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
                             let len = targetpokemonurl.length
@@ -258,19 +259,31 @@ function BootstrapScreen() {
 
     const applyName = async (event) => {
         console.log(event)
-        let tgt = event.target
-        console.log(tgt.attributes[1])         // let tgt = $(event.target)  // this will return undefined when you try to access the attributes endpoint/value of the event.target object/API
+        console.log(event.target)
+        let tgt = event.target                  // let tgt = $(event.target)  // this will return undefined when you try to access the attributes endpoint/value of the event.target object/API
         let imagesrc = tgt.attributes[1].nodeValue         // let imagesrc = tgt.attributes[1].toString()  if (tgt.attributes[1].src) { this won't work its not a string }  // src is not part of endpoint structure
-        let len = imagesrc.length
-        console.log('len')
-        console.log(len)
-        let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '')
-        let eventdata = await APIcall('specify', oneliner)
-        let behaviorBasedName = eventdata[1].name
-        console.log('behaviorBasedName')
-        console.log(behaviorBasedName)    
+        // let imagesrc = tgt.currentSrc
+
+        console.log('imagesrc')
+        console.log(imagesrc)
+        
+        let len = imagesrc.length        
+        let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '') 
 
         
+        
+        let eventdata = await APIcall('specify', oneliner)
+        let behaviorBasedName = eventdata[1].name
+        let siblings = $(event.target).siblings()
+        let family = $(event.target).siblings().siblings()         
+        let nametag = siblings[2]
+        ClassAction('remove', $(nametag), 'Invisible')             // (nametag, 'add', 'Invisible') did it this way first.    
+        // myCSS(nametag, 'border', '5px solid hotpink') 
+        TextTool(nametag, 'html', `${behaviorBasedName}: #${oneliner}`)
+        // i would do this from state but then it would apply to all other elements indiscriminately. I may save this for last to export intersectionObserver to be its own component and provide to it the state it needs. 
+
+        // can see sign of becoming coder: this is non-needed and only for minimum-viability and don't feel like using nametag.css() 
+        // i just started using parameters and pure-functions so i suppose it checks out.     
     }
 
  
@@ -293,7 +306,8 @@ function BootstrapScreen() {
                         onMouseEnter={hoverHandler}
                         onMouseLeave={mouseLeaveHandler}
                         onClick={applyName}
-                        className={`Poke-Card-Img id${i}`}                        
+                        className={`Poke-Card-Img id${i}`}
+                        id={i + 1} // hm can you even use a mathematical operation to set an id?                        
                         src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}                        
                         />
                         <Button 
@@ -306,7 +320,7 @@ function BootstrapScreen() {
                         <img                        
                         className="Invisible-P Mouse-Icon" src={"/img/leftClick.png"}                         
                         />                        
-                        <p className="Name-Tag"> 'hello' </p>
+                        <p className="Name-Tag Invisible"> '' </p>
                         {/* <img id="Info-Img" className="Double-Size" src={"/img/info.png"}></img>                         */}
                      </div>
 
