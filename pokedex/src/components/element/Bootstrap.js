@@ -176,6 +176,7 @@ function BootstrapScreen() {
     // have to get these two strings connected.
     const handleInput = async ({ target: {value}}) => 
     {      
+        setScrollCheck('false')
         let inputval = value // event.target.value
         let isInputInteger = value.replace(/[a-z]/g, '')     // this is escaping/removing all letters/alpha-char. 
         const newInput = `${preInputValue} ${inputval}`                        
