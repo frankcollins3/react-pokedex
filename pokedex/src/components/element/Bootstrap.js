@@ -16,6 +16,7 @@ import myCSS from '../utility/CSStool'
 import TextTool from '../utility/TextTool'
 import attrTool from '../utility/attrTool'
 import animate from '../utility/animationTool'
+import EventTool from '../utility/EventTool'
 
 
 let id = [1, 4, 7]
@@ -58,6 +59,7 @@ function BootstrapScreen() {
     const [observerTarget, setObserverTarget] = useState('')    // try with array or string.
     const [randomPokemon, setRandomPokemon] = useState([])
     const [clickCountMouse, setClickCountMouse] = useState()
+    const [scrollCheck, setScrollCheck] = useState('false')
 
 
     
@@ -123,27 +125,28 @@ function BootstrapScreen() {
 
     // useEffect
     useEffect( () => {
-
         (async() => {
             let squirtle = await APIcall('specify', 'squirtle')
             let bulbasaur = await APIcall('specify', 'bulbasaur')
             let charmander = await APIcall('specify', 'charmander')
-
             let squirtleIMG = squirtle[1].image
             let bulbasaurIMG = bulbasaur[1].image
             let charmIMG = charmander[1].image
-            let imageArray = [squirtleIMG, bulbasaurIMG, charmIMG]
-        
+            let imageArray = [squirtleIMG, bulbasaurIMG, charmIMG]        
             await setEvolvePokemon(imageArray)
         })()
-
-
         let pokedexObj = createRef()
         let pokedex = $(pokedexObj)    
         APIcall('all').then(async(pokedata) => {        
             await setPokemon(pokedata.pokemon)
         })
     }, [])
+
+    useEffect( () => {
+        console.log('setting up a useEffect with dependencyArray of scrollcheck')
+
+    }, [scrollCheck])
+
 
 
 
@@ -267,26 +270,31 @@ function BootstrapScreen() {
         console.log('imagesrc')
         console.log(imagesrc)
         
-        let len = imagesrc.length        
-        let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '') 
+        let len = imagesrc.length    
+        let idFromProps = event.target.attributes[1].nodeValue
 
-        
-        
-        let eventdata = await APIcall('specify', oneliner)
+        console.log('idFromProps')
+        console.log(idFromProps)
+
+        let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '') 
+            
+        let eventdata = await APIcall('specify', `${idFromProps}`)
         let behaviorBasedName = eventdata[1].name
-        let siblings = $(event.target).siblings()
-        let family = $(event.target).siblings().siblings()         
+        let siblings = $(event.target).siblings()  // family = $(event.target).siblings().siblings()         
         let nametag = siblings[2]
         ClassAction('remove', $(nametag), 'Invisible')             // (nametag, 'add', 'Invisible') did it this way first.    
-        // myCSS(nametag, 'border', '5px solid hotpink') 
-        TextTool(nametag, 'html', `${behaviorBasedName}: #${oneliner}`)
+        TextTool(nametag, 'html', `${behaviorBasedName}: #${idFromProps}`)
         // i would do this from state but then it would apply to all other elements indiscriminately. I may save this for last to export intersectionObserver to be its own component and provide to it the state it needs. 
 
         // can see sign of becoming coder: this is non-needed and only for minimum-viability and don't feel like using nametag.css() 
         // i just started using parameters and pure-functions so i suppose it checks out.     
     }
 
- 
+    const toggleScroll = () => {
+        console.log('just verify upon behavior that our scrollCheck useEffect will run and .log() the therein contained expressions ')
+        if (scrollCheck === 'false') setScrollCheck('true')
+        else if (scrollCheck === 'true') setScrollCheck('false')
+    }
     
     
     if (pokedexClick == 'true') {
@@ -296,7 +304,7 @@ function BootstrapScreen() {
             <div className="Input-Wrapper Column-Center">                
             </div>
             {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
-        <div className="Screen Column-Between">
+        <div className="Screen Column-Between" onClick={toggleScroll} onScroll={EventTool}>
                <ul id="Render-Ul">
                 
 
