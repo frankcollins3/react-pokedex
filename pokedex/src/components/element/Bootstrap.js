@@ -93,8 +93,7 @@ function BootstrapScreen(props) {
                                 let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                                          
                                 let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                                                    
                                 myCSS($(observerEntryState), 'opacity', '0.1' )                                     
-
-                            props.setFakeDbState([...props.fakeDbState, cleanID])
+                                props.setFakeDbState([...props.fakeDbState, parseInt(cleanID)])
 
                             // const handlePokemonCard = async () => {
                             //     await animate($(siblingPokeCard), '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
