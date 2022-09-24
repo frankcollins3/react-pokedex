@@ -264,21 +264,12 @@ function BootstrapScreen() {
 
     const applyName = async (event) => {
         if (scrollCheck === 'false') {
-            setScrollCheck('true') // this was going to be a scroll based event.
-            console.log(event)
-            console.log(event.target)
+            setScrollCheck('true') // this was going to be a scroll based event.        
             let tgt = event.target                  // let tgt = $(event.target)  // this will return undefined when you try to access the attributes endpoint/value of the event.target object/API
             let imagesrc = tgt.attributes[1].nodeValue         // let imagesrc = tgt.attributes[1].toString()  if (tgt.attributes[1].src) { this won't work its not a string }  // src is not part of endpoint structure
-            // let imagesrc = tgt.currentSrc
-            
             let len = imagesrc.length    
-            let idFromProps = event.target.attributes[1].nodeValue
-            
-            console.log('idFromProps')
-            console.log(idFromProps)
-            
-            let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '') 
-            
+            let idFromProps = event.target.attributes[1].nodeValue                                            
+            let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '')             
             let eventdata = await APIcall('specify', `${idFromProps}`)
             let behaviorBasedName = eventdata[1].name
             let siblings = $(event.target).siblings()  // family = $(event.target).siblings().siblings()         
@@ -294,8 +285,9 @@ function BootstrapScreen() {
         if (scrollCheck === 'false') { 
             // of all things jQ passes you use jQ object within a selector. You're pretty much selecting a selector it seems. $('.Pokemon-Card-Img') Bootstrap.js:297 Uncaught DOMException: Failed to execute 'querySelector' on 'Document': '[object Object]' is not a valid selector.
             // myCSS(pokemonCard, 'border', '5px solid hotpink')
-            const allCards = document.querySelectorAll('.Poke-Card-Img')    // 3 minutes of using [.Pokemon-Card || .Poke-Card]
-            allCards.click()
+            // const allCards = document.querySelectorAll('.Poke-Card-Img')    // 3 minutes of using [.Pokemon-Card || .Poke-Card]            
+            $('.Poke-Card-Img').click()     // this works but isn't best practices. moving forward!
+            // i only wanted to spend a week on this app and we are twice over the limit.
             setScrollCheck('true')
         } else {
             return 
