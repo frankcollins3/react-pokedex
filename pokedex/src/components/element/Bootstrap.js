@@ -16,13 +16,10 @@ import myCSS from '../utility/CSStool'
 import attrTool from '../utility/attrTool'
 import animate from '../utility/animationTool'
 
-// strange error
 
 let id = [1, 4, 7]
 let randomid = id[Math.floor(Math.random()*id.length)]
 
-
-// 
 
 function BootstrapScreen() {
 
@@ -77,63 +74,48 @@ function BootstrapScreen() {
         entries.forEach( (entry) => {            
             if (entry.isIntersecting) {                        
                 let siblingButton = $(entry.target).siblings()[0]                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
-                
                 setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
                 
-                hiddenTag.click( (event) => {
-                    setClickCountMouse(clickCountMouse + 1)
+                hiddenTag.on('click', (event) => {
+                    setClickCountMouse(clickCountMouse + 1)            
                     let targetevent = event.target
-                    // console.log("we are firing with this right here")
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
                     animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
                     $(observerEntryState)
                     .animate({
                         border: '5px solid transparent'
                     }, 1000, async function(event) {
-                        let targetpokemonurl = $(targetevent).siblings()[0].currentSrc
-                        let len = targetpokemonurl.length
-                        let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                        
-                        // console.log(cleanID)
-                    let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                        
-                        const eventpokemon = observerPoke[0]
-                        let name;
-                        let image;
-                        // let name = eventpokemon.name
-                        let shinyImage = eventpokemon.sprites.front_shiny
-                        const setState = async () => await setObserverTarget('hey')
-                        const stateActions = () => {
-                            console.log('eventpokemon')
-                            console.log(eventpokemon)
-                            console.log('observerTarget')
-                            console.log(observerTarget)
-                        }
-                        const doubleFunction = async () => {
-                            console.log('we are in teh double function')
-                            // console.log('observerTarget')
-                            // console.log(observerTarget)
-                            await setState()
-                            await stateActions()
-                        }
-                        if (clickCountMouse < 1) doubleFunction() 
-                        
+                        console.log($(targetevent).siblings())
+                            let nodesrc = $(targetevent).siblings()[0].attributes[1].nodeValue                            
 
-                                                                
-                        myCSS($(observerEntryState), 'opacity', '0.1' )
-                    })                    
+                            let targetpokemonurl = $(targetevent).siblings()[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
+                            let len = targetpokemonurl.length
+                            let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                        
+                            let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                        
+                            
+                            const eventpokemon = observerPoke[0]
+                            let name = eventpokemon.name                            
+                            setObserverTarget(name)
+                            let image;
+                            let shinyImage = eventpokemon.sprites.front_shiny
+                            myCSS($(observerEntryState), 'opacity', '0.1' )         
+                            
+                        })                    
+                    // }       // clickCountMouse end 
                 })                                    
-                    
+
 
             } else {
-                setObserverTarget([])
+                
                 setTimeout(setHoverImage(''), 2000)
                 setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
                 // ClassAction('remove', entry.target.siblings()[0], 'Pokeball-Animate')        we have lost reference of our jqObject
                 entry.target.style.border = '';
             }
+
         })
-    }, {threshold: 0.9})
+    }, {threshold: 1, rootMargin: '300px'})
     let allCards = document.querySelectorAll('.Poke-Card-Img')
-    // let allMapParents = document.querySelectorAll('.Map-Parent')
 
     allCards.forEach( (card) => {
         // jqObserver.observe(card)
@@ -190,7 +172,7 @@ function BootstrapScreen() {
     }
 
     const checkAgain = () => {
-
+        console.log(observerTarget)
     }
 
     const handleWrapHover = () => {
@@ -317,8 +299,12 @@ function BootstrapScreen() {
                         > 
                         </Button>
                         <img                        
-                        className="Invisible-P" src={"/img/leftClick.png"} 
+                        className="Invisible-P" src={"/img/leftClick.png"}                         
                         />                        
+                        <p className="Invisible-P"> {observerTarget} </p>
+                        <img id="Info-Img" className="Double-Size" src={"/img/info.png"}></img>
+                        {/* <p className="Invisible-P"> {observerTarget !== null ? observerTarget : ''} </p> */}
+                        {/* <p className={observerTarget !== null ? "Invisible-P" : ''}> {observerTarget !== null ? observerTarget : ''} </p> */}
                      </div>
 
                                           
