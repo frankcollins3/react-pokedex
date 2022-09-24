@@ -23,7 +23,12 @@ let id = [1, 4, 7]
 let randomid = id[Math.floor(Math.random()*id.length)]
 
 
-function BootstrapScreen() {
+function BootstrapScreen(props) {
+    console.log('props')
+    console.log(props)
+
+
+
 
     // state and jquery functions
         // ******** JQ/DOM reference
@@ -123,8 +128,8 @@ function BootstrapScreen() {
     const hideThis = (elem) => $(elem).hide();
     hCont.ready((event)=> $(event.target).children().addClass("Row-Center"));
     // Pokedex.dblclick( () => setPokedexClick('true'))
-    Pokedex.on('dblclick', () => setPokedexClick('true'))
-
+    Pokedex.on('dblclick', () => props.setPokedexClick('true'))
+ 
     // useEffect
     useEffect( () => {
         (async() => {
@@ -167,8 +172,15 @@ function BootstrapScreen() {
         return
     }
 
+    const someState = () => {
+        console.log("somestate function")
+        props.setPokedexClick('true')
+    }
+
     const checkAgain = () => {
-        console.log(observerTarget)
+        console.log('props.pokedexClick BEFORE!')
+        console.log(props.pokedexClick)
+        // console.log(observerTarget)
     }
 
     const handleWrapHover = () => setMainWrapHover("true")
@@ -223,7 +235,9 @@ function BootstrapScreen() {
                     setInputHide('true')                                  
                 }, 4000)                       
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
-                await setPokedexClick('true')                
+
+                // await setPokedexClick('true')                
+                await props.setPokedexClick('true')                
 
                 $('*').removeClass('Pokedex-Animate')
             }
@@ -278,32 +292,26 @@ function BootstrapScreen() {
             ClassAction('remove', $(nametag), 'Invisible')             // (nametag, 'add', 'Invisible') did it this way first.    
             TextTool(nametag, 'html', `${behaviorBasedName}: #${idFromProps}`)
         } 
-    }
-
-    
+    }    
     let scrollClicker = () => {
-        console.log('lets see about scrolling!')
         if (scrollCheck === 'false') { 
-            // of all things jQ passes you use jQ object within a selector. You're pretty much selecting a selector it seems. $('.Pokemon-Card-Img') Bootstrap.js:297 Uncaught DOMException: Failed to execute 'querySelector' on 'Document': '[object Object]' is not a valid selector.
-            // myCSS(pokemonCard, 'border', '5px solid hotpink')
-            // const allCards = document.querySelectorAll('.Poke-Card-Img')    // 3 minutes of using [.Pokemon-Card || .Poke-Card]            
             $('.Poke-Card-Img').click()     // this works but isn't best practices. moving forward!
-            // i only wanted to spend a week on this app and we are twice over the limit.
             setScrollCheck('true')
         } else {
             return 
         }
-
     }
     
     
-    if (pokedexClick == 'true') {
+    if (props.pokedexClick == 'true') {
+    // if (pokedexClick == 'true') {
     return (
         <>
             <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             </div>
-            {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
+            <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
+            <button onClick={someState} type="button" className="navBall" id="Ultraball"> </button>
         <div className="Screen Column-Between" onScroll={scrollClicker}>
                <ul id="Render-Ul">
                 
@@ -376,15 +384,19 @@ else  {
             onMouseEnter={inputEnter} 
             onMouseLeave={inputExit} 
             onChange={handleInput}
-            type="text"
+            type="text" 
             />
             <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label>    
 
             <div className="Header-Container Column-Center">    
+
             <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> Welcome!   </h1>        
             <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}>  How many Pokemon  </h1>        
             <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}>  Would You like to See?  </h1>        
-            {/* <h4 className="Pokedex-Text" style= {{ display: inputHide === 'false' ? 'none' : 'block' }}> would you like to see? </h4>         */}
+            {/* <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && props.pokedexClick === 'false' ? 'none' : 'block'}}> Welcome!   </h1>        
+            <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && props.pokedexClick === 'false' ? 'none' : 'block'}}>  How many Pokemon  </h1>        
+            <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && props.pokedexClick === 'false' ? 'none' : 'block'}}>  Would You like to See?  </h1>         */}
+
             </div>
             </div>    
     )
