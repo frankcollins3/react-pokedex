@@ -87,25 +87,22 @@ function BootstrapScreen(props) {
                     }, 1000, async function(event) {
                             let siblings = $(targetevent).siblings()                    
                             let siblingPokeCard = siblings[0]
+                            // let nodesrc = siblings[0].attributes[1].nodeValue                            
+                                let targetpokemonurl = siblings[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
+                                let len = targetpokemonurl.length
+                                let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                                          
+                                let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                                                    
+                                myCSS($(observerEntryState), 'opacity', '0.1' )                                     
+
+                            props.setFakeDbState([...props.fakeDbState, cleanID])
 
                             // const handlePokemonCard = async () => {
                             //     await animate($(siblingPokeCard), '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
                             //      setTimeout($(siblingPokeCard).css('opacity', '0.1'), 4500)                              
                             // }
                             // handlePokemonCard()
-
-                            // setState: with cleanID check for styling in the img for {i + 1} since it will correspond with equality
-                        
-                            // const otherHandler = async () => {
-                                // let nodesrc = siblings[0].attributes[1].nodeValue                            
-                                // let targetpokemonurl = siblings[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
-                                // let len = targetpokemonurl.length
-                                // let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                                          
-                                // let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                                                    
-                                
-                            
-                                
-                                myCSS($(observerEntryState), 'opacity', '0.1' )                                     
+                            // setState: with cleanID check for styling in the img for {i + 1} since it will correspond with equality                        
+                            // const otherHandler = async () => {                                                                                                            
                             // }
                             // otherHandler()
                         })                    
@@ -176,7 +173,7 @@ function BootstrapScreen(props) {
     }
 
     const someState = () => {
-        console.log('in the somestate function')
+        // console.log('in the somestate function')
         const randomWords = ['yeah', 'yeah i know', 'so what', 'aaand?', 'as if', 'coding', 'is', 'cool']
         let randomWord = randomWords[Math.floor(Math.random()*randomWords.length)]
         props.setGhost('true')
@@ -187,7 +184,7 @@ function BootstrapScreen(props) {
 
     const checkAgain = () => {
         console.log('in the check again function')
-        console.log(props.ghost)
+        // console.log(props.ghost)
         console.log(props.fakeDbState)
     }
 
@@ -327,6 +324,9 @@ function BootstrapScreen(props) {
                 {pokeRefs.current.map((el, i) =>
                         <div key={`key${i}`} className="Map-Parent Column-Center">
                         <img 
+                        style={{ 
+                            opacity: props.fakeDbState.includes(i + 1) ? '0.1' : '1.0'
+                         }}
                         onMouseEnter={hoverHandler}
                         onMouseLeave={mouseLeaveHandler}
                         onClick={applyName}
