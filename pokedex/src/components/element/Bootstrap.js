@@ -58,8 +58,6 @@ function BootstrapScreen() {
 
     const [observerTarget, setObserverTarget] = useState([])    // try with array or string.
     const [hoverImage, setHoverImage] = useState('')    // manipulate upon <pokemonImg mouseEnter={hoverHandler}
-    // const observerRef = useRef(observerTarget)
-    const [clickShiny, setClickShiny] = useState('')
     const [observerEntryState, setObserverEntryState] = useState([])
     const [randomPokemon, setRandomPokemon] = useState([])
     const [clickCountMouse, setClickCountMouse] = useState()
@@ -81,13 +79,21 @@ function BootstrapScreen() {
                 setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
                 
                 hiddenTag.click( (event) => {
+                    let targetevent = event.target
                     // console.log("we are firing with this right here")
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
                     animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
                     $(observerEntryState)
                     .animate({
                         border: '5px solid transparent'
-                    }, 4000, function(event) {
+                    }, 1000, function(event) {
+                        const targetpokemonurl = $(targetevent).siblings()[0].currentSrc
+                        console.groupCollapsed()
+                        console.log('targetevent')
+                        console.log(targetevent)
+                        console.log($(targetevent).siblings())
+                        
+                        console.groupEnd()
                         // console.log(event) this returns undefined 
                         // $(observerEntryState).css("opacity", '0.1');
                         myCSS($(observerEntryState), 'opacity', '0.1' )
@@ -241,7 +247,6 @@ function BootstrapScreen() {
         console.log(event)
         let target = event.target
         let classList = target.classList
-        // console.log(classList) DOMTokenList(2) ['Poke-Card-Img', 'id9', value: 'Poke-Card-Img id9'] // we run our [a-z] escaping regex to retrieve our ID # 9 (array based indexing) out of sync with pokeAPI.        
         let pokeIDclass = classList[1].replace(/[a-z]/g, '') 
         let idInt = parseInt(pokeIDclass)
         let newId = idInt + 1        
@@ -277,32 +282,22 @@ function BootstrapScreen() {
 
                 {pokeRefs.current.map((el, i) =>
                         <div key={`key${i}`} className="Map-Parent Column-Center">
-                        {/* <Card> */}
                         <img 
                         onMouseEnter={hoverHandler}
                         onMouseLeave={mouseLeaveHandler}
-                        // onClick={imageClickHandler}
-                        className={`Poke-Card-Img id${i}`}
-                        // className="Poke-Card-Img"
-                        src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
-                        // src={setHoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
-                        // src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
+                        className={`Poke-Card-Img id${i}`}                        
+                        src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}                        
                         />
                         <Button 
                         size="lg"
                         className="Bootstrap-Screen-Btn Double-Size" 
                         variant={'outline-primary'}
-                        onMouseEnter={null}
+                        onMouseEnter={null}                        
                         > 
                         </Button>
-                        <img
-                        // style = { { display: clickHintAppear === 'false' ? 'none' : 'block'  }}     
-                        //  this style is set to be toggled from a setInterval. It is not a pretty sight and i think that can be fixed with a long animation that fades out.                         
+                        <img                        
                         className="Invisible-P" src={"/img/leftClick.png"} 
-                        />
-                        {/* <p onClick={hintText} className="Invisible-P"> 'click me' </p> */}
-                        {/* <p className="PokeText"> pokemon </p> */}
-                        {/* </Card> */}
+                        />                        
                      </div>
 
                                           
