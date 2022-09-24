@@ -51,8 +51,6 @@ function BootstrapScreen() {
 
     const [evolvePokemon, setEvolvePokemon] = useState([])
 
-    const [clickedBall, setClickedBall] = useState([]) // an array for holding values to run conditional logic around preventing stateObjects from being seen.
-    const [clickHintAppear, setClickHintAppear] = useState('false')
 
     const [hoverImage, setHoverImage] = useState('')    // manipulate upon <pokemonImg mouseEnter={hoverHandler}
     const [observerEntryState, setObserverEntryState] = useState([]) 
@@ -87,29 +85,23 @@ function BootstrapScreen() {
                     }, 1000, async function(event) {
                         console.log($(targetevent).siblings())
                             let nodesrc = $(targetevent).siblings()[0].attributes[1].nodeValue                            
-
                             let targetpokemonurl = $(targetevent).siblings()[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
                             let len = targetpokemonurl.length
                             let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                        
-                            let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                        
-                            
+                            let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                                                    
                             const eventpokemon = observerPoke[0]
                             let name = eventpokemon.name                            
                             setObserverTarget(name)
                             let image;
                             let shinyImage = eventpokemon.sprites.front_shiny
-                            myCSS($(observerEntryState), 'opacity', '0.1' )         
-                            
+                            myCSS($(observerEntryState), 'opacity', '0.1' )                                     
                         })                    
-                    // }       // clickCountMouse end 
                 })                                    
 
+            } else {                                
 
-            } else {
-                
                 setTimeout(setHoverImage(''), 2000)
                 setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
-                // ClassAction('remove', entry.target.siblings()[0], 'Pokeball-Animate')        we have lost reference of our jqObject
                 entry.target.style.border = '';
             }
 
@@ -125,7 +117,8 @@ function BootstrapScreen() {
     // Jq backup DOM functionality
     const hideThis = (elem) => $(elem).hide();
     hCont.ready((event)=> $(event.target).children().addClass("Row-Center"));
-    Pokedex.dblclick( () => setPokedexClick('true'))
+    // Pokedex.dblclick( () => setPokedexClick('true'))
+    Pokedex.on('dblclick', () => setPokedexClick('true'))
 
     // useEffect
     useEffect( () => {
@@ -151,10 +144,7 @@ function BootstrapScreen() {
         })
     }, [])
 
-    const checkRefs = () => {              
-        // workflow function: uncomment the ultraball onClick={checkRefs} and fire away: adding any relevant-to-the-then-task console.logs for quick checking. especially in state
-    }
-    
+
 
     const updateValue = ( {target: {value}}) => {   
         setRefLength({value}) // this is basically event.target.value
@@ -175,10 +165,7 @@ function BootstrapScreen() {
         console.log(observerTarget)
     }
 
-    const handleWrapHover = () => {
-
-        setMainWrapHover("true")
-    }
+    const handleWrapHover = () => setMainWrapHover("true")
 
     // have to get these two strings connected.
     const handleInput = async ({ target: {value}}) => 
@@ -207,6 +194,7 @@ function BootstrapScreen() {
             return 
         }            
     }
+
     const pokedexBg = async () => await setPokeBgState('true');
     const removeClosePokedexClass = () => $('.Pokedex').removeClass('Close-Pokedex')
 
@@ -228,14 +216,13 @@ function BootstrapScreen() {
                     setInputHide('true')                                  
                 }, 4000)                       
             } else if (objectClass.includes('Open') || objectClass === 'Open') {
-                setPokedexClick('true')                
+                await setPokedexClick('true')                
+
                 $('*').removeClass('Pokedex-Animate')
             }
         })
         
     }
-
-    
 
     const pokedexIconHover = (event) => {        
         let classValues = event.target.attributes.class.nodeValue
@@ -269,6 +256,23 @@ function BootstrapScreen() {
         await attrTool(target, 'src', frontImage)    
     }
 
+    const applyName = async (event) => {
+        console.log(event)
+        let tgt = event.target
+        console.log(tgt.attributes[1])         // let tgt = $(event.target)  // this will return undefined when you try to access the attributes endpoint/value of the event.target object/API
+        let imagesrc = tgt.attributes[1].nodeValue         // let imagesrc = tgt.attributes[1].toString()  if (tgt.attributes[1].src) { this won't work its not a string }  // src is not part of endpoint structure
+        let len = imagesrc.length
+        console.log('len')
+        console.log(len)
+        let oneliner = imagesrc.slice(len-5).replace(/[/\/.a-z]/g, '')
+        let eventdata = await APIcall('specify', oneliner)
+        let behaviorBasedName = eventdata[1].name
+        console.log('behaviorBasedName')
+        console.log(behaviorBasedName)    
+
+        
+    }
+
  
     
     
@@ -288,6 +292,7 @@ function BootstrapScreen() {
                         <img 
                         onMouseEnter={hoverHandler}
                         onMouseLeave={mouseLeaveHandler}
+                        onClick={applyName}
                         className={`Poke-Card-Img id${i}`}                        
                         src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}                        
                         />
@@ -299,12 +304,10 @@ function BootstrapScreen() {
                         > 
                         </Button>
                         <img                        
-                        className="Invisible-P" src={"/img/leftClick.png"}                         
+                        className="Invisible-P Mouse-Icon" src={"/img/leftClick.png"}                         
                         />                        
-                        <p className="Invisible-P"> {observerTarget} </p>
-                        <img id="Info-Img" className="Double-Size" src={"/img/info.png"}></img>
-                        {/* <p className="Invisible-P"> {observerTarget !== null ? observerTarget : ''} </p> */}
-                        {/* <p className={observerTarget !== null ? "Invisible-P" : ''}> {observerTarget !== null ? observerTarget : ''} </p> */}
+                        <p className="Name-Tag"> 'hello' </p>
+                        {/* <img id="Info-Img" className="Double-Size" src={"/img/info.png"}></img>                         */}
                      </div>
 
                                           
