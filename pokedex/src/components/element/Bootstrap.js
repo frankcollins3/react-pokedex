@@ -62,6 +62,7 @@ function BootstrapScreen() {
     const [clickShiny, setClickShiny] = useState('')
     const [observerEntryState, setObserverEntryState] = useState([])
     const [randomPokemon, setRandomPokemon] = useState([])
+    const [clickCountMouse, setClickCountMouse] = useState()
 
     
 
@@ -82,7 +83,7 @@ function BootstrapScreen() {
                 hiddenTag.click( (event) => {
                     // console.log("we are firing with this right here")
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
-                    animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.0'], [500, 1000, 2000, 3000, 10000], myCSS)  
+                    animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
                     $(observerEntryState)
                     .animate({
                         border: '5px solid transparent'
@@ -127,9 +128,7 @@ function BootstrapScreen() {
             let bulbasaurIMG = bulbasaur[1].image
             let charmIMG = charmander[1].image
             let imageArray = [squirtleIMG, bulbasaurIMG, charmIMG]
-
-            
-
+        
             await setEvolvePokemon(imageArray)
         })()
 
@@ -162,10 +161,8 @@ function BootstrapScreen() {
     }
 
     const checkAgain = () => {
-        // animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.0'], [500, 1000, 2000, 3000, 10000], myCSS)  
-        // ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'] wow had the array like this as all one value
+
     }
-    // animate(hiddenTag, '2', 'opacity', ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'], ['500', '1000', '3000'], myCSS())  
 
     const handleWrapHover = () => {
 
@@ -207,13 +204,6 @@ function BootstrapScreen() {
     const hintText = () => {
         toggleHideShow($('.Invisible-P'), 'hide')
     }
-
-    // setInterval( () => {
-    //     if (clickHintAppear === 'false') setClickHintAppear('true')
-    //     else if (clickHintAppear === 'true') setClickHintAppear('false')
-    // }, 4000)
-    
-    // selector, n, propertyBucket, valueBucket, duration
 
     const pokedexClickHandler = (e) => {
         let clickEventClass = e.target.attributes.class.nodeValue
@@ -271,20 +261,7 @@ function BootstrapScreen() {
         await attrTool(target, 'src', frontImage)    
     }
 
-    let imageClickHandler = async (event) => {
-        // console.log('event')
-        // console.log(event)
-        // let target = event.target
-        // let classList = target.classList
-        // let pokeIDclass = classList[1].replace(/[a-z]/g, '') 
-        // let idInt = parseInt(pokeIDclass)
-        // let newId = idInt + 1        
-        // let backImage = await GetImage(newId, 'back')
-        // await attrTool(target, 'src', backImage)
-        // await setHoverImage(backImage)
-        // console.log(classList) DOMTokenList(2) ['Poke-Card-Img', 'id9', value: 'Poke-Card-Img id9'] // we run our [a-z] escaping regex to retrieve our ID # 9 (array based indexing) out of sync with pokeAPI.        
-       
-    }
+ 
     
     
     if (pokedexClick == 'true') {
@@ -293,7 +270,7 @@ function BootstrapScreen() {
             <div className="Screen-Wrapper">
             <div className="Input-Wrapper Column-Center">                
             </div>
-            <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
+            {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
         <div className="Screen Column-Between">
                <ul id="Render-Ul">
                 
@@ -304,7 +281,7 @@ function BootstrapScreen() {
                         <img 
                         onMouseEnter={hoverHandler}
                         onMouseLeave={mouseLeaveHandler}
-                        onClick={imageClickHandler}
+                        // onClick={imageClickHandler}
                         className={`Poke-Card-Img id${i}`}
                         // className="Poke-Card-Img"
                         src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}
