@@ -82,6 +82,7 @@ function BootstrapScreen() {
                 hiddenTag.click( (event) => {
                     // console.log("we are firing with this right here")
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
+                    animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.0'], [500, 1000, 2000, 3000, 10000], myCSS)  
                     $(observerEntryState)
                     .animate({
                         border: '5px solid transparent'
@@ -161,9 +162,10 @@ function BootstrapScreen() {
     }
 
     const checkAgain = () => {
-        animate(hiddenTag, '2', ['opacity', 'border'], ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'], ['500', '1000', '3000'], myCSS())  
-    // animate(hiddenTag, '2', 'opacity', ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'], ['500', '1000', '3000'], myCSS())  
+        // animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.0'], [500, 1000, 2000, 3000, 10000], myCSS)  
+        // ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'] wow had the array like this as all one value
     }
+    // animate(hiddenTag, '2', 'opacity', ['0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0'], ['500', '1000', '3000'], myCSS())  
 
     const handleWrapHover = () => {
 
