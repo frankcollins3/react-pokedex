@@ -1,7 +1,8 @@
 export default async function animate (selector, n, propertyBucket, valueBucket, duration, complete) { ''
-    // console.groupCollapsed() // *** console.group() || console.groupCollapsed()
+    console.groupCollapsed() // *** console.group() || console.groupCollapsed()
+    console.log('propertyBucket')
     console.log(propertyBucket)
-    // console.groupEnd()
+    console.groupEnd()
     
     let opacityKey = propertyBucket[0]
     let borderKey = propertyBucket[1]
@@ -30,8 +31,12 @@ export default async function animate (selector, n, propertyBucket, valueBucket,
             console.log('hey were in the 2 part')
         selector
         .css("border", '5px solid brown')
-        selector      
-        .animate({ propertyBucket[0]: '0.1'}, 4000) // {propertyBucket[0]} || `${opacityKey}` neither of these options work. 
+        selector        // was worried
+        .animate({ [propertyBucket]:  '0.1'}, 4000) // {propertyBucket[0]} || `${opacityKey}` neither of these options work. 
+
+        // https://stackoverflow.com/questions/11508463/javascript-set-object-key-by-variable 
+        // The solution in ES6 is to put the variable in square brackets in order to evaluate it. var key = "happyCount"; myArray.push({ [key]: someValueArray });
+
     // return $(selector).css(`${property}`, `${value}`)    
         }
     }
