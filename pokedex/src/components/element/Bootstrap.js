@@ -63,6 +63,7 @@ function BootstrapScreen() {
     const [randomPokemon, setRandomPokemon] = useState([])
     const [clickCountMouse, setClickCountMouse] = useState()
 
+
     
 
     const [ghost, setGhost] = useState('false')
@@ -80,6 +81,7 @@ function BootstrapScreen() {
                 setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
                 
                 hiddenTag.click( (event) => {
+                    setClickCountMouse(clickCountMouse + 1)
                     let targetevent = event.target
                     // console.log("we are firing with this right here")
                     ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
@@ -90,29 +92,39 @@ function BootstrapScreen() {
                     }, 1000, async function(event) {
                         let targetpokemonurl = $(targetevent).siblings()[0].currentSrc
                         let len = targetpokemonurl.length
-                        let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')
-                        console.log('cleanID')
-                        console.log(cleanID)
-                    let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await
-                        console.log('observerPoke')
-                        console.log(observerPoke)                        
-                        // const pokename = observerPoke.name  // was flying around kind of quickly and forgot that it wasn't clean return data from pokeAPI it comes from an array of three different objects.
-                        // console.log('pokename')
-                        // console.log(pokename)
-
-                        // almost put an Axios import up there when we have a utility function purposed for retrieval of pokemon API data.
-                        console.log('cleanID')
-                        console.log(cleanID)
-
-                        // Axios.get() forgot this code was uncommented and had nothing in in the axios method and thought something was wrong with my API call.
-                        // Uncaught (in promise) TypeError: Cannot read properties of undefined (reading 'protocol')
+                        let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                        
+                        // console.log(cleanID)
+                    let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                        
+                        const eventpokemon = observerPoke[0]
+                        let name;
+                        let image;
+                        // let name = eventpokemon.name
+                        let shinyImage = eventpokemon.sprites.front_shiny
+                        const setState = async () => await setObserverTarget('hey')
+                        const stateActions = () => {
+                            console.log('eventpokemon')
+                            console.log(eventpokemon)
+                            console.log('observerTarget')
+                            console.log(observerTarget)
+                        }
+                        const doubleFunction = async () => {
+                            console.log('we are in teh double function')
+                            // console.log('observerTarget')
+                            // console.log(observerTarget)
+                            await setState()
+                            await stateActions()
+                        }
+                        if (clickCountMouse < 1) doubleFunction() 
                         
+
+                                                                
                         myCSS($(observerEntryState), 'opacity', '0.1' )
                     })                    
                 })                                    
                     
 
             } else {
+                setObserverTarget([])
                 setTimeout(setHoverImage(''), 2000)
                 setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
                 // ClassAction('remove', entry.target.siblings()[0], 'Pokeball-Animate')        we have lost reference of our jqObject
@@ -254,8 +266,6 @@ function BootstrapScreen() {
     }
 
     let hoverHandler = async (event) => {
-        console.log('event')
-        console.log(event)
         let target = event.target
         let classList = target.classList
         let pokeIDclass = classList[1].replace(/[a-z]/g, '') 
