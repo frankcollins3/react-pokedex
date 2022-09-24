@@ -1,5 +1,5 @@
 export default async function animate (selector, n, propertyBucket, valueBucket, duration, complete) { ''
-    // console.groupCollapsed()
+    // console.groupCollapsed() // *** console.group() || console.groupCollapsed()
     console.log(propertyBucket)
     // console.groupEnd()
     
@@ -30,12 +30,8 @@ export default async function animate (selector, n, propertyBucket, valueBucket,
             console.log('hey were in the 2 part')
         selector
         .css("border", '5px solid brown')
-        selector
+        selector      
         .animate({ propertyBucket[0]: '0.1'}, 4000) // {propertyBucket[0]} || `${opacityKey}` neither of these options work. 
-
     // return $(selector).css(`${property}`, `${value}`)    
-
         }
     }
-// } // function end. 
-
