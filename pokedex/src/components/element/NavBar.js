@@ -10,7 +10,7 @@ function Nav () {
     // $(document).on('mousemove') 
 
     useEffect( () => {
-        const moveGhost = async () => {
+        const evaluateGhost = async () => {
             
             let ghostdata = await TypeLooper('ghost')
 
@@ -25,10 +25,18 @@ function Nav () {
             console.log(pokemon)
             console.log('raw')
             console.log(raw)
+            const moves = data.moves
+            const randompokemon = pokemon[Math.floor(Math.random()*pokemon.length)]
+            console.log('randompokemon')
+            console.log(randompokemon)
+
+            const method = raw.config.method
+            console.log('method')
+            console.log(method)
 
             console.groupEnd()
         }        
-        moveGhost()
+        evaluateGhost()
     })
 
     $(document).on('mousemove', () => {
