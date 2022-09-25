@@ -14,6 +14,7 @@ let i = 0
 function Nav () {
     // $(document).on('mousemove') 
 
+    const [ghostBallPoke, setGhostBallPoke] = useState('')
 
     let ghost = useRef()
     
@@ -32,18 +33,23 @@ function Nav () {
             let url = randompokemon.pokemon.url            
             let ghostid = await CleanUrl(`${url}`)
             
-            
-            let ghostobjects = await APIcall('specify', ghostid)
-            console.log('ghostobjects')
-            console.log(ghostobjects)
-            let name = ghostobjects[1].name
-                        
-            let ghostImage = await ImageTool(name, 'front')
-            console.log('ghostImage')
-            console.log(ghostImage)
-            // NavBar.js:43 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/478.png
-            
+            // const checkForGhost = () => {
+                // if (ghostid < 100) {
 
+                    let ghostobjects = await APIcall('specify', ghostid)
+                    console.log('ghostobjects')
+                    console.log(ghostobjects)
+                    let name = ghostobjects[1].name                
+                    let ghostImage = await ImageTool(name, 'front')
+                    console.log('ghostImage')
+                    console.log(ghostImage)
+                    setGhostBallPoke(ghostImage)
+                    // return ghostimage
+                    // NavBar.js:43 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/478.png
+                    
+                // }
+            // }
+            
             
 
             
@@ -62,7 +68,8 @@ function Nav () {
             <button className="navBall Half-Size" id="Pokeball"></button>
             <button className="navBall Half-Size" id="Greatball"></button>
             <button className="navBall Half-Size" id="Ultraball"></button>
-            <button ref={ghost} className="navBall Half-Size" id="Ghost"></button>
+            <img className="navBall Half-Size" id="Ghost" src={ghostBallPoke} />
+            {/* <button ref={ghost} className="navBall Half-Size" id="Ghost"></button> */}
         </div>
     )
 }
