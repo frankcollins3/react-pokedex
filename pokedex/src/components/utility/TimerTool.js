@@ -36,7 +36,7 @@ function Watch({ expiryTimestamp }) {
       <button onClick={() => {
         // Restarts to 5 minutes timer
         const time = new Date();
-        time.setSeconds(time.getSeconds() + 3);
+        time.setSeconds(time.getSeconds() + 7);
         restart(time)
       }}>Restart</button>
     </div>
@@ -46,7 +46,7 @@ function Watch({ expiryTimestamp }) {
     console.log('props from timer')
     console.log(props)
   const time = new Date();
-  time.setSeconds(time.getSeconds() + 3); // 10 minutes timer
+  time.setSeconds(time.getSeconds() + 7); // 10 minutes timer
   return (
     <div>
       <Watch expiryTimestamp={time} />
