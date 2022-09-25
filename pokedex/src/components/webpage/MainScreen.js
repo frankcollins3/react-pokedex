@@ -5,10 +5,10 @@ import BootstrapScreen from '../element/Bootstrap'
 import Nav from '../element/NavBar'
 
 function Main (props) {
-    console.log('props from Main St.')
-    console.log(props)
-    console.log(props.ghost)
-    console.log(props.fakeDbState)
+    // console.log('props from Main St.')
+    // console.log(props)
+    // console.log(props.ghost)
+    // console.log(props.fakeDbState)
 
     const [pokedexClick, setPokedexClick] = useState('false')
     // I didn't think of the navbar also needing access to this state.
@@ -16,7 +16,11 @@ function Main (props) {
     return (
         // <>
         <div className="Column-Center">                        
+        {pokedexClick === 'true' ?
         <Nav />
+        :
+        ''
+        }
 
         <BootstrapScreen 
         pokedexClick={pokedexClick}
