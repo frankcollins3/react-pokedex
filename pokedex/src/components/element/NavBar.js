@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { $ } from 'react-jquery-plugin'
 import TypeLooper from '../utility/TypeTool'
 
@@ -8,6 +8,9 @@ let i = 0
 function Nav () {
     console.log("navbar ready jq style")
     // $(document).on('mousemove') 
+
+
+    let ghost = useRef()
 
     useEffect( () => {
         const evaluateGhost = async () => {
@@ -19,20 +22,13 @@ function Nav () {
             console.groupCollapsed()
             console.log(ghostdata)
             const { data, pokemon, raw } = ghostdata
-            console.log('data')
-            console.log(data)
-            console.log('pokemon')
-            console.log(pokemon)
-            console.log('raw')
-            console.log(raw)
+          
             const moves = data.moves
-            const randompokemon = pokemon[Math.floor(Math.random()*pokemon.length)]
-            console.log('randompokemon')
-            console.log(randompokemon)
-
             const method = raw.config.method
-            console.log('method')
-            console.log(method)
+            const randompokemon = pokemon[Math.floor(Math.random()*pokemon.length)]
+            console.log(randompokemon)
+            
+          
 
             console.groupEnd()
         }        
