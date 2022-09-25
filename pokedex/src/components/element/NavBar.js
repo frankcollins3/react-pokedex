@@ -5,6 +5,7 @@ import GiveAndGet from '../utility/GiveAndGetData'
 import CleanUrl from '../utility/CleanUrlTool'
 import APIcall from '../utility/pokeAPI'
 import ImageTool from '../utility/ImageTool'
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
 
 
 let i = 0
@@ -35,7 +36,12 @@ function Nav () {
             let ghostobjects = await APIcall('specify', ghostid)
             console.log('ghostobjects')
             console.log(ghostobjects)
-            // let ghostImage = await ImageTool()
+            let name = ghostobjects[1].name
+                        
+            let ghostImage = await ImageTool(name, 'front')
+            console.log('ghostImage')
+            console.log(ghostImage)
+            // NavBar.js:43 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/478.png
             
 
             
