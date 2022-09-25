@@ -1,69 +1,31 @@
-import React from 'react';
-import { useTimer } from 'react-timer-hook';
-
-export default async function Watch(props) {
-    const { 
-        seconds,
-        minutes,
-        hours,
-        days,
-        isRunning,
-        start,
-        pause,
-        resume,
-        restart
-    } = useTimer({ expiryTimestamp, onExpire: () => {
-        console.log("hey were expiring")
-    }}
-)
+import { useTimer as oldtimer }  from 'react-timer-hook';
 
 
+export default function App(props) {
 
-// function StopWatch({ expiryTimestamp }) {
-//     // function StopWatch({ expiryTimestamp }) {
-//     const {
-//         seconds, 
-//         minutes, 
-//         hours,
-//         days,
-//         isRunning,
-//         start,
-//         pause,
-//         resume,
-//         restart
-//       } = useTimer({ expiryTimestamp, onExpire: () => {
-//   }
-// })
+function Watch({ expiryTimestamp }) {
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = oldtimer({ expiryTimestamp, onExpire: () => {
+    //  admittedly 12:11 been in chair since 10 am maybe just had enough but this took mental stretching to be able to read and understand.
+    console.log('props')
+    console.log(props)
+    props.setPokedexHover('false')
+    console.warn('onExpire called') 
+    }
+});
 
-
-  const seeUnderLog = () => {
-    // console.groupCollapsed()
-    // console.log('seconds')
-    // console.log(seconds)
-    // console.log('minutes')
-    // console.log(minutes)
-    // console.log('hours')
-    // console.log(hours)
-    // console.log('days')
-    // console.log(days)
-    // console.log('isRunning')
-    // console.log(isRunning)
-    // console.log('start')
-    // console.log(start)
-    // console.log('pause')
-    // console.log(pause)
-    // console.log('resume')
-    // console.log(resume)
-    // console.log('restart')
-    // console.log(restart)
-    // console.groupEnd()
-//   }
-  seeUnderLog()
 
   return (
-    <div className="Tiny-Timer Half-Size" >
-      
-      <p>Timer Demo</p>
+    <div className="Invisible">
       <div style={{fontSize: '100px'}}>
         <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
       </div>
@@ -80,23 +42,14 @@ export default async function Watch(props) {
     </div>
   );
 }
-}
 
+    console.log('props from timer')
+    console.log(props)
   const time = new Date();
   time.setSeconds(time.getSeconds() + 3); // 10 minutes timer
   return (
     <div>
-      <StopWatch expiryTimestamp={time}  /> 
+      <Watch expiryTimestamp={time} />
     </div>
   );
 }
-
-
-
-
-
-
-//? ERRORS with timer hook ?
-// TimerTool.js:5 Uncaught TypeError: Cannot destructure property 'expiryTimestamp' of '_ref' as it is undefined.
-// * haven't specified expiryTimestamp
-//? ___ERRORS___
