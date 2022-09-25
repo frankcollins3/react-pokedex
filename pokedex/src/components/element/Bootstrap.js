@@ -63,65 +63,60 @@ function BootstrapScreen(props) {
     const [clickCountMouse, setClickCountMouse] = useState()
     const [scrollCheck, setScrollCheck] = useState('false')
 
-
-    
+    const [speedBump, setSpeedBump] = useState(0)
 
     let pokeRefs = useRef([]);      
 
-    
-    let jqObserver = new IntersectionObserver((entries) => {
-        entries.forEach( (entry) => {            
-            if (entry.isIntersecting) {                        
-                let siblingButton = $(entry.target).siblings()[0]                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
-                setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
+    // let jqObserver = new IntersectionObserver((entries) => {
+    //     entries.forEach( (entry) => {            
+    //         if (entry.isIntersecting) {         
+    //             console.log("we are observing!")
+    //             let siblingButton = $(entry.target).siblings()[0]                // console.log($(entry.target).siblings()) // had an error first didn't use $(entry.target)
+    //             setObserverEntryState($(siblingButton)) // this would be our work around but I'd like to move onto a new project and we don't need this to be successful in our efforts of adding and removing animate specifically to                 
                 
-                hiddenTag.on('click', (event) => {
-                    setClickCountMouse(clickCountMouse + 1)            
-                    let targetevent = event.target
+    //             hiddenTag.on('click', (event) => {
+    //                 console.log("atleast were clicking")
+    //                 // console.log('we are clicking')
+    //                 // setClickCountMouse(clickCountMouse + 1)            
+    //                 let targetevent = event.target
+                
+    //                 ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
+    //                 animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
+    //                 $(observerEntryState)
+    //                 .animate({
+    //                     border: '5px solid transparent'
+    //                 }, 1000, async function(event) {
+    //                         let siblings = $(targetevent).siblings()        
+                                                            
+    //                             let siblingPokeCard = siblings[0]
+    //                             let targetpokemonurl = siblings[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
+    //                             let len = targetpokemonurl.length
+    //                             let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')  
+    //                             let stateID = parseInt(cleanID)
+                                                                
+    //                             await props.setFakeDbState([...props.fakeDbState, parseInt(stateID)])                                                
+    //                             let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                                                    
+    //                             myCSS($(observerEntryState), 'opacity', '0.1' )                                                             
+    //                         let pTag = siblings[2]
+    //                         myCSS(pTag, 'opacity', '0.1')
+    //                     })                    
+    //             })                                    
+                
+    //         } else {       
+    //             setSpeedBump(0)                                         
+    //             setTimeout(setHoverImage(''), 2000)
+    //             setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
+    //             entry.target.style.border = '';
+    //         }            
+    //     })
+    // }, {threshold: 1, rootMargin: '300px'})
 
-                    ClassAction('add', $(observerEntryState), 'Pokeball-Animate')   
-                    animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
-                    $(observerEntryState)
-                    .animate({
-                        border: '5px solid transparent'
-                    }, 1000, async function(event) {
-                            let siblings = $(targetevent).siblings()                    
-                            let siblingPokeCard = siblings[0]
-                            // let nodesrc = siblings[0].attributes[1].nodeValue                            
-                                let targetpokemonurl = siblings[0].currentSrc  // went through this before too where [src || currentSrc] made a difference in a new value being retrieved.
-                                let len = targetpokemonurl.length
-                                let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')                                          
-                                let observerPoke = await APIcall('specify', cleanID) // oops got hit with an unreturned promise from forgetting await                                                    
-                                myCSS($(observerEntryState), 'opacity', '0.1' )                                     
-                                props.setFakeDbState([...props.fakeDbState, parseInt(cleanID)])
+    // let allCards = document.querySelectorAll('.Poke-Card-Img')
 
-                            // const handlePokemonCard = async () => {
-                            //     await animate($(siblingPokeCard), '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
-                            //      setTimeout($(siblingPokeCard).css('opacity', '0.1'), 4500)                              
-                            // }
-                            // handlePokemonCard()
-                            // setState: with cleanID check for styling in the img for {i + 1} since it will correspond with equality                        
-                            // const otherHandler = async () => {                                                                                                            
-                            // }
-                            // otherHandler()
-                        })                    
-                })                                    
-
-            } else {                                
-
-                setTimeout(setHoverImage(''), 2000)
-                setObserverEntryState([])   // this allows our state to be continually reset in the above if block where we set the siblingButton, targeted from $(entry.target).siblings()
-                entry.target.style.border = '';
-            }
-
-        })
-    }, {threshold: 1, rootMargin: '300px'})
-    let allCards = document.querySelectorAll('.Poke-Card-Img')
-
-    allCards.forEach( (card) => {
-        // jqObserver.observe(card)
-        jqObserver.observe(card)
-    })
+    // allCards.forEach( (card) => {
+    //     // jqObserver.observe(card)
+    //     jqObserver.observe(card)
+    // })
 
     // Jq backup DOM functionality
     const hideThis = (elem) => $(elem).hide();
@@ -305,6 +300,30 @@ function BootstrapScreen(props) {
             return 
         }
     }
+
+    let InvisibleClick = (event) => {
+        console.log(event)    
+        console.info($(event.target).siblings())
+        let siblingButton = $(event.target).siblings()[1]
+
+        setObserverEntryState(siblingButton)
+        let targetevent = event.target
+        ClassAction('add', $(observerEntryState), 'Pokeball-Animate')
+        animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
+        $(observerEntryState)
+        .animate({
+            border: '5px solid green'
+        }, 1000, async function () {
+            let siblings = $(targetevent).siblings()
+            let siblingPokeCard = siblings[0]
+            let targetpokemonurl = siblings[0].currentSrc
+            let len = targetpokemonurl.length
+            let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')
+            console.log('cleanID')
+            console.log(cleanID)
+        })
+    }
+    
     
     
     if (props.pokedexClick == 'true') {
@@ -341,7 +360,8 @@ function BootstrapScreen(props) {
                         onMouseEnter={null}                        
                         > 
                         </Button>
-                        <img                        
+                        <img      
+                        onClick={InvisibleClick}                  
                         className="Invisible-P Mouse-Icon" src={"/img/leftClick.png"}                         
                         />                        
                         <p className="Name-Tag Invisible"> '' </p>
