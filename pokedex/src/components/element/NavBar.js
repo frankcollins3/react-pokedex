@@ -39,13 +39,11 @@ function Nav (props) {
     useEffect( () => {
         console.log($(document))
         let linealdescent = $(document).children().children().children()[13]
-        console.log(linealdescent)
-        
+        console.log(linealdescent)  
     })
-    $('document').on('mousemove', async () => {
-        
+
+    $(document).on('mousemove', async () => {    
         // console.log('document mousemove')
-        
         let ghostdata = await TypeLooper('ghost')
         myCSS($('.ghostbtn'), 'opacity', 0.1)
         const { pokemon } = ghostdata 
@@ -60,10 +58,17 @@ function Nav (props) {
             // console.log('ghostid')
             console.log(ghostid)
             let ghostimg = await ImageTool(ghostid, 'front')
+            console.log('ghostimg')
+            console.log(ghostimg)
             // console.log(ghostimg)
             await setGhostBallPoke(ghostimg)
         } else {
-                await setGhostBallPoke('hey')
+                setGhostBallPoke('hey')
+                // let elseStateId = await CleanUrl(ghostBallPoke)
+                // console.log('elseStateId')
+                // console.log(elseStateId)
+
+                // await setGhostBallPoke('hey')
                 // $('.ghostbtn')
                 // .css('position', 'relative')
                 // .css('left', `${randomlocation}`)
@@ -84,25 +89,35 @@ function Nav (props) {
             // const randompokemon = pokemon[Math.floor(Math.random()*pokemon.length)]
             // let url = randompokemon.pokemon.url            
             // let ghostid = await CleanUrl(`${url}`)
+        })
+
+        const buttonHandler = () => {
+            console.log('clicking the ghost only when its not opacity 0.0')
+        }
+
+        const nofunction = () => {
+            console.log('hey')
+        }
             
-        // const buttonHandler = () => console.log(rops)
+       
 
            
             
             
 
-    })
     return (
         <div className="Nav-Bar">
             <button className="navBall Half-Size" id="Pokeball"></button>
             <button className="navBall Half-Size" id="Greatball"></button>
             <button className="navBall Half-Size" id="Ultraball"></button>
             <button 
+                onClick={ghostBallPoke.includes('usercontent') ? buttonHandler : nofunction }
+
             style= { { 
-                
                 opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.0', 
-                left: ghostBallPoke.includes('usercontent') ? '5px' : randomlocation,
-                backgroundImage: ghostBallPoke.includes('usercontent') ? `url('${ghostBallPoke}')` : '/img/energy/energyPsychic.jpg'
+                // left: ghostBallPoke.includes('usercontent') ? '5px' : '100px',
+                backgroundImage: ghostBallPoke.includes('usercontent') ? `url('${ghostBallPoke}')` : ''
+                // backgroundImage: ghostBallPoke.includes('usercontent') ? `url('${ghostBallPoke}')` : '/img/energy/energyPsychic.jpg'
             }}
             className="navBall Half-Size ghostbtn" 
             id="Ghost" 
