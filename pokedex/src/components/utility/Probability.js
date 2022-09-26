@@ -6,7 +6,7 @@ export default async function ProbAbility (chance) {
         // primitives string, number, boolean from typescript
         const loopAndPush = () => {
             for (i; i < chance; i++) {
-                applebobberbucket.push([i]) // editing during committing: applebobberbucket.push([i + 1])
+                applebobberbucket.push([i + 1])
             }
         }
         loopAndPush()
@@ -19,15 +19,19 @@ export default async function ProbAbility (chance) {
         // }
 
         const evaluate = async () => {
-            let chancevalue = ReturnRandom(applebobberbucket)
-            console.log('chancevalue')
+            let chancevalue = await ReturnRandom(applebobberbucket)
+            console.log('chancevalue')  // check !return same value:
             console.log(chancevalue)
+            if (chancevalue.includes(1)) return 'true'
+            if (!chancevalue.includes(1)) return 'false'
+            // if (chancevalue === [1]) return 'true'
+            // if (chancevalue !== [1]) return 'false'
         }
         const multifunc = async () => {
             await loopAndPush()
-
-            // await checkBucket()
+            let probabilityvalue = await evaluate() 
+            return probabilityvalue
         }
-        multifunc()
+        return multifunc()
     }
 }
