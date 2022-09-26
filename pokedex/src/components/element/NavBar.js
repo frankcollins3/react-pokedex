@@ -8,7 +8,9 @@ import ImageTool from '../utility/ImageTool'
 import myCSS from '../utility/ClassAction'
 // import Watch from '../utility/TimerTool'
 import FuncTimer from '../utility/PureFuncTimer'
-import RandomPosition from '../utility/RandomPosition'
+import RandomPosition from '../utility/RandomPosition'  // could also send an array of coordinates over to RandomPosition
+import ReturnRandom from '../utility/ReturnRandom'
+import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript'
 // import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
 
 let i = 0
@@ -19,44 +21,59 @@ let pagewidth = $(document).width().toFixed()
 
 let ghostbtn = $('.ghostbtn')
 
-
+// * MOUSEMOVE function that: -----> mousemoveCount % 100 === 0 { when modulo % ${random 25 50 75 or 100 2second timeout}
 
 function Nav (props) {
-    const time = () => {
-        setGhostBallPoke('true')
+    const time = async () => {
+        
     }
 
     const [ghostBucket, setGhostBucket] = useState([])
     const [ghostBallPoke, setGhostBallPoke] = useState([])
+    // stopGhost keyup command G to turn on/off
+
+
+
 
     let ghost = useRef()
-    
+
+
     useEffect( () => {
-
-        (async() => {
-            let ghostdata = await TypeLooper('ghost')
-            console.log('ghostdata')
-            console.log(ghostdata)
-            let ghostpokemon = ghostdata.pokemon
-            setGhostBucket(ghostpokemon)
-
+        (async() => {            
+            
         })()
-        
-        FuncTimer(3, time, 'interval')
-
-
-        // console.log($(document))
-        // console.log(linealdescent)  
     }, [])
 
-   
+    $(document).on('mousemove', async () => {
+    
+    })
 
-        const buttonHandler = () => {
-            console.log('ghostBucket')
-            console.log(ghostBucket)
-            
-            console.log(ghostBallPoke)
-            console.log('clicking the ghost only when its not opacity 0.0')
+        const cbForId = (randomValue) => {
+            if (randomValue.pokemon.url.length < 4) {
+                console.log(randomValue)                
+            }  else {
+                console.log('well maybe thatll work')
+            }
+        }
+
+        const buttonHandler = async () => {
+            // FuncTimer(2, time, 'timeout')              
+            let ghostdata = await TypeLooper('ghost')            
+            let ghostpokemon = ghostdata.pokemon
+                await setGhostBucket(ghostpokemon)        
+            const getSetGhost = async () => {
+                let randomghost = await ReturnRandom(ghostBucket.length > 1 || ghostpokemon, null, 70, cbForId)        // this is solving an async issue that the state isn't updated by the time this is done. 
+                
+                let url = randomghost.pokemon.url
+                let ghostid = await CleanUrl(url)
+                if (ghostid.length < 4) {
+                    let randomghostsrc = await ImageTool(ghostid, 'front')
+                    await setGhostBallPoke(randomghostsrc)
+                    
+                }
+            }
+             
+            getSetGhost()              
         }
 
         const nofunction = () => {
