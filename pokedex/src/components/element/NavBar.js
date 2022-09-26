@@ -23,9 +23,7 @@ let ghostbtn = $('.ghostbtn')
 
 function Nav (props) {
     const time = () => {
-        console.log('running the time function')
-        const navbartime = new Date()
-        return navbartime
+        setGhostBallPoke('true')
     }
 
     const [ghostBallPoke, setGhostBallPoke] = useState([])
@@ -34,7 +32,10 @@ function Nav (props) {
     
     useEffect( () => {
         console.log('useEffect navBar')
+
         FuncTimer(3, time)
+
+
         // console.log($(document))
         // console.log(linealdescent)  
     }, [])
@@ -42,6 +43,7 @@ function Nav (props) {
    
 
         const buttonHandler = () => {
+            console.log(ghostBallPoke)
             console.log('clicking the ghost only when its not opacity 0.0')
         }
 
@@ -58,13 +60,19 @@ function Nav (props) {
     return (
         <div className="Nav-Bar">
             <button className="navBall Half-Size" id="Pokeball"></button>
-            <button className="navBall Half-Size" id="Greatball"></button>
+            
+            <button 
+            onClick={buttonHandler}
+            className="navBall Half-Size" id="Greatball">
+
+            </button>
+
             <button className="navBall Half-Size" id="Ultraball"></button>
             <button 
-                onClick={ghostBallPoke.includes('usercontent') ? buttonHandler : nofunction }
+            onClick={ghostBallPoke.includes('usercontent') ? buttonHandler : nofunction }
 
             style= { { 
-                opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.0', 
+                // opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.0', 
                 // left: ghostBallPoke.includes('usercontent') ? '5px' : '100px',
                 backgroundImage:  `url('${ghostBallPoke}')`
                 // backgroundImage: ghostBallPoke.includes('usercontent') ? `url('${ghostBallPoke}')` : ''
