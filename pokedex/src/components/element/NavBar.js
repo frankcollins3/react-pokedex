@@ -19,8 +19,9 @@ let pixel2 = '200px'
 let pixel3 = '300px'
 let pixel4 = '400px'
 let pixel5 = '500px'
-let pixelbucket = [pixel1, pixel2, pixel3, pixel4, pixel5]
+let pixelbucket = [pixel1, pixel2, pixel3]
 let randomlocation = pixelbucket[Math.floor(Math.random()*pixelbucket.length)]
+
 
 // console.log(pageheight)
 let ghostbtn = $('.ghostbtn')
@@ -29,16 +30,20 @@ let ghostbtn = $('.ghostbtn')
 
 
 function Nav (props) {
+    
 
     const [ghostBallPoke, setGhostBallPoke] = useState([])
 
     let ghost = useRef()
     
     useEffect( () => {
-      
+        console.log($(document))
+        let linealdescent = $(document).children().children().children()[13]
+        console.log(linealdescent)
+        
     })
-
-    $(document).on('mousemove', async () => {
+    $('document').on('mousemove', async () => {
+        
         // console.log('document mousemove')
         
         let ghostdata = await TypeLooper('ghost')
@@ -52,16 +57,16 @@ function Nav (props) {
             
 
             myCSS($('.ghostbtn'), 'opacity', 1.0)
-            console.log('ghostid')
+            // console.log('ghostid')
             console.log(ghostid)
             let ghostimg = await ImageTool(ghostid, 'front')
-            console.log(ghostimg)
+            // console.log(ghostimg)
             await setGhostBallPoke(ghostimg)
         } else {
                 await setGhostBallPoke('hey')
-                $('.ghostbtn')
-                .css('position', 'relative')
-                .css('left', `${randomlocation}`)
+                // $('.ghostbtn')
+                // .css('position', 'relative')
+                // .css('left', `${randomlocation}`)
                 
                 // $('.ghostbtn').css('border', '5px solid blue')
                 // await setGhostBallPoke(undefined)
@@ -80,7 +85,7 @@ function Nav (props) {
             // let url = randompokemon.pokemon.url            
             // let ghostid = await CleanUrl(`${url}`)
             
-        // const buttonHandler = () => 
+        // const buttonHandler = () => console.log(rops)
 
            
             
@@ -96,7 +101,7 @@ function Nav (props) {
             style= { { 
                 
                 opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.0', 
-                left: ghostBallPoke.includes('usercontent') ? '5px' : '100px',
+                left: ghostBallPoke.includes('usercontent') ? '5px' : randomlocation,
                 backgroundImage: ghostBallPoke.includes('usercontent') ? `url('${ghostBallPoke}')` : '/img/energy/energyPsychic.jpg'
             }}
             className="navBall Half-Size ghostbtn" 
