@@ -29,7 +29,6 @@ const randomlocation = () => {
 }
 
 function Nav () {
-    // $(document).on('mousemove') 
 
     const [ghostBallPoke, setGhostBallPoke] = useState([])
 
@@ -41,25 +40,27 @@ function Nav () {
 
     $(document).on('mousemove', async () => {
         // console.log('document mousemove')
-        $('.ghostbtn').css('border', '5px solid hotpink')
-
-            let ghostdata = await TypeLooper('ghost')
-            const { pokemon } = ghostdata 
-            const randompokemon = pokemon[Math.floor(Math.random()*pokemon.length)]
-            let  url = randompokemon.pokemon.url
-            let ghostid = await CleanUrl(`${url}`)
-            let char4 = ghostid.charAt(3)
+        
+        let ghostdata = await TypeLooper('ghost')
+        myCSS($('.ghostbtn'), 'opacity', 0.1)
+        const { pokemon } = ghostdata 
+        const randompokemon = pokemon[Math.floor(Math.random()*pokemon.length)]
+        let  url = randompokemon.pokemon.url
+        let ghostid = await CleanUrl(`${url}`)
+        
+        if (ghostid < 151 && ghostid.length < 4) {
             
 
-            if (ghostid < 151 && ghostid.length < 4) {
-                console.log('ghostid')
-                console.log(ghostid)
-                let ghostimg = await ImageTool(ghostid, 'front')
-                console.log(ghostimg)
-                setGhostBallPoke(ghostimg)
-            } else {
-                
-                // setGhostBallPoke('')
+            myCSS($('.ghostbtn'), 'opacity', 1.0)
+            console.log('ghostid')
+            console.log(ghostid)
+            let ghostimg = await ImageTool(ghostid, 'front')
+            console.log(ghostimg)
+            await setGhostBallPoke(ghostimg)
+        } else {
+                await setGhostBallPoke('hey')
+                // $('.ghostbtn').css('border', '5px solid blue')
+                // await setGhostBallPoke(undefined)
             }
         // const evaluateGhost = async () => {       
 
@@ -88,6 +89,7 @@ function Nav () {
             <button className="navBall Half-Size" id="Greatball"></button>
             <button className="navBall Half-Size" id="Ultraball"></button>
             <img 
+            style= { { opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.1'}}
             className="navBall Half-Size ghostbtn" 
             id="Ghost" 
             src={ghostBallPoke || 'img/energy/energyPsychic.jpg'} />
