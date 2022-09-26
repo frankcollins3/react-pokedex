@@ -14,21 +14,21 @@ let i = 0
 let pageheight = $(document).height().toFixed()
 let pagewidth = $(document).width().toFixed()
 
-let posx = (Math.random() * ($(document).width())).toFixed();     // mvp if you wanted to .width()-divsize)) to factor in size of element into screen size
-let posy = (Math.random() * ($(document).height())).toFixed();
-let posx2 = Math.floor(Math.random() * ($(document).width())).toFixed();
-let posy2 = Math.floor(Math.random() * ($(document).height())).toFixed();
-let posx3 = Math.floor(Math.random() * ($(document).width())).toFixed();
-let posy3 = Math.floor(Math.random() * ($(document).height())).toFixed();
+let pixel1 = '100px'
+let pixel2 = '200px'
+let pixel3 = '300px'
+let pixel4 = '400px'
+let pixel5 = '500px'
+let pixelbucket = [pixel1, pixel2, pixel3, pixel4, pixel5]
+let randomlocation = pixelbucket[Math.floor(Math.random()*pixelbucket.length)]
+
 // console.log(pageheight)
 let ghostbtn = $('.ghostbtn')
 
 // I was going to make this an exportable tool but wanted to make sure it was grabbing the size of this page for reference. 
-const randomlocation = () => {
 
-}
 
-function Nav () {
+function Nav (props) {
 
     const [ghostBallPoke, setGhostBallPoke] = useState([])
 
@@ -59,6 +59,10 @@ function Nav () {
             await setGhostBallPoke(ghostimg)
         } else {
                 await setGhostBallPoke('hey')
+                $('.ghostbtn')
+                .css('position', 'relative')
+                .css('left', `${randomlocation}`)
+                
                 // $('.ghostbtn').css('border', '5px solid blue')
                 // await setGhostBallPoke(undefined)
             }
@@ -76,7 +80,7 @@ function Nav () {
             // let url = randompokemon.pokemon.url            
             // let ghostid = await CleanUrl(`${url}`)
             
-            
+        // const buttonHandler = () => 
 
            
             
@@ -88,12 +92,18 @@ function Nav () {
             <button className="navBall Half-Size" id="Pokeball"></button>
             <button className="navBall Half-Size" id="Greatball"></button>
             <button className="navBall Half-Size" id="Ultraball"></button>
-            <img 
-            style= { { opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.1'}}
+            <button 
+            style= { { 
+                
+                opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.0', 
+                left: ghostBallPoke.includes('usercontent') ? '5px' : '100px',
+                backgroundImage: ghostBallPoke.includes('usercontent') ? `url('${ghostBallPoke}')` : '/img/energy/energyPsychic.jpg'
+            }}
             className="navBall Half-Size ghostbtn" 
             id="Ghost" 
-            src={ghostBallPoke || 'img/energy/energyPsychic.jpg'} />
-            {/* <button ref={ghost} className="navBall Half-Size" id="Ghost"></button> */}
+            >
+            </button>
+            
         </div>
     )
 }
