@@ -1,8 +1,6 @@
 
 export default async function ReturnRandom (array, min, max, constraincb) {  // (array, range)
-    // also considering a fourth parameter which would be a constraintfunction callback: a conditional expression that would cause the ReturnRandom to run again if value not met.
     console.log(array)
-    // console.log(min)
     console.log(max)
     console.log('constraincb')
     console.log(constraincb)
@@ -10,17 +8,24 @@ export default async function ReturnRandom (array, min, max, constraincb) {  // 
     if (typeof array === 'object') {       
             if (constraincb !== null) {
                 console.log("constraincb is not equal to null")
-                const evaluateAndReturn = async () => {
+                const processarray = async () => {
                     let length = array.length
                     let randomValue = array[Math.floor(Math.random()*length)]
-                    console.log('randomValue')
-                    console.log(randomValue)
-                    let evalcb = await constraincb(randomValue)
-                    console.log('evalcb')
-                    console.log(evalcb)
-                    return randomValue
+                    let yesorno = await constraincb(randomValue)
+                    if (yesorno === 'true') return yesorno
+                    else if (yesorno === 'false') { console.log('else block false')}
                 }
-                evaluateAndReturn()
+                processarray()
+                // let evalcb = await constraincb(processarray())
+                // {promise:fulfilled}
+                // console.log('evalcb')
+                // console.log(evalcb)
+                    
+
+
+                
+                
+                
             } else {
                 console.log('constraincb is equal to null')
                 let length = array.length
