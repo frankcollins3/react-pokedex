@@ -1,7 +1,9 @@
-import { useTimer } from 'react-timer-hook';
-export default async function FuncTimer (seconds, useTimerFunc) {
-    console.log("hello from timer")
-    let now = new Date()
-    console.log('now')
-    console.log(now)
+export default async function FuncTimer (countdown, countdowncallback) {
+    let duration = countdown * 1000 // 30000
+    console.log('duration')
+    console.log(duration)
+    setTimeout( () => {
+        // console.log("hey thats easy")
+        countdowncallback()
+    }, duration)
 }
