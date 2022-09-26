@@ -26,14 +26,23 @@ function Nav (props) {
         setGhostBallPoke('true')
     }
 
+    const [ghostBucket, setGhostBucket] = useState([])
     const [ghostBallPoke, setGhostBallPoke] = useState([])
 
     let ghost = useRef()
     
     useEffect( () => {
-        console.log('useEffect navBar')
 
-        FuncTimer(3, time)
+        (async() => {
+            let ghostdata = await TypeLooper('ghost')
+            console.log('ghostdata')
+            console.log(ghostdata)
+            let ghostpokemon = ghostdata.pokemon
+            setGhostBucket(ghostpokemon)
+
+        })()
+        
+        FuncTimer(3, time, 'interval')
 
 
         // console.log($(document))
@@ -43,6 +52,9 @@ function Nav (props) {
    
 
         const buttonHandler = () => {
+            console.log('ghostBucket')
+            console.log(ghostBucket)
+            
             console.log(ghostBallPoke)
             console.log('clicking the ghost only when its not opacity 0.0')
         }
