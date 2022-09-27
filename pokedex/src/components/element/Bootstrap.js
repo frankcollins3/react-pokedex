@@ -374,7 +374,7 @@
                 <div className="Screen-Wrapper">
                 <div className="Input-Wrapper Column-Center">                
                 </div>
-                <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
+                {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
                 {/* <button onClick={someState} type="button" className="navBall" id="Ultraball"> </button> */}
             <div className="Screen Column-Between" onScroll={scrollClicker}>
                 <ul id="Render-Ul">
@@ -384,17 +384,18 @@
                             {/* <div key={`key${i}`} className="Map-Parent Column-Center"> */}
                             <img 
                             style={{ 
-                                opacity: props.fakeDbState.includes(i + 1) ? '0.1' : '1.0'
+                                opacity: props.fakeDbState.includes(i + 1) ? '0.1' : '1.0',
+                                display: props.ghost === 'true' ? 'none' : 'block'
                             }}
                             onMouseEnter={hoverHandler}
                             onMouseLeave={mouseLeaveHandler}
                             onClick={applyName}
                             className={`Poke-Card-Img id${i}`}
                             id={i + 1} // hm can you even use a mathematical operation to set an id?                        
-
+                            
                             src={
                                 props.ghost === 'true' ? '' :
-                                hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`
+                                hoverImage.length > 3 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`
                             }                        
 
                             // {...document.getElementById(i + 1).click()}
@@ -403,14 +404,25 @@
                             size="lg"
                             className="Bootstrap-Screen-Btn Double-Size" 
                             variant={'outline-primary'}
-                            onMouseEnter={null}                        
+                            onMouseEnter={null}    
+                            style={{ 
+                                display: props.ghost === 'true' ? 'none' : 'block'
+                            }}                    
                             > 
                             </Button>
                             <img      
+                            style={{ 
+                                display: props.ghost === 'true' ? 'none' : 'block'
+                            }}
                             onClick={InvisibleClick}                  
                             className="Invisible-P Mouse-Icon" src={"/img/leftClick.png"}                         
                             />                        
-                            <p className="Name-Tag Invisible"> '' </p>
+                            <p 
+                            style={{ 
+                                display: props.ghost === 'true' ? 'none' : 'block'
+                            }}
+                            className="Name-Tag Invisible"> '' 
+                            </p>
                             {/* <img id="Info-Img" className="Double-Size" src={"/img/info.png"}></img>                         */}
                         </div>
 
