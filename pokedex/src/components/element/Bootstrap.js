@@ -367,8 +367,21 @@
             })
         }
 
-        const ghostClick = () => {
-            if (props.ghost === 'true') props.setGhost('false')
+        const ghostClick = (event) => {
+            // console.log('event')
+            // console.log(event)
+            // $(event.target).css('border', '5px solid orange')
+            let siblings = $(event.target).siblings()
+            if (props.ghost === 'true') {
+                $(event.target)
+                .removeClass('Haunter')
+                .addClass('Map-Parent')
+            }
+
+            // $(event.target)
+            // .removeClass('Haunter')
+            // .addClass('Map-Parent')
+            // if (props.ghost === 'true') props.setGhost('false')
         }
         
         
@@ -386,19 +399,21 @@
                 <ul id="Render-Ul">
                     
                     {pokeRefs.current.map((el, i) =>
-                            <div key={`key${i}`} onClick={ghostClick} className={props.ghost === 'true' ? "Haunter" : "Map-Parent Column-Center"}>
+                            <div key={`key${i}`} onMouseEnter={ghostClick} className={props.ghost === 'true' ? "Haunter" : "Map-Parent Column-Center"}>
                             {/* <div key={`key${i}`} className="Map-Parent Column-Center"> */}
                             <img 
                             style={{ 
-                                opacity: props.fakeDbState.includes(i + 1) ? '0.1' : '1.0',
-                                display: props.ghost === 'true' ? 'none' : 'block'
+                                // opacity: props.fakeDbState.includes(i + 1) ? '0.1' : '1.0',
+
+                                // opacity: props.ghost === 'true' ? '0.0' :
+                                opacity: props.ghost === 'true' ? '0.0' : '1.0'
+                                // props.fakeDbState.includes(i + 1) ? '0.1' : '1.0',
                             }}
                             onMouseEnter={hoverHandler}
                             onMouseLeave={mouseLeaveHandler}
                             onClick={applyName}
                             className={`Poke-Card-Img id${i}`}
-                            id={i + 1} // hm can you even use a mathematical operation to set an id?                        
-                            
+                            id={i + 1} // hm can you even use a mathematical operation to set an id?                                                    
                             src={
                                 props.ghost === 'true' ? '' :
                                 hoverImage.length > 3 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`
@@ -418,7 +433,8 @@
                             </Button>
                             <img      
                             style={{ 
-                                display: props.ghost === 'true' ? 'none' : 'block'
+                                opacity: props.ghost === 'true' ? '0.0' : '1.0'
+                                // display: props.ghost === 'true' ? 'none' : 'block'
                             }}
                             onClick={InvisibleClick}                  
                             className="Invisible-P Mouse-Icon" src={"/img/leftClick.png"}                         
