@@ -392,14 +392,18 @@
                 .addClass('Map-Parent')
 
                 $(pokemoncard)
-                .addClass('Poke-Card-Img')
+                .addClass('Poke-Card-Img Column-Center')
                 .css('opacity', '1.0')
+                .css('position', 'relative')
+                .css('top', '200px')
+
+            
             } else {
-                const doubleToggle = async () => {
-                    await setHaunterHover(event.target)   // this is to get some useEffect changes every time a card is hovered.
-                    // await setHaunterHover('false')
-                }                
-                doubleToggle()
+                // const doubleToggle = async () => {
+                //     await setHaunterHover(event.target)   // this is to get some useEffect changes every time a card is hovered.
+                //     // await setHaunterHover('false')
+                // }                
+                // doubleToggle()
             }            
         }
         
