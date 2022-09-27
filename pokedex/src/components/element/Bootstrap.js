@@ -72,6 +72,15 @@
         const [clickCountMouse, setClickCountMouse] = useState()
         const [scrollCheck, setScrollCheck] = useState('false')
 
+        const [haunterHover, setHaunterHover] = useState('false')
+        const haunterHoveritem = useRef("")
+        // const [inputValue, setInputValue] = useState("");
+        // const previousInputValue = useRef("");
+      
+        // useEffect(() => {
+        //   previousInputValue.current = inputValue;
+        // }, [inputValue]);
+
         const [speedBump, setSpeedBump] = useState(0)
 
         let pokeRefs = useRef([]);      
@@ -152,10 +161,13 @@
             })
         }, [])
 
-        useEffect( () => {
-            console.log('setting up a useEffect with dependencyArray of scrollcheck')
+        useEffect(() => {
+            console.log(haunterHover)
+            haunterHoveritem.current = haunterHover
+            console.log('haunterHoveritem')
+            console.log(haunterHoveritem)
+        }, [haunterHover])
 
-        }, [scrollCheck])
 
 
         const updateValue = ( {target: {value}}) => {   
@@ -367,21 +379,28 @@
             })
         }
 
-        const ghostClick = (event) => {
-            // console.log('event')
-            // console.log(event)
-            // $(event.target).css('border', '5px solid orange')
-            let siblings = $(event.target).siblings()
+        const ghostClick = (event) => {                    
+            let eventchild = $(event.target).children()     // i used siblings() first still kind of thinking were using the <img 
+            let pokemoncard = eventchild[0]
+            
+
+            
+
             if (props.ghost === 'true') {
                 $(event.target)
                 .removeClass('Haunter')
                 .addClass('Map-Parent')
-            }
 
-            // $(event.target)
-            // .removeClass('Haunter')
-            // .addClass('Map-Parent')
-            // if (props.ghost === 'true') props.setGhost('false')
+                $(pokemoncard)
+                .addClass('Poke-Card-Img')
+                .css('opacity', '1.0')
+            } else {
+                const doubleToggle = async () => {
+                    await setHaunterHover(event.target)   // this is to get some useEffect changes every time a card is hovered.
+                    // await setHaunterHover('false')
+                }                
+                doubleToggle()
+            }            
         }
         
         
@@ -427,7 +446,8 @@
                             variant={'outline-primary'}
                             onMouseEnter={null}    
                             style={{ 
-                                display: props.ghost === 'true' ? 'none' : 'block'
+                                opacity: props.ghost === 'true' ? '0.0' : '1.0'
+                                // display: props.ghost === 'true' ? 'none' : 'block'
                             }}                    
                             > 
                             </Button>
