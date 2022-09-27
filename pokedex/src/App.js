@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   const [fakeDbState, setFakeDbState] = useState([])
-  const [ghost, setGhost] = useState('false')
+  const [ghost, setGhost] = useState([])
 
 
   return (
