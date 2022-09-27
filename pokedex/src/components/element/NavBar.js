@@ -1,4 +1,6 @@
     import { useEffect, useRef, useState } from 'react'
+    import { useHistory as HISTORY } from "react-router-dom";
+
     import { $ } from 'react-jquery-plugin'
     import TypeLooper from '../utility/TypeTool'
     import GiveAndGet from '../utility/GiveAndGetData'
@@ -12,18 +14,23 @@
     import ReturnRandom from '../utility/ReturnRandom'
     import EmptyImage from '../utility/EmptyImageUrl'
     import ProbAbility from '../utility/Probability'
-    import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript'
+
+    // let history = useHistory();
+    let history = HISTORY()
+    
 
 
+    function HomeButton() {
+        history.push("/");
+    }
+    
 
 
 
     let ghostbtn = $('.ghostbtn')
 
     // * MOUSEMOVE function that: -----> mousemoveCount % 100 === 0 { when modulo % ${random 25 50 75 or 100 2second timeout}
-
-    function Nav (props) {
-        
+    function Nav (props) {        
         const [ghostBucket, setGhostBucket] = useState([])
         const [ghostBallPoke, setGhostBallPoke] = useState([])
         const [starterGhost, setStarterGhost] = useState([])
@@ -33,13 +40,14 @@
         let ghost = useRef()
 
 
-        
+
 
         useEffect( () => {
             (async() => {            
             const stateDefaults = async () => {
                 let ghostdata = await TypeLooper('ghost')
                 let ghostpokemon = ghostdata.pokemon
+                setGhostBucket(ghostpokemon)
                 let starterbucket = []
                 let imagebucket = []
                 const objectbucket = () => {
@@ -50,7 +58,6 @@
                 }
                 // objectBucket()
                 const fillimgbucket = async () => {     // fill-img || filling typo
-                    console.log("we are filling the image bucket")
                     // await setStarterGhost(starterbucket)
                     starterbucket.forEach(async(arritem) => {
                         let loopname = arritem.pokemon.name                    
@@ -69,12 +76,8 @@
                     console.log("we are applying the functions")
                     await objectbucket()
                     await fillimgbucket()
-                    await starterGhost.forEach( (ghost) => {
-                        // console.log('ghost')
-                        // console.log(ghost)
-                    })
-
-                    // await asyncLog()                
+                    await starterGhost.forEach( (ghost) => {                        
+                    })                    
                 }
                 await applyGhostStateDefs()
             }
@@ -89,18 +92,19 @@
 
                     let randomghostimg = await ReturnRandom(starterGhost)
                     setGhostBallPoke(randomghostimg)
-                    $('.ghostbtn').on('mouseenter', () => {
-                        console.log("thats a WIN!")
-                        props.setGhost('true')
+                    $('.ghostbtn').on('mouseenter', async () => {
+                        if (props.ghost === 'false') props.setGhost('true')
+                        else props.setGhost('false')
                     })
+
                 } else { setGhostBallPoke('') }
             }
 
-            const buttonHandler = () => {
-                console.log("click test")
-                console.log(props)
-                console.log(props.ghost)
-
+            const buttonHandler = () => {                             
+                // props.setGhost(ghostBucket) same data populated. 
+                // NavBar.js:108 (78) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+                // NavBar.js:109 props.ghost
+                // NavBar.js:110 (78) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]       
             }
         
 
@@ -109,33 +113,29 @@
             }
 
             const nofunction = () => {
-                console.log('hey')
+                
             }
 
             
         return (
-            <div onMouseMove={lookForGhosts} className="Nav-Bar">
-                {/* const lookForGhosts: (event: any) => Promise<void></void> practicing TS: 
-                func dec:lookForGhosts:
-                (event: any) // function parameters "any" type which is typescripts non-error-checking type. returning a promise void.
-                */} 
-                <button className="navBall Half-Size" id="Pokeball"></button>
+            <div onMouseMove={lookForGhosts} className="Nav-Bar">            
 
+                <button className="navBall Half-Size" id="Pokeball">
+
+                </button>
+                
                 <button 
-                onClick={buttonHandler}
+                onClick={homeButton}
+                // onClick={buttonHandler}
                 className="navBall Half-Size" id="Greatball">
-
                 </button>
 
                 <button className="navBall Half-Size" id="Ultraball"></button>
                 <button 
                 onClick={ghostBallPoke.includes('usercontent') ? ghostClick : nofunction }
-                style= { { 
-                    opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.0', 
-                    // display: ghostBallPoke.includes('usercontent') ? 'block': 'none',
-                    // left: ghostBallPoke.includes('usercontent') ? '5px' : '100px',
-                    backgroundImage: ghostBallPoke.length > 3 ? `url('${ghostBallPoke}')` : ``
-                    // backgroundImage: ghostBallPoke.includes('usercontent') ? `url('${ghostBallPoke}')` : '/img/energy/energyPsychic.jpg'
+                style= {{ 
+                    opacity: ghostBallPoke.includes('usercontent') ? '1.0' : '0.0',                     
+                    backgroundImage: ghostBallPoke.length > 3 ? `url('${ghostBallPoke}')` : ``                    
                 }}
                 className="navBall Half-Size ghostbtn" 
                 id="Ghost" 
