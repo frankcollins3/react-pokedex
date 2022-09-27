@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   const [fakeDbState, setFakeDbState] = useState([])
-  const [ghost, setGhost] = useState([])
+  const [ghost, setGhost] = useState('false')
 
 
   return (
@@ -19,14 +19,10 @@ function App() {
       </Routes>
 
       </Router>
-
       {/* <BrowserRouter>
       <Routes>
-
-      <Route path={'/'} element={<Main/>}/>
-      
+      <Route path={'/'} element={<Main/>}/>    
       </Routes>
-
       </BrowserRouter> */}
     </div>
   );
