@@ -18,7 +18,7 @@
     import animate from '../utility/animationTool'
     import EventTool from '../utility/EventTool'
 
-    import StopWatch from '../utility/TimerTool'
+    import Watch from '../utility/TimerTool'
     
     
     
@@ -158,8 +158,6 @@
         }, [scrollCheck])
 
 
-
-
         const updateValue = ( {target: {value}}) => {   
             setRefLength({value}) // this is basically event.target.value
         }
@@ -175,19 +173,15 @@
             return
         }
 
-        const someState = () => {
-            // console.log('in the somestate function')
-            const randomWords = ['yeah', 'yeah i know', 'so what', 'aaand?', 'as if', 'coding', 'is', 'cool']
-            let randomWord = randomWords[Math.floor(Math.random()*randomWords.length)]
-            props.setGhost('true')
-            props.setFakeDbState([...props.fakeDbState, randomWord])
+        const someState = () => {            
         //    props.setFakeDbState(...props.fakeDbState, ...randomWord)
-        randomWord = ''
         }
 
         const checkAgain = () => {
+
             console.log('in the check again function')
             console.log(props.fakeDbState)
+            console.log(props.ghost)
         }
 
         const handleWrapHover = () => setMainWrapHover("true")
@@ -381,12 +375,13 @@
                 <div className="Input-Wrapper Column-Center">                
                 </div>
                 <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
-                <button onClick={someState} type="button" className="navBall" id="Ultraball"> </button>
+                {/* <button onClick={someState} type="button" className="navBall" id="Ultraball"> </button> */}
             <div className="Screen Column-Between" onScroll={scrollClicker}>
                 <ul id="Render-Ul">
                     
                     {pokeRefs.current.map((el, i) =>
-                            <div key={`key${i}`} className="Map-Parent Column-Center">
+                            <div key={`key${i}`} className={props.ghost === 'true' ? "Haunter" : "Map-Parent Column-Center"}>
+                            {/* <div key={`key${i}`} className="Map-Parent Column-Center"> */}
                             <img 
                             style={{ 
                                 opacity: props.fakeDbState.includes(i + 1) ? '0.1' : '1.0'
@@ -396,7 +391,12 @@
                             onClick={applyName}
                             className={`Poke-Card-Img id${i}`}
                             id={i + 1} // hm can you even use a mathematical operation to set an id?                        
-                            src={hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`}                        
+
+                            src={
+                                props.ghost === 'true' ? '' :
+                                hoverImage.length > 5 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`
+                            }                        
+
                             // {...document.getElementById(i + 1).click()}
                             />
                             <Button 
@@ -432,7 +432,7 @@
                         id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"
                         />
                         { pokedexHover === 'true' ?
-                        <StopWatch />
+                        <Watch pokedexHover={pokedexHover} setPokedexHover={setPokedexHover}/>
                             :
                             ''
                         }
