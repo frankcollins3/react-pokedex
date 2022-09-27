@@ -64,7 +64,6 @@
 
         const [evolvePokemon, setEvolvePokemon] = useState([])
 
-
         const [hoverImage, setHoverImage] = useState('')    // manipulate upon <pokemonImg mouseEnter={hoverHandler}
         const [observerEntryState, setObserverEntryState] = useState([]) 
         const [observerTarget, setObserverTarget] = useState('')    // try with array or string.
@@ -74,12 +73,8 @@
 
         const [haunterHover, setHaunterHover] = useState('false')
         const haunterHoveritem = useRef("")
-        // const [inputValue, setInputValue] = useState("");
-        // const previousInputValue = useRef("");
-      
-        // useEffect(() => {
-        //   previousInputValue.current = inputValue;
-        // }, [inputValue]);
+        
+
 
         const [speedBump, setSpeedBump] = useState(0)
 
@@ -161,12 +156,7 @@
             })
         }, [])
 
-        useEffect(() => {
-            console.log(haunterHover)
-            haunterHoveritem.current = haunterHover
-            console.log('haunterHoveritem')
-            console.log(haunterHoveritem)
-        }, [haunterHover])
+        
 
 
 
@@ -190,10 +180,10 @@
         }
 
         const checkAgain = () => {
-
             console.log('in the check again function')
+            console.log('props')
+            console.log(props)
             console.log(props.fakeDbState)
-            console.log(props.ghost)
         }
 
         const handleWrapHover = () => setMainWrapHover("true")
@@ -372,36 +362,38 @@
                 let targetpokemonurl = siblings[0].currentSrc
                 let len = targetpokemonurl.length
                 let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')
-                console.log('siblingPokeCard')
-                console.log(siblingPokeCard.id)
+                
                 let stateID = parseInt(cleanID)
                 await props.setFakeDbState([...props.fakeDbState, siblingPokeCard.id])
             })
         }
 
-        const ghostClick = (event) => {                    
-            let eventchild = $(event.target).children()     // i used siblings() first still kind of thinking were using the <img 
-            let pokemoncard = eventchild[0]
+        const ghostClick = (event) => { 
             
-
-            
-
             if (props.ghost === 'true') {
+
+                let eventchild = $(event.target).children()     // i used siblings() first still kind of thinking were using the <img 
+                let pokemoncard = eventchild[0]    
+                let easyid = event.target.attributes.id.nodeValue
+
+                console.log('easyid')
+                console.log(easyid)
+
+                const addToFakeDb = async () => {
+                    await props.setFakeDbState([...props.fakeDbState, easyid])
+                }
+                addToFakeDb()
+
                 $(event.target)
                 .removeClass('Haunter')
                 .addClass('Map-Parent')
-
                 $(pokemoncard)
-                .addClass('Poke-Card-Img Column-Center')
+                .addClass('Poke-Card-Img')
                 .css('opacity', '1.0')
-                .css('position', 'relative')
-                .css('top', '200px')
-
-            
             } else {
                 // const doubleToggle = async () => {
-                //     await setHaunterHover(event.target)   // this is to get some useEffect changes every time a card is hovered.
-                //     // await setHaunterHover('false')
+                //     await setHaunterHover('true')   // this is to get some useEffect changes every time a card is hovered.
+                //     await setHaunterHover('false')
                 // }                
                 // doubleToggle()
             }            
@@ -410,39 +402,32 @@
         
         
         if (props.pokedexClick == 'true') {
-        // if (pokedexClick == 'true') {
         return (
             <>
                 <div className="Screen-Wrapper">
                 <div className="Input-Wrapper Column-Center">                
                 </div>
-                {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
+                <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
                 {/* <button onClick={someState} type="button" className="navBall" id="Ultraball"> </button> */}
             <div className="Screen Column-Between" onScroll={scrollClicker}>
                 <ul id="Render-Ul">
                     
                     {pokeRefs.current.map((el, i) =>
-                            <div key={`key${i}`} onMouseEnter={ghostClick} className={props.ghost === 'true' ? "Haunter" : "Map-Parent Column-Center"}>
-                            {/* <div key={`key${i}`} className="Map-Parent Column-Center"> */}
+                            <div key={`key${i}`} id={i + 1} onClick={ghostClick} className={props.ghost === 'true' ? "Haunter" : "Map-Parent Column-Center"}>                                                                                                                                                                                                                
                             <img 
-                            style={{ 
-                                // opacity: props.fakeDbState.includes(i + 1) ? '0.1' : '1.0',
-
-                                // opacity: props.ghost === 'true' ? '0.0' :
-                                opacity: props.ghost === 'true' ? '0.0' : '1.0'
-                                // props.fakeDbState.includes(i + 1) ? '0.1' : '1.0',
+                            style={{                                                             
+                                display: props.ghost === 'true' ? 'none': 'block',
+                                opacity: props.ghost === 'true' ? '0.0' : '1.0'                                
                             }}
                             onMouseEnter={hoverHandler}
                             onMouseLeave={mouseLeaveHandler}
                             onClick={applyName}
                             className={`Poke-Card-Img id${i}`}
-                            id={i + 1} // hm can you even use a mathematical operation to set an id?                                                    
+                            id={i + 1} 
                             src={
                                 props.ghost === 'true' ? '' :
                                 hoverImage.length > 3 ? hoverImage : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`
                             }                        
-
-                            // {...document.getElementById(i + 1).click()}
                             />
                             <Button 
                             size="lg"
@@ -472,7 +457,7 @@
                             {/* <img id="Info-Img" className="Double-Size" src={"/img/info.png"}></img>                         */}
                         </div>
 
-                                            
+
                         )}                       
                         </ul>      
                         {/* <InputMap specifiedLength={[refLength, setRefLength]} inputTarget={ {target: jqInput } } /> */}                  
@@ -494,8 +479,6 @@
                             :
                             ''
                         }
-
-                        {/* <label htmlFor={'Screen-Input'}> {preInputValue == 'undefined' ? '' : preInputValue}  </label> */}
                             </div>
             </div>
         </>
@@ -504,7 +487,6 @@
     else  { 
         return (
                 <div onMouseEnter={handleWrapHover} className="Main-Wrap Column-Between">
-                {/* <div onMouseEnter={TrueFalseTool([mainWrapHover], [setMainWrapHover()], 'true' )} className="Main-Wrap Column-Between"> */}
 
                 <div onClick={pokedexClickHandler}className={pokeBgState == 'false' ? "Pokedex Close-Pokedex" :  "Pokedex Open-Pokedex" }> </div>   
 
@@ -528,11 +510,7 @@
 
                 <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}> Welcome!   </h1>        
                 <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}>  How many Pokemon  </h1>        
-                <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}>  Would You like to See?  </h1>        
-                {/* <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && props.pokedexClick === 'false' ? 'none' : 'block'}}> Welcome!   </h1>        
-                <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && props.pokedexClick === 'false' ? 'none' : 'block'}}>  How many Pokemon  </h1>        
-                <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && props.pokedexClick === 'false' ? 'none' : 'block'}}>  Would You like to See?  </h1>         */}
-
+                <h1 className="Pokedex-Text" style= {{ display: inputHide === 'false' && pokedexClick === 'false' ? 'none' : 'block'}}>  Would You like to See?  </h1>                        
                 </div>
 
                 </div>    
