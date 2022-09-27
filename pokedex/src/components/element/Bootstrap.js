@@ -300,6 +300,8 @@
         }
 
         const applyName = async (event) => {
+            // THIS WILL DO NOTHING! if props.ghost === 'true' the element linked to this will be {display: none} out of reach like jq$.detach() it obliterates REFERENCE to elem.
+            //  if (props.ghost === 'true') props.setGhost('false') // props.ghost === 'false'  typed this first 
             if (scrollCheck === 'false') {
                 setScrollCheck('true') // this was going to be a scroll based event.        
                 let tgt = event.target                  // let tgt = $(event.target)  // this will return undefined when you try to access the attributes endpoint/value of the event.target object/API
@@ -364,6 +366,10 @@
                 await props.setFakeDbState([...props.fakeDbState, siblingPokeCard.id])
             })
         }
+
+        const ghostClick = () => {
+            if (props.ghost === 'true') props.setGhost('false')
+        }
         
         
         
@@ -380,7 +386,7 @@
                 <ul id="Render-Ul">
                     
                     {pokeRefs.current.map((el, i) =>
-                            <div key={`key${i}`} className={props.ghost === 'true' ? "Haunter" : "Map-Parent Column-Center"}>
+                            <div key={`key${i}`} onClick={ghostClick} className={props.ghost === 'true' ? "Haunter" : "Map-Parent Column-Center"}>
                             {/* <div key={`key${i}`} className="Map-Parent Column-Center"> */}
                             <img 
                             style={{ 
