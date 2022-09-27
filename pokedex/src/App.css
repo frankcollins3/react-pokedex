@@ -2,7 +2,8 @@
   text-align: center;
   margin-top: 0.5em;
   font-family: 'Open Sans';       /* will change but looks nice for now.  */
-} 
+}
+ 
 
 /* Home Nav & Main Screen */
 .Home-Body {
@@ -49,20 +50,21 @@
 }
 
 .navBall {
+  /* padding: 0 3em 0 3em; */
   height: 85px;
   width: 85px;
   border-radius: 50%;
-  /* padding: 0 3em 0 3em;
-  margin: 0 3em 0 3em; */
+  margin: 0 3em 0 3em; 
   opacity: 1.0;
 }
 
-.Ghost {
-  /* background-color: black; */
+.ghostbtn {
+  position: relative;
+  background-color: transparent;
+  border: transparent;
   height: 85px;
   width: 85px;
   border-radius: 50%;
-  opacity: 1.0;
   background-size: cover;
   background-repeat: no-repeat;
   /* padding: 0 3em 0 3em;
@@ -116,7 +118,7 @@
 }
 
 .Poke-Card-Img {
-  
+  margin-top: -2em;
   height: 185px;
   width: 185px;
 }
@@ -130,7 +132,6 @@
 .Poke-Bar-Pokemon {
   list-style-type: none;
   margin: 0 1em 0 1em;
-
 }
 
 .Pokedex {
@@ -162,11 +163,11 @@
 
 .Hidden-Input-Container {
   height: 300px;
-  /* height: 20em; */
   margin: 0px;
 }
 
 .Bootstrap-Screen-Btn {
+  margin-top: -1.25em;
   background-image: url("/public/img/pokeball.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -176,15 +177,12 @@
 }
 
 .Invisible-P {
+  margin-top: 3em;
+  /* background-image: url("/public/img/leftClick.png"); */
+  /* background: url("/public/img/leftClick.png") no-repeat; */
+  text-align: center;
   color: transparent;
 }
-
-/* glad only took 2 seconds but feels silly to try putting elem:hover when there  */
-.Bootstrap-Screen-Btn:hover {
-  
-}
-
-
 
 .Map-Parent {
   height: 400px;
@@ -192,6 +190,14 @@
   background-image: url("/public/img/pokemontemplate.png");
   margin-top: 500px;
 }
+
+.Haunter {
+  height: 400px;
+  width: 400px;
+  background-image: url("/public/img/haunter.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+ }
 
 #Render-Ul {
   /* border: 5px solid maroon; */
@@ -201,6 +207,16 @@
 .Sprite {
   height: 85px;
   width: 85px;
+}
+
+.Mouse-Icon {
+  margin-top: -1.25em;
+}
+
+.Name-Tag {
+  font-size: 24px;
+  position: relative;
+  top: 90px;
 }
 
 .Carousel-Item {
@@ -219,7 +235,7 @@
 .Half-Size { transform: scale(0.5);}
 .Quarter-Size { transform: scale(0.25);}
 .Tenth-Size { transform: scale(0.1);}
-
+.Invisible { display: none;}
 /* SCREEN */
 
 
@@ -253,7 +269,6 @@
   }
   80% {
     opacity: 0.2;
-    border: 
   }
   100% {
     opacity: 0.0
