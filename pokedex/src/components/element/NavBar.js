@@ -18,6 +18,7 @@
     import ProbAbility from '../utility/Probability'
     import LocationTool from '../utility/LocRedirect'
     import TypeScreen from '../webpage/TypeScreen'
+    import toggleHideShow from '../utility/hideShow'
 
     let ghostbtn = $('.ghostbtn')
 
@@ -46,14 +47,14 @@
                     console.log($(document))
                    let location = $(document.location)[0]
                    let path = location.pathname
-                   
-                    console.groupCollapsed()
-                    console.log('location')
-                    console.log(location)
-                    console.log(location.port)
-                    console.log(location.href)
-                    console.log(location.pathname)
-                    console.groupEnd()
+                   if (path.includes('/pokemon')) {
+                    // $('.ghostbtn').hide()
+                    toggleHideShow($('.ghostbtn'), 'hide')
+
+                    // i thought path wouldn't work with .includes since its not an array. didn't think it would be a far dig if it didn't work though
+                    console.log("hey path has that")
+                   } else { console.log("no it doesnt has that")}
+                    
                 //    3 mins on $(document).location
                     
                 }
