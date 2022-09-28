@@ -17,6 +17,7 @@ function TypeBar() {
     const [arrayPopulation, setArrayPopulation] = useState('false')
 
     const [tossedValues, setTossedValues] = useState([])    // this state saves the backgrounds we've applied onto the elements. used to double-check against duplicates.
+    const [appliedElements, setAppliedElements] = useState([])
 
     const [screenPokemon, setScreenPokemon] = useState('') // id or imgSrc or name     selectedType->selectedPokemon to go to pg 3 form hovering upon
 
@@ -29,14 +30,19 @@ function TypeBar() {
         getBackgrounds()
     }, [])
     
-    const addBg = async (event) => {        
+    const addBg = async (event) => {  
+        let target = $(event.target)
+
         let randombg = await ReturnRandom(bgBucket)
         
         let substrings = randombg.split('/')        
         let regextype = await PushPop(randombg, '/', 'pop')        
         // {name: 'grass', url: 'https://pokeapi.co/api/v2/type/12/'} this is nice. returning a .find() as a variable returns this.        
         let energyType = substrings.pop()    // | -> substrings[substrings.length-1] 
-        $(event.target).css('background', `url('${randombg}')`)                
+        if (!appliedElements.includes($(event.target))) {
+            $(event.target).css('background', `url('${randombg}')`)                
+        }
+        setAppliedElements([...appliedElements, $(event.target)])      
 
         // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args        
         const findAndLoop = async () => {
@@ -55,9 +61,6 @@ function TypeBar() {
         asyncLoopFunc()
     }
 
-
-   
-
     const changeStateSource = async () => {
         console.log('bgBucket')
         console.log(bgBucket)
@@ -68,10 +71,15 @@ function TypeBar() {
         //         if (bgval.includes(used)) {
         //             console.log('bgval includes !!!')   // kind of confused why [1) await findAndLoop() 2) await changeStateSource() state still cant be accessed ]
         }  
+
+    const checkbg = () => {
+        console.log('appliedElements')
+        console.log(appliedElements)
+    }
  
     return (
         <div className="Type-Bar Row-Center"> 
-        <button  className="navBall" id="Ultraball"> </button>
+        <button onClick={checkbg} className="navBall" id="Ultraball"> </button>
         <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
         <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
         <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
