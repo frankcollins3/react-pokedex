@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import bg from '../utility/bgList'
 import ReturnRandom from '../utility/ReturnRandom';
 import { $ } from 'react-jquery-plugin'
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 
 
@@ -28,22 +29,20 @@ function TypeBar() {
             
         // }
         let randombg = await ReturnRandom(bgBucket)
+        let newstr = randombg.substring(randombg.indexOf("/"))
+        // var afterComma = randombg.substr(randombg.indexOf("/") + 1); // Contains 24 //
+        var afterComma = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //
+        console.log('afterComma')
+        console.log(afterComma)
+
         console.log('randombg')
         console.log(randombg)
-
-        // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
-
-            // try a split that seizes on the / slashings to cause rifts and destroy the first [0] substring
-        // let bgsubstr = randombg.split('/')  the imgSrcData was originally sent over as /public/img which had to be regex/split off from the string
-        
         
 
         $(event.target).css('background', `url('${randombg}')`)
-        // card.css('background', "url('/img/haunter.png')")
-        console.log('bgBucket')
-        console.log(bgBucket)
-        // making sure the setting State is going correctly
 
+
+        // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
     }
 
     // there will be an event.target type of object.endpoint/key validation so we may be setting the id to the /psychic.img (example) type.
