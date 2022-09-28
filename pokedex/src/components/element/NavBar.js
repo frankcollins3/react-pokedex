@@ -66,7 +66,6 @@
                 
                     
                 const applyGhostStateDefs = async () => {
-                    console.log("we are applying the functions")
                     await objectbucket()
                     await fillimgbucket()
                     await starterGhost.forEach( (ghost) => {                        
@@ -101,11 +100,13 @@
                 // console.info(navBarNavigate)                
                 
                 let ballcheck = event.target.attributes[1].nodeValue
+                console.log('ballcheck')
+                console.log(ballcheck)
                 if (typeof ballcheck === 'string') {     // not an array it would be a string.
-                    if (ballcheck === 'Greatball') {        // this is our id which is set as an inline prop.
-
-                        navBarNavigate('pokemon')
-                        // LocationTool(ballcheck, '/', navBarNavigate)
+                    if (ballcheck === 'Greatball') LocationTool(ballcheck, '/pokemon', navBarNavigate)   // or make array if err. safelanding.
+                    if (ballcheck === 'Pokeball') {
+                        console.log("atleast weve got a pokeball")
+                        LocationTool(ballcheck, '/', navBarNavigate)
                     }
                 }
 
@@ -124,8 +125,8 @@
         return (
             <div onMouseMove={lookForGhosts} className="Nav-Bar">            
 
-                <button className="navBall Half-Size" id="Pokeball">
-
+                <button onClick={evalTargetRedirect} className="navBall Half-Size" id="Pokeball"> 
+                {/* near 10 mins checking why functions not working it was never set into onClick */}
                 </button>
                 
                 <button 
@@ -152,9 +153,4 @@
     export default Nav
 
 
-    // NavBar.js:74 Uncaught (in promise) 
-    // AxiosError {message: 'Request failed with status code 404', name: 'AxiosError', code: 'ERR_BAD_REQUEST', config: {…}, request: XMLHttpRequest, …}
-    // url
-    // : 
-    // "https://pokeapi.co/api/v2/pokemon/0030"
-    // * this is our url that is coming up with an empty pokemon.
+
