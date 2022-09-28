@@ -29,20 +29,25 @@ function TypeBar() {
             
         // }
         let randombg = await ReturnRandom(bgBucket)
-        let newstr = randombg.substring(randombg.indexOf("/"))
-        // var afterComma = randombg.substr(randombg.indexOf("/") + 1); // Contains 24 //
-        var afterComma = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //
-        console.log('afterComma')
-        console.log(afterComma)
-
+        var slashslice = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //
         console.log('randombg')
         console.log(randombg)
+        
+        // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
+        let substrings = randombg.split('/')
+        console.log('substrings')
+        console.log(substrings)
+        let newresult = substrings[substrings.length-1]         
+        console.log('newresult')
+        console.log(newresult)
+
+        // let newstr = randombg.substring(randombg.indexOf("/"))
+        
         
 
         $(event.target).css('background', `url('${randombg}')`)
 
 
-        // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
     }
 
     // there will be an event.target type of object.endpoint/key validation so we may be setting the id to the /psychic.img (example) type.
