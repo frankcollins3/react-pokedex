@@ -5,7 +5,7 @@ import ReturnRandom from '../utility/ReturnRandom';
 import { $ } from 'react-jquery-plugin'
 import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript';
 
-
+let updatedbucket = []
 
 
 function TypeBar() {
@@ -29,6 +29,7 @@ function TypeBar() {
             
         // }
         let randombg = await ReturnRandom(bgBucket)
+        console.log(randombg)
         var slashslice = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //            
         // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
         // let execexp = /[^/]*$/.exec(randombg)[0]; w/o [0]:         // ['energyLeaf.jpeg', index: 12, input: '/img/energy/energyLeaf.jpeg', groups: undefined]         
@@ -36,24 +37,32 @@ function TypeBar() {
         let substrings = randombg.split('/')        
         let energyType = substrings.pop()    
         $(event.target).css('background', `url('${randombg}')`)                
-
+        
         // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args
-        bgBucket.forEach( (bucketitem) => {
-            // console.log('bucketitem')
-            // console.log(bucketitem)
-            if (bucketitem.includes(energyType)) {
-                console.log('in the includes')
-                console.log(energyType)
-                console.log('bucketitem')
-                console.log(bucketitem)                
+        bgBucket.find( (bucketitem) => {
+            if (!bucketitem.includes(energyType)) {         // if our array state (/img/energy/energyWater.png) doesn't include energytype (energyWater)
+                console.log(bucketitem)
+                // setBgBucket([...bgBucket, bucketitem]) 
+                // /img/energy/energyPsychic.jpg
+                // TopBar.js:44 /img/energy/energyElectric.jpeg
+                // TopBar.js:44 /img/energy/energyFire.png
+                // TopBar.js:44 /img/energy/energyLeaf.jpeg
+                // TopBar.js:44 /img/energy/energyNormal.png
+                // TopBar.js:44 /img/energy/energyFighting.jpg
             }
         })
+    }
+
+    let checkbg = () => {
+        console.log('bgBucket')
+        console.log(bgBucket)
     }
 
     // there will be an event.target type of object.endpoint/key validation so we may be setting the id to the /psychic.img (example) type.
     // mouse behavior upon the circle will apply a class 
     return (
         <div className="Type-Bar Row-Center"> 
+        <button onClick={checkbg} className="navBall" id="Ultraball"> </button>
         <div onClick={addBg} className="Circle"></div>      
         <div onClick={addBg} className="Circle"></div>      
         <div onClick={addBg} className="Circle"></div>      
