@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import bg from '../utility/bgList'
 import ReturnRandom from '../utility/ReturnRandom';
+import { $ } from 'react-jquery-plugin'
 
 
 
@@ -26,7 +27,19 @@ function TypeBar() {
         let randombg = await ReturnRandom(bgBucket)
         console.log('randombg')
         console.log(randombg)
-        // $(event.target).css('background', "url('/img/haunter.png')")
+
+        // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
+
+            // try a split that seizes on the / slashings to cause rifts and destroy the first [0] substring
+        // let bgsubstr = randombg.split('/') 
+        let bgsubstr = randombg.split('/') 
+        console.log('bgsubstr')
+        console.log(bgsubstr)
+        let prestr = bgsubstr.reduce( (items) => {
+            
+        })
+
+        $(event.target).css('background', `url('/img/energy/energyPsychic.jpg')`)
         // card.css('background', "url('/img/haunter.png')")
         console.log('bgBucket')
         console.log(bgBucket)
