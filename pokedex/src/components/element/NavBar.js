@@ -1,7 +1,6 @@
     import { useEffect, useRef, useState } from 'react'
     // import { useHistory as HISTORY } from "react-router-dom"; deprecated / changed to useLocation
-    import { useNavigate } from 'react-router-dom'
-
+    import { useNavigate } from "react-router-dom";
 
     import { BrowserRouter as Router, Switch, useLocation as useLoc } from 'react-router-dom'
     import { $ } from 'react-jquery-plugin'
@@ -99,14 +98,14 @@
 
             const evalTargetRedirect = (event) => {    
                 console.log('eval end')
-                console.info(navBarNavigate)                
-                // console.log(event)
-                // console.log(event.target)// console.log(event.target.attributes[1].nodeValue)
+                // console.info(navBarNavigate)                
+                
                 let ballcheck = event.target.attributes[1].nodeValue
                 if (typeof ballcheck === 'string') {     // not an array it would be a string.
                     if (ballcheck === 'Greatball') {        // this is our id which is set as an inline prop.
 
-                        LocationTool(ballcheck, '/', navBarNavigate)
+                        navBarNavigate('pokemon')
+                        // LocationTool(ballcheck, '/', navBarNavigate)
                     }
                 }
 
@@ -153,3 +152,9 @@
     export default Nav
 
 
+    // NavBar.js:74 Uncaught (in promise) 
+    // AxiosError {message: 'Request failed with status code 404', name: 'AxiosError', code: 'ERR_BAD_REQUEST', config: {…}, request: XMLHttpRequest, …}
+    // url
+    // : 
+    // "https://pokeapi.co/api/v2/pokemon/0030"
+    // * this is our url that is coming up with an empty pokemon.
