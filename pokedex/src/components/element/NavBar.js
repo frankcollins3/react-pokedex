@@ -1,6 +1,9 @@
     import { useEffect, useRef, useState } from 'react'
-    import { useHistory as HISTORY } from "react-router-dom";
+    // import { useHistory as HISTORY } from "react-router-dom"; deprecated / changed to useLocation
+    import { useNavigate } from 'react-router-dom'
 
+
+    import { BrowserRouter as Router, Switch, useLocation as useLoc } from 'react-router-dom'
     import { $ } from 'react-jquery-plugin'
     import TypeLooper from '../utility/TypeTool'
     import GiveAndGet from '../utility/GiveAndGetData'
@@ -14,23 +17,16 @@
     import ReturnRandom from '../utility/ReturnRandom'
     import EmptyImage from '../utility/EmptyImageUrl'
     import ProbAbility from '../utility/Probability'
-
-    // let history = useHistory();
-    let history = HISTORY()
-    
-
-
-    function HomeButton() {
-        history.push("/");
-    }
-    
-
-
+    import LocationTool from '../utility/LocRedirect'
 
     let ghostbtn = $('.ghostbtn')
 
+    // 
+
+
     // * MOUSEMOVE function that: -----> mousemoveCount % 100 === 0 { when modulo % ${random 25 50 75 or 100 2second timeout}
     function Nav (props) {        
+
         const [ghostBucket, setGhostBucket] = useState([])
         const [ghostBallPoke, setGhostBallPoke] = useState([])
         const [starterGhost, setStarterGhost] = useState([])
@@ -38,6 +34,7 @@
 
 
         let ghost = useRef()
+        let navBarNavigate = useNavigate()
 
 
 
@@ -67,10 +64,7 @@
                         // await props.setFakeDbState([...props.fakeDbState, siblingPokeCard.id])
                     })
                 }
-                const asyncLog = async () => {
-                    await console.groupCollapsed()                
-                    console.groupEnd()
-                }
+                
                     
                 const applyGhostStateDefs = async () => {
                     console.log("we are applying the functions")
@@ -86,6 +80,9 @@
             })()
         }, [])
 
+        
+        
+
             const lookForGhosts = async (event) => {
                 let letsSee = await ProbAbility(22)
                 if (letsSee == 'true') {         
@@ -100,11 +97,19 @@
                 } else { setGhostBallPoke('') }
             }
 
-            const buttonHandler = () => {                             
-                // props.setGhost(ghostBucket) same data populated. 
-                // NavBar.js:108 (78) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-                // NavBar.js:109 props.ghost
-                // NavBar.js:110 (78) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]       
+            const evalTargetRedirect = (event) => {    
+                console.log('eval end')
+                console.info(navBarNavigate)                
+                // console.log(event)
+                // console.log(event.target)// console.log(event.target.attributes[1].nodeValue)
+                let ballcheck = event.target.attributes[1].nodeValue
+                if (typeof ballcheck === 'string') {     // not an array it would be a string.
+                    if (ballcheck === 'Greatball') {        // this is our id which is set as an inline prop.
+
+                        LocationTool(ballcheck, '/', navBarNavigate)
+                    }
+                }
+
             }
         
 
@@ -125,8 +130,7 @@
                 </button>
                 
                 <button 
-                onClick={homeButton}
-                // onClick={buttonHandler}
+                onClick={evalTargetRedirect}
                 className="navBall Half-Size" id="Greatball">
                 </button>
 
@@ -149,9 +153,3 @@
     export default Nav
 
 
-    // NavBar.js:74 Uncaught (in promise) 
-    // AxiosError {message: 'Request failed with status code 404', name: 'AxiosError', code: 'ERR_BAD_REQUEST', config: {…}, request: XMLHttpRequest, …}
-    // url
-    // : 
-    // "https://pokeapi.co/api/v2/pokemon/0030"
-    // * this is our url that is coming up with an empty pokemon.
