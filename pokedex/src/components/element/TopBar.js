@@ -16,7 +16,7 @@ function TypeBar() {
     const [selectedType, setSelectedType] = useState('') // one type at a time that changes when you click one of the circles.
     const [arrayPopulation, setArrayPopulation] = useState('false')
 
-    const [tossedValues, setTossedValues] = useState([])
+    const [tossedValues, setTossedValues] = useState([])    // this state saves the backgrounds we've applied onto the elements. used to double-check against duplicates.
 
     const [screenPokemon, setScreenPokemon] = useState('') // id or imgSrc or name     selectedType->selectedPokemon to go to pg 3 form hovering upon
 
@@ -45,35 +45,42 @@ function TypeBar() {
                     if (tossedValues.length < 1) {
                         otherBgBucket.push(bucketitem)
                     }
-                    setTossedValues(regextype)
-
+                    setTossedValues([...tossedValues, regextype])
                 }}) // .find end
-            }
-            findAndLoop()            
+            }        
+        const asyncLoopFunc = async () => {
+            await findAndLoop()
+            // await changeStateSource() // setTimeout(changeStateSource, 2000)            
+        }
+        asyncLoopFunc()
     }
 
-    let checkbg = () => {
-        console.log('otherBgBucket')
-        console.log(otherBgBucket)
 
-        console.log('tossedValues')
-        console.log(tossedValues)
-    }
+   
 
+    const changeStateSource = async () => {
+        console.log('bgBucket')
+        console.log(bgBucket)
+        // bgBucket.forEach( (bgval) => {
+        //     console.log('bgval')
+        //     console.log(bgval)
+        //     tossedValues.forEach( (used) => {
+        //         if (bgval.includes(used)) {
+        //             console.log('bgval includes !!!')   // kind of confused why [1) await findAndLoop() 2) await changeStateSource() state still cant be accessed ]
+        }  
  
     return (
         <div className="Type-Bar Row-Center"> 
-        <button onClick={checkbg} className="navBall" id="Ultraball"> </button>
-        <div onClick={addBg} className="Circle"></div>      
-        <div onClick={addBg} className="Circle"></div>      
-        <div onClick={addBg} className="Circle"></div>      
-        <div onClick={addBg} className="Circle"></div>      
-        <div onClick={addBg} className="Circle"></div>      
-        <div onClick={addBg} className="Circle"></div>      
-        <div onClick={addBg} className="Circle"></div>      
+        <button  className="navBall" id="Ultraball"> </button>
+        <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
+        <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
+        <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
+        <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
+        <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
+        <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
+        <div onMouseEnter={addBg} onMouseLeave={changeStateSource} className="Circle"></div>      
         </div>
     )
-    
 }
 export default TypeBar
 
