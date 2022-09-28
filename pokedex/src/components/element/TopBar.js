@@ -40,7 +40,6 @@ function TypeBar() {
         console.log(eventid)
 
         let randombg = await ReturnRandom(bgBucket)
-        
         let substrings = randombg.split('/')        
         let regextype = await PushPop(randombg, '/', 'pop')        
         // {name: 'grass', url: 'https://pokeapi.co/api/v2/type/12/'} this is nice. returning a .find() as a variable returns this.        
@@ -76,39 +75,37 @@ function TypeBar() {
     }
 
         const changeStateSource = async () => {
-            
+        otherBgBucket = []
         bgBucket.forEach( (bgval) => {        
             tossedValues.forEach(async(used) => {
                 if (bgval.includes(used)) {
                     console.log(`friends: ${bgval} ${used}`)                                      
                     // console.log("yeah the values include each other")
                 } else if (!bgval.includes(used)) {          
+                    console.log('used')
+                    console.log(used)
                     console.log('else block')                    
                     bgBucket.map(async(mapitem) => {
                         if (mapitem === bgval) {
-                            if (!bgBucket.includes(bgval)) {
-                                await setBgBucket([...bgBucket, bgval])
-                            }
+                            await otherBgBucket.push(bgval)
+                            await setBgBucket([otherBgBucket])
+                            
                         }
                     })
                 }
                 
             })
-        })
-        // bgBucket.forEach( (bgval) => {
-        //     console.log('bgval')
-        //     console.log(bgval)
-        //     tossedValues.forEach( (used) => {
-        //         if (bgval.includes(used)) {
-        //             console.log('bgval includes !!!')   // kind of confused why [1) await findAndLoop() 2) await changeStateSource() state still cant be accessed ]
+        })        
         }  
 
-    const checkbg = () => {
-        console.log('appliedElements')
-        console.log(appliedElements)
+    const checkbg = () => {     
+        console.log('otherBgBucket')
+        console.log(otherBgBucket)
 
-        console.log('bgBucket')
-        console.log(bgBucket)
+        console.log('bgBucket')       
+        console.log(bgBucket)       
+        console.log('tossedValues')
+        console.log(tossedValues)
     }
  
     return (
