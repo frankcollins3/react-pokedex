@@ -75,22 +75,24 @@ function TypeBar() {
         asyncLoopFunc()
     }
 
-    const changeStateSource = async () => {
-        
+        const changeStateSource = async () => {
+            
         bgBucket.forEach( (bgval) => {        
-            tossedValues.forEach( (used) => {
+            tossedValues.forEach(async(used) => {
                 if (bgval.includes(used)) {
-                    console.log("yeah the values include each other")
-                    console.log('bgval')
-                    console.log(bgval)
-                    console.log('used')
-                    console.log(used)
-                    // yeah the values include each other
-                    // TopBar.js:85 bgval
-                    // TopBar.js:86 /img/energy/psychic.jpg
-                    // TopBar.js:88 used
-                    // TopBar.js:89 psychic                                        
+                    console.log(`friends: ${bgval} ${used}`)                                      
+                    // console.log("yeah the values include each other")
+                } else if (!bgval.includes(used)) {          
+                    console.log('else block')                    
+                    bgBucket.map(async(mapitem) => {
+                        if (mapitem === bgval) {
+                            if (!bgBucket.includes(bgval)) {
+                                await setBgBucket([...bgBucket, bgval])
+                            }
+                        }
+                    })
                 }
+                
             })
         })
         // bgBucket.forEach( (bgval) => {
@@ -104,6 +106,9 @@ function TypeBar() {
     const checkbg = () => {
         console.log('appliedElements')
         console.log(appliedElements)
+
+        console.log('bgBucket')
+        console.log(bgBucket)
     }
  
     return (
