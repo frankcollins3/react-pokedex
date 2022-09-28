@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import bg from '../utility/bgList'
 import ReturnRandom from '../utility/ReturnRandom';
 import { $ } from 'react-jquery-plugin'
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript';
 
 
 
@@ -31,14 +31,23 @@ function TypeBar() {
         let randombg = await ReturnRandom(bgBucket)
         var slashslice = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //            
         // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
-
         // let execexp = /[^/]*$/.exec(randombg)[0]; w/o [0]:         // ['energyLeaf.jpeg', index: 12, input: '/img/energy/energyLeaf.jpeg', groups: undefined]         
         // let newresult = substrings[substrings.length-1]          (4) ['', 'img', 'energy', 'energyNormal.jpg']       this returns energyNormal [last part]
         let substrings = randombg.split('/')        
-        let newresult = substrings.pop()
-        $(event.target).css('background', `url('${randombg}')`)
+        let energyType = substrings.pop()    
+        $(event.target).css('background', `url('${randombg}')`)                
 
-
+        // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args
+        bgBucket.forEach( (bucketitem) => {
+            // console.log('bucketitem')
+            // console.log(bucketitem)
+            if (bucketitem.includes(energyType)) {
+                console.log('in the includes')
+                console.log(energyType)
+                console.log('bucketitem')
+                console.log(bucketitem)                
+            }
+        })
     }
 
     // there will be an event.target type of object.endpoint/key validation so we may be setting the id to the /psychic.img (example) type.
