@@ -13,24 +13,23 @@ export default async function PushPop (str, splitchar,  method) {
            let textAfterLastSlash = str.substring(str.lastIndexOf("/") + 1)
              const remove_after = textAfterLastSlash.indexOf('.')
             let cleantype = textAfterLastSlash.substring(0, remove_after)            
-    
-            typelist.find( (type) => {
+            let findit = typelist.find( (type) => {
                 if (type.name === cleantype) {
+                    console.log('type equals name we return the type back')
+                    console.log('cleantype')
+                    console.log(cleantype)                    
                     return cleantype
                 }
             })
+            return findit
         } else if (method === 'push') {        
-            console.log('in the push else')
             let randombg = await ReturnRandom(await bgList())
-            console.log('randombg')
-            console.log(randombg)
-
+                    
             let prefix = randombg.substring(0, randombg.lastIndexOf('/') + 1)
             if (prefix.includes('.')) {
-                console.log("prefix includes a dot probably from .png .jpeg .jpg! NO GOOD!")
             } else {
-                console.log('prefix doesnt include a . we have only the /img/energy part ')
-                console.log(prefix)
+                let newstring = prefix += str                
+                return newstring
             }
 
 
