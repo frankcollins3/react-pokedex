@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Main from './components/webpage/MainScreen'
+import TypeScreen from './components/webpage/TypeScreen'
+
 import React, { useEffect, useState} from 'react'
 
 import './App.css';
@@ -12,10 +14,10 @@ function App() {
   return (
     <div className="Home-Body Column-Center">
       <Router>
-      <Routes>
 
+      <Routes>
       <Route path={'/'} element={<Main fakeDbState={fakeDbState} setFakeDbState={setFakeDbState} ghost={ghost} setGhost={setGhost}/>}/>
-      
+      <Route path={'/pokemon'} element={<TypeScreen fakeDbState = {fakeDbState} setFakeDbState={setFakeDbState} ghost={ghost} setGhost={setGhost}/>}/>
       </Routes>
 
       </Router>
