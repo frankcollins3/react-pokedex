@@ -12,11 +12,16 @@ let otherBgBucket = [] || new Array()
 
 function TypeBar() {
     const [typeBucket, setTypeBucket] = useState([])
+
     const [bgBucket, setBgBucket] = useState([])
+    const [alreadyUsed, setAlreadyUsed] = useState([])    // this state saves the backgrounds we've applied onto the elements. used to double-check against duplicates.
+    const [bgToSet, setBgToSet] = useState('')
+
+    const [indexInt, setIndexInt] = useState(0)
+
     const [selectedType, setSelectedType] = useState('') // one type at a time that changes when you click one of the circles.
     const [arrayPopulation, setArrayPopulation] = useState('false')
 
-    const [tossedValues, setTossedValues] = useState([])    // this state saves the backgrounds we've applied onto the elements. used to double-check against duplicates.
     const [appliedElements, setAppliedElements] = useState([])
 
     const [screenPokemon, setScreenPokemon] = useState('') // id or imgSrc or name     selectedType->selectedPokemon to go to pg 3 form hovering upon
@@ -30,85 +35,34 @@ function TypeBar() {
         getBackgrounds()
     }, [])
     
-    const addBg = async (event) => {  
+
+    const addBg = async (event) => {
         let target = $(event.target)
-        console.log('target')
-        console.log(target)
-
-        let eventid = $(event.target.attributes[1])
-        console.log('eventid')
-        console.log(eventid)
-
-        let randombg = await ReturnRandom(bgBucket)
-        console.log('randombg')
-        console.log(randombg)
-        
-        let substrings = randombg.split('/')        
-        let regextype = await PushPop(randombg, '/', 'pop') || await PushPop(randombg[0], '/', 'pop')
-        // {name: 'grass', url: 'https://pokeapi.co/api/v2/type/12/'} this is nice. returning a .find() as a variable returns this.        
-        let energyType = substrings.pop()    // | -> substrings[substrings.length-1] 
-        // if (!appliedElements.includes($(event.target))) {
-            if (event.target.attributes[1]) {
-                // console.log("the id is setbg")
+        const evaluateBg = async () => {
+            if (alreadyUsed.length) {
+                console.log('already used; if block')
             } else {
-                // console.log("the background doesn't have an id / no 'setbg' id")
-                $(event.target).css('background', `url('${randombg}')`)                
-                $(event.target).attr('id', 'setbg')
+                console.log('not already used else block')
+                // let randombg = await ReturnRandom(bgBucket) 
+                let bucketreach = bgBucket[indexInt]
+                console.log('bucketreach')
+                console.log(bucketreach)
+                setIndexInt(indexInt + 1)
             }
-        // }
-        setAppliedElements([...appliedElements, $(event.target)])      
-        // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args        
-        const findAndLoop = async () => {
-            bgBucket.find( (bucketitem) => {
-                if (!bucketitem.includes(regextype)) {         // if our array state (/img/energy/energyWater.png) doesn't include energytype (energyWater)
-                    if (tossedValues.length < 1) {
-                        otherBgBucket.push(bucketitem)
-                    }
-                    setTossedValues([...tossedValues, regextype])
-                }}) // .find end
-            }        
-        const asyncLoopFunc = async () => {
-            await findAndLoop()
-            // await changeStateSource() // setTimeout(changeStateSource, 2000)            
         }
-        asyncLoopFunc()
+        evaluateBg()
     }
 
-        const changeStateSource = async () => {
-        bgBucket.forEach( (bgval) => {        
-            tossedValues.forEach(async(used) => {
-                if (bgval.includes(used)) {
-                    console.log(`friends: ${bgval} ${used}`)                                      
-                    // console.log("yeah the values include each other")
-                } else if (!bgval.includes(used)) {          
-                    console.log('used')
-                    console.log(used)
-                    console.log('else block')                    
-                    bgBucket.map(async(mapitem) => {
-                        if (mapitem === bgval) {
-                            await otherBgBucket.push(bgval)
-                            await setBgBucket(otherBgBucket)                            
+    const checkbg = () => {
+        console.log('alreadyUsed')
+        console.log(alreadyUsed)
+    }   
 
-                            // otherBgBucket.forEach(async(val) => {
-                            //     await setBgBucket([...bgBucket, val])
-                            // })
-                        }
-                    })
-                }                
-            })
-        })        
-        }  
-
-    const checkbg = () => {     
-        console.log('otherBgBucket')
-        console.log(otherBgBucket)
-
-        console.log('bgBucket')       
-        console.log(bgBucket)       
-        console.log('tossedValues')
-        console.log(tossedValues)
+    const changeStateSource = async () => {
+        console.log("change state source")
     }
- 
+        
+
     return (
         <div className="Type-Bar Row-Center"> 
         <button onClick={checkbg} className="navBall" id="Ultraball"> </button>
