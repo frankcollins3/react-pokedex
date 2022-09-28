@@ -5,13 +5,16 @@ import ReturnRandom from '../utility/ReturnRandom';
 import { $ } from 'react-jquery-plugin'
 import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript';
 
-let updatedbucket = []
+let otherBgBucket = [] || new Array()
 
 
 function TypeBar() {
     const [typeBucket, setTypeBucket] = useState([])
     const [bgBucket, setBgBucket] = useState([])
     const [selectedType, setSelectedType] = useState('') // one type at a time that changes when you click one of the circles.
+    const [arrayPopulation, setArrayPopulation] = useState('false')
+
+    const [tossedValues, setTossedValues] = useState([])
 
     const [screenPokemon, setScreenPokemon] = useState('') // id or imgSrc or name     selectedType->selectedPokemon to go to pg 3 form hovering upon
 
@@ -25,41 +28,40 @@ function TypeBar() {
     }, [])
     
     const addBg = async (event) => {
-        // let grabValue = () => {
-            
-        // }
+    
         let randombg = await ReturnRandom(bgBucket)
-        console.log(randombg)
-        var slashslice = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //            
-        // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
-        // let execexp = /[^/]*$/.exec(randombg)[0]; w/o [0]:         // ['energyLeaf.jpeg', index: 12, input: '/img/energy/energyLeaf.jpeg', groups: undefined]         
-        // let newresult = substrings[substrings.length-1]          (4) ['', 'img', 'energy', 'energyNormal.jpg']       this returns energyNormal [last part]
+        // var slashslice = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //            
+       
         let substrings = randombg.split('/')        
-        let energyType = substrings.pop()    
+        let energyType = substrings.pop()    // | -> substrings[substrings.length-1] 
         $(event.target).css('background', `url('${randombg}')`)                
-        
+
         // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args
-        bgBucket.find( (bucketitem) => {
-            if (!bucketitem.includes(energyType)) {         // if our array state (/img/energy/energyWater.png) doesn't include energytype (energyWater)
-                console.log(bucketitem)
-                // setBgBucket([...bgBucket, bucketitem]) 
-                // /img/energy/energyPsychic.jpg
-                // TopBar.js:44 /img/energy/energyElectric.jpeg
-                // TopBar.js:44 /img/energy/energyFire.png
-                // TopBar.js:44 /img/energy/energyLeaf.jpeg
-                // TopBar.js:44 /img/energy/energyNormal.png
-                // TopBar.js:44 /img/energy/energyFighting.jpg
+        console.log("doesnt have these values")
+        const findAndLoop = async () => {
+            bgBucket.find( (bucketitem) => {
+                if (!bucketitem.includes(energyType)) {         // if our array state (/img/energy/energyWater.png) doesn't include energytype (energyWater)
+                    setTossedValues([...tossedValues, energyType])
+                    console.log(bucketitem)         
+                    //   was also going to use setArrayPopulation('true') and make a conditional to not allow overpopulating the array with push.
+                    if (!otherBgBucket.includes(bucketitem) && !tossedValues.includes(`img/energy/${bucketitem}`)) otherBgBucket.push(bucketitem)
+                }}) // .find end
             }
-        })
+            findAndLoop()
+
     }
 
     let checkbg = () => {
-        console.log('bgBucket')
-        console.log(bgBucket)
+        console.log('otherBgBucket')
+        console.log(otherBgBucket)
+
+        console.log('tossedValues')
+        console.log(tossedValues)
+        // i clicked energyPsychic and now the array is cleared of its value. very nice!
+        // (6) ['/img/energy/energyElectric.jpeg', '/img/energy/energyFire.png', '/img/energy/energyLeaf.jpeg', '/img/energy/energyNormal.png', '/img/energy/energyWater.png', '/img/energy/energyFighting.jpg']
     }
 
-    // there will be an event.target type of object.endpoint/key validation so we may be setting the id to the /psychic.img (example) type.
-    // mouse behavior upon the circle will apply a class 
+ 
     return (
         <div className="Type-Bar Row-Center"> 
         <button onClick={checkbg} className="navBall" id="Ultraball"> </button>
@@ -77,3 +79,6 @@ function TypeBar() {
 export default TypeBar
 
 // electric normal fire water leaf fighting psychic 
+ // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
+        // let execexp = /[^/]*$/.exec(randombg)[0]; w/o [0]:         // ['energyLeaf.jpeg', index: 12, input: '/img/energy/energyLeaf.jpeg', groups: undefined]         
+        // let newresult = substrings[substrings.length-1]          (4) ['', 'img', 'energy', 'energyNormal.jpg']       this returns energyNormal [last part]s  
