@@ -48,9 +48,9 @@ function TypeBar() {
 
         // if (!appliedElements.includes($(event.target))) {
             if (event.target.attributes[1]) {
-                console.log("the id is setbg")
+                // console.log("the id is setbg")
             } else {
-                console.log("the background doesn't have an id / no 'setbg' id")
+                // console.log("the background doesn't have an id / no 'setbg' id")
                 $(event.target).css('background', `url('${randombg}')`)                
                 $(event.target).attr('id', 'setbg')
             }
@@ -76,8 +76,23 @@ function TypeBar() {
     }
 
     const changeStateSource = async () => {
-        console.log('bgBucket')
-        console.log(bgBucket)
+        
+        bgBucket.forEach( (bgval) => {        
+            tossedValues.forEach( (used) => {
+                if (bgval.includes(used)) {
+                    console.log("yeah the values include each other")
+                    console.log('bgval')
+                    console.log(bgval)
+                    console.log('used')
+                    console.log(used)
+                    // yeah the values include each other
+                    // TopBar.js:85 bgval
+                    // TopBar.js:86 /img/energy/psychic.jpg
+                    // TopBar.js:88 used
+                    // TopBar.js:89 psychic                                        
+                }
+            })
+        })
         // bgBucket.forEach( (bgval) => {
         //     console.log('bgval')
         //     console.log(bgval)
