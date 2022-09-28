@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import bg from '../utility/bgList'
 import ReturnRandom from '../utility/ReturnRandom';
 import { $ } from 'react-jquery-plugin'
+import PushPop from '../utility/PushAndPop'
 import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript';
+
 
 let otherBgBucket = [] || new Array()
 
@@ -27,28 +29,27 @@ function TypeBar() {
         getBackgrounds()
     }, [])
     
-    const addBg = async (event) => {
-    
+    const addBg = async (event) => {        
         let randombg = await ReturnRandom(bgBucket)
-        // var slashslice = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //            
-       
+        
         let substrings = randombg.split('/')        
+        let regextype = await PushPop(randombg, '/', 'pop')        
+        // {name: 'grass', url: 'https://pokeapi.co/api/v2/type/12/'} this is nice. returning a .find() as a variable returns this.        
         let energyType = substrings.pop()    // | -> substrings[substrings.length-1] 
         $(event.target).css('background', `url('${randombg}')`)                
 
-        // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args
-        console.log("doesnt have these values")
+        // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args        
         const findAndLoop = async () => {
             bgBucket.find( (bucketitem) => {
-                if (!bucketitem.includes(energyType)) {         // if our array state (/img/energy/energyWater.png) doesn't include energytype (energyWater)
-                    setTossedValues([...tossedValues, energyType])
-                    console.log(bucketitem)         
-                    //   was also going to use setArrayPopulation('true') and make a conditional to not allow overpopulating the array with push.
-                    if (!otherBgBucket.includes(bucketitem) && !tossedValues.includes(`img/energy/${bucketitem}`)) otherBgBucket.push(bucketitem)
+                if (!bucketitem.includes(regextype)) {         // if our array state (/img/energy/energyWater.png) doesn't include energytype (energyWater)
+                    if (tossedValues.length < 1) {
+                        otherBgBucket.push(bucketitem)
+                    }
+                    setTossedValues(regextype)
+
                 }}) // .find end
             }
-            findAndLoop()
-
+            findAndLoop()            
     }
 
     let checkbg = () => {
@@ -57,8 +58,6 @@ function TypeBar() {
 
         console.log('tossedValues')
         console.log(tossedValues)
-        // i clicked energyPsychic and now the array is cleared of its value. very nice!
-        // (6) ['/img/energy/energyElectric.jpeg', '/img/energy/energyFire.png', '/img/energy/energyLeaf.jpeg', '/img/energy/energyNormal.png', '/img/energy/energyWater.png', '/img/energy/energyFighting.jpg']
     }
 
  
