@@ -15,7 +15,9 @@ export default async function PushPop (str, splitchar,  method) {
            
 
             // let expression = '/\a-z('
-            let newstring = str.match(/\d+(?=)/)
+            let newstring = str.match(/[a-z](?=.)/)     // while changing this to a-z i still had /\[a-z]. no good -> the \ is for d+ which specifies numbers to be matched
+            console.log('newstring')
+            console.log(newstring)
 
 // Lookahead The syntax is: X(?=Y), it means "look for X, but match only if followed by Y". There may be any pattern instead of X and Y.
             
