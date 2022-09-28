@@ -1,3 +1,4 @@
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
 import TypeLooper from './TypeTool'
 
 export default async function PushPop (str, splitchar,  method) {
@@ -8,10 +9,10 @@ export default async function PushPop (str, splitchar,  method) {
         if (method === 'pop') {     //             
 
             console.log(str) //    /img/energy/grass.jpeg
-
-            console.log('TypeLooper')
-            console.log(TypeLooper)
-            TypeLooper() // should set this up to receive no arguments and bring back all of the types so we can loop and validate but that is unnecessary
+            
+           let typelist  = await  TypeLooper() // should set this up to receive no arguments and bring back all of the types so we can loop and validate but that is unnecessary
+           console.log(typelist)
+           
 
             // let expression = '/\a-z('
             let newstring = str.match(/\d+(?=)/)
