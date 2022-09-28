@@ -29,22 +29,13 @@ function TypeBar() {
             
         // }
         let randombg = await ReturnRandom(bgBucket)
-        var slashslice = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //
-        console.log('randombg')
-        console.log(randombg)
-        
+        var slashslice = randombg.substr(randombg.lastIndexOf("/") + 1); // Contains 24 //            
         // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
-        let substrings = randombg.split('/')
-        console.log('substrings')
-        console.log(substrings)
-        let newresult = substrings[substrings.length-1]         
-        console.log('newresult')
-        console.log(newresult)
 
-        // let newstr = randombg.substring(randombg.indexOf("/"))
-        
-        
-
+        // let execexp = /[^/]*$/.exec(randombg)[0]; w/o [0]:         // ['energyLeaf.jpeg', index: 12, input: '/img/energy/energyLeaf.jpeg', groups: undefined]         
+        // let newresult = substrings[substrings.length-1]          (4) ['', 'img', 'energy', 'energyNormal.jpg']       this returns energyNormal [last part]
+        let substrings = randombg.split('/')        
+        let newresult = substrings.pop()
         $(event.target).css('background', `url('${randombg}')`)
 
 
