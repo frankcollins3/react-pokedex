@@ -32,6 +32,12 @@ function TypeBar() {
     
     const addBg = async (event) => {  
         let target = $(event.target)
+        console.log('target')
+        console.log(target)
+
+        let eventid = $(event.target.attributes[1])
+        console.log('eventid')
+        console.log(eventid)
 
         let randombg = await ReturnRandom(bgBucket)
         
@@ -39,9 +45,17 @@ function TypeBar() {
         let regextype = await PushPop(randombg, '/', 'pop')        
         // {name: 'grass', url: 'https://pokeapi.co/api/v2/type/12/'} this is nice. returning a .find() as a variable returns this.        
         let energyType = substrings.pop()    // | -> substrings[substrings.length-1] 
-        if (!appliedElements.includes($(event.target))) {
-            $(event.target).css('background', `url('${randombg}')`)                
-        }
+
+        // if (!appliedElements.includes($(event.target))) {
+            if (event.target.attributes[1]) {
+                console.log("the id is setbg")
+            } else {
+                console.log("the background doesn't have an id / no 'setbg' id")
+                $(event.target).css('background', `url('${randombg}')`)                
+                $(event.target).attr('id', 'setbg')
+            }
+
+        // }
         setAppliedElements([...appliedElements, $(event.target)])      
 
         // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args        
