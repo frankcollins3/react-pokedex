@@ -197,6 +197,7 @@
   background-image: url("/public/img/haunter.png");
   background-size: cover;
   background-repeat: no-repeat;
+  margin-top: 500px;
  }
 
 #Render-Ul {
@@ -241,11 +242,6 @@
 
 
 
-
-
-
-
-
 /* KEYFRAMES && ANIMATIONS */
 @keyframes flickFade {
   0% {
@@ -274,81 +270,66 @@
     opacity: 0.0
   }
 }
-
 #Screen-Input {
   margin-top: 2em;
 }
-
 .Pokedex-Float {
   animation: Float 4s;
   animation-iteration-count: infinite;
 }
 
 @keyframes Float {
-  0% {
-    /* position: relative; */
+  0% {    
     transform: skewY(-5deg)
   }
   10% {
     position: relative;
     transform: skewY(+5deg)
-    
   }
   20% {
     position: relative;
-    
   }
   30% {
     position: relative;
-    
   }
   40% {
     position: relative;
-    
   }
   50% {
     position: relative;
-    
   }
   60% {
     position: relative;
-
   }
   70% {
     position: relative;
-
   }
   80% {
     position: relative;
-
   }
   90% {
     position: relative;
-
   }
   100% {
     position: relative;
-
   }
 }
-
-
 /* considering doing this animation on [Bootstrap.js] side because of jquerys .animate().complete() The complete function that allows you to set the end state for when the animation is complete.   */
 /* If the clickBehavior is saving the pokemon to the database i'd like the element to have some kind of indication that you wouldn't be clicking it again.  */
 /* You could also: setTimeout(makePokeBallOpacity0.1(), 5000) a timeout of 5000 would apply the pokeball.css('opacity', 0.1') in 5 seconds while this animation takes "Gentle-Rotate 4seconds'
 (slight paradox) this would be a manually performed lazyComplete()
 */ 
-.Pokeball-Animate {
-animation: Gentle-Rotate 4s; 
-animation-iteration-count: 1
-}
-
 .Pokedex-Text {
   text-align: center;
   font-size: 12px;
   font-weight: bold;
   position: relative;
   top: 1em;
+}
+
+.Pokeball-Animate {
+animation: Gentle-Rotate 4s; 
+animation-iteration-count: 1
 }
 
 @keyframes Gentle-Rotate {
@@ -376,9 +357,12 @@ animation-iteration-count: 1
   80% {
     transform: rotate(5deg)
   }
-  
   100% {
     transform: rotate(0)
-
   }
 }
+
+/* **** TypeScreen / Page2 / Greatball Click */
+
+
+/* **** ____________ end of page 2 */
