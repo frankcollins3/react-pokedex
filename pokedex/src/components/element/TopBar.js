@@ -40,11 +40,13 @@ function TypeBar() {
         console.log(eventid)
 
         let randombg = await ReturnRandom(bgBucket)
+        console.log('randombg')
+        console.log(randombg)
+        
         let substrings = randombg.split('/')        
-        let regextype = await PushPop(randombg, '/', 'pop')        
+        let regextype = await PushPop(randombg, '/', 'pop') || await PushPop(randombg[0], '/', 'pop')
         // {name: 'grass', url: 'https://pokeapi.co/api/v2/type/12/'} this is nice. returning a .find() as a variable returns this.        
         let energyType = substrings.pop()    // | -> substrings[substrings.length-1] 
-
         // if (!appliedElements.includes($(event.target))) {
             if (event.target.attributes[1]) {
                 // console.log("the id is setbg")
@@ -53,10 +55,8 @@ function TypeBar() {
                 $(event.target).css('background', `url('${randombg}')`)                
                 $(event.target).attr('id', 'setbg')
             }
-
         // }
         setAppliedElements([...appliedElements, $(event.target)])      
-
         // access bgBucket state, loop, and validate against the returned string constrained by the: [arr.split('/')/pop() / .lastIndexOf] args        
         const findAndLoop = async () => {
             bgBucket.find( (bucketitem) => {
@@ -75,7 +75,6 @@ function TypeBar() {
     }
 
         const changeStateSource = async () => {
-        otherBgBucket = []
         bgBucket.forEach( (bgval) => {        
             tossedValues.forEach(async(used) => {
                 if (bgval.includes(used)) {
@@ -88,12 +87,14 @@ function TypeBar() {
                     bgBucket.map(async(mapitem) => {
                         if (mapitem === bgval) {
                             await otherBgBucket.push(bgval)
-                            await setBgBucket([otherBgBucket])
-                            
+                            await setBgBucket(otherBgBucket)                            
+
+                            // otherBgBucket.forEach(async(val) => {
+                            //     await setBgBucket([...bgBucket, val])
+                            // })
                         }
                     })
-                }
-                
+                }                
             })
         })        
         }  
