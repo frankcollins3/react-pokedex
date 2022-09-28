@@ -1,6 +1,6 @@
     import { useEffect, useRef, useState } from 'react'
     // import { useHistory as HISTORY } from "react-router-dom"; deprecated / changed to useLocation
-    import { useNavigate } from "react-router-dom";
+    import { useNavigate, Link } from "react-router-dom";
 
     import { BrowserRouter as Router, Switch, useLocation as useLoc } from 'react-router-dom'
     import { $ } from 'react-jquery-plugin'
@@ -17,6 +17,7 @@
     import EmptyImage from '../utility/EmptyImageUrl'
     import ProbAbility from '../utility/Probability'
     import LocationTool from '../utility/LocRedirect'
+    import TypeScreen from '../webpage/TypeScreen'
 
     let ghostbtn = $('.ghostbtn')
 
@@ -95,19 +96,14 @@
                 } else { setGhostBallPoke('') }
             }
 
-            const evalTargetRedirect = (event) => {    
-                console.log('eval end')
-                // console.info(navBarNavigate)                
-                
+            const evalTargetRedirect = (event) => {                                    
                 let ballcheck = event.target.attributes[1].nodeValue
                 console.log('ballcheck')
                 console.log(ballcheck)
                 if (typeof ballcheck === 'string') {     // not an array it would be a string.
                     if (ballcheck === 'Greatball') LocationTool(ballcheck, '/pokemon', navBarNavigate)   // or make array if err. safelanding.
-                    if (ballcheck === 'Pokeball') {
-                        console.log("atleast weve got a pokeball")
-                        LocationTool(ballcheck, '/', navBarNavigate)
-                    }
+                    if (ballcheck === 'Pokeball')  LocationTool(ballcheck, '/', navBarNavigate)
+                    // continually creating errors: setting LocTool func params as 'link' as link with no string.
                 }
 
             }
@@ -125,9 +121,11 @@
         return (
             <div onMouseMove={lookForGhosts} className="Nav-Bar">            
 
-                <button onClick={evalTargetRedirect} className="navBall Half-Size" id="Pokeball"> 
-                {/* near 10 mins checking why functions not working it was never set into onClick */}
-                </button>
+                    
+
+                 <button  className="navBall Half-Size" id="Pokeball">
+                    <li className="navBall Half-Size">  <Link to="/pokemon"> redirect </Link></li>
+                </button>                  
                 
                 <button 
                 onClick={evalTargetRedirect}
@@ -151,6 +149,3 @@
     }
 
     export default Nav
-
-
-
