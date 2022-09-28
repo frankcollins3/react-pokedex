@@ -7,32 +7,20 @@ export default async function PushPop (str, splitchar,  method) {
     if (typeof str === 'string' ) {     // had str instead of str invalidated the whole conditional
         if (method === 'pop') {     //             
 
-            console.log(str)
+            console.log(str) //    /img/energy/grass.jpeg
 
-            const ignoreFlagStr = str.replace(/energy/i, '').replace(/[/\/]/g, '').replace(/img/i, '')
+            const matchexpression = /(?<type>normal|fire|water|leaf|fighting|psychic)/  // this stores is as a new group called type.    
+            console.log('matchexpression')
+            console.log(matchexpression)
+            const newstr = str.match(matchexpression)
 
-            
+            console.log('newstr')
+            console.log(newstr)
+
+            // const ignoreFlagStr = str.replace(/energy/i, '').replace(/[/\/]/g, '').replace(/img/i, '')            
             // const ignoreFlagStr = str.replace(/energy/i, '').replace(/[/\/])
-            console.log('ignoreFlagStr')
-            console.log(ignoreFlagStr)
-
-            // const str = 'Twas the night before Xmas...';
-            // const newstr = str.replace(/xmas/i, 'Christmas');
-            // console.log(newstr);  // Twas the night before Christmas...
-
-            // /img/energy/grass.jpeg
-
-
-            // let processedValue = str.split(splitchar)
-            // console.log('processedValue')            
-            // console.log(processedValue)            
-            // let expression = /^[.^]+.\s*/;
-            // let lastchunk = processedValue[processedValue.length-1]
-            // console.log(lastchunk.replace(expression, ""))
-            // // .replace(/^[^-]+ - /,"")
-            // console.log('lastchunk')
-            // console.log(lastchunk)
-
+            // console.log('ignoreFlagStr')
+            // console.log(ignoreFlagStr)            
         }
 
 
