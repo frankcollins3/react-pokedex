@@ -40,7 +40,25 @@
 
 
         useEffect( () => {
+            
             (async() => {            
+                let checkAgainstHomeRoute = () => {
+                    console.log($(document))
+                   let location = $(document.location)[0]
+                   let path = location.pathname
+                   
+                    console.groupCollapsed()
+                    console.log('location')
+                    console.log(location)
+                    console.log(location.port)
+                    console.log(location.href)
+                    console.log(location.pathname)
+                    console.groupEnd()
+                //    3 mins on $(document).location
+                    
+                }
+                checkAgainstHomeRoute()
+
             const stateDefaults = async () => {
                 let ghostdata = await TypeLooper('ghost')
                 let ghostpokemon = ghostdata.pokemon
@@ -64,8 +82,7 @@
                         // await props.setFakeDbState([...props.fakeDbState, siblingPokeCard.id])
                     })
                 }
-                
-                    
+                                
                 const applyGhostStateDefs = async () => {
                     await objectbucket()
                     await fillimgbucket()
@@ -123,9 +140,11 @@
 
                     
 
-                 <button  className="navBall Half-Size" id="Pokeball">
-                    <li className="navBall Half-Size">  <Link to="/pokemon"> redirect </Link></li>
-                </button>                  
+                    {/* *** working <Link to  <li className="navBall Half-Size">  <Link to="/pokemon"> redirect </Link></li> */}
+                <button 
+                onClick={evalTargetRedirect}
+                className="navBall Half-Size" id="Pokeball">
+                </button>
                 
                 <button 
                 onClick={evalTargetRedirect}
@@ -149,3 +168,11 @@
     }
 
     export default Nav
+
+
+    // NavBar.js:74 Uncaught (in promise) 
+    // AxiosError {message: 'Request failed with status code 404', name: 'AxiosError', code: 'ERR_BAD_REQUEST', config: {…}, request: XMLHttpRequest, …}
+    // url
+    // : 
+    // "https://pokeapi.co/api/v2/pokemon/0030"
+    // * this is our url that is coming up with an empty pokemon.
