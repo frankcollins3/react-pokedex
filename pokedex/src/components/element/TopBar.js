@@ -24,6 +24,9 @@ function TypeBar() {
     }, [])
     
     const addBg = async (event) => {
+        // let grabValue = () => {
+            
+        // }
         let randombg = await ReturnRandom(bgBucket)
         console.log('randombg')
         console.log(randombg)
@@ -31,15 +34,11 @@ function TypeBar() {
         // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
 
             // try a split that seizes on the / slashings to cause rifts and destroy the first [0] substring
-        // let bgsubstr = randombg.split('/') 
-        let bgsubstr = randombg.split('/') 
-        console.log('bgsubstr')
-        console.log(bgsubstr)
-        let prestr = bgsubstr.reduce( (items) => {
-            
-        })
+        // let bgsubstr = randombg.split('/')  the imgSrcData was originally sent over as /public/img which had to be regex/split off from the string
+        
+        
 
-        $(event.target).css('background', `url('/img/energy/energyPsychic.jpg')`)
+        $(event.target).css('background', `url('${randombg}')`)
         // card.css('background', "url('/img/haunter.png')")
         console.log('bgBucket')
         console.log(bgBucket)
