@@ -37,17 +37,36 @@ function TypeBar() {
     
 
     const addBg = async (event) => {
+        let datagrab = bgBucket[indexInt]
         let target = $(event.target)
         const evaluateBg = async () => {
             if (alreadyUsed.length) {
-                console.log('already used; if block')
+                // console.log('already used; if block')
             } else {
-                console.log('not already used else block')
                 // let randombg = await ReturnRandom(bgBucket) 
-                let bucketreach = bgBucket[indexInt]
-                console.log('bucketreach')
-                console.log(bucketreach)
-                setIndexInt(indexInt + 1)
+
+                if ($(event.target.attributes[1])) {
+                    console.log("there is an id")
+                    console.log(datagrab)
+                    console.log("there is no id")
+                    
+                    console.log(event)
+                    console.log(datagrab)
+
+                    $(event.target)
+                    console.log($(event.target).attr('id'))
+                    if ($(event.target).attr('id') === 'setbg') {
+                        console.log("its got that id....")
+                    } else {
+                        $(event.target)
+                        .attr('id', 'setbg')
+                        .css('background', `url('${datagrab}')`)     
+                        setIndexInt(indexInt + 1)
+                    }
+                } else {
+                    $(event.target).attr('id', 'setbg')
+                }
+
             }
         }
         evaluateBg()
@@ -59,7 +78,7 @@ function TypeBar() {
     }   
 
     const changeStateSource = async () => {
-        console.log("change state source")
+        // console.log("change state source")
     }
         
 
