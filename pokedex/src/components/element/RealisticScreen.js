@@ -11,13 +11,18 @@ function RealisticScreen(props) {
         let kids = $(event.target).children()
         let childtext = kids[0].innerHTML
         let cleantext = childtext.replace(/[\s]/g, '')
+        console.log('cleantext')
+        console.log(cleantext)
         let axiosaccess = await APIcall('specify', cleantext)
-        console.log('axiosaccess')
-        console.log(axiosaccess)
+        let types = axiosaccess[0].types
+        let type = types[0].type.name
+        console.log('type')
+        console.log(type)
+// RealisticScreen.js:15 2  (clicked id #2)
+// RealisticScreen.js:21 type
+// RealisticScreen.js:22 grass      ('grass' type, for #2 ivysaur. correct data match up.)
 
-// (2) [{…}, {…}] successful access grab. I clicked on number 19 from fakeDbState it brings up #19. Rattata. 
-// {abilities: Array(3), base_experience: 51, forms: Array(1), game_indices: Array(20), height: 3, …} 
-// {name: 'rattata', id: 19, image: 'https:raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/19.png'}
+
 
 
         
