@@ -5,23 +5,16 @@ $('.Real-Screen').css('overflow-y', 'scroll')
 
 function RealisticScreen(props) {
     let fakedb = props.fakeDbState
-    console.log('fakedb')
-    console.log(fakedb)
 
-    const checkThat = (event) => {
-        // same thing as before check the 
+    const checkThat = async (event) => {
         let kids = $(event.target).children()
         let childtext = kids[0].innerHTML
-        // 20 RealisticScreen.js:16 4  ---->  1 RealisticScreen.js:16 3 [id '20' has 4 characters. id#1 has 3 characters. whitespace problem]
-        // through the terminal it came out okay looking but in the event.target.object it looked like there would be (/s white space)
-        
-        
-        console.log(childtext)
-        console.log(childtext.length)
+        let cleantext = childtext.replace(/[\s]/g, '')
+        // console.log(cleantext) console.log(cleantext.length)        
+        // 5 -> RealisticScreen.js:20 (1) // 148 -> RealisticScreen.js:20 (3) 5 is 1 char '148 is 3 char. all good. 
     }
 
     let dbmap = fakedb.map( (mapitem) => {
-        console.log(mapitem)
         return (
             <div onClick={checkThat}className="Screen-Parents">
                 <p> {mapitem} </p>
@@ -30,7 +23,6 @@ function RealisticScreen(props) {
     })
     
 
-    console.log("hello from realistic screen")
     return (
         <div className="Real-Screen">
             {/* {dbmap} */}
