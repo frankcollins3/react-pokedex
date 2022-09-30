@@ -18,20 +18,22 @@ function RealisticScreen(props) {
 
     
     let fakedb = props.fakeDbState
-    const [scrollIdx, setScrollidx] = useState(fakedb[0] || [])
+    const [scrollIdx, setScrollidx] = useState(0)
     let typestate = props.selectedType
     
     
 
     useEffect( () => {
-
         //  $('.Screen-Parents').click()
         // fakeDb[0].click()
-
          // ? $('.Screen-Parents').click() every time state is changed.
          console.log("we are changing the type A.K.A. clicking on a <TopBar/> .Circle elem that also has access to props.selectedType")
          console.log(props.selectedType)
     }, [props.selectedType])
+
+    useEffect( () => {
+        console.log('checking scroll index')
+    },  [scrollIdx])
 
     // * AUTO CLICK FUNCTION TO FIRE EVERY TIME state is toggled.
     // * I have to move this function so it can be available to TopBar as well. 
@@ -74,12 +76,18 @@ function RealisticScreen(props) {
         }
     }
 
+    
+
     const indexChanger = () => {
         $('.Display-Poke').click()
-        console.log('were doing this')
-        setInterval(setScrollidx(scrollIdx + 1), 2000)
+        console.log('props.selectedType')
+        console.log(props.selectedType)
+        // console.log('were doing this')
+        // console.log('scrollIdx')
+        // console.log(scrollIdx)
+        // setScrollidx(scrollIdx + 1)
+        // setInterval(setScrollidx(scrollIdx + 1), 2000)
     }
-
 
 
     let dbmap = fakedb.map( (mapitem, idx) => {        
