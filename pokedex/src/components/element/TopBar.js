@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import bg from '../utility/bgList'
 import ReturnRandom from '../utility/ReturnRandom';
 import { $ } from 'react-jquery-plugin'
+import myCSS from '../utility/CSStool'
 import PushPop from '../utility/PushAndPop'
 import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript';
 
@@ -76,19 +77,21 @@ function TypeBar(props) {
         evaluateBg()
     }
 
-    const TypeToggle = async (event) => {        
-        let nonpretty = event.target.attributes[1].value 
-        // let nonprettyurl = event.target.outerHTML 
-                // (this was for when opacity 0.1 wasn't set)
-                // let cleaner = nonprettyurl.substring(79, length-31)
-                // cleaner
-                // TopBar.js:92 fire.       (pre regex (/[\.])) escape period
-                // TopBar.js:95 cleantype
-                // TopBar.js:96 fire            // return clean typ here
+    const TypeToggle = async (event) => {
+        myCSS($(event.target).siblings(), 'opacity', '0.1')
+        myCSS($(event.target), 'opacity', '1.0')
+        
+        let nonprettyurl = event.target.outerHTML 
+        let nonpretty = event.target.attributes[1].value          // (this was for when opacity 0.1 wasn't set)
         let length = nonpretty.length
-        let cleaner = nonpretty.substring(61, length-6)        
+        let cleaner = nonpretty.substring(61, length-34)
+        // let cleaner = nonprettyurl.substring(79, length-31)
+        console.log('cleaner')
+        console.log(cleaner)
         let cleantype = cleaner.replace(/[\.]/g, '')
+        console.log('cleantype')
         console.log(cleantype)
+        
     }
     
         let statecheck = () => {
@@ -129,8 +132,3 @@ function TypeBar(props) {
     )
 }
 export default TypeBar
-
-// electric normal fire water leaf fighting psychic 
- // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
-        // let execexp = /[^/]*$/.exec(randombg)[0]; w/o [0]:         // ['energyLeaf.jpeg', index: 12, input: '/img/energy/energyLeaf.jpeg', groups: undefined]         
-        // let newresult = substrings[substrings.length-1]          (4) ['', 'img', 'energy', 'energyNormal.jpg']       this returns energyNormal [last part]s  
