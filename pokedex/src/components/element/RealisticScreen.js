@@ -5,8 +5,7 @@ import APIcall from '../utility/pokeAPI'
 import bgList from '../utility/bgList'
 import myCSS from '../utility/CSStool'
 import toggleHideShow from '../utility/hideShow';
-import { preProcessFile } from 'typescript';
-
+import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   
 
 // $('*').css('overflow', 'scroll')
 $('.Real-Screen')
@@ -44,9 +43,10 @@ function RealisticScreen(props) {
             let typebg = await bgList('typecard', type) // async  Promise {<fulfilled>: undefined}            
             $(event.target).css('background', `url('${typebg}')`)
             await toggleHideShow($(event.target), 'show')
-            $(event.target).click( () => {
-                console.log('image')
-                console.log(image)
+            $(event.target).click(async() => {
+                // await console.log(props.miniScreenPokemon)
+                await props.setMiniScreenPokemon(image)
+                // await console.log(props.miniScreenPokemon)
             })            
         }
     }
@@ -55,19 +55,46 @@ function RealisticScreen(props) {
 
 
 
-    let dbmap = fakedb.map( (mapitem, idx) => {
+    let dbmap = fakedb.map( (mapitem, idx) => {        
         return (
             <div key={`parent:${idx}`} onClick={checkThat} className="Screen-Parents">
-                <p key={idx}> {mapitem} </p>
+                    {/* <Carousel.item> */}
+                    {/* <Carousel.Item> */}
+
+                    <p key={idx}> <Carousel.Item> {mapitem} </Carousel.Item> </p>
+                    {/* <p key={idx}> <Carousel.Item> {mapitem} </Carousel.Item> </p> */}
+                    
+                    {/* </Carousel.Item> */}
+                    {/* </Carousel.item>
+                </Carousel> */}
             </div>
         )
     })
     
 
     return (
+        
         <div className="Real-Screen Column-Between">
+            {/* {dbmap} */}
+       
+            {/* <Carousel> */}
+      {/* <Carousel.Item> */}
             {dbmap}
-            {/* possible bootstrap carousel given that it wont be a giant span of data unless there are many many saved favorites. */}
+        {/* <Carousel.Caption>
+        </Carousel.Caption> */}
+      {/* </Carousel.Item> */}
+            {/* </Carousel> */}
+
+
+
+
+
+
+
+
+
+
+
         </div>
     )
 }
