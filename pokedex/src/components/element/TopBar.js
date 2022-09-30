@@ -50,6 +50,14 @@ function TypeBar(props) {
     
 
     const addBg = async (event) => {
+        // setTimeout(await myCSS($(event.target), 'opacity', 1.0), 500) unidentified object error
+        // setTimeout(await myCSS($(event.target), 'opacity', 0.1), 1000)
+        setTimeout( () => {
+            if (indexInt < 7) {     
+                myCSS($(event.target), 'opacity', '1.0')
+            }
+        }, "1000")
+
         let datagrab = bgBucket[indexInt]
         let target = $(event.target)
         const evaluateBg = async () => {
@@ -100,7 +108,7 @@ function TypeBar(props) {
 
     return (
         <div className="Type-Bar Row-Center"> 
-        <button onClick={statecheck} className="navBall" id="Ultraball"> </button>
+        {/* <button onClick={statecheck} className="navBall" id="Ultraball"> </button> */}
         <div 
         style={{ opacity: '0.1'}}
         onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
@@ -132,3 +140,8 @@ function TypeBar(props) {
     )
 }
 export default TypeBar
+
+// electric normal fire water leaf fighting psychic 
+ // let publicregex = randombg.slice(6)  // /img/energy/energyWater.jpg [this .slice() returns what we want]
+        // let execexp = /[^/]*$/.exec(randombg)[0]; w/o [0]:         // ['energyLeaf.jpeg', index: 12, input: '/img/energy/energyLeaf.jpeg', groups: undefined]         
+        // let newresult = substrings[substrings.length-1]          (4) ['', 'img', 'energy', 'energyNormal.jpg']       this returns energyNormal [last part]s  
