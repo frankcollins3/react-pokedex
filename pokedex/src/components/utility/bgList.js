@@ -1,4 +1,4 @@
-export default async function bg (bgtype) {
+export default async function bg (bgtype, type) {
     console.log('bgtype from the bgList')
     console.log(bgtype)
     if (bgtype === 'energy') {
@@ -22,7 +22,17 @@ export default async function bg (bgtype) {
         let water = '/img/text/water.png'
         let electric = '/img/text/electric.png'
         let response = [psychic, fighting, fire, grass, normal, water, electric]
-        return response
+
+        if (type !== null) {
+            response.forEach( (t) => {
+                if (type === t) {
+                    return t
+                }
+            })
+        } else {
+            return response
+
+        }
     }
 }
 // electric normal fire water leaf fighting psychic 
