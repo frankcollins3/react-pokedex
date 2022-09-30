@@ -10,7 +10,11 @@ import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTem
 let otherBgBucket = [] || new Array()
 
 
-function TypeBar() {
+function TypeBar(props) {
+    console.log('top bar')
+    console.log(props)
+    console.log(props.selectedType)
+
     const [typeBucket, setTypeBucket] = useState([])
 
     const [bgBucket, setBgBucket] = useState([])
@@ -19,7 +23,6 @@ function TypeBar() {
 
     const [indexInt, setIndexInt] = useState(0)
 
-    const [selectedType, setSelectedType] = useState('') // one type at a time that changes when you click one of the circles.
     const [appliedElements, setAppliedElements] = useState([])
 
     const [screenPokemon, setScreenPokemon] = useState('') // id or imgSrc or name     selectedType->selectedPokemon to go to pg 3 form hovering upon
@@ -28,13 +31,21 @@ function TypeBar() {
         $('*').css('overflow', 'hidden') // couldn
         
         
+        
         const getBackgrounds = async () => {
-            let importbg = await bg()
+            let importbg = await bg('energy')
             // seteTypeBucket(importbg) wrong. it has to go to bg bucket. t
             setBgBucket(importbg)
         }
         getBackgrounds()
     }, [])
+
+    useEffect( () => {
+        console.log("index int useEffect")
+        if ($('.Circle')) {
+            console.log( $)
+        }
+    }, [indexInt])
     
 
     const addBg = async (event) => {
@@ -65,48 +76,55 @@ function TypeBar() {
         evaluateBg()
     }
 
-    const TypeToggle = (event) => {
-        console.log(event)
-        // console.log($(event.target.outerHTML))
-        console.log(event.target.outerHTML)
-        let nonprettyurl = event.target.outerHTML
-        let length = nonprettyurl.length
-        let cleaner = nonprettyurl.substring(79, length-31)
+    const TypeToggle = async (event) => {        
+        let nonpretty = event.target.attributes[1].value 
+        // let nonprettyurl = event.target.outerHTML 
+                // (this was for when opacity 0.1 wasn't set)
+                // let cleaner = nonprettyurl.substring(79, length-31)
+                // cleaner
+                // TopBar.js:92 fire.       (pre regex (/[\.])) escape period
+                // TopBar.js:95 cleantype
+                // TopBar.js:96 fire            // return clean typ here
+        let length = nonpretty.length
+        let cleaner = nonpretty.substring(61, length-6)        
         let cleantype = cleaner.replace(/[\.]/g, '')
-        console.log('cleantype')
         console.log(cleantype)
-        
-        
-        // let preregex = hi.substring(hi.IndexOf('/'[3]) + 1)
-        // let preregex = hi.substring(hi.lastIndexOf('/') + 1)
-        // console.log('preregex')
-        // console.log(preregex)
-        // console.log($(event.target.attributes
-        
-        // console.log(pregex)
-        // let prefix = randombg.substring(0, randombg.lastIndexOf('/') + 1)
-
-        // console.log('preregex')
-        // console.log(preregex)
-        
-
-        // the goal is to find the type of the selected element from its inner object endpoint/properties.
-        // it will be attached to the imgSrc.
-        // change state with this
     }
     
-        
+        let statecheck = () => {
+            console.log(props.selectedType)
+        }
 
     return (
         <div className="Type-Bar Row-Center"> 
-        {/* <button  className="navBall" id="Ultraball"> </button> */}
-        <div onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
-        <div onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
-        <div onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
-        <div onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
-        <div onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
-        <div onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
-        <div onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
+        <button onClick={statecheck} className="navBall" id="Ultraball"> </button>
+        <div 
+        style={{ opacity: '0.1'}}
+        onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
+
+        <div
+        style={{ opacity: '0.1'}}
+         onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
+
+        <div
+        style={{ opacity: '0.1'}}
+         onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
+
+        <div
+        style={{ opacity: '0.1'}}
+         onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
+
+        <div
+        style={{ opacity: '0.1'}}
+         onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
+
+        <div
+        style={{ opacity: '0.1'}}
+         onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
+
+        <div
+        style={{ opacity: '0.1'}}
+         onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
         </div>
     )
 }
