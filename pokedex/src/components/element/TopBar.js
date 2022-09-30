@@ -14,7 +14,7 @@ let otherBgBucket = [] || new Array()
 function TypeBar(props) {
     console.log('top bar')
     console.log(props)
-    console.log(props.selectedType)
+    console.log(props.setSelectedType)
 
     const [typeBucket, setTypeBucket] = useState([])
 
@@ -42,9 +42,9 @@ function TypeBar(props) {
     }, [])
 
     useEffect( () => {
-        console.log("index int useEffect")
+        // console.log("index int useEffect")
         if ($('.Circle')) {
-            console.log( $)
+            // console.log( $)
         }
     }, [indexInt])
     
@@ -69,7 +69,6 @@ function TypeBar(props) {
                 if ($(event.target.attributes[1])) {                
                     $(event.target)
                     if ($(event.target).attr('id') === 'setbg') {
-                        console.log("its got that id....")                        
                     } else {
                         $(event.target)
                         .attr('id', 'setbg')
@@ -88,18 +87,13 @@ function TypeBar(props) {
     const TypeToggle = async (event) => {
         myCSS($(event.target).siblings(), 'opacity', '0.1')
         myCSS($(event.target), 'opacity', '1.0')
-        
-        let nonprettyurl = event.target.outerHTML 
-        let nonpretty = event.target.attributes[1].value          // (this was for when opacity 0.1 wasn't set)
-        let length = nonpretty.length
-        let cleaner = nonpretty.substring(61, length-34)
-        // let cleaner = nonprettyurl.substring(79, length-31)
-        console.log('cleaner')
-        console.log(cleaner)
-        let cleantype = cleaner.replace(/[\.]/g, '')
-        console.log('cleantype')
-        console.log(cleantype)
-        
+            
+        let bgurl = event.target.attributes[1].nodeValue
+        let last = bgurl.substring(bgurl.lastIndexOf("/") + 1, bgurl.length)
+        let clean = last.slice(0, last.length -7).replace(/[\.]/gi, '') 
+        console.log('clean')
+        console.log(clean)
+        await props.setSelectedType(clean)
     }
     
         let statecheck = () => {
@@ -108,7 +102,7 @@ function TypeBar(props) {
 
     return (
         <div className="Type-Bar Row-Center"> 
-        {/* <button onClick={statecheck} className="navBall" id="Ultraball"> </button> */}
+        <button onClick={statecheck} className="navBall" id="Ultraball"> </button>
         <div 
         style={{ opacity: '0.1'}}
         onMouseEnter={addBg} onClick={TypeToggle}  className="Circle"></div>      
