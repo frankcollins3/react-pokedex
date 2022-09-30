@@ -1,6 +1,7 @@
 import { $ } from 'react-jquery-plugin'
 import CleanUrl from '../utility/CleanUrlTool'
 import APIcall from '../utility/pokeAPI'
+import bgList from '../utility/bgList'
 // $('*').css('overflow', 'scroll')
 $('.Real-Screen').css('overflow-y', 'scroll')
 
@@ -16,11 +17,17 @@ function RealisticScreen(props) {
         let axiosaccess = await APIcall('specify', cleantext)
         let types = axiosaccess[0].types
         let type = types[0].type.name
-        console.log('type')
-        console.log(type)
-// RealisticScreen.js:15 2  (clicked id #2)
-// RealisticScreen.js:21 type
-// RealisticScreen.js:22 grass      ('grass' type, for #2 ivysaur. correct data match up.)
+        
+        let typecardlist = await bgList('typecard')
+        // (7) ['/img/text/electric.png', '/img/text/fighting.png', '/img/text/fire.png',  [correct]
+        // '/img/text/grass.png', '/img/text/normal.png', '/img/text/water.png', '/img/text/electric.png']
+
+        let energytest = await bgList('energy')
+        // test [correct]
+        // RealisticScreen.js:27 (7) ['/img/energy/psychic.jpg', '/img/energy/electric.jpeg', '/img/energy/fire.png', 
+        // '/img/energy/grass.jpeg', '/img/energy/normal.png', '/img/energy/water.png', '/img/energy/fighting.jpg']
+      
+
 
 
 
