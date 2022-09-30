@@ -5,15 +5,20 @@ import APIcall from '../utility/pokeAPI'
 import bgList from '../utility/bgList'
 import myCSS from '../utility/CSStool'
 import toggleHideShow from '../utility/hideShow';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+import { preProcessFile } from 'typescript';
+
 
 // $('*').css('overflow', 'scroll')
-$('.Real-Screen').css('overflow-y', 'scroll')
+$('.Real-Screen')
+.css('overflow-y', 'scroll')
+.css('overflow', 'scroll')
 let i = 0;
 
 function RealisticScreen(props) {
     let fakedb = props.fakeDbState
     let typestate = props.selectedType
+    console.log('props')
+    console.log(props)
     
 
     useEffect( () => {
@@ -25,10 +30,12 @@ function RealisticScreen(props) {
     // * AUTO CLICK FUNCTION TO FIRE EVERY TIME state is toggled.
     // * I have to move this function so it can be available to TopBar as well. 
     const checkThat = async (event) => {
+        // this function runs automatically upon state being set to corresponding pokemon id types. if you click on the RealisticScreen child element this will run.
         let kids = $(event.target).children()        
         let text = event.target.innerText    
         let cleantext = text.replace(/[\s]/g, '')        
         let axiosaccess = await APIcall('specify', cleantext) || new Array()    
+        let image = axiosaccess[1].image
         let types = axiosaccess[0].types
         let type = types[0].type.name        
         if (type !== typestate) {
@@ -37,8 +44,16 @@ function RealisticScreen(props) {
             let typebg = await bgList('typecard', type) // async  Promise {<fulfilled>: undefined}            
             $(event.target).css('background', `url('${typebg}')`)
             await toggleHideShow($(event.target), 'show')
+            $(event.target).click( () => {
+                console.log('image')
+                console.log(image)
+            })            
         }
     }
+
+  
+
+
 
     let dbmap = fakedb.map( (mapitem, idx) => {
         return (
@@ -50,7 +65,7 @@ function RealisticScreen(props) {
     
 
     return (
-        <div className="Real-Screen">
+        <div className="Real-Screen Column-Between">
             {dbmap}
             {/* possible bootstrap carousel given that it wont be a giant span of data unless there are many many saved favorites. */}
         </div>
