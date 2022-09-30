@@ -5,7 +5,8 @@ import MiniScreen from '../element/MiniRealScreen'
 import TopBar from '../element/TopBar'
 function TypeScreen (props) {
     const [selectedType, setSelectedType] = useState([])
-    console.log(setSelectedType)
+    const [miniScreenPokemon, setMiniScreenPokemon] = useState('')
+    // console.log(setSelectedType)
 
 
     return (
@@ -14,15 +15,18 @@ function TypeScreen (props) {
                 <RealisticScreen 
                 fakeDbState={props.fakeDbState} setFakeDbState={props.setFakeDbState}
                 selectedType={selectedType} setSelectedType={setSelectedType}
+                miniScreenPokemon={miniScreenPokemon} setMiniScreenPokemon={setMiniScreenPokemon}
                 />
 
                 <TopBar 
                 fakeDbState={props.fakeDbState} setFakeDbState={props.setFakeDbState}
                 selectedType={selectedType} setSelectedType={setSelectedType}
+                miniScreenPokemon={miniScreenPokemon} setMiniScreenPokemon={setMiniScreenPokemon}
                 />
                 <div className="Second-Half">
                 <MiniScreen
                 selectedType={selectedType} setSelectedType={setSelectedType}
+                miniScreenPokemon={miniScreenPokemon} setMiniScreenPokemon={setMiniScreenPokemon}
                 />
                 <Nav /> 
                 </div>
