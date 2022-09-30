@@ -51,20 +51,11 @@ function RealisticScreen(props) {
         }
     }
 
-  
-
-
-
     let dbmap = fakedb.map( (mapitem, idx) => {        
         return (
             <div key={`parent:${idx}`} onClick={checkThat} className="Screen-Parents">
                     {/* <Carousel.item> */}
-                    {/* <Carousel.Item> */}
-
-                    <p key={idx}> <Carousel.Item> {mapitem} </Carousel.Item> </p>
-                    {/* <p key={idx}> <Carousel.Item> {mapitem} </Carousel.Item> </p> */}
-                    
-                    {/* </Carousel.Item> */}
+                    <p key={idx}> {mapitem} </p>
                     {/* </Carousel.item>
                 </Carousel> */}
             </div>
@@ -76,25 +67,14 @@ function RealisticScreen(props) {
         
         <div className="Real-Screen Column-Between">
             {/* {dbmap} */}
+            <p> {fakedb[1]} </p> 
+            {/* {dbmap} */}
        
-            {/* <Carousel> */}
-      {/* <Carousel.Item> */}
-            {dbmap}
-        {/* <Carousel.Caption>
-        </Carousel.Caption> */}
-      {/* </Carousel.Item> */}
-            {/* </Carousel> */}
-
-
-
-
-
-
-
-
-
-
-
+    {/* <Carousel>
+      <Carousel.Item>
+      </Carousel.Item>
+    </Carousel> */}
+    
         </div>
     )
 }
