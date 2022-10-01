@@ -17,25 +17,19 @@ export default async function CleanUrl (url) {
       regex() {
           return this.url.slice(url.length-5).replace(/[/\/a-z]/g, '')                                
       }
-      localhostregex() {
-        console.log("just doing a quick test and firing this")
-        return {here: 'a_gift'}
-        // {here: 'a_gift'} *** this is the terminal output this was getting set up correctly.  
+      localhostregex() {        
+        let lastslash = url.substring(url.lastIndexOf("/")+1)        
+        return lastslash || ' :) '        
       }
       
     }              
     if (typeof url === 'string' && url.includes('pokeapi')) {
           const newid = new Cleaner(url)                
           const returnId = new Cleaner(url).cleanup
-          // console.log(returnId)
             return returnId
-          } else if (typeof url === 'string' && url.includes('localhost')) {
-            console.log('url down here')
-            console.log(url)
-            const checkclass = new Cleaner(url).localhostcleanup
-            return checkclass
-            console.log(checkclass)
-            
+          } else if (typeof url === 'string' && url.includes('localhost')) {        
+            const checkclass = new Cleaner(url).localhostcleanup            
+            return checkclass            
           }
  
 
