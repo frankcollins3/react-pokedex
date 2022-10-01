@@ -1,11 +1,15 @@
 import APIcall from '../utility/pokeAPI'
 import CleanUrl from '../utility/CleanUrlTool'
+import LocationTool from '../utility/LocRedirect'
 import { $ } from 'react-jquery-plugin'
 import { useNavigate, Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react'
 
+
 function MiniScreen(props) {
     const [navId, setNavId] = useState('')
+let imagenavigate = useNavigate()
+
     
     let assessItem = async (event) => {
         console.log(event)
@@ -13,7 +17,24 @@ function MiniScreen(props) {
         // let hoverimage = event.target.currentSrc // not right this brings back the <img. you can see the element, not as a string.
         let hoverimage = event.target.attributes[1].nodeValue
         let cleanurl = hoverimage.slice(0, hoverimage.length-4).replace(/[\#./:a-z]/gi, '')
-        await setNavId(cleanurl)   
+        // const redirect = async () => {
+            try {
+                console.log("atleast were trying to redirect")
+                LocationTool(null || undefined, `/pokemon/${cleanurl}`, imagenavigate)
+                // await navBarNavigate('/')
+            }
+            catch { 
+                ( () => {
+                    console.log("error") || console.log('redirect(404)')
+                })()
+            }
+        // }
+        // redirect()
+
+
+        // await setNavId(cleanurl) was using state to reference for url params 
+
+
         
     }
 
