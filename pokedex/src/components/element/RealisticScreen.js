@@ -35,8 +35,14 @@ function RealisticScreen(props) {
             console.log(dbitem)
             let pokedata = await APIcall('specify', dbitem)
             let typeofdata = pokedata[0].types[0].type.name
-            console.log('typeofdata')
-            console.log(typeofdata)
+            // await setTypeDb([...typeDb,])
+            // console.log('typeofdata')
+            // console.log(typeofdata)
+            if (typeofdata === props.selectedType) {
+                console.log("it equals type")
+                console.log(typeofdata)
+                setTypeDb([...typeDb, typeofdata])
+            }
         })
         //  fakedb.forEach(async(dbitem) => {
         //     console.log('dbitem')
@@ -91,10 +97,11 @@ function RealisticScreen(props) {
     
 
     const indexChanger = async () => {
-        
+        console.log('typedb')
+        console.log(typeDb.length)
 
         $('.Display-Poke').click()
-        if (scrollIdx < fakedb.length) {
+        if (scrollIdx <= typeDb.length) {
             setScrollIdx(scrollIdx + 1)
         } else {
             setScrollIdx(0)
