@@ -7,6 +7,7 @@ import myCSS from '../utility/CSStool'
 import toggleHideShow from '../utility/hideShow';
 import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   
 import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+import GroupByType from '../utility/GroupByType'
 
 // $('*').css('overflow', 'scroll')
 $('.Real-Screen')
@@ -18,16 +19,33 @@ function RealisticScreen(props) {
 
     
     let fakedb = props.fakeDbState
-    const [scrollIdx, setScrollidx] = useState(0)
+    const [scrollIdx, setScrollIdx] = useState(0)
+    const [typeDb, setTypeDb] = useState([])
     let typestate = props.selectedType
     
     
 
     useEffect( () => {
-        //  $('.Screen-Parents').click()
+         $('.Screen-Parents').click()
         // fakeDb[0].click()
          // ? $('.Screen-Parents').click() every time state is changed.
          console.log("we are changing the type A.K.A. clicking on a <TopBar/> .Circle elem that also has access to props.selectedType")
+        fakedb.forEach(async( dbitem ) => {
+            console.log('dbitem')
+            console.log(dbitem)
+            let pokedata = await APIcall('specify', dbitem)
+            let typeofdata = pokedata[0].types[0].type.name
+            console.log('typeofdata')
+            console.log(typeofdata)
+        })
+        //  fakedb.forEach(async(dbitem) => {
+        //     console.log('dbitem')
+        //     console.log(dbitem)
+        //     let data = await APIcall('specify', dbitem)
+        //     console.log('data')
+        //     console.log(data)
+        //  })
+
          console.log(props.selectedType)
     }, [props.selectedType])
 
@@ -49,17 +67,10 @@ function RealisticScreen(props) {
         let cleantext = text.replace(/[\s]/g, '')    
         console.log('text')    
         console.log(text)    
-        let axiosaccess = await APIcall('specify', cleantext) || new Array()   
-        console.log('axiosaccess') 
-        console.log(axiosaccess) 
+        let axiosaccess = await APIcall('specify', cleantext) || new Array()           
         let image = axiosaccess[1].image
-        console.log('image')
-        console.log(image)
-
         let types = axiosaccess[0].types
-        let type = types[0].type.name        
-        console.log('type')
-        console.log(type)
+        let type = types[0].type.name                
         if (type !== typestate) {
             console.log('type doesnt equal stateType')
             toggleHideShow($(event.target), 'hide')
@@ -67,7 +78,8 @@ function RealisticScreen(props) {
             console.log('type == stateType')
             let typebg = await bgList('typecard', type) // async  Promise {<fulfilled>: undefined}            
             $(event.target).css('background', `url('${typebg}')`)
-            await toggleHideShow($(event.target), 'show')
+            
+            await toggleHideShow($(event.target), 'show')    
             $(event.target).click(async() => {
                 // await console.log(props.miniScreenPokemon)
                 await props.setMiniScreenPokemon(image)
@@ -78,10 +90,22 @@ function RealisticScreen(props) {
 
     
 
-    const indexChanger = () => {
+    const indexChanger = async () => {
+        
+
         $('.Display-Poke').click()
-        console.log('props.selectedType')
-        console.log(props.selectedType)
+        if (scrollIdx < fakedb.length) {
+            setScrollIdx(scrollIdx + 1)
+        } else {
+            setScrollIdx(0)
+        }
+        // console.log('typestate')
+        // console.log(typestate)
+        // let typelist = await GroupByType(fakedb, props.selectedType)
+        // console.log('typelist')
+        // console.log(typelist)
+
+
         // console.log('were doing this')
         // console.log('scrollIdx')
         // console.log(scrollIdx)
@@ -104,7 +128,7 @@ function RealisticScreen(props) {
 
     return (
         
-        <div onMouseEnter={indexChanger} className="Real-Screen Column-Between">
+        <div onClick={indexChanger} onWheel={indexChanger} className="Real-Screen Column-Between">
             {/* {dbmap} */}
             <p className="Display-Poke" onClick={checkThat}> { fakedb[scrollIdx] || fakedb[0]} </p> 
             {/* {dbmap} */}
