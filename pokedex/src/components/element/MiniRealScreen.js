@@ -1,22 +1,38 @@
+import APIcall from '../utility/pokeAPI'
+import CleanUrl from '../utility/CleanUrlTool'
+import { $ } from 'react-jquery-plugin'
+import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+
 function MiniScreen(props) {
-    let assessItem = (event) => {
+    const [navId, setNavId] = useState('')
+    
+    let assessItem = async (event) => {
         console.log(event)
         console.log(event.target)
         // let hoverimage = event.target.currentSrc // not right this brings back the <img. you can see the element, not as a string.
         let hoverimage = event.target.attributes[1].nodeValue
-        console.log('hoverimage')
-        console.log(hoverimage)
-        // let name = APIcall('specify', hoverimage.regex)
-        // change url to localhost:3000/pokemon/name to the 3rd page which will be an info page accessing a few different api endpoints 
-        // from pokeapi for this specific pokemon 
+        let cleanurl = hoverimage.slice(0, hoverimage.length-4).replace(/[\#./:a-z]/gi, '')
+        await setNavId(cleanurl)   
+        
     }
+
+    let testli = async () => {
+        console.log("testing LI")
+    }
+
     return (
         <div className="Real-Screen Column-Center Quarter-Size">
         {props.miniScreenPokemon ?
+        <>
+        <li onClick={testli} className="Links"> <Link to={`/pokemon/${navId}`}>hello buddy</Link></li>
         <img 
         onClick={assessItem}
         style={{ height: '100px', width: '100px'}}
-        className="Sprite Quadruple" src={props.miniScreenPokemon}/>
+        className="Sprite Quadruple" src={props.miniScreenPokemon}
+        />
+        </>
+
         :
         <div className="Invisible"> </div>}
         </div>
