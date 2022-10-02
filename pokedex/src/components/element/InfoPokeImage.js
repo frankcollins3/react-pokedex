@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import APIcall from '../utility/pokeAPI'
 import GetImage from '../utility/ImageTool'
+import ReturnRandom from '../utility/ReturnRandom'
 import Axios from 'axios'
 
 function InfoPokeImage(props) {
@@ -49,12 +50,17 @@ function InfoPokeImage(props) {
     }
 
     const inspectcont = async (event) => {
-        console.log(event.target)
-        console.log(event)
-        console.log(props.paramPoke)    
-        let allimages = await GetImage(props.paramPoke, 'all')
-        console.log('allimages')
-        console.log(allimages)
+        // console.log(event.target)
+        // console.log(event)
+        // console.log(props.paramPoke)    
+        // let allimages = await GetImage(props.paramPoke, 'all')
+        let frontimg = await GetImage(props.paramPoke, 'front')
+        setImageUrl(frontimg)
+
+        // let randomimage = await ReturnRandom(allimages)
+        // console.log('randomimage')
+        // console.log(randomimage)
+
     }
     
     return (
