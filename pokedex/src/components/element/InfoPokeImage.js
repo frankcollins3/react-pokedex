@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import APIcall from '../utility/pokeAPI'
 import GetImage from '../utility/ImageTool'
 import ReturnRandom from '../utility/ReturnRandom'
+import myCSS from '../utility/CSStool'
+import { $ } from 'react-jquery-plugin' 
 import Axios from 'axios'
 
 function InfoPokeImage(props) {
@@ -19,9 +21,7 @@ function InfoPokeImage(props) {
         
     useEffect( () => {
         (async () => {
-            console.log("iife for liife")
-            console.log('props.paramPoke')
-
+            
             // let data = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${props.paramPoke}`)
             // let data = await APIcall('specify', `${props.paramPoke}`)            
             // console.log(data)
@@ -50,26 +50,23 @@ function InfoPokeImage(props) {
     }
 
     const inspectcont = async (event) => {
-        // console.log(event.target)
-        // console.log(event)
-        // console.log(props.paramPoke)    
-        // let allimages = await GetImage(props.paramPoke, 'all')
+        setTimeout(async() => {
+            let shinyparam = await GetImage(props.paramPoke, 'shiny')
+            console.log('shinyparam')
+            console.log(shinyparam)
+            myCSS($('.Sprite').css('border', '5px solid hotpink'))
+        }, "3000")
         let frontimg = await GetImage(props.paramPoke, 'front')
         setImageUrl(frontimg)
-
-        // let randomimage = await ReturnRandom(allimages)
-        // console.log('randomimage')
-        // console.log(randomimage)
-
     }
     
     return (
-        <div onMouseEnter={inspectcont} className="Info-Image-Container">
+        <div onMouseEnter={inspectcont} className="Info-Image-Container Column-Center">
             <p onMouseEnter={seeState}>  Pokemon Image Demo text</p>
             {imageUrl.length ?
-            <img className="Sprite"src={imageUrl} />
+            <img className="Sprite Quadruple"src={imageUrl} />
             :
-            <p onClick={seeState}> no state no image</p>
+            <p className="Invisible" onClick={seeState}> no state no image</p>
         }
 
         </div>
