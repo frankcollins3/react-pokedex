@@ -20,13 +20,16 @@ function InfoPokeImage(props) {
         (async () => {
             console.log("iife for liife")
             console.log('props.paramPoke')
-            let data = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${props.paramPoke}`)
+
+            // let data = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${props.paramPoke}`)
             // let data = await APIcall('specify', `${props.paramPoke}`)            
-            let pokemon = data.data.id        
-            let frontimage = await GetImage(pokemon, 'front')
+            // console.log(data)
+            
+            // let allimages = await GetImage('', 'all')            
+            // console.log('allimages')
+            // console.log(allimages)
+
             // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png
-            console.log('frontimage')
-            console.log(frontimage)
 
             // let keys = Object.keys(data.data)
             // let vals = Object.values(data.data)
@@ -38,20 +41,24 @@ function InfoPokeImage(props) {
             
 
         })()
-    })
+    }, [])  // error set state run over and over no dependency array to trigger end. 
 
     const seeState = async () => {
-        if (imageBucket.length < 5) {
-            console.log("filling bucket!")
-            await setImageBucket([plainbucket])
-            
+        console.log('imageBucket')
+        console.log(imageBucket)
+    }
 
-        }
-        
+    const inspectcont = async (event) => {
+        console.log(event.target)
+        console.log(event)
+        console.log(props.paramPoke)    
+        let allimages = await GetImage(props.paramPoke, 'all')
+        console.log('allimages')
+        console.log(allimages)
     }
     
     return (
-        <div className="Info-Image-Container">
+        <div onMouseEnter={inspectcont} className="Info-Image-Container">
             <p onMouseEnter={seeState}>  Pokemon Image Demo text</p>
             {imageUrl.length ?
             <img className="Sprite"src={imageUrl} />
