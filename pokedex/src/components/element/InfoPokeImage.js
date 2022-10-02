@@ -1,85 +1,50 @@
-import React, {useEffect, useState} from 'react'
-import APIcall from '../utility/pokeAPI'
-import GetImage from '../utility/ImageTool'
-import ReturnRandom from '../utility/ReturnRandom'
-import myCSS from '../utility/CSStool'
-import { $ } from 'react-jquery-plugin' 
-import Axios from 'axios'
-
-function InfoPokeImage(props) {
-    console.log('props')
-    // console.log(props)     {paramPoke: '1', setParamPoke: ƒ}
-    const [imageBucket, setImageBucket] = useState([])
+import { $ } from 'react-jquery-plugin'
+import React, { useEffect, useState } from 'react'
+import CleanUrl from '../utility/CleanUrlTool'
+import InfoPokeImage from '../element/InfoPokeImage'
 
 
+// this is a webpage that will import multiple components that have access to the same urlparam state.
+function InfoScreen() {
+    const [paramPoke, setParamPoke] = useState('')
 
-
-    const [imageUrl, setImageUrl] = useState('')
-
-    // const [randomImage, setRandomImage] = useState(imageBucket[Math.floor(Math.random()*imageBucket.length)] || ['hey'])
-    const plainbucket = new Array() || []
-        
     useEffect( () => {
-        (async () => {
-            
-            // let data = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${props.paramPoke}`)
-            // let data = await APIcall('specify', `${props.paramPoke}`)            
-            // console.log(data)
-            
-            // let allimages = await GetImage('', 'all')            
-            // console.log('allimages')
-            // console.log(allimages)
+        let jqdoc = $(document)
+        let win = window
+        console.log('jqdoc')
+        console.log(jqdoc)
+        // * we are digging for that urlparam which is our /pokemon/:id  
+        // * urlparam will be set when we get it from the secondArg in our pure function tool
+        //  second arg: `/pokemon/${cleanurl}`  LocationTool(null || undefined, `/pokemon/${cleanurl}`, imagenavigate)
+        console.log('win')
+        console.log(win)
+        const paramState = async () => {
+            let currloc = win.navigation.currentEntry.url
+            console.log('currloc')
+            console.log(currloc)
+            let cleanint = await CleanUrl(currloc)
+            setParamPoke(cleanint)
+        }
+        paramState()
 
-            // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png
+        
+    }, [])
+    
+    const check = () => {
+        console.log('paramPoke')
+        console.log(paramPoke)
 
-            // let keys = Object.keys(data.data)
-            // let vals = Object.values(data.data)
-            // let images = vals[14]
-            // for (const img in images) {                
-            //     if (`${images[img]}`.includes('usercontent')) {                    
-            //     }                
-            // }
-            
-
-        })()
-    }, [])  // error set state run over and over no dependency array to trigger end. 
-
-    const seeState = async () => {
-        console.log('imageBucket')
-        console.log(imageBucket)
-    }
-
-    const inspectcont = async (event) => {
-        setTimeout(async() => {
-            let shinyparam = await GetImage(props.paramPoke, 'shiny')
-            console.log('shinyparam')
-            console.log(shinyparam)
-            myCSS($('.Sprite').css('border', '5px solid hotpink'))
-        }, "3000")
-        let frontimg = await GetImage(props.paramPoke, 'front')
-        setImageUrl(frontimg)
+        // paramPoke InfoScreen.js:32 1 parampoke now returns 1 because of our export function t
     }
     
-    return (
-        <div onMouseEnter={inspectcont} className="Info-Image-Container Column-Center">
-            <p onMouseEnter={seeState}>  Pokemon Image Demo text</p>
-            {imageUrl.length ?
-            <img className="Sprite Quadruple"src={imageUrl} />
-            :
-            <p className="Invisible" onClick={seeState}> no state no image</p>
-        }
+    // }, [paramPoke]) wouldn't have this because if the paramPoke changed the whole webpage would change anyways.
 
+    return (
+        <div className="Info-Wrap">
+            <button onClick={check} className="navBall" id="Pokeball"></button>
+            <InfoPokeImage paramPoke={paramPoke} setParamPoke={setParamPoke}/>
         </div>
     )
 }
-export default InfoPokeImage
 
-                // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png
-                // InfoPokeImage.js:26 null
-                // InfoPokeImage.js:26 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png
-                // InfoPokeImage.js:26 null
-                // InfoPokeImage.js:26 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png
-                // InfoPokeImage.js:26 null
-                // InfoPokeImage.js:26 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png
-                // InfoPokeImage.js:26 null
-                // setImageBucket([...imageBucket, `${images[img]}`])
+export default InfoScreen
