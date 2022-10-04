@@ -3,6 +3,11 @@ import React, { useEffect, useState } from 'react'
 import CleanUrl from '../utility/CleanUrlTool'
 import InfoPokeImage from '../element/InfoPokeImage'
 import InfoBtnBar from '../element/InfoBtnBar'
+import InfoEndpoint from '../element/InfoEndpoint'
+import EndpointBar from '../element/InfoEndpointBar'
+// weird error. having:
+// import EndpointBar from element/InfoEndpoint.
+// this typo brought out the InfoEndpoint component stored as Endpointbar
 
 
 // this is a webpage that will import multiple components that have access to the same urlparam state.
@@ -15,6 +20,7 @@ function InfoScreen() {
     useEffect( () => {
         $('.Info-Wrap').parents().css('background-image', `url(${'/img/blackpokedex.jpeg'})`)  
         $('.Info-Wrap').parents().css('background-size', 'cover')
+        // $('.Info-Wrap').children().css('margin', '0 1em 0 1em')
         // $('.Info-Wrap').parents().css('background-color', 'whitesmoke')  
         let jqdoc = $(document)
         let win = window        
@@ -36,8 +42,9 @@ function InfoScreen() {
     // }, [paramPoke]) wouldn't have this because if the paramPoke changed the whole webpage would change anyways.
 
     return (
-        <div className="Info-Wrap">
+        <div className="Info-Wrap Row-Between">
             {/* <button onClick={check} className="navBall" id="Pokeball"></button> */}
+            <div className="Info-Left Column-Center">
             <InfoPokeImage
              paramPoke={paramPoke} setParamPoke={setParamPoke}
              imageUrl={imageUrl} setImageUrl={setImageUrl}
@@ -47,8 +54,19 @@ function InfoScreen() {
             imageUrl={imageUrl} setImageUrl={setImageUrl}
             // was thinking if this needs paramPoke state & i don't believe so. 
             />
+            </div>        
+
+            <div className="Info-Right Column-Center">
+            <InfoEndpoint
+            paramPoke={paramPoke} setParamPoke={setParamPoke}            
+            />
+            <EndpointBar
+            paramPoke={paramPoke} setParamPoke={setParamPoke}            
+            />
             
-        </div>
+            </div>
+
+        </div>  // Info-Wrap Row-Between end
     )
 }
 
