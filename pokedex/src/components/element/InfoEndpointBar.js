@@ -18,29 +18,49 @@ function EndpointBar (props) {
         
         const getMoves = async (event) => {            
             let movebucket = await CleanData(urlpokemon, 'moves')                   
-            console.log('movebucket')
-            console.log(movebucket)
-            await props.setEndpointState(movebucket)
-            // movebucket.forEach(async(move) => {
-            // })
-                // doesnt return value from checkState() if this function is invoked automatically but does so upon click of the greatBall. but then when you create state based conditional logic it invalidates the .push() method within the condition while you can see a consnole.log() within the condition working but not the push effect that works elsewhere and now in setState()
-            // await props.setEndpointState([...props.endpointState], movebucket)        
-            // await props.setEndpointState([...props.endpointState, ...movebucket])        
+            const newMoves = [...props.endpointState];
+            newMoves.push(movebucket);
+            props.setEndpointState(newMoves);
+            // props.setEndpointState(newstate)
             
+            // await props.setEndpointState(movebucket)
+            // movebucket.forEach(async(move) => {
+            //     await props.setEndpointState([...props.endpointState, move])
+            // })                        
+         }
+
+         const fillContainer = async () => {
+            let movebucket = await CleanData(urlpokemon, 'moves')
+            let abilitybucket = await CleanData(urlpokemon, 'ability')
+            let bucketofbuckets = [...props.endpointState]
+            bucketofbuckets.push(movebucket, abilitybucket)
+
+            await props.setEndpointState(bucketofbuckets)
+            // let bucketofbuckets = [movebucket, abilitybucket]
+
          }
              
-         const dmgrelation = async () => {
-             let dmgbucket = await CleanData(urlpokemon, 'damage')        
-         }
-     
+    
          const getabilities = async () => {
-             let abilitybucket = await CleanData(urlpokemon, 'ability')
-                    console.log("mousemoved === 0 GET ABILITIES")
-                 bucketBucket[1].push(abilitybucket)    
+            //  let abilitybucket = await CleanData(urlpokemon, 'ability')
+            // const abilitylist = [...props.endpointState]
+            // console.log('abilitylist')
+            // console.log(abilitylist)
+
+            // const newAbility = [...props.endpointState];
+            // newAbility.push(abilitybucket);
+            // props.setEndpointState(newAbility);
+
+            //         console.log("mousemoved === 0 GET ABILITIES")
+            //      bucketBucket[1].push(abilitybucket)    
                 // abilitiesBucket.push(abilitybucket)
-            await props.setEndpointState([...props.endpointState, abilitybucket])        
+            // await props.setEndpointState([...props.endpointState, abilitybucket])        
              // abilitybucket.length > 1 ?  :
          }
+
+         const dmgrelation = async () => {
+            let dmgbucket = await CleanData(urlpokemon, 'damage')        
+        }
 
          const movesMap = ['karate chop', 'punch', 'kick', 'elbow']
 
@@ -61,13 +81,16 @@ function EndpointBar (props) {
                 await getMoves()
             }
             const addAbility = async () => {
-                // await getabilities()
+                await getabilities()
             }
             const doublefunction = async () => {
+                // setTimeout(addMoves, 1000)
+                // setTimeout(addAbility, 1000)
                 await addMoves()
                 await addAbility()
             }
-            doublefunction()
+            // doublefunction()
+            fillContainer()
 
             await setMouseMoved('true')
             // await getabilities()
@@ -93,7 +116,7 @@ function EndpointBar (props) {
         {mouseMoved === 'true' 
         ?
         <>
-        <button onClick={getabilities}> </button>
+        {/* <button onClick={getabilities}> </button> */}
         <button className="navBall" id="Greatball" onClick={addState}>
         </button>
         <button className="navBall" id="Ultraball" onClick={checkState}>
