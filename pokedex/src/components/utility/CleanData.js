@@ -14,7 +14,6 @@ export default async function CleanData (pokemon, endpoint){
         let type1 = pokeapi.types[0].type.name
         console.log('type1')
         console.log(type1)
-
         // let type1 = pokeapi.types[0].type.name
         // console.log(type1)
         if (endpoint === 'moves') {
@@ -23,13 +22,26 @@ export default async function CleanData (pokemon, endpoint){
         }        
         if (endpoint === 'damage') {
             let typedata = await TypeLooper(type1)
-            console.log('typedata')
-            console.log(typedata)
-
-            // {raw: {…}, data: {…}, pokemon: Array(129)}
-            //     {damage_relations: {…}, game_indices: Array(6), generation: {…}, id: 12, move_damage_class: {…}, …}
-            //     (129) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
-            //     {data: {…}, status: 200, statusText: '', headers: {…}, config: {…}, …}
+            let dmgdata = typedata.data.damage_relations
+            return dmgdata         
+        }
+        if (endpoint === 'ability') {
+            console.log("clean data tool getAbilities function")            
+            let abilities = pokeapi.abilities
+            let ability1 = abilities[0].ability
+            if (abilities[1].ability) {
+                console.log("if block return ability1 && ability2")
+                let ability2 = abilities[1].ability
+                let abilitybucket = [ability1, ability2] 
+                return abilitybucket
+            } else {
+                console.log("else block no ability[1]")
+                console.log(ability1)
+                return ability1
+            }
+            // let ability2 = abilities[1].ability
+            // console.info(ability1)
+            // console.info(ability2)
         }
     } 
 }
