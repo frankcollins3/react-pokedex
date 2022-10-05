@@ -1,9 +1,7 @@
 import CleanData from '../utility/CleanData'
 import { useEffect, useState } from 'react'
 import { $ } from 'react-jquery-plugin'
-function EndpointBar (props) {    
-    console.log('props infoendpointbar')
-    console.log('props')
+function EndpointBar (props) {        
     console.log(props)
     let movesBucket = new Array() || []
     let abilitiesBucket = [] 
@@ -18,13 +16,17 @@ function EndpointBar (props) {
     ]    
         let urlpokemon = props.paramPoke    
         
-        const getMoves = async (event) => {
-            console.log("in the get moves")
-            let movebucket = await CleanData(urlpokemon, 'moves')       
+        const getMoves = async (event) => {            
+            let movebucket = await CleanData(urlpokemon, 'moves')                   
             console.log('movebucket')
             console.log(movebucket)
-            // bucketBucket[0].push(movebucket)    // this code works now that its outside  
-                bucketBucket[0].push(movebucket)     //  same code as above that doesn't work in if statement       
+            await props.setEndpointState(movebucket)
+            // movebucket.forEach(async(move) => {
+            // })
+                // doesnt return value from checkState() if this function is invoked automatically but does so upon click of the greatBall. but then when you create state based conditional logic it invalidates the .push() method within the condition while you can see a consnole.log() within the condition working but not the push effect that works elsewhere and now in setState()
+            // await props.setEndpointState([...props.endpointState], movebucket)        
+            // await props.setEndpointState([...props.endpointState, ...movebucket])        
+            
          }
              
          const dmgrelation = async () => {
@@ -35,7 +37,8 @@ function EndpointBar (props) {
              let abilitybucket = await CleanData(urlpokemon, 'ability')
                     console.log("mousemoved === 0 GET ABILITIES")
                  bucketBucket[1].push(abilitybucket)    
-                abilitiesBucket.push(abilitybucket)
+                // abilitiesBucket.push(abilitybucket)
+            await props.setEndpointState([...props.endpointState, abilitybucket])        
              // abilitybucket.length > 1 ?  :
          }
 
@@ -52,26 +55,42 @@ function EndpointBar (props) {
         console.log(mouseMoved)
         if (mouseMoved === 'false') {
             console.log("mousemoved = false")
-            setTimeout(await getMoves(), 1000)
-            setTimeout(await getabilities(), 2000)
+            // await getMoves()
+            // await getabilities()
+            const addMoves = async () => {
+                await getMoves()
+            }
+            const addAbility = async () => {
+                // await getabilities()
+            }
+            const doublefunction = async () => {
+                await addMoves()
+                await addAbility()
+            }
+            doublefunction()
+
+            await setMouseMoved('true')
             // await getabilities()
             // await setMouseMoved('true')
-        setMouseMoved('true')
         } else return
 
     }
 
     const checkState = () => {        
+        console.log('bucketBucket')
         console.log(bucketBucket)
+        console.log('props.endpointState')
+        console.log(props.endpointState)
+        
         // console.log(movesBucket)
         // console.log(abilitiesBucket)
     }
     return (
-        // <div className="Info-Endpoint-Bar Row-Center">
         // <div onClick={addState} className="Info-Endpoint-Bar Row-Center">
-       
-        <div onMouseEnter={mouseMoved == 'false' ? addState : checkState} className="Info-Endpoint-Bar Row-Center">
-        {mouseMoved === 'false' 
+        
+        <div className="Info-Endpoint-Bar Row-Center">
+         {/* <div onMouseEnter={mouseMoved == 'false' ? addState : checkState} className="Info-Endpoint-Bar Row-Center">  */}
+        {mouseMoved === 'true' 
         ?
         <>
         <button onClick={getabilities}> </button>
@@ -81,7 +100,7 @@ function EndpointBar (props) {
         </button>
         </>
         :
-        <p>hey </p> 
+        <button className="navBall" id="Pokeball" onClick={addState}></button>
         }
         </div>
  
