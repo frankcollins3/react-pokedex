@@ -10,17 +10,18 @@ if (typeof endpoint === 'string' && typeof pokemon === 'string' || 'number') {
         if (endpoint === 'ability') {
             console.log("endpoint === ability ")
             // let newurl = url += key += endpoint    // 
-            let nonbrokenkey = `/${key}`
-            const newurl = url += endpoint += nonbrokenkey 
-         
-               // interesting. you can't use string interpolation within concatenation. (as it is its own vehicle of concatenation. still a little surprised.)
-            // const newurl = url += `${endpoint}/` += key
-            // forgot the slash https://pokeapi.co/api/v2/[ability20] no slash.
+            // let nonbrokenkey = `/${key}`
+            // const newurl = url += endpoint += nonbrokenkey 
+            // let endpointcheck = await Axios.get(newurl)
+            // this code above allows for 1 good .get() call through Axios but then double-appends /pokemon/ability/20/ability/20 for the second call
             
-            
-            let endpointcheck = await Axios.get(newurl)
-            console.log('endpointcheck')
-            console.log(endpointcheck)
+
+
+            const accessEndpoint = async () => {
+                let endpointcheck = await Axios.get(key) // key is now url instead of chopped id from string                              
+                return endpointcheck
+            }
+            return accessEndpoint()
         }
 
         
