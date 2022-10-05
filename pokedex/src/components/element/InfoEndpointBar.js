@@ -9,9 +9,9 @@ function EndpointBar (props) {
 
     const getMoves = async () => {
        let movebucket = await CleanData(urlpokemon, 'moves')
+       console.log('movebucket')
+       console.log(movebucket)
     //    await props.setEndpointState(movebucket)
-    //    await props.setEndpointState('moves')
-       await props.setEndpointState({ ref: 'moves', bucket: movebucket})
 
     }
     // getMoves()
@@ -23,7 +23,8 @@ function EndpointBar (props) {
 
     const checkState = () => {
         console.log("check state")
-        console.log(props.endpointState)        
+        console.log(props.endpointState)  
+        console.log(typeof props.endpointState)      
     }
     return (
         <div className="Info-Endpoint-Bar Row-Center">
