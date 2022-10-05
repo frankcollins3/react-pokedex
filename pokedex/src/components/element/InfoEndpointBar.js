@@ -1,21 +1,8 @@
 import CleanData from '../utility/CleanData'
 import { useEffect, useState } from 'react'
-import { $ } from 'react-jquery-plugin'
 function EndpointBar (props) {    
-    
-    useEffect( () => {
-        $(document).on('mousemove', () => {
-
-        })
-        // addState()
-        // (async() => {
-        //     await getMoves()
-        //     await getabilities()
-        // })()
-    })
-
-    const [mouseMove, setMouseMove] = useState('false')
-
+    // console.log('props infoendpointbar')
+    // console.log(props)
     let movesBucket = new Array() || []
     let abilitiesBucket = [] 
     let dmgRelationsBucket = new Array()
@@ -25,35 +12,35 @@ function EndpointBar (props) {
         abilitiesBucket,
         dmgRelationsBucket
     ]    
-        let urlpokemon = props.paramPoke
+        let urlpokemon = props.paramPoke        
+    useEffect( () => {
+        (async() => {
+        const getMoves = async () => {
+            let movebucket = await CleanData(urlpokemon, 'moves')       
+             bucketBucket.push(movebucket)     //    movesBucket.push(movebucket)       
+         }             
+         const dmgrelation = async () => {
+             let dmgbucket = await CleanData(urlpokemon, 'damage')        
+         }     
+         const getabilities = async () => {
+             let abilitybucket = await CleanData(urlpokemon, 'ability')
+             bucketBucket[1].push(abilitybucket)    
+             // abilitybucket.length > 1 ?  :
+         }
+        let runthem = [getMoves(), dmgrelation(), getabilities()]
+        })() // end of async IIFE
+        }, [])
 
 
-    const getMoves = async () => {
-        let movebucket = await CleanData(urlpokemon, 'moves')               
-         bucketBucket.push(movebucket)     //    movesBucket.push(movebucket)       
-     }
 
-     const dmgrelation = async () => {
-         let dmgbucket = await CleanData(urlpokemon, 'damage')        
-     }
- 
-     const getabilities = async () => {
-         let abilitybucket = await CleanData(urlpokemon, 'ability')
-         bucketBucket[1].push(abilitybucket)    
-         // abilitybucket.length > 1 ?  :
-    }
 
-    const addState = async () => {
-        if (mouseMove === 'false') {
-            await getMoves()
-            await getabilities()
-        } else {
-            // $(document).unbind('mousemove') // Deprecated since 3.0. Use `off`.
-            $(document).off
-            return
-        }
 
-    }
+
+
+    // const addState = async () => {
+    //     await getMoves()
+    //     await getabilities()
+    // }
 
     const checkState = () => {        
         console.log(bucketBucket)
@@ -61,10 +48,11 @@ function EndpointBar (props) {
     return (
         <div className="Info-Endpoint-Bar Row-Center">
 
-        <button onClick={getabilities}> </button>
+        <button onClick={checkState}> </button>
         {/* <button  onClick={getMoves}></button> */}
 
-        <button className="navBall" id="Greatball" onClick={addState}>
+        <button className="navBall" id="Greatball">
+        {/* onClick={addState} */}
         {/* <button className="navBall" id="Greatball" onClick={dmgrelation}> */}
 
         </button>
