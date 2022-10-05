@@ -1,6 +1,7 @@
-import APIcall from './pokeAPI'
 import TypeLooper from './TypeTool'
-// import Axios from 'axios'
+import pokeEndpoint from './pokeEndpoint'
+import APIcall from './pokeAPI'
+import CleanUrl from './CleanUrlTool'
 
 export default async function CleanData (pokemon, endpoint){
     // console.log(arr) 1st argument is array.
@@ -14,6 +15,7 @@ export default async function CleanData (pokemon, endpoint){
         let type1 = pokeapi.types[0].type.name
         console.log('type1')
         console.log(type1)
+
         // let type1 = pokeapi.types[0].type.name
         // console.log(type1)
         if (endpoint === 'moves') {
@@ -29,16 +31,35 @@ export default async function CleanData (pokemon, endpoint){
             console.log("clean data tool getAbilities function")            
             let abilities = pokeapi.abilities
             let ability1 = abilities[0].ability
+            let abilityurl1 = ability1.url
             if (abilities[1].ability) {
                 console.log("if block return ability1 && ability2")
                 let ability2 = abilities[1].ability
+                let abilityurl2 = ability2.url
+                
+                let abilityid = await CleanUrl(abilityurl1)
+                console.log('abilityid')
+                console.log(abilityid)
+                
+                // call the function that returns the data
+                // return the function
+                const accessAbility = async () => {
+                    let ability = pokeEndpoint(abilityurl1, 'ability')
+                }
+                accessAbility()
+                console.log(abilityurl1)
+                console.log(abilityurl2)
+                
+                // need the url of the ability and to access /pokemon/ability 
                 let abilitybucket = [ability1, ability2] 
                 return abilitybucket
             } else {
                 console.log("else block no ability[1]")
-                console.log(ability1)
+                console.log(abilityurl1)
                 return ability1
             }
+
+
             // let ability2 = abilities[1].ability
             // console.info(ability1)
             // console.info(ability2)
