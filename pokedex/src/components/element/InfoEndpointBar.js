@@ -1,8 +1,10 @@
 import CleanData from '../utility/CleanData'
 import { useEffect, useState } from 'react'
+import { $ } from 'react-jquery-plugin'
 function EndpointBar (props) {    
-    // console.log('props infoendpointbar')
-    // console.log(props)
+    console.log('props infoendpointbar')
+    console.log('props')
+    console.log(props)
     let movesBucket = new Array() || []
     let abilitiesBucket = [] 
     let dmgRelationsBucket = new Array()
@@ -16,15 +18,13 @@ function EndpointBar (props) {
     ]    
         let urlpokemon = props.paramPoke    
         
-        const getMoves = async () => {
+        const getMoves = async (event) => {
             console.log("in the get moves")
             let movebucket = await CleanData(urlpokemon, 'moves')       
             console.log('movebucket')
             console.log(movebucket)
-            if (mouseMoved !== 'false') {
-                bucketBucket[0].push(movebucket)     //    movesBucket.push(movebucket)       
-            }
-
+            // bucketBucket[0].push(movebucket)    // this code works now that its outside  
+                bucketBucket[0].push(movebucket)     //  same code as above that doesn't work in if statement       
          }
              
          const dmgrelation = async () => {
@@ -33,14 +33,13 @@ function EndpointBar (props) {
      
          const getabilities = async () => {
              let abilitybucket = await CleanData(urlpokemon, 'ability')
-            //  if (mouseMoved == 'false') {
+                    console.log("mousemoved === 0 GET ABILITIES")
                  bucketBucket[1].push(abilitybucket)    
-            //  }
+                abilitiesBucket.push(abilitybucket)
              // abilitybucket.length > 1 ?  :
          }
 
-    
-     
+         const movesMap = ['karate chop', 'punch', 'kick', 'elbow']
 
 
 
@@ -49,34 +48,43 @@ function EndpointBar (props) {
 
 
     const addState = async () => {
-        // if (mouseMoved === 'false') {
+        console.log('mouseMoved')
+        console.log(mouseMoved)
+        if (mouseMoved === 'false') {
             console.log("mousemoved = false")
-            await getMoves()
-            await getabilities()
-            await setMouseMoved('true')
-        // setMouseMoved('true')
-        // } else return
+            setTimeout(await getMoves(), 1000)
+            setTimeout(await getabilities(), 2000)
+            // await getabilities()
+            // await setMouseMoved('true')
+        setMouseMoved('true')
+        } else return
 
     }
 
     const checkState = () => {        
         console.log(bucketBucket)
+        // console.log(movesBucket)
+        // console.log(abilitiesBucket)
     }
     return (
         // <div className="Info-Endpoint-Bar Row-Center">
-        <div onMouseEnter={addState} className="Info-Endpoint-Bar Row-Center">
-
+        // <div onClick={addState} className="Info-Endpoint-Bar Row-Center">
+       
+        <div onMouseEnter={mouseMoved == 'false' ? addState : checkState} className="Info-Endpoint-Bar Row-Center">
+        {mouseMoved === 'false' 
+        ?
+        <>
         <button onClick={getabilities}> </button>
-        {/* <button  onClick={getMoves}></button> */}
-
         <button className="navBall" id="Greatball" onClick={addState}>
-
         </button>
-
         <button className="navBall" id="Ultraball" onClick={checkState}>
-
         </button>
+        </>
+        :
+        <p>hey </p> 
+        }
         </div>
+ 
     )
 }
 
