@@ -3,110 +3,58 @@ import { useEffect, useState } from 'react'
 import { $ } from 'react-jquery-plugin'
 function EndpointBar (props) {        
     console.log(props)
+    console.log(props.endpoint)
     let movesBucket = new Array() || []
     let abilitiesBucket = [] 
     let dmgRelationsBucket = new Array()
 
     const [mouseMoved, setMouseMoved] = useState('false')
-
-    let bucketBucket = [
-        movesBucket, 
-        abilitiesBucket,
-        dmgRelationsBucket
-    ]    
         let urlpokemon = props.paramPoke    
         
         const getMoves = async (event) => {            
             let movebucket = await CleanData(urlpokemon, 'moves')                   
             const newMoves = [...props.endpointState];
             newMoves.push(movebucket);
-            props.setEndpointState(newMoves);
-            // props.setEndpointState(newstate)
-            
-            // await props.setEndpointState(movebucket)
-            // movebucket.forEach(async(move) => {
-            //     await props.setEndpointState([...props.endpointState, move])
-            // })                        
+            props.setEndpointState(newMoves);            
          }
-
          const fillContainer = async () => {
             let movebucket = await CleanData(urlpokemon, 'moves')
             let abilitybucket = await CleanData(urlpokemon, 'ability')
+            let dmgbucket = await CleanData(urlpokemon, 'damage')                    
             let bucketofbuckets = [...props.endpointState]
-            bucketofbuckets.push(movebucket, abilitybucket)
-
-            await props.setEndpointState(bucketofbuckets)
-            // let bucketofbuckets = [movebucket, abilitybucket]
-
+            bucketofbuckets.push(abilitybucket, movebucket, dmgbucket)
+            await props.setEndpointState(bucketofbuckets)        
          }
-             
-    
-         const getabilities = async () => {
-            //  let abilitybucket = await CleanData(urlpokemon, 'ability')
-            // const abilitylist = [...props.endpointState]
-            // console.log('abilitylist')
-            // console.log(abilitylist)
-
-            // const newAbility = [...props.endpointState];
-            // newAbility.push(abilitybucket);
-            // props.setEndpointState(newAbility);
-
-            //         console.log("mousemoved === 0 GET ABILITIES")
-            //      bucketBucket[1].push(abilitybucket)    
-                // abilitiesBucket.push(abilitybucket)
-            // await props.setEndpointState([...props.endpointState, abilitybucket])        
-             // abilitybucket.length > 1 ?  :
-         }
+                 
 
          const dmgrelation = async () => {
             let dmgbucket = await CleanData(urlpokemon, 'damage')        
         }
 
-         const movesMap = ['karate chop', 'punch', 'kick', 'elbow']
-
-
-
-
-
-
-
-    const addState = async () => {
-        console.log('mouseMoved')
-        console.log(mouseMoved)
-        if (mouseMoved === 'false') {
-            console.log("mousemoved = false")
-            // await getMoves()
-            // await getabilities()
-            const addMoves = async () => {
-                await getMoves()
-            }
-            const addAbility = async () => {
-                await getabilities()
-            }
-            const doublefunction = async () => {
-                // setTimeout(addMoves, 1000)
-                // setTimeout(addAbility, 1000)
-                await addMoves()
-                await addAbility()
-            }
-            // doublefunction()
+    const addState = async () => {        
             fillContainer()
+            await setMouseMoved('true')          
+        }
 
-            await setMouseMoved('true')
-            // await getabilities()
-            // await setMouseMoved('true')
-        } else return
-
+    const checkState = async () => {
+        console.log(props.endpoint)
     }
 
-    const checkState = () => {        
-        console.log('bucketBucket')
-        console.log(bucketBucket)
-        console.log('props.endpointState')
-        console.log(props.endpointState)
-        
-        // console.log(movesBucket)
-        // console.log(abilitiesBucket)
+    const changeBtnState = async (event) => {
+        console.log(event)
+        let target = $(event.target)
+        let idvalue = event.target.attributes[1].nodeValue
+        console.log('idvalue')
+        console.log(idvalue) 
+        idvalue === 'moves' ? props.setEndpoint('moves') : checkState()
+        idvalue === 'ability' ? props.setEndpoint('ability') : checkState()
+        idvalue === 'damage' ? props.setEndpoint('damage') : checkState()
+        // ahhh got hit with the [Expected an assignment or function call and instead saw an expression]
+        // because the truthy value of the [?:] is a method / function --> the falsy value must be as well.
+        // the function is not like setTimeout(checkState) it must be invoked!
+
+
+
     }
     return (
         // <div onClick={addState} className="Info-Endpoint-Bar Row-Center">
@@ -117,13 +65,17 @@ function EndpointBar (props) {
         ?
         <>
         {/* <button onClick={getabilities}> </button> */}
-        <button className="navBall" id="Greatball" onClick={addState}>
-        </button>
-        <button className="navBall" id="Ultraball" onClick={checkState}>
-        </button>
+        <button className="Bg-Btn" id="moves" onClick={changeBtnState}></button>
+        <button className="Bg-Btn" id="ability" onClick={changeBtnState}></button>
+        <button className="Bg-Btn" id="damage" onClick={changeBtnState}></button>
+        <button className="Bg-Btn" id="Ultraball" onClick={checkState}></button>
+        {/* i was going to change these to images to have access to event.target.currentSrc */}
+        {/* it seems like more manual manipulation to set the element ID as one that corresponds to action  */}
+        {/* it seems more code-like to access the actual inner-values/elementproperties vs writing in ID*/}
+        {/* if these IDs were [glove, pokeballvsgreatball, egg ] this wouldn't be as feasible || make much sense */}
         </>
         :
-        <button className="navBall" id="Pokeball" onClick={addState}></button>
+        <button className="Bg-Btn" id="Info-Pokeball" onClick={addState}></button>
         }
         </div>
  
