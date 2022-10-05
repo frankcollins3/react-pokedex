@@ -7,29 +7,40 @@ function EndpointBar (props) {
     let abilitiesBucket = [] 
     let dmgRelationsBucket = new Array()
 
+    const [mouseMoved, setMouseMoved] = useState('false')
+
     let bucketBucket = [
         movesBucket, 
         abilitiesBucket,
         dmgRelationsBucket
     ]    
-        let urlpokemon = props.paramPoke        
-    useEffect( () => {
-        (async() => {
+        let urlpokemon = props.paramPoke    
+        
         const getMoves = async () => {
+            console.log("in the get moves")
             let movebucket = await CleanData(urlpokemon, 'moves')       
-             bucketBucket.push(movebucket)     //    movesBucket.push(movebucket)       
-         }             
+            console.log('movebucket')
+            console.log(movebucket)
+            if (mouseMoved !== 'false') {
+                bucketBucket[0].push(movebucket)     //    movesBucket.push(movebucket)       
+            }
+
+         }
+             
          const dmgrelation = async () => {
              let dmgbucket = await CleanData(urlpokemon, 'damage')        
-         }     
+         }
+     
          const getabilities = async () => {
              let abilitybucket = await CleanData(urlpokemon, 'ability')
-             bucketBucket[1].push(abilitybucket)    
+            //  if (mouseMoved == 'false') {
+                 bucketBucket[1].push(abilitybucket)    
+            //  }
              // abilitybucket.length > 1 ?  :
          }
-        let runthem = [getMoves(), dmgrelation(), getabilities()]
-        })() // end of async IIFE
-        }, [])
+
+    
+     
 
 
 
@@ -37,23 +48,28 @@ function EndpointBar (props) {
 
 
 
-    // const addState = async () => {
-    //     await getMoves()
-    //     await getabilities()
-    // }
+    const addState = async () => {
+        // if (mouseMoved === 'false') {
+            console.log("mousemoved = false")
+            await getMoves()
+            await getabilities()
+            await setMouseMoved('true')
+        // setMouseMoved('true')
+        // } else return
+
+    }
 
     const checkState = () => {        
         console.log(bucketBucket)
     }
     return (
-        <div className="Info-Endpoint-Bar Row-Center">
+        // <div className="Info-Endpoint-Bar Row-Center">
+        <div onMouseEnter={addState} className="Info-Endpoint-Bar Row-Center">
 
-        <button onClick={checkState}> </button>
+        <button onClick={getabilities}> </button>
         {/* <button  onClick={getMoves}></button> */}
 
-        <button className="navBall" id="Greatball">
-        {/* onClick={addState} */}
-        {/* <button className="navBall" id="Greatball" onClick={dmgrelation}> */}
+        <button className="navBall" id="Greatball" onClick={addState}>
 
         </button>
 
