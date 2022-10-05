@@ -14,6 +14,8 @@ import EndpointBar from '../element/InfoEndpointBar'
 function InfoScreen() {
     const [paramPoke, setParamPoke] = useState('')
     const [imageUrl, setImageUrl] = useState('')
+    const [endpointState, setEndpointState] = useState('change', 'the', 'state')    // populates with all state
+    const [endpoint, setEndpoint] = useState('') // checks populated state and grabs a value. This is the value cont.display based
 
     
 
@@ -58,9 +60,20 @@ function InfoScreen() {
 
             <div className="Info-Right Column-Center">
             <InfoEndpoint
+            endpoint={endpoint} setEndpoint={setEndpoint}
+            endpointState={endpointState} setEndpointState={setEndpointState}
             paramPoke={paramPoke} setParamPoke={setParamPoke}            
             />
+            {/*
+            1) change state 
+            2) and have different maps in useEffect 
+            3) call APIpoke()
+            
+
+            */}
             <EndpointBar
+            endpoint={endpoint} setEndpoint={setEndpoint}
+            endpointState={endpointState} setEndpointState={setEndpointState}
             paramPoke={paramPoke} setParamPoke={setParamPoke}            
             />
             
