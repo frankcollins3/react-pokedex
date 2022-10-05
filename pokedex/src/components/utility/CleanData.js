@@ -40,11 +40,19 @@ export default async function CleanData (pokemon, endpoint){
                 let abilityid = await CleanUrl(abilityurl1)
                 console.log('abilityid')
                 console.log(abilityid)
-                
+
                 // call the function that returns the data
                 // return the function
                 const accessAbility = async () => {
-                    let ability = pokeEndpoint(abilityurl1, 'ability')
+                    let ability = await pokeEndpoint(abilityid, 'ability')
+            // {data: {…}, status: 200, statusText: '', headers: {…}, config: {…}, …} 
+            // xhr.js:220  GET https://pokeapi.co/api/v2/ability/20ability/20 404
+            // line [48] works. line [49] returns this reappendedString-duplicate endpoint rebuilt as a new string
+            // leaving things for now because ability returns data. and it works for the first call.
+                    console.log(ability)
+            // {data: {…}, status: 200, statusText: '', headers: {…}, config: {…}, …}
+                    
+
                 }
                 accessAbility()
                 console.log(abilityurl1)
