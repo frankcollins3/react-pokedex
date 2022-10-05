@@ -8,17 +8,13 @@ function EndpointBar (props) {
     let urlpokemon = props.paramPoke
 
     const getMoves = async () => {
-       let movebucket = await CleanData(urlpokemon, 'moves')
-       console.log('movebucket')
-       console.log(movebucket)
-    //    await props.setEndpointState(movebucket)
-
+       let movebucket = await CleanData(urlpokemon, 'moves')       
     }
     // getMoves()
-
-    // will need access to parent state props.paramPoke
-    const moves = async () => {
-
+    
+    const dmgrelation = async () => {
+        let dmgbucket = await CleanData(urlpokemon, 'damage')
+        return dmgbucket
     }
 
     const checkState = () => {
@@ -31,7 +27,7 @@ function EndpointBar (props) {
 
         <button onClick={getMoves}></button>
 
-        <button>
+        <button className="navBall" id="Greatball" onClick={dmgrelation}>
 
         </button>
 
