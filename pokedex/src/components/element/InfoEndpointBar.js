@@ -1,5 +1,5 @@
 import CleanData from '../utility/CleanData'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { $ } from 'react-jquery-plugin'
 import myCSS from '../utility/CSStool'
 import toggleHideShow from '../utility/hideShow'
@@ -9,6 +9,9 @@ function EndpointBar (props) {
     let movesBucket = new Array() || []
     let abilitiesBucket = [] 
     let dmgRelationsBucket = new Array()
+
+    const refHouse = useRef([])
+
 
     const [mouseMoved, setMouseMoved] = useState('false')
         let urlpokemon = props.paramPoke    
@@ -41,6 +44,21 @@ function EndpointBar (props) {
     const checkState = async () => {
         console.log(props.endpoint)
         console.log(props.endpointState)
+
+        const goHome = () => {
+            console.log(refHouse.current)
+            refHouse.current.push('hey') // this worked you can put an empty array in a useRef. if you can push and pop with that: thats great
+        }
+        const seeWhoseThere = () => {
+            console.log(refHouse.current)            
+            // InfoEndpointBar.js:53 (2) ['hey', 'hey'] // wow get out this is insane that this works.
+        }
+        const knocknock = async () => {
+            await goHome()
+            await seeWhoseThere()
+        }
+        knocknock()
+
     }
 
 
@@ -76,6 +94,7 @@ function EndpointBar (props) {
         <button className="Bg-Btn" id="moves" onClick={changeBtnState}></button>
         <button className="Bg-Btn" id="ability" onClick={changeBtnState}></button>
         <button className="Bg-Btn" id="damage" onClick={changeBtnState}></button>
+        <button className="Bg-Btn" id="Info-Pokeball" onClick={checkState}></button>
         {/* <button className="Bg-Btn" id="Ultraball" onClick={checkState}></button> */}
         {/* i was going to change these to images to have access to event.target.currentSrc */}
         {/* it seems like more manual manipulation to set the element ID as one that corresponds to action  */}
