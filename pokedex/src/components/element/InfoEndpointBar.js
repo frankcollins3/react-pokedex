@@ -2,6 +2,7 @@ import CleanData from '../utility/CleanData'
 import { useEffect, useState } from 'react'
 import { $ } from 'react-jquery-plugin'
 import myCSS from '../utility/CSStool'
+import toggleHideShow from '../utility/hideShow'
 function EndpointBar (props) {        
     console.log(props)
     console.log(props.endpoint)
@@ -49,7 +50,9 @@ function EndpointBar (props) {
         let idvalue = event.target.attributes[1].nodeValue
 
         myCSS($(event.target), 'border', '3px solid orange')
-        myCSS($(event.target).siblings(), 'border', '13px solid hotpink')
+        myCSS($(event.target).siblings([0]), 'background-image', `url(${'/img/gear.png'})`)
+        toggleHideShow($(event.target).siblings([1]), 'hide')
+        // myCSS($(event.target).siblings([1]), 'background-image', `url(${'/img/gear.png'})`)
 
         idvalue === 'moves' ? props.setEndpoint(props.endpointState[1][0].move.name) : checkState()
         idvalue === 'ability' ? props.setEndpoint(props.endpointState[0][0].name) : checkState()
