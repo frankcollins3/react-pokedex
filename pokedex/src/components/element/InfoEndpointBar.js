@@ -41,18 +41,6 @@ function EndpointBar (props) {
         console.log(props.endpointState)
     }
 
-    const buildAndAppend = () => {
-        // going to try to get away with jquery right now. was thinking of setting up a dummy map with a few values and changing values and appending as well. 
-        console.log(props.endpointState[1])
-        const jqFunc = () => {
-            // $('.jqTest').appendTo('.Info-Endpoint-Bar')
-            $('.Info-Endpoint-Bar').append($('.jqTest'))
-            return (
-                <p className="jqTest"> hey </p>
-            )
-        }
-        jqFunc()
-    }
 
     const changeBtnState = async (event) => {
         // console.log(event)
@@ -60,7 +48,8 @@ function EndpointBar (props) {
         let idvalue = event.target.attributes[1].nodeValue
         // console.log('idvalue')
         // console.log(idvalue) 
-        idvalue === 'moves' ? buildAndAppend() : checkState()
+        idvalue === 'moves' ? props.setEndpoint(props.endpointState[1][0].move.name) : checkState()
+        // could also put one value here and increment the state by scroll glad i tested that out before. 
         idvalue === 'ability' ? props.setEndpoint(props.endpointState[0][0].name) : checkState()
         idvalue === 'damage' ? props.setEndpoint('damage') : checkState()
         // ahhh got hit with the [Expected an assignment or function call and instead saw an expression]
