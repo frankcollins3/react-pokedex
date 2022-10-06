@@ -1,6 +1,7 @@
 import CleanData from '../utility/CleanData'
 import { useEffect, useState } from 'react'
 import { $ } from 'react-jquery-plugin'
+import myCSS from '../utility/CSStool'
 function EndpointBar (props) {        
     console.log(props)
     console.log(props.endpoint)
@@ -46,10 +47,11 @@ function EndpointBar (props) {
         // console.log(event)
         // let target = $(event.target) no jq
         let idvalue = event.target.attributes[1].nodeValue
-        // console.log('idvalue')
-        // console.log(idvalue) 
+
+        myCSS($(event.target), 'border', '3px solid orange')
+        myCSS($(event.target).siblings(), 'border', '13px solid hotpink')
+
         idvalue === 'moves' ? props.setEndpoint(props.endpointState[1][0].move.name) : checkState()
-        // could also put one value here and increment the state by scroll glad i tested that out before. 
         idvalue === 'ability' ? props.setEndpoint(props.endpointState[0][0].name) : checkState()
         idvalue === 'damage' ? props.setEndpoint('damage') : checkState()
         // ahhh got hit with the [Expected an assignment or function call and instead saw an expression]
