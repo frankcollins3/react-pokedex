@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { $ } from 'react-jquery-plugin'
 import myCSS from '../utility/CSStool'
 import toggleHideShow from '../utility/hideShow'
+import CreateElem from '../utility/CreateElem'
 function EndpointBar (props) {        
     console.log(props)
     console.log(props.endpoint)
@@ -16,7 +17,13 @@ function EndpointBar (props) {
     const [fakeDom, setFakeDom] = useState('')
 
     useEffect( () => {
-        $(refHouse).css('border', '5px solid brown')
+        if (fakeDom === 'dom event') {
+            console.log("it equals dom event")
+            // setTimeout($(refHouse.current).css('border', '5px solid brown'), 2000)
+            // setTimeout( myCSS($(refHouse)))
+        } else {
+            console.info('it equals something besides dom event')
+        }
     }, [fakeDom])
 
         let urlpokemon = props.paramPoke    
@@ -70,18 +77,25 @@ function EndpointBar (props) {
         console.log(event)
         let idvalue = event.target.attributes[1].nodeValue
 
-        myCSS($(event.target), 'border', '3px solid orange')
-
-        myCSS($(event.target).siblings()[0], 'background-image', `url(${'/img/gear.png'})`)
-        // myCSS($(event.target).siblings()[1], 'background-image', `url(${'/img/gear.png'})`)
-        toggleHideShow($(event.target).siblings()[2], 'hide')
-        // myCSS($(event.target).siblings()[2], 'background-image', `url(${'/img/gear.png'})`)
-        // myCSS($(event.target).siblings([0]), 'background-image', `url(${'/img/gear.png'})`)
-
-        // myCSS($(event.target).siblings([1]), 'background-image', `url(${'/img/gear.png'})`)
+        
+        // myCSS($(event.target), 'border', '3px solid orange')
+        // myCSS($(event.target).siblings()[0], 'background-image', `url(${'/img/gear.png'})`)
+        
+        // $(event.target).siblings()[1].show()
+        const changeitem = (event) => myCSS($(event.target), 'border', '5px solid hotpink')
+        let newElem = await CreateElem('p', 'Bg-Btn', 'Gear', changeitem)
+   
+// CreateElem.js:4 p            these are console.logs from the CreateElem export tool hooked up correctly.
+// CreateElem.js:5 Bg-Btn
+// CreateElem.js:6 Gear
+// CreateElem.js:7 event => 
+// (0,_utility_CSStool__WEBPACK_IMPORTED_MODULE_3__["default"])((0,react_jquery_plugin__WEBPACK_IMPORTED_MODULE_2__.$)(event.target), 'border', '5px solid hotpink')
+        
 
         if (idvalue === 'moves') {
             $(event.target).css('border', '10px solid green')
+            refHouse.current.push($(event.target))
+            setFakeDom('dom event')
             props.setEndpoint(props.endpointState[1][0].move.name) 
         }  else {
             checkState()            
