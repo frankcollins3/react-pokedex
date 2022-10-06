@@ -1,6 +1,7 @@
 * {
+  /* overflow-Y: hidden; */
   text-align: center;
-  margin-top: 0.5em;
+  /* margin-top: 0.5em; */
   font-family: 'Open Sans';       /* will change but looks nice for now.  */
 }
  
@@ -50,6 +51,8 @@
 }
 
 .navBall {
+  position: relative;
+  /* top: -100px; */
   /* padding: 0 3em 0 3em; */
   height: 85px;
   width: 85px;
@@ -66,9 +69,7 @@
   width: 85px;
   border-radius: 50%;
   background-size: cover;
-  background-repeat: no-repeat;
-  /* padding: 0 3em 0 3em;
-  margin: 0 3em 0 3em; */
+  background-repeat: no-repeat;  
 }
 
 #Pokeball {
@@ -87,6 +88,8 @@
   background-image: url("/public/img/ultraball.png");
   background-size: cover;
   background-repeat: no-repeat;
+  border: transparent;
+  
 }
 
 .BackPack {
@@ -111,6 +114,11 @@
   background-image: url('/public/img/pokedexScreen.png');
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.Second-Half {
+  /* border: 5px solid orange; */
+  padding: 0;
 }
 
 .Poke-Card {
@@ -208,6 +216,12 @@
 .Sprite {
   height: 85px;
   width: 85px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.Big-Sprite {
+  height: 350px;
+  width: 350px;
 }
 
 .Mouse-Icon {
@@ -232,6 +246,8 @@
   border: 5px solid whitesmoke;
 }
 
+.Quadruple { transform: scale(4.0);}
+.Triple-Stack { transform: scale(3.0);}
 .Double-Size { transform: scale(2.0);}
 .Half-Size { transform: scale(0.5);}
 .Quarter-Size { transform: scale(0.25);}
@@ -363,6 +379,157 @@ animation-iteration-count: 1
 }
 
 /* **** TypeScreen / Page2 / Greatball Click */
+.Type-Wrap {
+  /* border: 5px solid hotpink; */
+  margin-top: -500px;
+  padding: 0;
+  margin: 0 auto;
+  /* overflow-y: hidden; */
+  height: 100vh;
+  width: 100vw;  
+  background-image: url("/public/img/noScreenPokedex.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 
+.Real-Screen {
+  padding: 0%;
+  overflow-x: scroll;
+  /* overflow-y: scroll; */
+    margin-top: 5%;
+    background-image: url('/public/img/nicePokedex.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1.5px solid rgb(61, 46, 61);
+    box-shadow: 1px 1px 1px rgb(61, 46, 61);
+    padding-top: 3%;
+    height: 500px;
+    width: 500px;
+}
+
+.Screen-Parents {
+  width: 300px;
+  overflow: scroll;
+  height: 100px;
+  box-shadow: 4px 4px 4px lightcyan;
+  /* margin-top: 10em; */
+}
+
+.Real-Screen-P {
+  width: 30%;
+  /* border: '5px dotted orange'; */
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.Type-Bar {
+  margin-top: 1em;
+  height: 170px;
+  width: 800px;
+}
+
+.Circle {
+  /* border-radius: 50%;
+  border: 5px solid orange; */
+    overflow: hidden;
+    /* opacity: 0.1; */
+    display: flex;
+    top: 0; left  : 0; /* nice to know you can do positioning css I wonder if you can do margin and padding the same line-reducing way.... */
+    /* margin: 0 5% 0 5%; padding: 0 5% 0 5%; */
+    border: 1.5px solid rgb(61, 46, 61);
+    box-shadow: 1.5px 1.5px 1.5px rgb(19, 14, 19);
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    /* padding: 2% 2% 0 2%; */
+    margin-top: 2%;
+    background-size: cover;
+    /* background-repeat: no-repeat; */
+    /* from .circle div: */
+
+}
 /* **** ____________ end of page 2 */
+
+
+/* ? PAGE 3 !!!!  */
+/* .Info-Wrap {
+
+} */
+
+.Info-Image-Container {
+  /* border: 5px solid hotpink; */
+  height: 50vh;
+  width: 20vw;
+  background-image: url('/public/img/whiteCard.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* margin: 0 1em 0 1em; */
+}
+
+.Endpoint-Container {
+  /* border: 5px solid hotpink; */
+  height: 50vh;
+  width: 20vw;
+  background-image: url('/public/img/whiteCard.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* margin: -2.5em -1em 0em -1em; */
+}
+
+.Info-Endpoint-Bar {
+  /* border: 3px solid green; */
+}
+
+.Bg-Btn {
+  margin: 0.5em 1em 0 1em;
+  height: 50px;
+  width: 50px;
+  border: none;
+  background-color: transparent;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#Diamond {
+  /* border: 5px solid brown; */
+  /* margin: 0.5em 1em 0 1em;
+  height: 50px;
+  width: 50px;
+  border: none;
+  background-color: transparent; */
+  /* background-size: cover;
+  background-repeat: no-repeat; */
+  background-image: url('/public/img/diamond.png');
+}
+
+#Mirror {
+  /* margin: 0.5em 1em 0 1em;
+  height: 50px;
+  width: 50px;
+  border: none;
+  background-color: transparent; */
+  background-image: url('/public/img/mirror.png');
+  /* background-size: cover;
+  background-repeat: no-repeat; */
+}
+#moves {
+  background-image: url('/public/img/moves.png')
+}
+#ability {
+  background-image: url('/public/img/ability.png')
+}
+#damage {
+  background-image: url('/public/img/damage.png')
+}
+
+#Info-Pokeball {
+  background-image: url('/public/img/pokeball.png')
+}
+
+#Gear {
+  background-image: url('/public/img/gear.png')
+}
+
+/* ? ****** ______________ end of page 3   */
+
