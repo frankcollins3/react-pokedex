@@ -12,8 +12,13 @@ function EndpointBar (props) {
 
     const refHouse = useRef([])
 
-
     const [mouseMoved, setMouseMoved] = useState('false')
+    const [fakeDom, setFakeDom] = useState('')
+
+    useEffect( () => {
+        $(refHouse).css('border', '5px solid brown')
+    }, [fakeDom])
+
         let urlpokemon = props.paramPoke    
         
         const getMoves = async (event) => {            
@@ -47,7 +52,7 @@ function EndpointBar (props) {
 
         const goHome = () => {
             console.log(refHouse.current)
-            refHouse.current.push('hey') // this worked you can put an empty array in a useRef. if you can push and pop with that: thats great
+            refHouse.current.push('hey')
         }
         const seeWhoseThere = () => {
             console.log(refHouse.current)            
@@ -58,26 +63,34 @@ function EndpointBar (props) {
             await seeWhoseThere()
         }
         knocknock()
-
     }
 
 
-    const changeBtnState = async (event) => {
-        // console.log(event)
-        // let target = $(event.target) no jq
+    const changeBtnState = async (event) => {        
+        console.log(event)
         let idvalue = event.target.attributes[1].nodeValue
 
         myCSS($(event.target), 'border', '3px solid orange')
-        myCSS($(event.target).siblings([0]), 'background-image', `url(${'/img/gear.png'})`)
-        toggleHideShow($(event.target).siblings([1]), 'hide')
+
+        myCSS($(event.target).siblings()[0], 'background-image', `url(${'/img/gear.png'})`)
+        // myCSS($(event.target).siblings()[1], 'background-image', `url(${'/img/gear.png'})`)
+        toggleHideShow($(event.target).siblings()[2], 'hide')
+        // myCSS($(event.target).siblings()[2], 'background-image', `url(${'/img/gear.png'})`)
+        // myCSS($(event.target).siblings([0]), 'background-image', `url(${'/img/gear.png'})`)
+
         // myCSS($(event.target).siblings([1]), 'background-image', `url(${'/img/gear.png'})`)
 
-        idvalue === 'moves' ? props.setEndpoint(props.endpointState[1][0].move.name) : checkState()
+        if (idvalue === 'moves') {
+            $(event.target).css('border', '10px solid green')
+            props.setEndpoint(props.endpointState[1][0].move.name) 
+        }  else {
+            checkState()            
+        }
+        // idvalue === 'moves' ? props.setEndpoint(props.endpointState[1][0].move.name) : checkState()
+
         idvalue === 'ability' ? props.setEndpoint(props.endpointState[0][0].name) : checkState()
         idvalue === 'damage' ? props.setEndpoint('damage') : checkState()
-        // ahhh got hit with the [Expected an assignment or function call and instead saw an expression]
-        // because the truthy value of the [?:] is a method / function --> the falsy value must be as well.
-        // the function is not like setTimeout(checkState) it must be invoked!
+
 
 
 
@@ -95,11 +108,7 @@ function EndpointBar (props) {
         <button className="Bg-Btn" id="ability" onClick={changeBtnState}></button>
         <button className="Bg-Btn" id="damage" onClick={changeBtnState}></button>
         <button className="Bg-Btn" id="Info-Pokeball" onClick={checkState}></button>
-        {/* <button className="Bg-Btn" id="Ultraball" onClick={checkState}></button> */}
-        {/* i was going to change these to images to have access to event.target.currentSrc */}
-        {/* it seems like more manual manipulation to set the element ID as one that corresponds to action  */}
-        {/* it seems more code-like to access the actual inner-values/elementproperties vs writing in ID*/}
-        {/* if these IDs were [glove, pokeballvsgreatball, egg ] this wouldn't be as feasible || make much sense */}
+        
         </>
         :
         <button className="Bg-Btn" id="Info-Pokeball" onClick={addState}></button>
