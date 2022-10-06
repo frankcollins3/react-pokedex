@@ -12,6 +12,7 @@ function EndpointBar (props) {
     let dmgRelationsBucket = new Array()
 
     const refHouse = useRef([])
+    let bar = $('.Info-Endpoint-Bar')
 
     const [mouseMoved, setMouseMoved] = useState('false')
     const [fakeDom, setFakeDom] = useState('')
@@ -74,6 +75,7 @@ function EndpointBar (props) {
 
 
     const changeBtnState = async (event) => {        
+        let target = $(event.target)
         console.log(event)
         let idvalue = event.target.attributes[1].nodeValue
 
@@ -82,8 +84,12 @@ function EndpointBar (props) {
         // myCSS($(event.target).siblings()[0], 'background-image', `url(${'/img/gear.png'})`)
         
         // $(event.target).siblings()[1].show()
-        const changeitem = (event) => myCSS($(event.target), 'border', '5px solid hotpink')
+        // * * * * * const changeitem = (event) => myCSS($(target), 'border', '5px solid hotpink')
+        // * * * * * interesting: this changeitem = $(event) invalidates changeBtnState = $(event) 
+        // * * * * * respecifying to target = $(event.target) lets us keep that targeting reference
+
         let newElem = await CreateElem('p', 'Bg-Btn', 'Gear', changeitem)
+        
    
 // CreateElem.js:4 p            these are console.logs from the CreateElem export tool hooked up correctly.
 // CreateElem.js:5 Bg-Btn
@@ -93,6 +99,7 @@ function EndpointBar (props) {
         
 
         if (idvalue === 'moves') {
+            bar.append(newElem)
             $(event.target).css('border', '10px solid green')
             refHouse.current.push($(event.target))
             setFakeDom('dom event')
