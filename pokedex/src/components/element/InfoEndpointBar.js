@@ -38,16 +38,30 @@ function EndpointBar (props) {
 
     const checkState = async () => {
         console.log(props.endpoint)
+        console.log(props.endpointState)
+    }
+
+    const buildAndAppend = () => {
+        // going to try to get away with jquery right now. was thinking of setting up a dummy map with a few values and changing values and appending as well. 
+        console.log(props.endpointState[1])
+        const jqFunc = () => {
+            // $('.jqTest').appendTo('.Info-Endpoint-Bar')
+            $('.Info-Endpoint-Bar').append($('.jqTest'))
+            return (
+                <p className="jqTest"> hey </p>
+            )
+        }
+        jqFunc()
     }
 
     const changeBtnState = async (event) => {
-        console.log(event)
-        let target = $(event.target)
+        // console.log(event)
+        // let target = $(event.target) no jq
         let idvalue = event.target.attributes[1].nodeValue
-        console.log('idvalue')
-        console.log(idvalue) 
-        idvalue === 'moves' ? props.setEndpoint('moves') : checkState()
-        idvalue === 'ability' ? props.setEndpoint('ability') : checkState()
+        // console.log('idvalue')
+        // console.log(idvalue) 
+        idvalue === 'moves' ? buildAndAppend() : checkState()
+        idvalue === 'ability' ? props.setEndpoint(props.endpointState[0][0].name) : checkState()
         idvalue === 'damage' ? props.setEndpoint('damage') : checkState()
         // ahhh got hit with the [Expected an assignment or function call and instead saw an expression]
         // because the truthy value of the [?:] is a method / function --> the falsy value must be as well.
@@ -68,7 +82,7 @@ function EndpointBar (props) {
         <button className="Bg-Btn" id="moves" onClick={changeBtnState}></button>
         <button className="Bg-Btn" id="ability" onClick={changeBtnState}></button>
         <button className="Bg-Btn" id="damage" onClick={changeBtnState}></button>
-        <button className="Bg-Btn" id="Ultraball" onClick={checkState}></button>
+        {/* <button className="Bg-Btn" id="Ultraball" onClick={checkState}></button> */}
         {/* i was going to change these to images to have access to event.target.currentSrc */}
         {/* it seems like more manual manipulation to set the element ID as one that corresponds to action  */}
         {/* it seems more code-like to access the actual inner-values/elementproperties vs writing in ID*/}
