@@ -16,6 +16,8 @@ function InfoScreen() {
     const [imageUrl, setImageUrl] = useState('')
     const [endpointState, setEndpointState] = useState('change', 'the', 'state')    // populates with all state
     const [endpoint, setEndpoint] = useState('') // checks populated state and grabs a value. This is the value cont.display based
+    const [moveIndex, setMoveIndex] = useState(0)
+
 
     
 
