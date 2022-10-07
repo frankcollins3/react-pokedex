@@ -19,7 +19,8 @@ function InfoEndpoint (props) {
 
         // console.log('moveIndexIncrement function')
         let movedatalength = props.endpointState[1].length
-        if (props.moveIndex < movedatalength) { // props.endpointState[1][props.moveIndex]
+        // if (props.moveIndex < movedatalength) { // props.endpointState[1][props.moveIndex]
+        if (event.clientX > 1500) {
             await props.setMoveIndex(props.moveIndex + 1) 
             await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
         } else {
