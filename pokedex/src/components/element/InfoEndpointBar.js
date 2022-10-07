@@ -1,4 +1,4 @@
-\import CleanData from '../utility/CleanData'
+import CleanData from '../utility/CleanData'
 import { useEffect, useState, useRef } from 'react'
 import { $ } from 'react-jquery-plugin'
 import myCSS from '../utility/CSStool'
@@ -18,7 +18,7 @@ function EndpointBar (props) {
     const [mouseMoved, setMouseMoved] = useState('false')
     const [fakeDom, setFakeDom] = useState('')
     const [fakeDom2, setFakeDom2] = useState('')
-    const [moveIndex, setMoveIndex] = useState(0)
+    // const [moveIndex, setMoveIndex] = useState(0) WRONG!!!
 
     useEffect( () => {
         if (fakeDom === 'dom event' || fakeDom === 'dom') {
@@ -103,17 +103,17 @@ function EndpointBar (props) {
         
         
         if (idvalue === 'moves') {
-            $(refHouse.current).slice(0, $(refHouse.current).length)
+            // $(refHouse.current).slice(0, $(refHouse.current).length)
             // $(refHouse.current).pop()
-            const changeitem = (event) =>  $(event.target).css('border', '10px dotted purple') 
-            let newElem = await CreateElem('p', 'Bg-Btn', 'Gear', changeitem)
-
+            // const changeitem = (event) =>  $(event.target).css('border', '10px dotted purple') 
+            // let newElem = await CreateElem('p', 'Bg-Btn', 'Gear', changeitem)
+            // refHouse.current.push($(event.target))
+            // bar.append(newElem)
             // $(event.target).css('border', '10px solid green')
-            bar.append(newElem)
-            refHouse.current.push($(event.target))
-            setFakeDom('dom')
             // setFakeDom('dom event')
-            props.setEndpoint(props.endpointState[1][moveIndex].move.name) 
+            // setFakeDom('dom')
+            
+            props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
             // props.setEndpoint(props.endpointState[1][0].move.name) 
         }  else {
             checkState()            
