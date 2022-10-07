@@ -35,9 +35,11 @@ function InfoEndpoint (props) {
     $('.Endpoint-Container').on('wheel', (event) => {
         console.log('jquery event guys')
         console.log(event)
-        let D = event.originalEvent.deltaX
-        console.log('D')
-        console.log(D)
+        let D = event.originalEvent.deltaX  
+        let delta = event.originalEvent.wheelDelta
+        // got it. this will be either 120 or - 120 we can now run increment or decrement code
+        console.log('delta')
+        console.log(delta)        
     })
     
     return (
