@@ -23,7 +23,7 @@ function InfoEndpoint (props) {
             await props.setMoveIndex(props.moveIndex + 1) 
             await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
         } else {
-            // await props.setMoveIndex(0)
+            await props.setMoveIndex(props.moveIndex - movedatalength) // almost wrote props.moveIndex.length
         }
         console.log('movedatalength')
         console.log(movedatalength)
