@@ -25,7 +25,10 @@ function InfoEndpoint (props) {
 
     
     return (
-        <div onClick={moveIndexIncrement} className="Endpoint-Container Column-Center">
+        <div 
+        onClick={moveIndexIncrement} onWheel={moveIndexIncrement} onScroll={moveIndexIncrement}
+
+        className="Endpoint-Container Column-Center">
             {/* {props.endpointState.ref === 'moves'  */}
             {typeof props.endpointState === 'object' 
             // {typeof props.endpointState === 'object' 
