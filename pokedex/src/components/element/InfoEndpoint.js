@@ -11,15 +11,27 @@ function InfoEndpoint (props) {
         // console.log(props.endpointState)
         // console.log(typeof props.endpointState)
     }, [props.endpointState])
+
+    let moveIndexIncrement = async () => {
+
+        // let int = props.moveIndex + 1
+
+        // console.log('moveIndexIncrement function')
+        await props.setMoveIndex(props.moveIndex + 1) 
+        await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
+        await console.log(props.moveIndex)
+
+    }
+
     
     return (
-        <div className="Endpoint-Container Column-Center">
+        <div onClick={moveIndexIncrement} className="Endpoint-Container Column-Center">
             {/* {props.endpointState.ref === 'moves'  */}
             {typeof props.endpointState === 'object' 
             // {typeof props.endpointState === 'object' 
             ?
             <ul>
-                <p> have our object </p>                    
+                <p> {props.endpoint} </p>                    
             </ul>
             :
             <p> not equal to null </p>
