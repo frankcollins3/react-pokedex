@@ -12,13 +12,21 @@ function InfoEndpoint (props) {
         // console.log(typeof props.endpointState)
     }, [props.endpointState])
 
-    let moveIndexIncrement = async () => {
-
+    let moveIndexIncrement = async (event) => {
+        // find where theres a distinction in up or down wheel. 
         // let int = props.moveIndex + 1
+        console.log(event)
 
         // console.log('moveIndexIncrement function')
-        await props.setMoveIndex(props.moveIndex + 1) 
-        await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
+        let movedatalength = props.endpointState[1].length
+        if (props.moveIndex < movedatalength) { // props.endpointState[1][props.moveIndex]
+            await props.setMoveIndex(props.moveIndex + 1) 
+            await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
+        } else {
+            // await props.setMoveIndex(0)
+        }
+        console.log('movedatalength')
+        console.log(movedatalength)
         await console.log(props.moveIndex)
 
     }
@@ -34,7 +42,7 @@ function InfoEndpoint (props) {
             // {typeof props.endpointState === 'object' 
             ?
             <ul>
-                <p> {props.endpoint} </p>                    
+                <p className="Endpoint-Text Double-Size"> {props.endpoint} </p>                    
             </ul>
             :
             <p> not equal to null </p>
