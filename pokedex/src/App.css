@@ -1,3 +1,5 @@
+
+
 * {
   /* overflow-Y: hidden; */
   text-align: center;
@@ -513,6 +515,12 @@ animation-iteration-count: 1
   /* background-size: cover;
   background-repeat: no-repeat; */
 }
+.Endpoint-Text {
+  font-weight: bold;
+  letter-spacing: 0.275em;
+  font-family: 'Vollkorn SC', serif, lobster; 
+}
+
 #moves {
   background-image: url('/public/img/moves.png')
 }
