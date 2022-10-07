@@ -1,4 +1,4 @@
-import CleanData from '../utility/CleanData'
+\import CleanData from '../utility/CleanData'
 import { useEffect, useState, useRef } from 'react'
 import { $ } from 'react-jquery-plugin'
 import myCSS from '../utility/CSStool'
@@ -11,20 +11,24 @@ function EndpointBar (props) {
     let abilitiesBucket = [] 
     let dmgRelationsBucket = new Array()
 
+
     let refHouse = useRef([])
     let bar = $('.Info-Endpoint-Bar')
 
     const [mouseMoved, setMouseMoved] = useState('false')
     const [fakeDom, setFakeDom] = useState('')
+    const [fakeDom2, setFakeDom2] = useState('')
+    const [moveIndex, setMoveIndex] = useState(0)
 
     useEffect( () => {
         if (fakeDom === 'dom event' || fakeDom === 'dom') {
             console.log("it equals dom event")    
             console.log(refHouse)
-            
+                        
             myCSS($(refHouse.current)[0], 'border', '8px dotted maroon')   
-            setTimeout( () => {
-                myCSS($(refHouse.current)[0], 'border', '')                   
+            setTimeout(async() => {
+                await myCSS($(refHouse.current)[0], 'border', '')                   
+                await $(refHouse.current).slice(0, $(refHouse.current).length)
             }, 3000)            
             // * youll get both console.logs()=> [it equals dom] --- [it equals something else]
         } else {
@@ -109,7 +113,8 @@ function EndpointBar (props) {
             refHouse.current.push($(event.target))
             setFakeDom('dom')
             // setFakeDom('dom event')
-            props.setEndpoint(props.endpointState[1][0].move.name) 
+            props.setEndpoint(props.endpointState[1][moveIndex].move.name) 
+            // props.setEndpoint(props.endpointState[1][0].move.name) 
         }  else {
             checkState()            
         }
@@ -119,10 +124,12 @@ function EndpointBar (props) {
 
         if (idvalue === 'ability') {
                 $(refHouse.current).slice(0, $(refHouse.current).length)
+                
                 console.log('ability target')
                 console.log($(event.target))
                 refHouse.current.push($(event.target))
-                setFakeDom('event')
+                // refHouse.current.push($(event.target))
+                setFakeDom('dom event')
                 
                 props.setEndpoint(props.endpointState[0][0].name)             
                 // props.setEndpoint(props.endpointState[1][0].move.name) 
