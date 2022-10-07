@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { $ } from 'react-jquery-plugin'
+
 function InfoEndpoint (props) {
     // console.log(props.endpointState)
     
@@ -15,28 +17,32 @@ function InfoEndpoint (props) {
     let moveIndexIncrement = async (event) => {
         // find where theres a distinction in up or down wheel. 
         // let int = props.moveIndex + 1
-        console.log(event)
+        // console.log(event)
 
-        // console.log('moveIndexIncrement function')
+
         let movedatalength = props.endpointState[1].length
-        // if (props.moveIndex < movedatalength) { // props.endpointState[1][props.moveIndex]
-        if (event.clientX > 1500) {
+        if (props.moveIndex < movedatalength) { // props.endpointState[1][props.moveIndex]
             await props.setMoveIndex(props.moveIndex + 1) 
             await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
         } else {
             await props.setMoveIndex(props.moveIndex - movedatalength) // almost wrote props.moveIndex.length
         }
-        console.log('movedatalength')
-        console.log(movedatalength)
-        await console.log(props.moveIndex)
-
+        // console.log('movedatalength')
+        // console.log(movedatalength)
+        // await console.log(props.moveIndex)
     }
 
+    $('.Endpoint-Container').on('wheel', (event) => {
+        console.log('jquery event guys')
+        console.log(event)
+        let D = event.originalEvent.deltaX
+        console.log('D')
+        console.log(D)
+    })
     
     return (
         <div 
         onClick={moveIndexIncrement} onWheel={moveIndexIncrement} onScroll={moveIndexIncrement}
-
         className="Endpoint-Container Column-Center">
             {/* {props.endpointState.ref === 'moves'  */}
             {typeof props.endpointState === 'object' 
