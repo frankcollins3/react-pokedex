@@ -15,7 +15,11 @@ function InfoScreen() {
     const [paramPoke, setParamPoke] = useState('')
     const [imageUrl, setImageUrl] = useState('')
     const [endpointState, setEndpointState] = useState('change', 'the', 'state')    // populates with all state
+
+    const [headerText, setHeaderText] = useState('') 
     const [endpoint, setEndpoint] = useState('') // checks populated state and grabs a value. This is the value cont.display based
+
+
     const [moveIndex, setMoveIndex] = useState(0)
     const [clickedGloves, setClickedGloves] = useState('false')
 
@@ -63,6 +67,7 @@ function InfoScreen() {
 
             <div className="Info-Right Column-Center">
             <InfoEndpoint
+            headerText={headerText} setHeaderText={setHeaderText}
             clickedGloves={clickedGloves} setClickedGloves={setClickedGloves}
             moveIndex={moveIndex} setMoveIndex={setMoveIndex}
             endpoint={endpoint} setEndpoint={setEndpoint}
@@ -75,6 +80,7 @@ function InfoScreen() {
             3) call APIpoke()        
             */}
             <EndpointBar
+            headerText={headerText} setHeaderText={setHeaderText}
             clickedGloves={clickedGloves} setClickedGloves={setClickedGloves}
             moveIndex={moveIndex} setMoveIndex={setMoveIndex}
             endpoint={endpoint} setEndpoint={setEndpoint}
