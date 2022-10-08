@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { $ } from 'react-jquery-plugin'
 import myCSS from '../utility/CSStool'
 import toggleHideShow from '../utility/hideShow'
-import CreateElem from '../utility/CreateElem'
+// import CreateElem from '../utility/CreateElem'
 function EndpointBar (props) {        
     console.log(props)
     console.log(props.endpoint)
@@ -42,6 +42,7 @@ function EndpointBar (props) {
             let movebucket = await CleanData(urlpokemon, 'moves')                   
             const newMoves = [...props.endpointState];
             newMoves.push(movebucket);
+            await console.log(newMoves)
             props.setEndpointState(newMoves);            
          }
          const fillContainer = async () => {
@@ -79,7 +80,8 @@ function EndpointBar (props) {
     }
 
 
-    const changeBtnState = async (event) => {        
+    const changeBtnState = async (event) => {  
+              
         let target = $(event.target)
         console.log(event)
         let idvalue = event.target.attributes[1].nodeValue
@@ -103,6 +105,12 @@ function EndpointBar (props) {
         
         
         if (idvalue === 'moves') {
+            props.setClickedGloves("true")
+            // target.siblings().css('opacity', '0.1')
+            myCSS(target.siblings(), 'opacity', '0.1')
+            myCSS(target, 'opacity', '1.0')
+            myCSS(target, 'order', 1)
+
             // $(refHouse.current).slice(0, $(refHouse.current).length)
             // $(refHouse.current).pop()
             // const changeitem = (event) =>  $(event.target).css('border', '10px dotted purple') 
@@ -113,7 +121,7 @@ function EndpointBar (props) {
             // setFakeDom('dom event')
             // setFakeDom('dom')
             
-            props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
+            await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
             // props.setEndpoint(props.endpointState[1][0].move.name) 
         }  else {
             checkState()            
@@ -123,21 +131,25 @@ function EndpointBar (props) {
         //*  idvalue === 'ability' ? props.setEndpoint(props.endpointState[0][0].name) : checkState()
 
         if (idvalue === 'ability') {
-                $(refHouse.current).slice(0, $(refHouse.current).length)
-                
-                console.log('ability target')
-                console.log($(event.target))
-                refHouse.current.push($(event.target))
-                // refHouse.current.push($(event.target))
-                setFakeDom('dom event')
-                
+                await props.setClickedGloves('false')
+                myCSS(target.siblings(), 'opacity', '0.1')
+                myCSS(target, 'opacity', '1.0')
+                myCSS(target, 'order', 1)
+
                 props.setEndpoint(props.endpointState[0][0].name)             
                 // props.setEndpoint(props.endpointState[1][0].move.name) 
                 // * nice 15 minute error. didn't invoke this function and wasn't using [setFakeDom == ''] aka wasn't triggering useEffect so there were no changes being asserted and it was clicking why                
            
         }  else checkState()    
+            if (idvalue === 'damage') {                
+            await props.setClickedGloves('false')
+            myCSS(target.siblings(), 'opacity', '0.1')
+            myCSS(target, 'opacity', '1.0')
+            myCSS(target, 'order', 1)
+            props.setEndpoint('damage') 
+             checkState()
+        } else { }
 
-        idvalue === 'damage' ? props.setEndpoint('damage') : checkState()
     }
     return (
         // <div onClick={addState} className="Info-Endpoint-Bar Row-Center">
