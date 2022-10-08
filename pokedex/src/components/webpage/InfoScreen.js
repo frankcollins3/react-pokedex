@@ -17,6 +17,7 @@ function InfoScreen() {
     const [endpointState, setEndpointState] = useState('change', 'the', 'state')    // populates with all state
     const [endpoint, setEndpoint] = useState('') // checks populated state and grabs a value. This is the value cont.display based
     const [moveIndex, setMoveIndex] = useState(0)
+    const [clickedGloves, setClickedGloves] = useState('false')
 
 
     
@@ -62,6 +63,8 @@ function InfoScreen() {
 
             <div className="Info-Right Column-Center">
             <InfoEndpoint
+            clickedGloves={clickedGloves} setClickedGloves={setClickedGloves}
+            moveIndex={moveIndex} setMoveIndex={setMoveIndex}
             endpoint={endpoint} setEndpoint={setEndpoint}
             endpointState={endpointState} setEndpointState={setEndpointState}
             paramPoke={paramPoke} setParamPoke={setParamPoke}            
@@ -69,11 +72,11 @@ function InfoScreen() {
             {/*
             1) change state 
             2) and have different maps in useEffect 
-            3) call APIpoke()
-            
-
+            3) call APIpoke()        
             */}
             <EndpointBar
+            clickedGloves={clickedGloves} setClickedGloves={setClickedGloves}
+            moveIndex={moveIndex} setMoveIndex={setMoveIndex}
             endpoint={endpoint} setEndpoint={setEndpoint}
             endpointState={endpointState} setEndpointState={setEndpointState}
             paramPoke={paramPoke} setParamPoke={setParamPoke}            
