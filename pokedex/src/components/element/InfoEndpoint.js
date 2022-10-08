@@ -1,100 +1,180 @@
-import { useEffect, useState } from 'react'
+import CleanData from '../utility/CleanData'
+import { useEffect, useState, useRef } from 'react'
 import { $ } from 'react-jquery-plugin'
+import myCSS from '../utility/CSStool'
+import toggleHideShow from '../utility/hideShow'
+// import CreateElem from '../utility/CreateElem'
+function EndpointBar (props) {        
+    console.log(props)
+    console.log(props.endpoint)
+    let movesBucket = new Array() || []
+    let abilitiesBucket = [] 
+    let dmgRelationsBucket = new Array()
 
-function InfoEndpoint (props) {
-    // console.log(props.endpointState)
-    
+
+    let refHouse = useRef([])
+    let bar = $('.Info-Endpoint-Bar')
+
+    const [mouseMoved, setMouseMoved] = useState('false')
+    const [fakeDom, setFakeDom] = useState('')
+    const [fakeDom2, setFakeDom2] = useState('')
+    // const [moveIndex, setMoveIndex] = useState(0) WRONG!!!
+
     useEffect( () => {
-        props.setEndpointState('')
-    }, [])
-
-    useEffect( () => {
-        // console.log("infoendpoint useEffect endpoint state is being changed")
-        // console.log(props.endpointState)
-        // console.log(typeof props.endpointState)
-    }, [props.endpointState])
-
-    // find where theres a distinction in up or down wheel. 
-
-    //*  */ this is the object to access that will give us our distinction. NON JQUERY!
-// view 
-// Window {window: Window, self: Window, document: document, name: '', location: Location, …}
-// wheelDelta
-// -120
-// wheelDeltaX
-// 0
-// wheelDeltaY
-// -120
-
-    let moveIndexIncrement = async (event) => {
-        console.log(event)
-        let wheeldelta = event.nativeEvent.wheelDelta
-        let increment = props.moveIndex + 1
-        let decrement = props.moveIndex - 1
-        
-        let movedatalength = props.endpointState[1].length
-
-
-        if (props.moveIndex < movedatalength) { // props.endpointState[1][props.moveIndex]
-            if (wheeldelta > 1) {
-                console.info('LESS than 0')
-                await props.setMoveIndex(decrement) 
-                // await props.setMoveIndex(props.moveIndex + 1) 
-                await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
-            }
-            else if (wheeldelta < -1) {
-                console.info('MORE!!!!!  than 0')
-                await props.setMoveIndex(increment) 
-                await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
-            }
-            // await props.setMoveIndex(props.moveIndex + 1) 
-
+        if (fakeDom === 'dom event' || fakeDom === 'dom') {
+            console.log("it equals dom event")    
+            console.log(refHouse)
+                        
+            myCSS($(refHouse.current)[0], 'border', '8px dotted maroon')   
+            setTimeout(async() => {
+                await myCSS($(refHouse.current)[0], 'border', '')                   
+                await $(refHouse.current).slice(0, $(refHouse.current).length)
+            }, 3000)            
+            // * youll get both console.logs()=> [it equals dom] --- [it equals something else]
         } else {
-            await props.setMoveIndex(props.moveIndex - movedatalength) // almost wrote props.moveIndex.length
+            console.info('it equals something besides dom event')
         }
-        console.log('movedatalength')
-        console.log(movedatalength)
-        await console.log(props.moveIndex)
+    }, [fakeDom])
+
+        let urlpokemon = props.paramPoke    
+        
+        const getMoves = async (event) => {            
+            let movebucket = await CleanData(urlpokemon, 'moves')                   
+            const newMoves = [...props.endpointState];
+            newMoves.push(movebucket);
+            await console.log(newMoves)
+            props.setEndpointState(newMoves);            
+         }
+         const fillContainer = async () => {
+            let movebucket = await CleanData(urlpokemon, 'moves')
+            let abilitybucket = await CleanData(urlpokemon, 'ability')
+            let dmgbucket = await CleanData(urlpokemon, 'damage')                    
+            let bucketofbuckets = [...props.endpointState]
+            bucketofbuckets.push(abilitybucket, movebucket, dmgbucket)
+            await props.setEndpointState(bucketofbuckets)        
+         }
+                 
+
+         const dmgrelation = async () => {
+            let dmgbucket = await CleanData(urlpokemon, 'damage')        
+        }
+
+    const addState = async () => {        
+            fillContainer()
+            await setMouseMoved('true')          
+        }
+
+    const checkState = async () => {
+        const goHome = () => {
+            console.log(refHouse.current)
+            // refHouse.current.push('hey')
+        }
+        const seeWhoseThere = () => {
+            // console.log(refHouse.current)                        
+        }
+        const knocknock = async () => {
+            await goHome()
+            await seeWhoseThere()
+        }
+        knocknock()
     }
 
-    // $('.Endpoint-Container').on('wheel', async (event) => {
-    //     console.log('jquery event guys')
-    //     console.log(event)
-    //     let D = event.originalEvent.deltaX  
-    //     let delta = event.originalEvent.wheelDelta
-    //     if (delta > 1) {
-    //         console.log("delta is greater than 1")
-    //         await props.setMoveIndex(props.moveIndex + 1) 
-    //         await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name)
-    //         console.log('delta')
-    //         console.log(delta)        
-    //     } else if (delta < 1) {
-    //         console.log("delta is less than 1")
-    //         await props.setMoveIndex(props.moveIndex -1) 
-    //         await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name)
-    //         // got it. this will be either 120 or - 120 we can now run increment or decrement code
-    //         console.log('delta')
-    //         console.log(delta)        
-    //     }
-    // })
-    
+
+    const changeBtnState = async (event) => {  
+              
+        let target = $(event.target)
+        console.log(event)
+        let idvalue = event.target.attributes[1].nodeValue
+
+        
+        // myCSS($(event.target), 'border', '3px solid orange')
+        // myCSS($(event.target).siblings()[0], 'background-image', `url(${'/img/gear.png'})`)
+        
+        // $(event.target).siblings()[1].show()
+        // * * * * * const changeitem = (event) => myCSS($(target), 'border', '5px solid hotpink')
+        // * * * * * interesting: this changeitem = $(event) invalidates changeBtnState = $(event) 
+        // * * * * * respecifying to target = $(event.target) lets us keep that targeting reference
+
+        
+        
+        // CreateElem.js:4 p            these are console.logs from the CreateElem export tool hooked up correctly.
+        // CreateElem.js:5 Bg-Btn
+        // CreateElem.js:6 Gear
+        // CreateElem.js:7 event => 
+        // (0,_utility_CSStool__WEBPACK_IMPORTED_MODULE_3__["default"])((0,react_jquery_plugin__WEBPACK_IMPORTED_MODULE_2__.$)(event.target), 'border', '5px solid hotpink')
+        
+        
+        if (idvalue === 'moves') {
+            // target.siblings().css('opacity', '0.1')
+            myCSS(target.siblings(), 'opacity', '0.1')
+            myCSS(target, 'opacity', '1.0')
+            myCSS(target, 'order', 1)
+
+            // $(refHouse.current).slice(0, $(refHouse.current).length)
+            // $(refHouse.current).pop()
+            // const changeitem = (event) =>  $(event.target).css('border', '10px dotted purple') 
+            // let newElem = await CreateElem('p', 'Bg-Btn', 'Gear', changeitem)
+            // refHouse.current.push($(event.target))
+            // bar.append(newElem)
+            // $(event.target).css('border', '10px solid green')
+            // setFakeDom('dom event')
+            // setFakeDom('dom')
+            
+            await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
+            // props.setEndpoint(props.endpointState[1][0].move.name) 
+        }  else {
+            checkState()            
+        }
+
+        //*  idvalue === 'moves' ? props.setEndpoint(props.endpointState[1][0].move.name) : checkState()
+        //*  idvalue === 'ability' ? props.setEndpoint(props.endpointState[0][0].name) : checkState()
+
+        if (idvalue === 'ability') {
+                myCSS(target.siblings(), 'opacity', '0.1')
+                myCSS(target, 'opacity', '1.0')
+                myCSS(target, 'order', 1)
+
+                props.setEndpoint(props.endpointState[0][0].name)             
+                // props.setEndpoint(props.endpointState[1][0].move.name) 
+                // * nice 15 minute error. didn't invoke this function and wasn't using [setFakeDom == ''] aka wasn't triggering useEffect so there were no changes being asserted and it was clicking why                
+           
+        }  else checkState()    
+
+        if (idvalue === 'damage') {
+            myCSS(target.siblings(), 'opacity', '0.1')
+            myCSS(target, 'opacity', '1.0')
+            myCSS(target, 'order', 1)
+            props.setEndpoint('damage') 
+             checkState()
+        } else { }
+
+    }
     return (
-        <div 
-        onClick={moveIndexIncrement}
-         onWheel={moveIndexIncrement} 
-         onScroll={moveIndexIncrement}
-        className="Endpoint-Container Column-Center">
-            {/* {props.endpointState.ref === 'moves'  */}
-            {typeof props.endpointState === 'object' 
-            // {typeof props.endpointState === 'object' 
-            ?
-            <ul>
-                <p className="Endpoint-Text Double-Size"> {props.endpoint} </p>                    
-            </ul>
-            :
-            <p> not equal to null </p>
-        }           {/* map end */}
+        // <div onClick={addState} className="Info-Endpoint-Bar Row-Center">
+        
+        <div className="Info-Endpoint-Bar Row-Center">
+         {/* <div onMouseEnter={mouseMoved == 'false' ? addState : checkState} className="Info-Endpoint-Bar Row-Center">  */}
+        {mouseMoved === 'true' 
+        ?
+        <>
+        {/* <button onClick={getabilities}> </button> */}
+        <button className="Bg-Btn" id="moves" onClick={changeBtnState}></button>
+        <button className="Bg-Btn" id="ability" onClick={changeBtnState}></button>
+        <button className="Bg-Btn" id="damage" onClick={changeBtnState}></button>
+        {/* <button className="Bg-Btn" id="Info-Pokeball" onClick={checkState}></button> */}
+        
+        </>
+        :
+        <button className="Bg-Btn" id="Info-Pokeball" onClick={addState}></button>
+        }
         </div>
+ 
     )
 }
-export default InfoEndpoint
+
+export default EndpointBar
+
+        // abilitiesBucket.push(abilitybucket)
+        // (2) [{…}, {…}]
+        // {name: 'own-tempo', url: 'https://pokeapi.co/api/v2/ability/20/'}
+        // {name: 'oblivious', url: 'https://pokeapi.co/api/v2/ability/12/'}
