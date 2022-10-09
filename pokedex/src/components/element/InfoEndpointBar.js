@@ -119,27 +119,41 @@ function EndpointBar (props) {
                         myCSS(target.siblings(), 'opacity', '0.1')
                         myCSS(target, 'opacity', '1.0')
                         // myCSS(target, 'order', 1)
-                        let abilitydata = await CleanData(props.paramPoke, 'ability')
+                        let abilitydata = await CleanData(props.paramPoke, 'ability')   
                         console.log(abilitydata)
-                        console.log(abilitydata.length)
-                        abilitydata.forEach( (idx, data) => {
-                            // these consoles dont log..
-                            // console.info('data')
-                            // console.log(data)
-                            // console.log('idx')
-                            // console.log(idx)
-                        })
-                        // let abilitydata1 = abilitydata[0]
-                        // let abilitydata2 = abilitydata[1]
-                        // undefined undefined      // abilitydata1 && abilitydata2
 
-                        // console.log(abilitydata1)
-                        // console.log(abilitydata2)
-                        // if (currentstate === '')   
-                    }
+                        let ability1 = abilitydata[0]
+                        let name1 = ability1.name
+                        let text1 = ability1.text
+
+                        let ability2 = abilitydata[1]
+                        let name2 = ability2.name
+                        let text2 = ability2.text
+
+                        console.log(name1)
+                        console.log(name2)
+                        console.log(text1)
+                        console.log(text2)
+                        
+                        
+                        
+                        if (currentstate === ability1.name) {
+                            console.log("ability1 === currentstate")
+                            console.log(currentstate)
+                        }
+                        else if (currentstate === ability2.name) {
+                            console.log("currentsate === ability2")
+                        } else {
+                            console.log("currentstate doesn't equal either ability so value(s) set")
+                       
+                            // props.setHeaderText(ability1)
+                        }
+                    }   
                 }
                 catch (err) {
                     console.log(err)
+                    // ReferenceError: Cannot access 'ability2' before initialization
+                    // at changeBtnState (InfoEndpointBar.js:125:1)
                     // location.href = 'views/404page' 
                 }
 
@@ -193,4 +207,4 @@ export default EndpointBar
         // abilitiesBucket.push(abilitybucket)
         // (2) [{…}, {…}]
         // {name: 'own-tempo', url: 'https://pokeapi.co/api/v2/ability/20/'}
-        // {name: 'oblivious', url: 'https://pokeapi.co/api/v2/ability/12/'}
+        // {name: 'oblivious', url: 'https://pokeapi.co/api/v2/ability/12/'}myself
