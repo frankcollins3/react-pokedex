@@ -21,6 +21,7 @@ function EndpointBar (props) {
     const [fakeDom, setFakeDom] = useState('')
     const [fakeDom2, setFakeDom2] = useState('')
     const [damageRelations, setDamageRelations] = useState([])
+    const [damageIndex, setDamageIndex] = useState(0)
     // const [moveIndex, setMoveIndex] = useState(0) WRONG!!!
 
     useEffect( () => {
@@ -80,10 +81,12 @@ function EndpointBar (props) {
         knocknock()
     }
 
-    const changeBtnState = async (event) => {                
+    const changeBtnState = async (event) => {                  
         let target = $(event.target)
         console.log(event)
         let idvalue = event.target.attributes[1].nodeValue
+        console.log('idvalue')
+        console.log(idvalue)
 
         
         if (idvalue === 'moves') {
@@ -138,39 +141,53 @@ function EndpointBar (props) {
         }  else checkState()    
             try {
                 if (typeof idvalue === 'string') {
-                    if (idvalue === 'damage') { 
+                    if (idvalue === 'damage') {                             
+
                         console.log(props.endpointState[2])
                         let dmgendpoints = props.endpointState[2]
                         console.log('dmgendpoints')
                         console.log(dmgendpoints)
 
+
                         const damageSubmit = () => {
                             let dblFrom = dmgendpoints.double_damage_from
                             let dblTo = dmgendpoints.double_damage_to
-    
                             let halfFrom = dmgendpoints.half_damage_from
                             let halfTo = dmgendpoints.half_damage_to
-    
                             let noneFrom = dmgendpoints.no_damage_from
                             let noneTo = dmgendpoints.no_damage_to
                             const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]
                             return damagebucket
-
                         }
-                        if (damageRelations.length) console.log("we have a length") 
-                        else await setDamageRelations(damageSubmit())
-
+                        await setDamageRelations(damageSubmit())
+                        // if (damageRelations.length) console.log("we have a length") 
+                        // else await setDamageRelations(damageSubmit())
+                    
                         if (props.headerText !== 'damage:') { // oops. if props.setHeaderText(err)=> !props.headerText
+                            console.log('props.headerText')
+                            console.log(props.headerText)
+                            console.log("it equals damage")
+                            props.setHeaderText('space')
+                            props.setEndpoint('')
+
+                            
+                            
                             // 2 second error: 'damage' doesn't work. 'damage:' with colon works
-                            console.log("it doesnt equal damage so we apply damage to header")
-                            props.setHeaderText('damage:')
-                            props.setEndpoint('hey')
+                            // console.log("it doesnt equal damage so we apply damage to header")
                         } else {
-                            let damageEndpoint1 = damageRelations[0]
-                            console.log(damageEndpoint1)
-                            let endpoint2 = damageRelations[1]
-                            console.log('endpoint2')
-                            console.log(endpoint2)
+                            console.log('props.headerText')
+                            console.log(props.headerText)
+
+                            props.setEndpoint('')
+                            props.setHeaderText('')
+
+                            let damageEndpointName = damageRelations[0][damageIndex].name
+                            // console.log('damageEndpointName')
+                            // console.log(damageEndpointName)                        
+                            if (props.headerText === 'damage:') {
+                                console.log("it equals damage")
+                                // await props.setEndpoint('fighting')                                
+                            }
                         }
 
 
