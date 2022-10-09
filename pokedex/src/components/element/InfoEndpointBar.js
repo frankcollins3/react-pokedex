@@ -23,7 +23,7 @@ function EndpointBar (props) {
 
     const [damageRelations, setDamageRelations] = useState([])
     const [damageHeader, setDamageHeader] = useState([])
-    const [damageIndex, setDamageIndex] = useState(0)
+    const [damageIndex, setDamageIndex] = useState(0) // tried to leave this empty and do -> damageIndex = damageIndex + 1. assignment to const error. Also useState() doesn't seem to be like the doing math upon the state as if it were set as an integer when its blank.
 
     // const [moveIndex, setMoveIndex] = useState(0) WRONG!!!
 
@@ -161,36 +161,22 @@ function EndpointBar (props) {
                             const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]
                             return damagebucket
                         }
+                        await setDamageRelations(damageSubmit())        
                         let headerKeys = await Object.keys(dmgendpoints)
-                        console.log('headerKeys')
+                        setDamageIndex(damageIndex + 1) 
+                        await props.setHeaderText(headerKeys[damageIndex])
+                        console.log('dmgendpoints')
+                        console.log(dmgendpoints)
+                        await props.setEndpoint(dmgendpoints[damageIndex])
+                    
+
+                        // props.setHeaderText(headerKeys[0])
+                        // * headerText h1 Object.keys (escapeChar() export tool)
                         console.log(headerKeys)
-                        // (6) ['double_damage_from', 'double_damage_to', 'half_damage_from', 'half_damage_to', 'no_damage_from', 'no_damage_to']
-                        
-// Object.keys to use object endpoint name as the header Data that will represent the appended object value corresponding to the same endpoint
-// 0
-// : 
-// "double_damage_from"             
-// 1
-// : 
-// "double_damage_to"
-// 2
-// : 
-// "half_damage_from"
-// "half_damage_to" 
-// "no_damage_from"
-// "no_damage_to"
 
-                        console.log(headerKeys[0])
-
-                        await setDamageRelations(damageSubmit())
+                        // (6) ['double_damage_from', 'double_damage_to', 'half_damage_from', 'half_damage_to', 'no_damage_from', 'no_damage_to']                        
+                        // Object.keys to use object endpoint name as the header Data that will represent the appended object value corresponding to the same endpoint
                         
-                        
-
-                        
-
-                        
-                        await props.setHeaderText('still works')
-                        await props.setEndpoint('love it')
 
                         console.log(typeof idvalue)       // log(...data: any[]): void            // (...data : any[]) can see the TS syntax type for .log()                                        
                     }
