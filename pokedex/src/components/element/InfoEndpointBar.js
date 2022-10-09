@@ -87,42 +87,12 @@ function EndpointBar (props) {
         let idvalue = event.target.attributes[1].nodeValue
 
         
-        // myCSS($(event.target), 'border', '3px solid orange')
-        // myCSS($(event.target).siblings()[0], 'background-image', `url(${'/img/gear.png'})`)
-        
-        // $(event.target).siblings()[1].show()
-        // * * * * * const changeitem = (event) => myCSS($(target), 'border', '5px solid hotpink')
-        // * * * * * interesting: this changeitem = $(event) invalidates changeBtnState = $(event) 
-        // * * * * * respecifying to target = $(event.target) lets us keep that targeting reference
-
-        
-        
-        // CreateElem.js:4 p            these are console.logs from the CreateElem export tool hooked up correctly.
-        // CreateElem.js:5 Bg-Btn
-        // CreateElem.js:6 Gear
-        // CreateElem.js:7 event => 
-        // (0,_utility_CSStool__WEBPACK_IMPORTED_MODULE_3__["default"])((0,react_jquery_plugin__WEBPACK_IMPORTED_MODULE_2__.$)(event.target), 'border', '5px solid hotpink')
-        
-        
         if (idvalue === 'moves') {
+            props.setHeaderText('moves:')
             props.setClickedGloves("true")
-            // target.siblings().css('opacity', '0.1')
             myCSS(target.siblings(), 'opacity', '0.1')
             myCSS(target, 'opacity', '1.0')
-            myCSS(target, 'order', 1)
-
-            // $(refHouse.current).slice(0, $(refHouse.current).length)
-            // $(refHouse.current).pop()
-            // const changeitem = (event) =>  $(event.target).css('border', '10px dotted purple') 
-            // let newElem = await CreateElem('p', 'Bg-Btn', 'Gear', changeitem)
-            // refHouse.current.push($(event.target))
-            // bar.append(newElem)
-            // $(event.target).css('border', '10px solid green')
-            // setFakeDom('dom event')
-            // setFakeDom('dom')
-            
             await props.setEndpoint(props.endpointState[1][props.moveIndex].move.name) 
-            // props.setEndpoint(props.endpointState[1][0].move.name) 
         }  else {
             checkState()            
         }
@@ -131,24 +101,68 @@ function EndpointBar (props) {
         //*  idvalue === 'ability' ? props.setEndpoint(props.endpointState[0][0].name) : checkState()
 
         if (idvalue === 'ability') {
-                await props.setClickedGloves('false')
-                myCSS(target.siblings(), 'opacity', '0.1')
-                myCSS(target, 'opacity', '1.0')
-                myCSS(target, 'order', 1)
+                let abilities = props.endpointState[0]
+                let abilitylength = abilities.length
+                // let ability1 = abilities[0]
+                // let ability2 = abilities[1]
+                // console.log(ability1)
+                // console.log(ability2)
+                console.log('abilities')
+                console.log(abilities)
+                
+                try {
+                    if (abilitylength) {
+                        let currentstate = props.endpoint
 
-                props.setEndpoint(props.endpointState[0][0].name)             
+                        props.setHeaderText('abilities:')
+                        await props.setClickedGloves('false')
+                        myCSS(target.siblings(), 'opacity', '0.1')
+                        myCSS(target, 'opacity', '1.0')
+                        // myCSS(target, 'order', 1)
+                        let abilitydata = await CleanData(props.paramPoke, 'ability')
+                        console.log(abilitydata)
+                        console.log(abilitydata.length)
+                        abilitydata.forEach( (idx, data) => {
+                            // these consoles dont log..
+                            // console.info('data')
+                            // console.log(data)
+                            // console.log('idx')
+                            // console.log(idx)
+                        })
+                        // let abilitydata1 = abilitydata[0]
+                        // let abilitydata2 = abilitydata[1]
+                        // undefined undefined      // abilitydata1 && abilitydata2
+
+                        // console.log(abilitydata1)
+                        // console.log(abilitydata2)
+                        // if (currentstate === '')   
+                    }
+                }
+                catch (err) {
+                    console.log(err)
+                    // location.href = 'views/404page' 
+                }
+
+
+
+
+
+                console.info('ability warn')
+                console.log(props.endpointState[0])
+                // props.setEndpoint(props.endpointState[0][0].name)             
                 // props.setEndpoint(props.endpointState[1][0].move.name) 
                 // * nice 15 minute error. didn't invoke this function and wasn't using [setFakeDom == ''] aka wasn't triggering useEffect so there were no changes being asserted and it was clicking why                
            
         }  else checkState()    
-            if (idvalue === 'damage') {                
+            if (idvalue === 'damage') { 
+            props.setHeaderText('damage:')
             await props.setClickedGloves('false')
             myCSS(target.siblings(), 'opacity', '0.1')
             myCSS(target, 'opacity', '1.0')
-            myCSS(target, 'order', 1)
+            // myCSS(target, 'order', 1)
             props.setEndpoint('damage') 
              checkState()
-        } else { }
+        } else { return  }
 
     }
     return (
