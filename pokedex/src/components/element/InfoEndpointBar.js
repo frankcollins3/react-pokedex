@@ -20,8 +20,11 @@ function EndpointBar (props) {
     const [mouseMoved, setMouseMoved] = useState('false')
     const [fakeDom, setFakeDom] = useState('')
     const [fakeDom2, setFakeDom2] = useState('')
+
     const [damageRelations, setDamageRelations] = useState([])
+    const [damageHeader, setDamageHeader] = useState([])
     const [damageIndex, setDamageIndex] = useState(0)
+
     // const [moveIndex, setMoveIndex] = useState(0) WRONG!!!
 
     useEffect( () => {
@@ -142,12 +145,11 @@ function EndpointBar (props) {
             try {
                 if (typeof idvalue === 'string') {
                     if (idvalue === 'damage') {                             
-
-                        console.log(props.endpointState[2])
                         let dmgendpoints = props.endpointState[2]
-                        console.log('dmgendpoints')
-                        console.log(dmgendpoints)
 
+                        await props.setClickedGloves('false')
+                        myCSS(target.siblings(), 'opacity', '0.1')
+                        myCSS(target, 'opacity', '1.0')
 
                         const damageSubmit = () => {
                             let dblFrom = dmgendpoints.double_damage_from
@@ -159,44 +161,36 @@ function EndpointBar (props) {
                             const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]
                             return damagebucket
                         }
+                        let headerKeys = await Object.keys(dmgendpoints)
+                        console.log('headerKeys')
+                        console.log(headerKeys)
+                        // (6) ['double_damage_from', 'double_damage_to', 'half_damage_from', 'half_damage_to', 'no_damage_from', 'no_damage_to']
+                        
+// Object.keys to use object endpoint name as the header Data that will represent the appended object value corresponding to the same endpoint
+// 0
+// : 
+// "double_damage_from"             
+// 1
+// : 
+// "double_damage_to"
+// 2
+// : 
+// "half_damage_from"
+// "half_damage_to" 
+// "no_damage_from"
+// "no_damage_to"
+
+                        console.log(headerKeys[0])
+
                         await setDamageRelations(damageSubmit())
-                        // if (damageRelations.length) console.log("we have a length") 
-                        // else await setDamageRelations(damageSubmit())
-                    
-                        if (props.headerText !== 'damage:') { // oops. if props.setHeaderText(err)=> !props.headerText
-                            console.log('props.headerText')
-                            console.log(props.headerText)
-                            console.log("it equals damage")
-                            props.setHeaderText('space')
-                            props.setEndpoint('')
+                        
+                        
 
-                            
-                            
-                            // 2 second error: 'damage' doesn't work. 'damage:' with colon works
-                            // console.log("it doesnt equal damage so we apply damage to header")
-                        } else {
-                            console.log('props.headerText')
-                            console.log(props.headerText)
+                        
 
-                            props.setEndpoint('')
-                            props.setHeaderText('')
-
-                            let damageEndpointName = damageRelations[0][damageIndex].name
-                            // console.log('damageEndpointName')
-                            // console.log(damageEndpointName)                        
-                            if (props.headerText === 'damage:') {
-                                console.log("it equals damage")
-                                // await props.setEndpoint('fighting')                                
-                            }
-                        }
-
-
-
-
-                        await props.setClickedGloves('false')
-                        myCSS(target.siblings(), 'opacity', '0.1')
-                        myCSS(target, 'opacity', '1.0')
-                        props.setEndpoint('damage') 
+                        
+                        await props.setHeaderText('still works')
+                        await props.setEndpoint('love it')
 
                         console.log(typeof idvalue)       // log(...data: any[]): void            // (...data : any[]) can see the TS syntax type for .log()                                        
                     }
