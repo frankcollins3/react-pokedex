@@ -152,22 +152,46 @@ function EndpointBar (props) {
                         myCSS(target, 'opacity', '1.0')
 
                         const damageSubmit = () => {
-                            let dblFrom = dmgendpoints.double_damage_from
+                            let dblFrom = dmgendpoints.double_damage_from.values()
                             let dblTo = dmgendpoints.double_damage_to
                             let halfFrom = dmgendpoints.half_damage_from
                             let halfTo = dmgendpoints.half_damage_to
                             let noneFrom = dmgendpoints.no_damage_from
                             let noneTo = dmgendpoints.no_damage_to
-                            const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]
-                            return damagebucket
+                            if (damageRelations) {
+                                console.log('there are contents')
+                            } else {
+                                    const valuebucket = []
+                                    const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]                                    
+                                    damagebucket.forEach( (bucketitem) => {
+                                        // bucketitem.forEach( (innerdoll) => {
+                                        //     console.log('innerdoll')
+                                        //     console.log(innerdoll)
+                                        // })
+                                        for (const item in bucketitem) {
+                                            console.log(`${item}`)
+                                            console.log(bucketitem[item])
+                                            // console.log(`${bucketitem[item]}`)
+                                        }
+                                    })
+                                    
+
+                                    // console.log('NO contents lets add the damage relations objectsd')
+                                    // console.log(dblFrom)
+                                    return damagebucket
+                                    // * loop through the endpoints first and push values to an array
+
+                            }
                         }
-                        await setDamageRelations(damageSubmit())        
+                        await setDamageRelations(damageSubmit())                                
+                  
                         let headerKeys = await Object.keys(dmgendpoints)
                         setDamageIndex(damageIndex + 1) 
                         await props.setHeaderText(headerKeys[damageIndex])
-                        console.log('dmgendpoints')
-                        console.log(dmgendpoints)
-                        await props.setEndpoint(dmgendpoints[damageIndex])
+
+                        // await props.setEndpoint(damageRelations[0][damageIndex].name)
+                        // await props.setEndpoint(damageRelations[0][damageIndex].name)
+                        
                     
 
                         // props.setHeaderText(headerKeys[0])
