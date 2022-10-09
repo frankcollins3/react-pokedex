@@ -25,8 +25,8 @@ function EndpointBar (props) {
 
     useEffect( () => {
         if (fakeDom === 'dom event' || fakeDom === 'dom') {
-            console.log("it equals dom event")    
-            console.log(refHouse)
+            // console.log("it equals dom event")    
+            // console.log(refHouse)
                         
             myCSS($(refHouse.current)[0], 'border', '8px dotted maroon')   
             setTimeout(async() => {
@@ -35,7 +35,6 @@ function EndpointBar (props) {
             }, 3000)            
             // * youll get both console.logs()=> [it equals dom] --- [it equals something else]
         } else {
-            console.info('it equals something besides dom event')
         }
     }, [fakeDom])
 
@@ -45,7 +44,6 @@ function EndpointBar (props) {
             let movebucket = await CleanData(urlpokemon, 'moves')                   
             const newMoves = [...props.endpointState];
             newMoves.push(movebucket);
-            await console.log(newMoves)
             props.setEndpointState(newMoves);            
          }
          const fillContainer = async () => {
@@ -69,8 +67,8 @@ function EndpointBar (props) {
 
     const checkState = async () => {
         const goHome = () => {
-            console.log(refHouse.current)
-            // refHouse.current.push('hey')
+            // console.log(refHouse.current)
+            refHouse.current.push('hey')
         }
         const seeWhoseThere = () => {
             // console.log(refHouse.current)                        
@@ -82,9 +80,7 @@ function EndpointBar (props) {
         knocknock()
     }
 
-
-    const changeBtnState = async (event) => {  
-              
+    const changeBtnState = async (event) => {                
         let target = $(event.target)
         console.log(event)
         let idvalue = event.target.attributes[1].nodeValue
@@ -159,25 +155,33 @@ function EndpointBar (props) {
                             let noneTo = dmgendpoints.no_damage_to
                             const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]
                             return damagebucket
-                            // console.groupCollapsed()
-                            // console.log(dblFrom)
-                            // console.log(dblTo)
-                            // console.log(halfFrom)
-                            // console.log(halfTo)
-                            // console.log(noneFrom)
-                            // console.log(noneTo)
-                            // console.groupEnd()
+
                         }
                         if (damageRelations.length) console.log("we have a length") 
                         else await setDamageRelations(damageSubmit())
-                        console.log(typeof idvalue)       // log(...data: any[]): void            // (...data : any[]) can see the TS syntax type for .log()                                        
-                        props.setHeaderText('damage:')
+
+                        if (props.headerText !== 'damage:') { // oops. if props.setHeaderText(err)=> !props.headerText
+                            // 2 second error: 'damage' doesn't work. 'damage:' with colon works
+                            console.log("it doesnt equal damage so we apply damage to header")
+                            props.setHeaderText('damage:')
+                            props.setEndpoint('hey')
+                        } else {
+                            let damageEndpoint1 = damageRelations[0]
+                            console.log(damageEndpoint1)
+                            let endpoint2 = damageRelations[1]
+                            console.log('endpoint2')
+                            console.log(endpoint2)
+                        }
+
+
+
+
                         await props.setClickedGloves('false')
                         myCSS(target.siblings(), 'opacity', '0.1')
                         myCSS(target, 'opacity', '1.0')
-                        // myCSS(target, 'order', 1)
                         props.setEndpoint('damage') 
-                        checkState()
+
+                        console.log(typeof idvalue)       // log(...data: any[]): void            // (...data : any[]) can see the TS syntax type for .log()                                        
                     }
             } else { return  }
             }
