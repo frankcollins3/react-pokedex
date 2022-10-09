@@ -20,6 +20,7 @@ function EndpointBar (props) {
     const [mouseMoved, setMouseMoved] = useState('false')
     const [fakeDom, setFakeDom] = useState('')
     const [fakeDom2, setFakeDom2] = useState('')
+    const [damageRelations, setDamageRelations] = useState([])
     // const [moveIndex, setMoveIndex] = useState(0) WRONG!!!
 
     useEffect( () => {
@@ -146,26 +147,29 @@ function EndpointBar (props) {
                         let dmgendpoints = props.endpointState[2]
                         console.log('dmgendpoints')
                         console.log(dmgendpoints)
-                        let dblFrom = dmgendpoints.double_damage_from
-                        let dblTo = dmgendpoints.double_damage_to
 
-                        let halfFrom = dmgendpoints.half_damage_from
-                        let halfTo = dmgendpoints.half_damage_to
-
-                        let noneFrom = dmgendpoints.no_damage_from
-                        let noneTo = dmgendpoints.no_damage_to
-
-                        console.groupCollapsed()
-                        console.log(dblFrom)
-                        console.log(dblTo)
-                        console.log(halfFrom)
-                        console.log(halfTo)
-                        console.log(noneFrom)
-                        console.log(noneTo)
-                        console.groupEnd()
-
-                         
-
+                        const damageSubmit = () => {
+                            let dblFrom = dmgendpoints.double_damage_from
+                            let dblTo = dmgendpoints.double_damage_to
+    
+                            let halfFrom = dmgendpoints.half_damage_from
+                            let halfTo = dmgendpoints.half_damage_to
+    
+                            let noneFrom = dmgendpoints.no_damage_from
+                            let noneTo = dmgendpoints.no_damage_to
+                            const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]
+                            return damagebucket
+                            // console.groupCollapsed()
+                            // console.log(dblFrom)
+                            // console.log(dblTo)
+                            // console.log(halfFrom)
+                            // console.log(halfTo)
+                            // console.log(noneFrom)
+                            // console.log(noneTo)
+                            // console.groupEnd()
+                        }
+                        if (damageRelations.length) console.log("we have a length") 
+                        else await setDamageRelations(damageSubmit())
                         console.log(typeof idvalue)       // log(...data: any[]): void            // (...data : any[]) can see the TS syntax type for .log()                                        
                         props.setHeaderText('damage:')
                         await props.setClickedGloves('false')
@@ -182,7 +186,7 @@ function EndpointBar (props) {
     return (
         // <div onClick={addState} className="Info-Endpoint-Bar Row-Center">
         
-        <div className="Info-Endpoint-Bar Row-Center">
+        <div onMouseEnter={()=> console.log(damageRelations)} className="Info-Endpoint-Bar Row-Center">
          {/* <div onMouseEnter={mouseMoved == 'false' ? addState : checkState} className="Info-Endpoint-Bar Row-Center">  */}
         {mouseMoved === 'true' 
         ?
