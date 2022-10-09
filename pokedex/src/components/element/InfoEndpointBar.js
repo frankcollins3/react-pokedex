@@ -146,15 +146,15 @@ function EndpointBar (props) {
                         let dmgendpoints = props.endpointState[2]
                         console.log('dmgendpoints')
                         console.log(dmgendpoints)
-                        // let dblFrom = dmgendpoints[0]
                         let dblFrom = dmgendpoints.double_damage_from
-                        let dblTo = dmgendpoints[1]
+                        let dblTo = dmgendpoints.double_damage_to
 
-                        let halfFrom = dmgendpoints[2]
-                        let halfTo = dmgendpoints[3]
+                        let halfFrom = dmgendpoints.half_damage_from
+                        let halfTo = dmgendpoints.half_damage_to
 
-                        let noneFrom = dmgendpoints[4]
-                        let noneTo = dmgendpoints[5]
+                        let noneFrom = dmgendpoints.no_damage_from
+                        let noneTo = dmgendpoints.no_damage_to
+
                         console.groupCollapsed()
                         console.log(dblFrom)
                         console.log(dblTo)
