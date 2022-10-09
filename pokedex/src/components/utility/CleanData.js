@@ -14,12 +14,7 @@ export default async function CleanData (pokemon, endpoint){
         let pokeapi = pokedata[0]
         let myapi = pokedata[1]
         
-        let type1 = pokeapi.types[0].type.name
-        console.log('type1')
-        console.log(type1)
-
-        // let type1 = pokeapi.types[0].type.name
-        // console.log(type1)
+        let type1 = pokeapi.types[0].type.name        
         if (endpoint === 'moves') {
             let moves = pokedata[0].moves            
             return moves
@@ -30,50 +25,81 @@ export default async function CleanData (pokemon, endpoint){
             return dmgdata         
         }
         if (endpoint === 'ability') {
-            console.log("clean data tool getAbilities function")            
+            // console.log("clean data tool getAbilities function")            
             let abilities = pokeapi.abilities
             let ability1 = abilities[0].ability
             let abilityurl1 = ability1.url
             if (abilities[1].ability) {
-                console.log("if block return ability1 && ability2")
+                // console.log("if block return ability1 && ability2")
                 let ability2 = abilities[1].ability
                 let abilityurl2 = ability2.url
-                let urlbucket = [abilityurl1, abilityurl2] 
+                let urlbucket = [abilityurl1, abilityurl2]
+                let abilitybucket = ['hey']
                 let idbucket = new Array() || [] || '' // never done this should work. 
                 let flavortextbucket = [] || new Array() 
 
                 let bucketbucket = [
                     urlbucket,
                     idbucket,
-                    flavortextbucket
+                    flavortextbucket,                    
                 ]
+
+                let url1 = urlbucket[0]
+
 
                 const pushLoop = async () => {
                     urlbucket.forEach(async(bucketitem, index) => {
                         let urlid = await CleanUrl(bucketitem)
-                        console.log('urlid')
-                        console.log(urlid)
-                        // idbucket.push(urlid)
-                        bucketbucket[idbucket].push(urlid)
-                        // bucketbucket.idbucket.push(urlid)
+                        // console.log('urlid')
+                        // console.log(urlid)
+                        bucketbucket[1].push(urlid)
                     })                
                 }
                 const accessAbility = async () => {
                     // // let ability = await pokeEndpoint(abilityid, 'ability')            
-                    idbucket.forEach(async(abilityID) => { // got me for second time putting the async in the function declaration instead of for the forEach function argument
-                        let ability = await pokeEndpoint(abilityID, 'ability')
-                        let descriptionbucket = ability.flavor_text_entries
-                        let plaintext = descriptionbucket[0].flavor_text
-                        flavortextbucket.push(plaintext)
+                    // bucketbucket[0].forEach(async(bucketitem, index) => {                        
+                    //     let preability = await pokeEndpoint(bucketitem, 'ability')
+                    //     let flavors = preability.flavor_text_entries
+                    //     console.log('preability')
+                    //     console.log(preability)
+                    //     let abilityname = preability.name
+                    //     let abilitytext = flavors[0].flavor_text
+                    //     let ability = {
+                    //         name: `${abilityname}`,
+                    //         text: `${abilitytext}`
+                    //     }                        
+                    //     abilitybucket.push({ability}) // also did .push(ability)
+                    // })
 
-                    })
+                    
+                    let url1 = urlbucket[0]
+                    let url2 = urlbucket[1]
+
+                    let preability1 = await pokeEndpoint(url1, 'ability')
+                    let preability2 = await pokeEndpoint(url2, 'ability')
+
+                    console.log(preability1)
+                    let ability1 = {
+                        name: preability1.name,
+                        text: preability1.flavor_text_entries[0].flavor_text
+                        // this could be stated elsewhere and brought in but doing that for 2 objects just to return data on other side.
+                    }
+                    
+                    let ability2 = {
+                        name: preability2.name,
+                        text: preability2.flavor_text_entries[0].flavor_text                        
+                    }
+
+                    abilitybucket.push(ability1, ability2)
+
+                                        
                 }
                 // accessAbility()
                 const checkBucket = () => {
-                //    console.log('flavortextbucket')
-                //    console.log(flavortextbucket)
-                console.log('double bucket check')
-                console.log(bucketbucket[idbucket])
+                    console.log('abilitybucket')
+                    console.log(abilitybucket)
+                    console.log(abilitybucket[1])
+                    return abilitybucket ? abilitybucket : 'no abilitybucket' 
                 }
 
                 // ability = ability.data
@@ -84,18 +110,17 @@ export default async function CleanData (pokemon, endpoint){
                 const doubleAsync = async () => {
                     await pushLoop()
                     await accessAbility()
-                    await checkBucket()
+                    return await checkBucket()
                     // await checkBucket()
                 }
-                doubleAsync()
-        
-        
-                // need the url of the ability and to access /pokemon/ability 
-                let abilitybucket = [ability1, ability2] 
-                return abilitybucket
+                return doubleAsync()                
+                // let abilitybucket = [ability1, ability2] 
+                console.log('abilitybucket')
+                console.log(abilitybucket)
+                // return abilitybucket
             } else {
-                console.log("else block no ability[1]")
-                console.log(abilityurl1)
+                // console.log("else block no ability[1]")
+                // console.log(abilityurl1)
                 return ability1
             }
 
