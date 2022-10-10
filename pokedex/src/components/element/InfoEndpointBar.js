@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { $ } from 'react-jquery-plugin'
 import myCSS from '../utility/CSStool'
 import toggleHideShow from '../utility/hideShow'
+import { createImportSpecifier } from 'typescript'
 
 
 // import CreateElem from '../utility/CreateElem'
@@ -153,7 +154,8 @@ function EndpointBar (props) {
                         myCSS(target, 'opacity', '1.0')
 
                         const damageSubmit = () => {
-                            let dblFrom = dmgendpoints.double_damage_from
+                            // let dblFrom = dmgendpoints.double_damage_from
+                            let dblFrom = {...dmgendpoints.double_damage_from}
                             let dblTo = dmgendpoints.double_damage_to
                             let halfFrom = dmgendpoints.half_damage_from
                             let halfTo = dmgendpoints.half_damage_to
@@ -163,12 +165,14 @@ function EndpointBar (props) {
                                 console.log('there are contents')
                             } else {
                                     const valuebucket = []
-                                    const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]                                    
-                                    let dFrom = {...dblFrom}
-                                    console.log('dFrom')
-                                    console.log(dFrom)
+                                    const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]      
 
-                                    damagebucket.forEach( (bucketitem) => {
+                                // console.log(dblFrom[1]) works but can't iterate through dblFrom.map() or from.forEach()=>
+
+
+
+                                                                                                        
+                                    damagebucket.forEach( (bucketitem, idx) => {
                                         // bucketitem.forEach( (innerdoll) => {
                                         //     console.log('innerdoll')
                                         //     console.log(innerdoll)
@@ -178,8 +182,20 @@ function EndpointBar (props) {
                                             // console.log(bucketitem[item])
                                             let newitem = bucketitem[item]
                                             if (`${item}` == 0) {
+                                                console.log('idx from .forEach')
+                                                console.log(idx)
+
+                                                console.log('item')
+                                                console.log(item)
+
+                                                // console.log('newitem')
+                                                // console.log(newitem)
+
+
                                                 // console.log("endpoint 0")
                                                 // console.log(bucketitem[item])
+                                                // console.log(item)
+                                                // console.log(bucketitem)
                                             }
                                             
                                             // console.log(`${bucketitem[item]}`)
