@@ -93,6 +93,7 @@ function EndpointBar (props) {
 
         
         if (idvalue === 'moves') {
+            console.log(props.endpointState)
             props.setHeaderText('moves:')
             props.setClickedGloves("true")
             myCSS(target.siblings(), 'opacity', '0.1')
@@ -152,7 +153,7 @@ function EndpointBar (props) {
                         myCSS(target, 'opacity', '1.0')
 
                         const damageSubmit = () => {
-                            let dblFrom = dmgendpoints.double_damage_from.values()
+                            let dblFrom = dmgendpoints.double_damage_from
                             let dblTo = dmgendpoints.double_damage_to
                             let halfFrom = dmgendpoints.half_damage_from
                             let halfTo = dmgendpoints.half_damage_to
@@ -163,18 +164,28 @@ function EndpointBar (props) {
                             } else {
                                     const valuebucket = []
                                     const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]                                    
+                                    let dFrom = {...dblFrom}
+                                    console.log('dFrom')
+                                    console.log(dFrom)
+
                                     damagebucket.forEach( (bucketitem) => {
                                         // bucketitem.forEach( (innerdoll) => {
                                         //     console.log('innerdoll')
                                         //     console.log(innerdoll)
                                         // })
                                         for (const item in bucketitem) {
-                                            console.log(`${item}`)
-                                            console.log(bucketitem[item])
+                                            // console.log(`${item}`)
+                                            // console.log(bucketitem[item])
+                                            let newitem = bucketitem[item]
+                                            if (`${item}` == 0) {
+                                                // console.log("endpoint 0")
+                                                // console.log(bucketitem[item])
+                                            }
+                                            
                                             // console.log(`${bucketitem[item]}`)
                                         }
                                     })
-                                    
+
 
                                     // console.log('NO contents lets add the damage relations objectsd')
                                     // console.log(dblFrom)
