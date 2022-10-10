@@ -187,6 +187,12 @@ function EndpointBar (props) {
 
                                                 console.log('item')
                                                 console.log(item)
+                                                if ((idx) == (item)) {
+                                                    console.groupCollapsed()
+                                                    console.log(`idx: ${idx} item: ${item}`)
+                                                    console.log(newitem)
+                                                    console.groupEnd()
+                                                }
 
                                                 // console.log('newitem')
                                                 // console.log(newitem)
