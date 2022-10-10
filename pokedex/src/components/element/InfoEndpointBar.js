@@ -26,6 +26,9 @@ function EndpointBar (props) {
     const [damageHeader, setDamageHeader] = useState([])
     const [damageIndex, setDamageIndex] = useState(0) // tried to leave this empty and do -> damageIndex = damageIndex + 1. assignment to const error. Also useState() doesn't seem to be like the doing math upon the state as if it were set as an integer when its blank.
 
+    // * damage relations: 
+    const [dblFrom, setDblFrom] = useState('')
+
     // const [moveIndex, setMoveIndex] = useState(0) WRONG!!!
 
     useEffect( () => {
@@ -154,8 +157,8 @@ function EndpointBar (props) {
                         myCSS(target, 'opacity', '1.0')
 
                         const damageSubmit = () => {
-                            // let dblFrom = dmgendpoints.double_damage_from
-                            let dblFrom = {...dmgendpoints.double_damage_from}
+                            let dblFrom = dmgendpoints.double_damage_from
+                            // let dblFrom = {...dmgendpoints.double_damage_from}
                             let dblTo = dmgendpoints.double_damage_to
                             let halfFrom = dmgendpoints.half_damage_from
                             let halfTo = dmgendpoints.half_damage_to
@@ -169,48 +172,29 @@ function EndpointBar (props) {
 
                                 // console.log(dblFrom[1]) works but can't iterate through dblFrom.map() or from.forEach()=>
 
-
+                                for (const endpoint in dblFrom) {
+                                    // console.log(endpoint)
+                                    // console.log(dblFrom)
+                                    // console.log(dblFrom[endpoint])
+                                    let obj = dblFrom[endpoint]
+                                    setDblFrom([...dblFrom, obj])
+                                    console.log(obj.name)
+                                }
 
                                                                                                         
-                                    damagebucket.forEach( (bucketitem, idx) => {
-                                        // bucketitem.forEach( (innerdoll) => {
-                                        //     console.log('innerdoll')
-                                        //     console.log(innerdoll)
-                                        // })
-                                        for (const item in bucketitem) {
-                                            // console.log(`${item}`)
-                                            // console.log(bucketitem[item])
+                                    damagebucket.forEach( (bucketitem, idx) => {                                        
+                                        for (const item in bucketitem) {                                            
                                             let newitem = bucketitem[item]
                                             if (`${item}` == 0) {
-                                                console.log('idx from .forEach')
-                                                console.log(idx)
-
-                                                console.log('item')
-                                                console.log(item)
                                                 if ((idx) == (item)) {
                                                     console.groupCollapsed()
                                                     console.log(`idx: ${idx} item: ${item}`)
                                                     console.log(newitem)
                                                     console.groupEnd()
                                                 }
-
-                                                // console.log('newitem')
-                                                // console.log(newitem)
-
-
-                                                // console.log("endpoint 0")
-                                                // console.log(bucketitem[item])
-                                                // console.log(item)
-                                                // console.log(bucketitem)
-                                            }
-                                            
-                                            // console.log(`${bucketitem[item]}`)
+                                            }                                            
                                         }
                                     })
-
-
-                                    // console.log('NO contents lets add the damage relations objectsd')
-                                    // console.log(dblFrom)
                                     return damagebucket
                                     // * loop through the endpoints first and push values to an array
 
@@ -221,18 +205,9 @@ function EndpointBar (props) {
                         let headerKeys = await Object.keys(dmgendpoints)
                         setDamageIndex(damageIndex + 1) 
                         await props.setHeaderText(headerKeys[damageIndex])
-
-                        // await props.setEndpoint(damageRelations[0][damageIndex].name)
-                        // await props.setEndpoint(damageRelations[0][damageIndex].name)
                         
-                    
-
-                        // props.setHeaderText(headerKeys[0])
                         // * headerText h1 Object.keys (escapeChar() export tool)
-                        console.log(headerKeys)
-
-                        // (6) ['double_damage_from', 'double_damage_to', 'half_damage_from', 'half_damage_to', 'no_damage_from', 'no_damage_to']                        
-                        // Object.keys to use object endpoint name as the header Data that will represent the appended object value corresponding to the same endpoint
+                        
                         
 
                         console.log(typeof idvalue)       // log(...data: any[]): void            // (...data : any[]) can see the TS syntax type for .log()                                        
