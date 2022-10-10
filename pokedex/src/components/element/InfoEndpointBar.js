@@ -180,9 +180,22 @@ function EndpointBar (props) {
                                     console.log(obj.name)
                                 }
                                 console.log("we have added and were here now")
-                                let fromData = await forInTool(dblFrom)
+                                let dblFromData = await forInTool(dblFrom)
+                                let dblToData = await forInTool(dblTo)
+                                let halfFromData = await forInTool(halfFrom)
+                                let halfToData = await forInTool(halfTo)
+                                let noneFromData = await forInTool(noneFrom)
+                                let noneToData = await forInTool(noneTo)
+                                // ['ground', 'rock', 'water'] return data for ninetales #38 fire type accurate
+
+                                console.log(dblFromData)
+                                console.log(dblToData)
+                                console.log(halfFromData)
+                                console.log(halfToData)
+                                console.log(noneFromData)
+                                console.log(noneToData)
                                 // just setting this variable invokes this function
-                                
+
                                 // console.log('fromData')
                                 // console.log(fromData)
 
