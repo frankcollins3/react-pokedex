@@ -180,6 +180,11 @@ import { createNoSubstitutionTemplateLiteral } from 'typescript'
                                     const loopAndPush = async () => {
                                         await damagebucket.forEach(async(damageitem) => {
                                             let loopItemDataGrab = await forInTool(damageitem)
+                                            let newlineitem = loopItemDataGrab.toString().replace(/[\,]/g, '')
+                                            console.log('loopItemDataGrab')
+                                            console.log(loopItemDataGrab)
+                                            console.log('newlineitem')
+                                            console.log(newlineitem)
                                             if (valuebucket.length < damagebucket.length ) { // prevent duplicate
                                                 // console.log("value length is less")
                                                 valuebucket.push(loopItemDataGrab)
@@ -203,6 +208,9 @@ import { createNoSubstitutionTemplateLiteral } from 'typescript'
                                         await props.setEndpoint(damageRelations[damageIndex])
                                         if (valuebucket.length === damagebucket.length) {
                                             console.log('the lengths are equal!')
+
+                                            // * regex to replace double_damage_from escape special character
+                                            // * remove comma and add \n {newline} for damageRelations
                                         }                                    
                                     }
 
