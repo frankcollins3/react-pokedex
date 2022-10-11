@@ -180,25 +180,40 @@ import { createNoSubstitutionTemplateLiteral } from 'typescript'
                                     const loopAndPush = async () => {
                                         await damagebucket.forEach(async(damageitem) => {
                                             let loopItemDataGrab = await forInTool(damageitem)
-                                            let newlineitem = loopItemDataGrab.toString().replace(/[\,]/g, '')
-                                            console.log('loopItemDataGrab')
-                                            console.log(loopItemDataGrab)
-                                            console.log('newlineitem')
-                                            console.log(newlineitem)
+                                            // let loopitemstr = loopItemDataGrab.toString()
+                                            let splitstr = loopItemDataGrab.join('\n')
+                                            console.log('ssplitstr')
+                                            console.log(splitstr)
+
+                                            // let itemmap = damageitem.map( (damageitem) => {
+                                            //     console.log('damageitem')
+                                            //     console.log(damageitem)
+                                            // })
+
+                                            // console.log(loopitemstr)
+                                            // loopitemstr.replace(/[\,]/g, '')
+
+                                            // let newlineitem = loopItemDataGrab.toString().replace(/[\,]/g, '')
+                                           
                                             if (valuebucket.length < damagebucket.length ) { // prevent duplicate
                                                 // console.log("value length is less")
-                                                valuebucket.push(loopItemDataGrab)
-                                                // valuebucket.push(loopItemDataGrab)
+                                                // valuebucket.push(splitstr)
+                                                valuebucket.push(splitstr)
                                                 // console.log("the next easy part is the worst part.") 
                                                 
                                             }
                                         })
                                     }
                                     const change = async () => { 
+                                        console.log('damageIndex')
+                                        console.log(damageIndex)
                                         console.log('valuebucket')                                       
                                         console.log(valuebucket)                                       
                                         await setDamageRelations(valuebucket)
-                                        await setDamageIndex(damageIndex + 1) 
+                                        if (props.headerText !== 'damage relations' && damageIndex < damagebucket.length) {
+                                            await setDamageIndex(damageIndex + 1) 
+                                        } else { setDamageIndex(0)}
+
                                     }     
                                     
                                     const morechange = async () => {
