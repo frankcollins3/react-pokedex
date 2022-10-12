@@ -4,10 +4,11 @@
     import myCSS from '../utility/CSStool'
     import forInTool from '../utility/damageForInLoop'
     import toggleHideShow from '../utility/hideShow'
-import { createNoSubstitutionTemplateLiteral } from 'typescript'
-    let thisobject = { name: 'myself', body: 'autobody', mph: 100}
-    // forInTool(thisobject)
-    // let newobj = await forInTool(thisobject)
+    import SpecialCharRegex from '../utility/SpecialCharRegex'
+    console.log('SpecialCharRegex')
+    console.log(SpecialCharRegex)
+
+
 
     // import CreateElem from '../utility/CreateElem'
     function EndpointBar (props) {        
@@ -173,34 +174,26 @@ import { createNoSubstitutionTemplateLiteral } from 'typescript'
                                 } else {
                                         const valuebucket = []
                                         const damagebucket = [dblFrom, dblTo, halfFrom, halfTo, noneFrom, noneTo]      
+                                        const headerbucket = [] || new Array()
 
                                     let headerKeys = await Object.keys(dmgendpoints)
+
+                                    // let cleanexample = await SpecialCharRegex(headerKeys[0], '_') 'double damage from' instead of double_damage_from
+
+                                    headerKeys.forEach((item) => {
+                                        let cleanitem = await SpecialCharRegex(item, '_')
+                                        console.log(` clean item string: ${cleanitem}`)
+                                        // console.log('item in the forEach')
+                                        // console.log(item)
+                                    })
                                     
 
                                     const loopAndPush = async () => {
                                         await damagebucket.forEach(async(damageitem) => {
                                             let loopItemDataGrab = await forInTool(damageitem)
-                                            // let loopitemstr = loopItemDataGrab.toString()
-                                            let splitstr = loopItemDataGrab.join('\n')
-                                            console.log('ssplitstr')
-                                            console.log(splitstr)
-
-                                            // let itemmap = damageitem.map( (damageitem) => {
-                                            //     console.log('damageitem')
-                                            //     console.log(damageitem)
-                                            // })
-
-                                            // console.log(loopitemstr)
-                                            // loopitemstr.replace(/[\,]/g, '')
-
-                                            // let newlineitem = loopItemDataGrab.toString().replace(/[\,]/g, '')
-                                           
-                                            if (valuebucket.length < damagebucket.length ) { // prevent duplicate
-                                                // console.log("value length is less")
-                                                // valuebucket.push(splitstr)
-                                                valuebucket.push(splitstr)
-                                                // console.log("the next easy part is the worst part.") 
-                                                
+                                            let splitstr = loopItemDataGrab.join('\n')                                            
+                                            if (valuebucket.length < damagebucket.length ) { // prevent duplicate                                                
+                                                valuebucket.push(splitstr)                                                
                                             }
                                         })
                                     }
@@ -213,7 +206,6 @@ import { createNoSubstitutionTemplateLiteral } from 'typescript'
                                         if (props.headerText !== 'damage relations' && damageIndex < damagebucket.length) {
                                             await setDamageIndex(damageIndex + 1) 
                                         } else { setDamageIndex(0)}
-
                                     }     
                                     
                                     const morechange = async () => {
