@@ -180,9 +180,10 @@
 
                                     // let cleanexample = await SpecialCharRegex(headerKeys[0], '_') 'double damage from' instead of double_damage_from
 
-                                    headerKeys.forEach((item) => {
+                                    headerKeys.forEach(async(item) => {
                                         let cleanitem = await SpecialCharRegex(item, '_')
                                         console.log(` clean item string: ${cleanitem}`)
+                                        headerbucket.push(`${cleanitem}:`)
                                         // console.log('item in the forEach')
                                         // console.log(item)
                                     })
@@ -211,7 +212,8 @@
                                     const morechange = async () => {
                                         console.log('damageRelations')
                                         await console.log(damageRelations)
-                                        await props.setHeaderText(headerKeys[damageIndex])
+                                        // await props.setHeaderText(headerKeys[damageIndex])
+                                        await props.setHeaderText(headerbucket[damageIndex])
                                         await props.setEndpoint(damageRelations[damageIndex])
                                         if (valuebucket.length === damagebucket.length) {
                                             console.log('the lengths are equal!')
