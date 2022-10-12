@@ -3,18 +3,22 @@ export default async function SpecialCharRegex (str, escapechar) {
     if (typeof str === 'string' && typeof str === 'string') {
         console.log(str)
         
-        let newstr = str.replace(/[\_]/g, '')   
 
-        const regex = /\escapechar/
-        let newerstring = new RegExp(`/${escapechar}/`)
-        let paramMatch = str.replace(newerstring)
-        console.log('paramMatch')
-        console.log(paramMatch)
+        let stringdata = 'ilikecheesex10' // for a test regex that didn't work. 
 
+        let regexobject = new RegExp(`${escapechar}`)
+        let checkForCharacters = regexobject.exec(str)
+        console.log('checkForCharacters')
+        console.log(checkForCharacters)
+
+        const newstr = str.split(`${escapechar}`)
         console.log('newstr')
         console.log(newstr)
+        // * newstr returns the str 
+        
 
         
+  
         
         // let newstr = str.replace(/[\${escapechar}]/g, )                
         return newstr
@@ -23,5 +27,3 @@ export default async function SpecialCharRegex (str, escapechar) {
 }
 
 
-// https://stackoverflow.com/questions/1695633/how-to-pass-a-variable-into-regex-in-jquery-javascript
-// hmm
