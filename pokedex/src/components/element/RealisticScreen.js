@@ -26,6 +26,8 @@ function RealisticScreen(props) {
     
 
     useEffect( () => {
+        console.log('fakedb')
+        console.log(fakedb)
          $('.Screen-Parents').click()
         // fakeDb[0].click()
          // ? $('.Screen-Parents').click() every time state is changed.
@@ -42,6 +44,9 @@ function RealisticScreen(props) {
                 console.log("it equals type")
                 console.log(typeofdata)
                 setTypeDb([...typeDb, typeofdata])
+            } else {
+                console.log('typeofdata we are here!')
+                console.log(typeofdata)    
             }
         })
         //  fakedb.forEach(async(dbitem) => {
@@ -78,13 +83,24 @@ function RealisticScreen(props) {
         let types = axiosaccess[0].types
         let type = types[0].type.name                
         if (type !== typestate) {
+            console.log('type')
+            console.log(type)
             console.log('type doesnt equal stateType')
-            toggleHideShow($(event.target), 'hide')
+            if (props.selectedType === 'psychic' && type === 'ghost') {
+                console.log("weve got a ghost")
+                toggleHideShow($(event.target), 'show')
+            } else {
+                toggleHideShow($(event.target), 'hide')
+            }
+
         } else {
             console.log('type == stateType')
             let typebg = await bgList('typecard', type) // async  Promise {<fulfilled>: undefined}            
-            $(event.target).css('background', `url('${typebg}')`)
-            
+            console.log('typebg')
+            console.log(typebg)
+            // $(event.target).css('background-image', `url('${typebg}')`)
+            // $(event.target).css('background-image', `url('public/${typebg}')`)
+            // $(event.target).css('border', '5px solid hotpink')            
             await toggleHideShow($(event.target), 'show')    
             $(event.target).click(async() => {
                 // await console.log(props.miniScreenPokemon)
@@ -124,10 +140,7 @@ function RealisticScreen(props) {
     let dbmap = fakedb.map( (mapitem, idx) => {        
         return (
             <div key={`parent:${idx}`} onClick={checkThat} className="Screen-Parents">
-                    {/* <Carousel.item> */}
-                    <p key={idx}> {mapitem} </p>
-                    {/* </Carousel.item>
-                </Carousel> */}
+                    <p className="Real-Screen-P" key={idx}> {mapitem} </p>
             </div>
         )
     })
@@ -144,17 +157,6 @@ function RealisticScreen(props) {
       <Carousel.Item>
       </Carousel.Item>
     </Carousel> */}
-
-
-
-
-
-
-
-
-
-
-
         </div>
     )
 }
