@@ -6,7 +6,7 @@ import bgList from '../utility/bgList'
 import myCSS from '../utility/CSStool'
 import toggleHideShow from '../utility/hideShow';
 import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
+import { collapseTextChangeRangesAcrossMultipleVersions, WatchDirectoryFlags } from 'typescript';
 import GroupByType from '../utility/GroupByType'
 
 // $('*').css('overflow', 'scroll')
@@ -86,18 +86,10 @@ function RealisticScreen(props) {
             console.log('type')
             console.log(type)
             console.log('type doesnt equal stateType')
-            if (props.selectedType === 'psychic' && type === 'ghost' || 'poison') {
+            if (props.selectedType === 'psychic' && type === 'ghost') {
                 console.log("weve got a ghost")
-                $(event.target).css("opacity", '1.0');
-                // await toggleHideShow($(event.target), 'show')
-                await props.setMiniScreenPokemon(image)
             } else {
-            // if (props.selectedType === 'psychic' && type === 'ghost') {
-
-            // } else {
-            //     toggleHideShow($(event.target), 'hide')
-            // }
-
+                toggleHideShow($(event.target), 'hide')
             }
 
         } else {
@@ -105,7 +97,11 @@ function RealisticScreen(props) {
             let typebg = await bgList('typecard', type) // async  Promise {<fulfilled>: undefined}            
             console.log('typebg')
             console.log(typebg)
-            myCSS($('.Display-Poke').css('border', '5px dotted purple'))
+            // $(event.target).css('background-image', "url(/img/text/water.png)")
+            $(event.target).css('background-image', `url(${typebg})`)
+            // $(event.target).css('background-image', `url('/public/${typebg}')`)
+
+            // $(event.target).css('border', '5px solid hotpink')            
             await toggleHideShow($(event.target), 'show')    
             $(event.target).click(async() => {
                 // await console.log(props.miniScreenPokemon)
@@ -153,7 +149,7 @@ function RealisticScreen(props) {
 
     return (
         
-        <div onClick={indexChanger} onWheel={indexChanger} className="Real-Screen Column-Between">
+        <div onClick={indexChanger} onWheel={indexChanger} className="Real-Screen Column-Center">
             {/* {dbmap} */}
             <p className="Display-Poke" onClick={checkThat}> { fakedb[scrollIdx] || fakedb[0]} </p> 
             {/* {dbmap} */}
