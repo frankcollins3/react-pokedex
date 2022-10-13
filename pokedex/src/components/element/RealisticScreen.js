@@ -86,17 +86,17 @@ function RealisticScreen(props) {
             console.log('type')
             console.log(type)
             console.log('type doesnt equal stateType')
-            if (props.selectedType === 'psychic' && type === 'ghost') {
+            if (props.selectedType === 'psychic' && type === 'ghost' || 'poison') {
                 console.log("weve got a ghost")
                 $(event.target).css("opacity", '1.0');
                 // await toggleHideShow($(event.target), 'show')
                 await props.setMiniScreenPokemon(image)
             } else {
-            if (props.selectedType === 'psychic' && type === 'ghost') {
+            // if (props.selectedType === 'psychic' && type === 'ghost') {
 
-            } else {
-                toggleHideShow($(event.target), 'hide')
-            }
+            // } else {
+            //     toggleHideShow($(event.target), 'hide')
+            // }
 
             }
 
@@ -105,9 +105,7 @@ function RealisticScreen(props) {
             let typebg = await bgList('typecard', type) // async  Promise {<fulfilled>: undefined}            
             console.log('typebg')
             console.log(typebg)
-            // $(event.target).css('background-image', `url('${typebg}')`)
-            // $(event.target).css('background-image', `url('public/${typebg}')`)
-            // $(event.target).css('border', '5px solid hotpink')            
+            myCSS($('.Display-Poke').css('border', '5px dotted purple'))
             await toggleHideShow($(event.target), 'show')    
             $(event.target).click(async() => {
                 // await console.log(props.miniScreenPokemon)
