@@ -1,62 +1,88 @@
-import Axios from "axios"  // axios not a function like this { Axios }
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript"
+import { useEffect, useState } from 'react';
+import { $ } from 'react-jquery-plugin'
+import CleanUrl from '../utility/CleanUrlTool'
+import APIcall from '../utility/pokeAPI'
+import bgList from '../utility/bgList'
+import myCSS from '../utility/CSStool'
+import toggleHideShow from '../utility/hideShow';
+import {Alert, Button, Card, Carousel}  from 'react-bootstrap';   
+import GroupByType from '../utility/GroupByType'
+import ReturnTypes from '../utility/ReturnTypes'
+import ReturnRandom from '../utility/ReturnRandom'
 
-import APIcall from './pokeAPI'
-let url = `https://pokeapi.co/api/v2/pokemon/`
+// $('*').css('overflow', 'scroll')
+$('.Real-Screen')
+.css('overflow-y', 'scroll')
+.css('overflow', 'scroll')
+let i = 0;
 
-// can also do a url tool to give us a blank url for all poke or specified but moving along anyways.
+function RealisticScreen(props) {
+    // function RealisticScreen(props: any): JSX.Element    any variable. JSX.element interesting...
 
-export default async function ReturnTypes (pokemon) { // parameter also of type :any 
-    let i = 0;
-    console.log("we are in the returnTypes utility!")
-    // could import APIcall but it's got a few things going on. i'd rather do 1 clean data grab and 1 clean data return
-    console.log(pokemon)
-    let newurl = ''
-    newurl = url += pokemon
-    // let newurl = url += pokemon // https://pokeapi.co/api/v2/19272618221314112622
-    // newurl is currently saving our saved pokemon (#19, 27, 26 etc) and is continually concatenating the string.
     
-    let predata = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-    let data = predata.data
-    let typebucket = data.types
-    let len = typebucket.length
-    if (typeof typebucket === 'object') {
-        console.log(typeof typebucket)
-        if (len === 2) {
-            console.log('len === 2')
-            // typebucket.forEach( (typeitem) => {
-            //     // console.log(typeitem)
-            //     // console.log(typeitem.type.name)
-            //     if (typeitem === 'fire' || 'grass' || 'water' || 'electric' || 'psychic' || 'fighting' || 'normal') {
-            //         console.log("type item equals fire grass water electric psychic fighting")
-            //         console.log('typeitem IF block')
-            //         console.log(typeitem)
-            //         return typeitem
-            //     } else {
-            //         console.log("hey there isn't the type")
-            //         console.log('typeitem ELSE block')
-            //         console.log(typeitem)
-            //     }
-            // })
-            for (i; i < len; i++) {
-                let thisindex = typebucket[i]
-                // console.log(thisindex)
-                let idxtype = thisindex.type.name
-                               
-            }
-        }
-        else {
-            console.log(typebucket)
+    let fakedb = props.fakeDbState
+    const [scrollIdx, setScrollIdx] = useState(0)
+    const [typeDb, setTypeDb] = useState([])
+    let typestate = props.selectedType
+    
+    useEffect( () => {
+        console.log(fakedb)
+        fakedb.forEach(async(dbitem) => {
+            console.log(dbitem)
+            // let dbitemdata = await APIcall('specify', dbitem)
+            // was thinking of making a ReturnType(s) tool. APIcall has several other operations on it and wonder if the issue could come from async
+            // console.log('dbitemdata')
+            // console.log(dbitemdata)
+
+        })
+    }, [])
+
+    useEffect( () => {
+        console.log(props.selectedType)
+        console.log(fakedb)
+        const findTypeData = async () => {
+            let randompokemon = await ReturnRandom(fakedb) || Math.floor(Math.random() * [1, 2, 3].length)
+            console.log('randompokemon')
+            console.log(randompokemon)
+            let typedata = await ReturnTypes(randompokemon + 1) // somehow grabbing 0 from our [1,2,3].length
+            // this now returns grass instead of poison for bulbasaur. 
+            console.log('typedata')
+            console.log(typedata)
 
         }
+        findTypeData()
+            
+
+        
+    }, [props.selectedType])
+
+    // * AUTO CLICK FUNCTION TO FIRE EVERY TIME state is toggled.
+    // * I have to move this function so it can be available to TopBar as well. 
+    const checkThat = async (event) => {
 
     }
 
-    return 'hey'
-    // return [pretype]
     
 
-    // considering TypeTool is a tool that accepts a str data arg for 'type'
-    // we could update the params to return all types or to just return data for 1 specified type. 
+    const indexChanger = async () => {
+       
+    }
+
+
+    // let dbmap = fakedb.map( (mapitem, idx) => {        
+    //     return (
+    //         <div key={`parent:${idx}`} onClick={checkThat} className="Screen-Parents">
+    //                 <p className="Real-Screen-P" key={idx}> {mapitem} </p>
+    //         </div>
+    //     )
+    // })
     
+
+    return (        
+        <div onClick={indexChanger} onWheel={indexChanger} className="Real-Screen Column-Center">
+        {/* <p className="Display-Poke" onClick={checkThat}> { fakedb[scrollIdx] || fakedb[0]} </p>  */}
+        </div>
+    )
 }
+
+export default RealisticScreen
