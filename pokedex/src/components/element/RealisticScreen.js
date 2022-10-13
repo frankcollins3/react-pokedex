@@ -88,9 +88,16 @@ function RealisticScreen(props) {
             console.log('type doesnt equal stateType')
             if (props.selectedType === 'psychic' && type === 'ghost') {
                 console.log("weve got a ghost")
-                toggleHideShow($(event.target), 'show')
+                $(event.target).css("opacity", '1.0');
+                // await toggleHideShow($(event.target), 'show')
+                await props.setMiniScreenPokemon(image)
+            } else {
+            if (props.selectedType === 'psychic' && type === 'ghost') {
+
             } else {
                 toggleHideShow($(event.target), 'hide')
+            }
+
             }
 
         } else {
