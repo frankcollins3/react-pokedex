@@ -36,6 +36,8 @@ function RealisticScreen(props) {
     const [fightingBucket, setFightingBucket] = useState([])
 
     let typestate = props.selectedType
+    let miniscreenpoke = props.miniScreenPokemon
+    let setMiniScreen = props.setMiniScreenPokemon
     
     useEffect( () => {
         // console.log(fakedb)
@@ -107,31 +109,38 @@ function RealisticScreen(props) {
     useEffect( () => {
         const checkBuckets = async () => {
             if (props.selectedType === 'grass') {
+                await setMiniScreen('') 
                 await setTypeDb('')
                 await setTypeDb(grassBucket)
             }
             if (props.selectedType === 'water') {
+                await setMiniScreen('') 
                 await setTypeDb('')
                 await setTypeDb(waterBucket)
             }
             if (props.selectedType === 'fire') {
+                await setMiniScreen('') 
                 await setTypeDb('')
                 await setTypeDb(fireBucket)
             }
             if (props.selectedType === 'electric') {
+                await setMiniScreen('') 
                 console.log("weve got electricity!")
                 await setTypeDb('')
                 await setTypeDb(electricBucket)
             }
             if (props.selectedType === 'normal') {
+                await setMiniScreen('') 
                 await setTypeDb('')
                 await setTypeDb(normalBucket)                
             }
             if (props.selectedType === 'psychic') {
+                await setMiniScreen('') 
                 await setTypeDb('')
                 await setTypeDb(psychicBucket)
             }
             if (props.selectedType === 'fighting') {
+                await setMiniScreen('') 
                 await setTypeDb('')
                 await setTypeDb(fightingBucket)
             }
