@@ -65,8 +65,8 @@ function RealisticScreen(props) {
                             await console.log(grassBucket)
                             await console.log(waterBucket)
                             await console.log(fireBucket)
-                            
                         }
+                            
                         const stateFunctions = async () => {
                             console.log("we are in the state funtions")
                             await loopAndPush()
@@ -88,25 +88,34 @@ function RealisticScreen(props) {
 
     useEffect( () => {
         const checkBuckets = async () => {
+            // if (props.selectedType === 'grass') {
+            //     console.log('we have grass')
+            //     await setTypeDb(grassBucket)
+            // } else {
+            //     console.log("its not grass")
+            // }
             if (props.selectedType === 'grass') {
-                console.log('we have grass')
+                await setTypeDb('')
                 await setTypeDb(grassBucket)
-            } else {
-                console.log("its not grass")
-    
             }
+            if (props.selectedType === 'water') {
+                await setTypeDb('')
+                await setTypeDb(waterBucket)
+            }
+            if (props.selectedType === 'fire') {
+                await setTypeDb('')
+                await setTypeDb(fireBucket)
+            }
+            // if (props.selectedType === 'water') await setTypeDb(waterBucket)
+            // if (props.selectedType === 'fire') await setTypeDb(fireBucket)
+    
         }
         checkBuckets()
     }, [props.selectedType])
 
     // * AUTO CLICK FUNCTION TO FIRE EVERY TIME state is toggled.
     // * I have to move this function so it can be available to TopBar as well. 
-    const checkThat = async (event) => {
-
-    }
-
-    
-
+  
     const indexChanger = async (event) => {
         console.log(event)
        console.log("we are changing the index")
@@ -116,6 +125,18 @@ function RealisticScreen(props) {
             console.info('we are scrolling')
             await setScrollIdx(0)
         }
+    }
+
+    const checkThat = async (event) => {
+        console.log(event)
+        console.log(event.target)
+        let text = event.target.innerText
+        let cleantext = text.replace(/[\s]/g, '') // text being 1, 2, 3 the integer from pokeRefs.current.map(mapitem, index) the index is this text.
+        console.log(cleantext)
+    
+        let eventobjType = await ReturnTypes(cleantext)
+        console.log('eventobjType')
+        console.log(eventobjType)
 
     }
 
