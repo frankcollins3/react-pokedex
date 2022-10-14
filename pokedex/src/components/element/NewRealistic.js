@@ -106,6 +106,9 @@ function RealisticScreen(props) {
                 await setTypeDb('')
                 await setTypeDb(fireBucket)
             }
+            else {
+                await setTypeDb('')
+            }
             // if (props.selectedType === 'water') await setTypeDb(waterBucket)
             // if (props.selectedType === 'fire') await setTypeDb(fireBucket)
     
@@ -128,11 +131,11 @@ function RealisticScreen(props) {
     }
 
     const checkThat = async (event) => {
-        console.log(event)
-        console.log(event.target)
+        // console.log(event)
+        // console.log(event.target)
         let text = event.target.innerText
         let cleantext = text.replace(/[\s]/g, '') // text being 1, 2, 3 the integer from pokeRefs.current.map(mapitem, index) the index is this text.
-        console.log(cleantext)
+        // console.log(cleantext)
     
         let eventobjType = await ReturnTypes(cleantext)
         console.log('eventobjType')
@@ -170,7 +173,7 @@ function RealisticScreen(props) {
         style = {{ height: '50px', width: '50px', backgroundColor: 'aquamarine'}}
         type="button" onClick={checkStuff}> </button>
 
-        <p className="Display-Poke" onClick={checkThat}> { typeDb[scrollIdx] || fakedb[0]} </p> 
+        <p className="Display-Poke" onClick={checkThat}> { typeDb[scrollIdx] || ''} </p> 
         </div>
     )
 }
