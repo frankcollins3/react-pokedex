@@ -30,10 +30,15 @@ function RealisticScreen(props) {
     const [fireBucket, setFireBucket] = useState([])
     const [waterBucket, setWaterBucket] = useState([])
 
+    const [electricBucket, setElectricBucket] = useState([])
+    const [normalBucket, setNormalBucket] = useState([])
+    const [psychicBucket, setPsychicBucket] = useState([])
+    const [fightingBucket, setFightingBucket] = useState([])
+
     let typestate = props.selectedType
     
     useEffect( () => {
-        console.log(fakedb)
+        // console.log(fakedb)
         fakedb.forEach(async(dbitem) => {
             console.log(dbitem)
             // let dbitemdata = await APIcall('specify', dbitem)
@@ -45,7 +50,11 @@ function RealisticScreen(props) {
                 let grassbox = [] || new Array() || ''
                 let waterbox = new Array() || ''
                 let firebox = [] 
-    
+                let electricbox = []
+                let normalbox = new Array() || []
+                let psychicbox = []
+                let fightingbox = []
+                            
                 let randompokemon = await ReturnRandom(fakedb) || Math.floor(Math.random() * [1, 2, 3].length)
                 if (fakedb.length > 1) {
                     fakedb.forEach(async(dbitem) => {
@@ -55,11 +64,20 @@ function RealisticScreen(props) {
                             if (typedata === 'grass' && !grassBucket.includes(dbitem))  grassbox.push(dbitem)        
                             if (typedata === 'water' && !waterBucket.includes(dbitem))  waterbox.push(dbitem)        
                             if (typedata === 'fire' && !fireBucket.includes(dbitem))  firebox.push(dbitem)        
+
+                            if (typedata === 'electric' && !fireBucket.includes(dbitem)) electricbox.push(dbitem)
+                            if (typedata === 'normal' && !normalBucket.includes(dbitem)) normalbox.push(dbitem)
+                            if (typedata === 'psychic' && !psychicBucket.includes(dbitem)) psychicbox.push(dbitem)
+                            if (typedata === 'fighting' && !fightingBucket.includes(dbitem)) fightingbox.push(dbitem)
                         }
                         const changeState = async () => {                        
                             await setGrassBucket(grassbox)  //   
                             await setWaterBucket(waterbox)
-                            await setFireBucket(firebox)                                             
+                            await setFireBucket(firebox)   
+                            await setElectricBucket(electricbox)       
+                            await setNormalBucket(normalbox)  
+                            await setPsychicBucket(psychicbox)                                 
+                            await setFightingBucket(fightingbox)                                 
                         }
                         const checkState = async () => {
                             await console.log(grassBucket)
@@ -88,12 +106,6 @@ function RealisticScreen(props) {
 
     useEffect( () => {
         const checkBuckets = async () => {
-            // if (props.selectedType === 'grass') {
-            //     console.log('we have grass')
-            //     await setTypeDb(grassBucket)
-            // } else {
-            //     console.log("its not grass")
-            // }
             if (props.selectedType === 'grass') {
                 await setTypeDb('')
                 await setTypeDb(grassBucket)
@@ -106,12 +118,26 @@ function RealisticScreen(props) {
                 await setTypeDb('')
                 await setTypeDb(fireBucket)
             }
-            else {
+            if (props.selectedType === 'electric') {
+                console.log("weve got electricity!")
                 await setTypeDb('')
+                await setTypeDb(electricBucket)
             }
-            // if (props.selectedType === 'water') await setTypeDb(waterBucket)
-            // if (props.selectedType === 'fire') await setTypeDb(fireBucket)
-    
+            if (props.selectedType === 'normal') {
+                await setTypeDb('')
+                await setTypeDb(normalBucket)                
+            }
+            if (props.selectedType === 'psychic') {
+                await setTypeDb('')
+                await setTypeDb(psychicBucket)
+            }
+            if (props.selectedType === 'fighting') {
+                await setTypeDb('')
+                await setTypeDb(fightingBucket)
+            }
+            // else {
+            //     await setTypeDb('')
+            // }            
         }
         checkBuckets()
     }, [props.selectedType])
@@ -121,6 +147,9 @@ function RealisticScreen(props) {
   
     const indexChanger = async (event) => {
         console.log(event)
+        // let target = $(event.target)
+        // target.click()   // this doesn't work. 
+        $('.Display-Poke').click()
        console.log("we are changing the index")
        if (scrollIdx < typeDb.length) {
            await setScrollIdx(scrollIdx + 1) 
@@ -130,29 +159,26 @@ function RealisticScreen(props) {
         }
     }
 
-    const checkThat = async (event) => {
-        // console.log(event)
-        // console.log(event.target)
+    const checkThat = async (event) => {        
         let text = event.target.innerText
-        let cleantext = text.replace(/[\s]/g, '') // text being 1, 2, 3 the integer from pokeRefs.current.map(mapitem, index) the index is this text.
-        // console.log(cleantext)
-    
+        let cleantext = text.replace(/[\s]/g, '') // text being 1, 2, 3 the integer from pokeRefs.current.map(mapitem, index) the index is this text.    
+        console.log('cleantext')
+        console.log(cleantext)
         let eventobjType = await ReturnTypes(cleantext)
-        console.log('eventobjType')
-        console.log(eventobjType)
-
+        let apidata = await APIcall('specify', cleantext)
+        let obj = apidata[0]
+        let imgbin = obj.sprites
+        let front = imgbin.front_default        
+        await props.setMiniScreenPokemon(front)
+        
     }
 
-    const checkStuff = () => {
-        // console.log('grassBucket')
-        // console.log(grassBucket)
-
+    const checkStuff = () => {    
         // console.log('92')
         // console.log(waterBucket)
 
         // console.log('fireBucket')
         // console.log(fireBucket)
-        console.log(typeDb)
     }
 
 
