@@ -41,69 +41,62 @@ function RealisticScreen(props) {
             // console.log('dbitemdata')
             // console.log(dbitemdata)
 
+            const findTypeData = async () => {
+                let grassbox = [] || new Array() || ''
+                let waterbox = new Array() || ''
+                let firebox = [] 
+    
+                let randompokemon = await ReturnRandom(fakedb) || Math.floor(Math.random() * [1, 2, 3].length)
+                if (fakedb.length > 1) {
+                    fakedb.forEach(async(dbitem) => {
+                        let typedata = await ReturnTypes(dbitem) // somehow grabbing 0 from our [1,2,3].length
+                                        
+                        const loopAndPush = () => {
+                            if (typedata === 'grass' && !grassBucket.includes(dbitem))  grassbox.push(dbitem)        
+                            if (typedata === 'water' && !waterBucket.includes(dbitem))  waterbox.push(dbitem)        
+                            if (typedata === 'fire' && !fireBucket.includes(dbitem))  firebox.push(dbitem)        
+                        }
+                        const changeState = async () => {                        
+                            await setGrassBucket(grassbox)  //   
+                            await setWaterBucket(waterbox)
+                            await setFireBucket(firebox)                                             
+                        }
+                        const checkState = async () => {
+                            await console.log(grassBucket)
+                            await console.log(waterBucket)
+                            await console.log(fireBucket)
+                            
+                        }
+                        const stateFunctions = async () => {
+                            console.log("we are in the state funtions")
+                            await loopAndPush()
+                            await changeState()
+                            await checkState()
+                        }            
+                        stateFunctions()
+                    })
+                } else {
+                    console.log("fake db length is 1 or 0")
+                    return 
+                }
+                // this now returns grass instead of poison for bulbasaur. 
+            }
+            findTypeData()   
+
         })
     }, [])
 
     useEffect( () => {
-        console.log('grassBucket')
-        console.log(grassBucket)
-        console.log(props.selectedType)
-        console.log(fakedb)
-        const findTypeData = async () => {
-            let grassbox = [] || new Array() || ''
-            let waterbox = new Array() || ''
-            let firebox = [] 
-
-            let randompokemon = await ReturnRandom(fakedb) || Math.floor(Math.random() * [1, 2, 3].length)
-            if (fakedb.length > 1) {
-                fakedb.forEach(async(dbitem) => {
-                    let typedata = await ReturnTypes(dbitem) // somehow grabbing 0 from our [1,2,3].length
-                    console.log('typedata')
-                    console.log(typedata)
-                    // if (typedata === 'grass' && !grassBucket.includes(dbitem)) setGrassBucket([...grassBucket, dbitem]) 
-                    // if (typedata === 'fire' && !fireBucket.includes(dbitem)) setFireBucket([...fireBucket, dbitem]) 
-                    // if (typedata === 'water' && !waterBucket.includes(dbitem)) setWaterBucket([...waterBucket, dbitem]) 
-                    const loopAndPush = () => {
-                        if (typedata === 'grass' && !grassBucket.includes(dbitem))  grassbox.push(dbitem)        
-                        if (typedata === 'water' && !waterBucket.includes(dbitem))  waterbox.push(dbitem)        
-                        if (typedata === 'fire' && !fireBucket.includes(dbitem))  firebox.push(dbitem)        
-                    }
-                    const changeState = async () => {
-                        console.log('grassbox in the changeState')
-                        console.log(grassbox)
-                        await setGrassBucket(grassbox)  //   
-                        await setWaterBucket(waterbox)
-                        await setFireBucket(firebox)                                             
-                    }
-                    const checkState = async () => {
-                        console.log(grassBucket)
-                        console.log(waterBucket)
-                        console.log(fireBucket)
-
-                        // console.log(`grassbucket ${grassBucket}`)
-                        // console.log(`waterbucket ${waterBucket}`)
-                        // console.log(`firebucket ${fireBucket}`)
-                    }
-                    const stateFunctions = async () => {
-                        console.log("we are in the state funtions")
-                        await loopAndPush()
-                        await changeState()
-                        await checkState()
-                    }            
-                    stateFunctions()
-                })
+        const checkBuckets = async () => {
+            if (props.selectedType === 'grass') {
+                console.log('we have grass')
+                await setTypeDb(grassBucket)
             } else {
-                console.log("fake db length is 1 or 0")
-                return 
+                console.log("its not grass")
+    
             }
-            // this now returns grass instead of poison for bulbasaur. 
-
-
         }
-        findTypeData()
-            
-
-        
+        checkBuckets()
     }, [props.selectedType])
 
     // * AUTO CLICK FUNCTION TO FIRE EVERY TIME state is toggled.
@@ -114,20 +107,31 @@ function RealisticScreen(props) {
 
     
 
-    const indexChanger = async () => {
-       
+    const indexChanger = async (event) => {
+        console.log(event)
+       console.log("we are changing the index")
+       if (scrollIdx < typeDb.length) {
+           await setScrollIdx(scrollIdx + 1) 
+        } else {
+            console.info('we are scrolling')
+            await setScrollIdx(0)
+        }
+
     }
 
     const checkStuff = () => {
-        console.log('grassBucket')
-        console.log(grassBucket)
+        // console.log('grassBucket')
+        // console.log(grassBucket)
 
-        console.log('waterBucket')
-        console.log(waterBucket)
+        // console.log('92')
+        // console.log(waterBucket)
 
-        console.log('fireBucket')
-        console.log(fireBucket)
+        // console.log('fireBucket')
+        // console.log(fireBucket)
+        console.log(typeDb)
     }
+
+
 
 
     // let dbmap = fakedb.map( (mapitem, idx) => {        
@@ -142,10 +146,10 @@ function RealisticScreen(props) {
     return (        
         <div onClick={indexChanger} onWheel={indexChanger} className="Real-Screen Column-Center">
         <button 
-        style = {{ height: '50px', width: '50px', color: 'aquamarine'}}
+        style = {{ height: '50px', width: '50px', backgroundColor: 'aquamarine'}}
         type="button" onClick={checkStuff}> </button>
 
-        <p className="Display-Poke" onClick={checkThat}> { fakedb[scrollIdx] || fakedb[0]} </p> 
+        <p className="Display-Poke" onClick={checkThat}> { typeDb[scrollIdx] || fakedb[0]} </p> 
         </div>
     )
 }
