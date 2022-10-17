@@ -25,29 +25,20 @@ export default async function bg(bgtype, type) {
         let electric = '/img/text/electric.png'
         let response = [psychic, fighting, fire, grass, normal, water, electric]
 
-        if (type) {
-            console.log('type from bgList down here')     
-            console.log(type)       
+        if (type) {            
             let valuebucket = []
         const validatingValueReturn = () => {
-            console.log('in the validating return statement and response')
             const pushloop = () => {
                 response.forEach(async(t, i) => {
-                    if (t.includes(type)) {
-                        console.log('type')
-                        console.log(type)
-                        console.log('t')
-                        console.log(t)
+                    if (t.includes(type)) {                        
                         await valuebucket.push(t)
                     }
                 })
             }
             const returnArray = () => {
-                console.log(valuebucket)
-                return valuebucket
+                return valuebucket[0]
             }
             const handleAndReturn = async () => {
-                console.log("were in here!")
                 await pushloop()
                 return returnArray()
             }
