@@ -16,7 +16,7 @@ export default async function bg(bgtype, type) {
     } else if (bgtype === 'typecard' && typeof bgtype === 'string') {
         console.log('bgtype === typecard')
         console.log(bgtype)
-        let psychic = '/img/text/electric.png'
+        let psychic = '/img/text/psychic.png'
         let fighting = '/img/text/fighting.png'
         let fire = '/img/text/fire.png'
         let grass = '/img/text/grass.png'
@@ -33,6 +33,9 @@ export default async function bg(bgtype, type) {
                     if (t.includes(type)) {                        
                         await valuebucket.push(t)
                     }
+                    // else if (t === 'ghost' && type === 'psychic') {
+                    //     await valuebucket.push(psychic)
+                    // }
                 })
             }
             const returnArray = () => {
