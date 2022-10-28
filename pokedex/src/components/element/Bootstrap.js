@@ -17,8 +17,10 @@
     import attrTool from '../utility/attrTool'
     import animate from '../utility/animationTool'
     import EventTool from '../utility/EventTool'
+    import CleanUrl from '../utility/CleanUrlTool'
 
     import Watch from '../utility/TimerTool'
+import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
     
     
     
@@ -73,8 +75,6 @@
 
         const [haunterHover, setHaunterHover] = useState('false')
         const haunterHoveritem = useRef("")
-        
-
 
         const [speedBump, setSpeedBump] = useState(0)
 
@@ -156,11 +156,14 @@
             })
         }, [])
 
-        
+        useEffect( () => {
+            //  ** 1) mutation observer ---> add className  ghostClick --> add ClassName ="saveanimate"
+            // **  2) gengar animation side to side             
+        }, [props.fakeDbState])
 
 
 
-        const updateValue = ( {target: {value}}) => {   
+        const updateValue = ({target: {value}}) => {   
             setRefLength({value}) // this is basically event.target.value
         }
         const inputEnter = async (event) => { 
@@ -180,10 +183,6 @@
         }
 
         const checkAgain = () => {
-            console.log('in the check again function')
-            console.log('props')
-            console.log(props)
-            console.log(props.fakeDbState)
         }
 
         const handleWrapHover = () => setMainWrapHover("true")
@@ -287,8 +286,7 @@
             let newId = idInt + 1        
             let backImage = await GetImage(newId, 'back')
             // await setHoverImage(backImage)
-            await attrTool(target, 'src', backImage)
-            
+            await attrTool(target, 'src', backImage)            
         }
 
         let mouseLeaveHandler = async (event) => {
@@ -331,13 +329,27 @@
                 return 
             }
         }
+        
 
-        let InvisibleClick = (event) => {
-            console.log(event)    
-            console.info($(event.target).siblings())
+        let GhostMouse = (event) => {
+            // console.log(event);
+            // myCSS($(event.target), 'cursor', 'not-allowed');      
+            // console.log("hey here we go");  
+            // console.log(props.fakeDbState);        
+        }
+
+        let InvisibleClick = async (event) => {   
             let pokeCard = $(event.target).siblings()[0]
+            let cardSrc = pokeCard.src
             let siblingButton = $(event.target).siblings()[1]
 
+            console.log($(event.target).siblings())
+
+            let cleanid = await CleanUrl(cardSrc); // thought src || currentSrc was the problem the class and this.method() wasn't linked up correctly.
+
+            console.log(props.fakeDbState);
+
+            
             setObserverEntryState(siblingButton)
             let targetevent = event.target
             
@@ -364,20 +376,21 @@
                 let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')
                 
                 let stateID = parseInt(cleanID)
-                await props.setFakeDbState([...props.fakeDbState, siblingPokeCard.id])
+                if (props.fakeDbState.includes(siblingPokeCard.id)) {
+                    // console.log("it includes the ID dont do anything!")
+                } else {
+                    await props.setFakeDbState([...props.fakeDbState, siblingPokeCard.id])                    
+                }
+
             })
         }
-
+                                                                                    
         const ghostClick = (event) => { 
             
             if (props.ghost === 'true') {
-
                 let eventchild = $(event.target).children()     // i used siblings() first still kind of thinking were using the <img 
                 let pokemoncard = eventchild[0]    
                 let easyid = event.target.attributes.id.nodeValue
-
-                console.log('easyid')
-                console.log(easyid)
 
                 const addToFakeDb = async () => {
                     await props.setFakeDbState([...props.fakeDbState, easyid])
@@ -391,11 +404,7 @@
                 .addClass('Poke-Card-Img')
                 .css('opacity', '1.0')
             } else {
-                // const doubleToggle = async () => {
-                //     await setHaunterHover('true')   // this is to get some useEffect changes every time a card is hovered.
-                //     await setHaunterHover('false')
-                // }                
-                // doubleToggle()
+               
             }            
         }
         
@@ -407,7 +416,7 @@
                 <div className="Screen-Wrapper">
                 <div className="Input-Wrapper Column-Center">                
                 </div>
-                <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button>
+                {/* <button onClick={checkAgain} type="button" className="navBall" id="Greatball"> </button> */}
                 {/* <button onClick={someState} type="button" className="navBall" id="Ultraball"> </button> */}
             <div className="Screen Column-Between" onScroll={scrollClicker}>
                 <ul id="Render-Ul">
@@ -443,8 +452,8 @@
                             <img      
                             style={{ 
                                 opacity: props.ghost === 'true' ? '0.0' : '1.0'
-                                // display: props.ghost === 'true' ? 'none' : 'block'
                             }}
+                            onMouseEnter={GhostMouse}
                             onClick={InvisibleClick}                  
                             className="Invisible-P Mouse-Icon" src={"/img/leftClick.png"}                         
                             />                        
@@ -454,7 +463,6 @@
                             }}
                             className="Name-Tag Invisible"> '' 
                             </p>
-                            {/* <img id="Info-Img" className="Double-Size" src={"/img/info.png"}></img>                         */}
                         </div>
 
 
