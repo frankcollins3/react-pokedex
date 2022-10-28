@@ -47,8 +47,7 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
             const pokeText = $('.PokeText')
             const pokemonCard = $('.Poke-Card-Img')
 
-
-
+            let secretDB = props.fakeDbState
 
         const [pokemon, setPokemon] = useState([])
         const [refLength, setRefLength] = useState()
@@ -331,11 +330,15 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
         }
         
 
-        let GhostMouse = (event) => {
-            // console.log(event);
-            // myCSS($(event.target), 'cursor', 'not-allowed');      
-            // console.log("hey here we go");  
-            // console.log(props.fakeDbState);        
+        let GhostMouse = async (event) => {   
+            let jqTarget = $(event.target)
+            let card = $(event.target).siblings()[0]
+            let cardURL = card.src
+            let cleanid = await CleanUrl(cardURL);
+            console.log(cleanid)
+            if (secretDB.includes(cleanid)) {
+                myCSS(jqTarget, 'cursor', 'not-allowed');
+            }
         }
 
         let InvisibleClick = async (event) => {   
@@ -344,45 +347,43 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
             let siblingButton = $(event.target).siblings()[1]
 
             console.log($(event.target).siblings())
+            let cleanid = await CleanUrl(cardSrc); // thought src || currentSrc was the problem the class and this.method() wasn't linked up correctly.            
 
-            let cleanid = await CleanUrl(cardSrc); // thought src || currentSrc was the problem the class and this.method() wasn't linked up correctly.
+            if (secretDB.includes(cleanid)) {
+                myCSS($(event.target).css('cursor', 'not-allowed'));
+            } else {
+                setObserverEntryState(siblingButton)
+                let targetevent = event.target
+                ClassAction('add', $(observerEntryState), 'Pokeball-Animate')
+                let animateArray = [hiddenTag, $(observerEntryState), pokeCard]
+                setTimeout( () => myCSS(pokeCard, 'opacity', '0.1'), 4000)
+                animateArray.forEach( (elems) => {
+                    // animate(elem)
+                    animate(elems, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)              
+                })
+    
+                // animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
+                // animate($(observerEntryState), '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
+                // animate(pokeCard, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
+                $(observerEntryState)
+                .animate({
+                    border: '1px solid transparent'
+                }, 1000, async function () {
+                    let siblings = $(targetevent).siblings()
+                    let siblingPokeCard = siblings[0]        
+                    let targetpokemonurl = siblings[0].currentSrc
+                    let len = targetpokemonurl.length
+                    let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')
+                    
+                    let stateID = parseInt(cleanID)
+                    if (props.fakeDbState.includes(siblingPokeCard.id)) {                    
+                    } else {
+                        await props.setFakeDbState([...props.fakeDbState, siblingPokeCard.id])                    
+                    }
+                })
+            }
+    
 
-            console.log(props.fakeDbState);
-
-            
-            setObserverEntryState(siblingButton)
-            let targetevent = event.target
-            
-            ClassAction('add', $(observerEntryState), 'Pokeball-Animate')
-            let animateArray = [hiddenTag, $(observerEntryState), pokeCard]
-
-            setTimeout( () => myCSS(pokeCard, 'opacity', '0.1'), 4000)
-            animateArray.forEach( (elems) => {
-                // animate(elem)
-                animate(elems, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)              
-            })
-
-            // animate(hiddenTag, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
-            // animate($(observerEntryState), '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
-            // animate(pokeCard, '2', ['opacity', 'border'], ['0.9', '0.8', '0.7', '0.6', '0.5', '0.4', '0.3', '0.2', '0.1', '0.05', '0.0'], [500, 1000, 2000, 4000, 10000], myCSS)  
-            $(observerEntryState)
-            .animate({
-                border: '1px solid transparent'
-            }, 1000, async function () {
-                let siblings = $(targetevent).siblings()
-                let siblingPokeCard = siblings[0]        
-                let targetpokemonurl = siblings[0].currentSrc
-                let len = targetpokemonurl.length
-                let cleanID = targetpokemonurl.slice(len-5).replace(/[/\/.a-z]/g, '')
-                
-                let stateID = parseInt(cleanID)
-                if (props.fakeDbState.includes(siblingPokeCard.id)) {
-                    // console.log("it includes the ID dont do anything!")
-                } else {
-                    await props.setFakeDbState([...props.fakeDbState, siblingPokeCard.id])                    
-                }
-
-            })
         }
                                                                                     
         const ghostClick = (event) => { 
@@ -464,7 +465,6 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
                             className="Name-Tag Invisible"> '' 
                             </p>
                         </div>
-
 
                         )}                       
                         </ul>      
