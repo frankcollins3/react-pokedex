@@ -14,13 +14,13 @@ function Main (props) {
     console.log()
 
     const [pokedexClick, setPokedexClick] = useState('false')
-    const [catchEmAll, setCatchEmAll] = useState([])
+    const [catchEmAll, setCatchEmAll] = useState('false')
     // I didn't think of the navbar also needing access to this state.
 
     return (
         // <>
         <div className="Column-Center">   
-        <Captcha />                     
+        <Captcha catchEmAll={catchEmAll} setCatchEmAll={setCatchEmAll}/>                     
         {pokedexClick === 'true'  ?
 
         <Nav ghost={props.ghost} setGhost={props.setGhost} />
