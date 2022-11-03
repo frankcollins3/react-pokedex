@@ -47,6 +47,12 @@
   align-items: center;
 }
 
+#Nine-By-Nine {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
 .navBall {
   position: relative;  
   height: 85px;
@@ -544,3 +550,29 @@ animation-iteration-count: 1
 
 /* ? ****** ______________ end of page 3   */
 
+
+
+/* *** Captcha  */
+.Captcha-Cont {
+  /* border: 5px solid brown;   */
+  /* height: 30em; */
+  /* width: 30em; */
+  /* overflow-y: scroll; */
+}
+
+.Captcha-Box {
+  height: 250px;
+  width: 250px;
+  /* border: 5px solid rebeccapurple; */
+  background-image: url('/public/img/openPokeBall.png');
+  background-size: 1000%;
+  margin: 0.25em;
+  /* margin-top: 7.75em; */
+}
+
+.Captcha-P {
+  font-size: 55px;
+  color: white;
+}
+
+/* *** Captcha  */
