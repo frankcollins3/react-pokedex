@@ -1,6 +1,7 @@
 import { $ } from 'react-jquery-plugin';
 import React, { useRef, useEffect, useState } from 'react';
 import ReturnRandomPoke from '../utility/RandomPokemon'
+import ReturnRandom from '../utility/ReturnRandom'
 import GetImage from '../utility/ImageTool'
 import GetSiblings from '../utility/JqSiblings'
 import GetChildren from '../utility/JqChildren'
@@ -58,8 +59,12 @@ function Captcha (props) {
 
             const stateSetImageGet = async () => {
                 setStateInt(stateInt + 1)
-                let randompokemon = await ReturnRandomPoke(1);    
+
+                let randompokemon = await ReturnRandomPoke(1);   
                 let name = randompokemon.name
+                // let randompokemon = 'gastly' 
+                // let name = 'haunter'
+
                 let containerChildren = await GetChildren(container)
                 let childrensChildren = await GetChildren(containerChildren);
 
@@ -80,10 +85,10 @@ function Captcha (props) {
                 }  else {
                     myCSS(containerChildren, 'background-image', `url(${'/img/openPokeBall.png'})`);    
                     myCSS(containerChildren, 'background-size', '1000%')                
+                    let randomimage = await GetImage(name, 'front')
+                    setHoverImage(randomimage);
                 }               
 
-                let randomimage = await GetImage(name, 'front')
-                setHoverImage(randomimage);
             }
     
             const stateGetImageSet = async () => {
@@ -101,7 +106,33 @@ function Captcha (props) {
 
                 if (hoverImage.length < 3) {
                 // if (hoverImage === null || hoverImage === undefined) { // thought this would work it doesn't.
-                    // myCSS(target, 'border', '5px dotted limegreen');
+                let names = ['squirtle', 'charmander', 'bulbasaur']
+                let value = await ReturnRandom(names)
+                console.log(value);
+
+                let image = await GetImage(value, 'front')
+                $(event.target).css('background-image', image)
+                $(event.target).css('background-size', 'cover')
+                $(event.target).css('background-repeat', 'no-repeat')
+                
+                
+                    // const change = async () => {
+                    //     let randomimage = ''
+                    //     randomimage = await GetImage(value, 'front');
+                    //     setHoverImage(randomimage)
+                    //     // let randomimage = await GetImage(value, 'front');
+                    //     console.log(randomimage);
+                    // }
+                    // const setImage = async () => {
+                    //   await attrTool($(img), 'src', hoverImage);
+                    // }
+
+                    // const bothFunctions = async () => {
+                    //     await change()
+                    //     await setImage()
+                    // }
+                    // bothFunctions()
+
                 } else {
                     myCSS($(img), 'background-image', `url('${hoverImage}')`)
                     attrTool($(img), 'src', hoverImage);
@@ -119,19 +150,22 @@ function Captcha (props) {
             doEmBoth()
 
         }
-        
-
-        // $(event.target).css('background-image', `url('${randomimage}')`)
-     
+        // $(event.target).css('background-image', `url('${randomimage}')`
     }
 
-
+    // const divClick = async () => {
+    //     let children = await GetChildren($(container))
+    //     children.click()
+    // }
 
 
     
     
 
     return (
+        <>
+        <div onMouseEnter={divClick} id="Gear"> </div>
+
         <div className="Captcha-Cont" id="Nine-By-Nine">
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
             <img className="sprite" src=""/>
@@ -159,10 +193,9 @@ function Captcha (props) {
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
             <img className="sprite" src=""/>
+        </div>                            
         </div>
- 
-                            
-        </div>
+        </>
     )
 }
 
