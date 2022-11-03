@@ -38,9 +38,10 @@ function Captcha (props) {
             setStateInt(0)
             myCSS($(event.target), 'border', '5px solid hotpink')  
             let allDivBox = await GetChildren(container)
+            let grandKids = await GetChildren(allDivBox)
             console.log(allDivBox);
             myCSS(allDivBox[0], 'border', '5px dotted orange');
-            toggleHideShow($('img'), 'detach');
+            toggleHideShow(grandKids, 'detach');
             // confused why allDivBox deletes the parent container when its the children that is specified.
             // more confusing when you see this code working for the children and not the parent  myCSS(allDivBox[0], 'border', '5px dotted orange');
 
