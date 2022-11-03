@@ -5,6 +5,7 @@ import GetImage from '../utility/ImageTool'
 import GetSiblings from '../utility/JqSiblings'
 import GetChildren from '../utility/JqChildren'
 import attrTool from '../utility/attrTool' // selector, attr, value in most cases [$(obj), id || img-src, 'New-Value']
+import toggleHideShow from '../utility/hideShow'
 
 import { useInView } from 'react-intersection-observer'
 
@@ -39,7 +40,12 @@ function Captcha (props) {
             let allDivBox = await GetChildren(container)
             console.log(allDivBox);
             myCSS(allDivBox[0], 'border', '5px dotted orange');
-            allDivBox[0].removeAttr('src');
+            toggleHideShow($('img'), 'detach');
+            // confused why allDivBox deletes the parent container when its the children that is specified.
+            // more confusing when you see this code working for the children and not the parent  myCSS(allDivBox[0], 'border', '5px dotted orange');
+
+
+            // allDivBox[0].removeAttr('src');
 
             // await attrTool($('div'), 'src',  '')        
             // await attrTool(allDivBox, 'src',  'img/bag.png')        
