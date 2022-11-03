@@ -1,6 +1,10 @@
 import { $ } from 'react-jquery-plugin';
 import React, { useRef, useEffect, useState } from 'react';
 import ReturnRandomPoke from '../utility/RandomPokemon'
+import GetImage from '../utility/ImageTool'
+import GetSiblings from '../utility/JqSiblings'
+import GetChildren from '../utility/JqChildren'
+import attrTool from '../utility/attrTool' // selector, attr, value in most cases [$(obj), id || img-src, 'New-Value']
 
 import { useInView } from 'react-intersection-observer'
 
@@ -18,20 +22,56 @@ function Captcha (props) {
     // let curr = boxRef.current not doing scrolling. 9 by 9 still grid that resets after all grid boxes hovered upon + images generated as bg for captcha
 
     const [stateInt, setStateInt] = useState(0); // used to increment until 9 (the length of all grid items) and restart when every grid item activated by hover
+    const [hoverImage, setHoverImage] = useState('')
+    const [randomInt, setRandomInt] = useState(0); 
 
-    const { ref, inView, entry } = useInView ({
-        threshold: 1.0,
-        // rootMargin: '200px',
-    })
+    let vanillaJSDiv = document.querySelectorAll('div');
+    let container = $('.Captcha-Cont')
 
-    // console.log(ref)
-    // console.log(inView)
-    // console.log(entry)
-    console.log("these are the entries");
 
-    const imageGrab = async () => {
-        let randompokemon = await ReturnRandomPoke(1);
-        console.info(randompokemon);
+    const imageGrab = async (event) => {
+        console.log(event)
+        let target = $(event.target)
+         
+        if (stateInt === 9) {
+            myCSS($(event.target), 'border', '5px solid hotpink')  
+            let allDivBox = await GetChildren(container)
+            console.log(allDivBox);
+            myCSS(allDivBox, 'border', '5px dotted orange');        
+            // attrTool($(allDivBox), 'src', '');
+            // allDivBox.forEach(async(box) => {
+            //     await attrTool($(box), 'src', '');
+            // })
+        } else {
+
+            const stateSetImageGet = async () => {
+                setStateInt(stateInt + 1)
+                let randompokemon = await ReturnRandomPoke(1);        
+                let randomimage = await GetImage(randompokemon.name, 'front')
+                setHoverImage(randomimage);
+            }
+    
+            const stateGetImageSet = async () => {
+                console.log('hoverImage');
+                console.log(hoverImage);
+                let targetSiblings = await GetSiblings(target);
+                let imageChild = await GetChildren(target);
+                console.log('src')
+                console.log(imageChild[0].currentSrc);
+                attrTool(imageChild, 'src', hoverImage)
+            }
+    
+            const doEmBoth = async () => {
+                await stateSetImageGet()
+                await stateGetImageSet()
+            }
+            doEmBoth()
+
+        }
+        
+
+        // $(event.target).css('background-image', `url('${randomimage}')`)
+     
     }
 
 
@@ -42,15 +82,34 @@ function Captcha (props) {
 
     return (
         <div className="Captcha-Cont" id="Nine-By-Nine">
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box"></div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+            <img className="sprite" src=""/>
+        </div>
+ 
                             
         </div>
     )
