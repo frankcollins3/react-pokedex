@@ -34,10 +34,15 @@ function Captcha (props) {
         let target = $(event.target)
          
         if (stateInt === 9) {
+            setStateInt(0)
             myCSS($(event.target), 'border', '5px solid hotpink')  
             let allDivBox = await GetChildren(container)
             console.log(allDivBox);
-            myCSS(allDivBox, 'border', '5px dotted orange');        
+            myCSS(allDivBox[0], 'border', '5px dotted orange');
+            allDivBox[0].removeAttr('src');
+
+            // await attrTool($('div'), 'src',  '')        
+            // await attrTool(allDivBox, 'src',  'img/bag.png')        
             // attrTool($(allDivBox), 'src', '');
             // allDivBox.forEach(async(box) => {
             //     await attrTool($(box), 'src', '');
@@ -56,9 +61,25 @@ function Captcha (props) {
                 console.log(hoverImage);
                 let targetSiblings = await GetSiblings(target);
                 let imageChild = await GetChildren(target);
-                console.log('src')
-                console.log(imageChild[0].currentSrc);
-                attrTool(imageChild, 'src', hoverImage)
+                // console.log('src')
+                // console.log(imageChild[0].currentSrc);
+                // attrTool(imageChild, 'src', hoverImage)
+
+                let img = document.createElement('img');
+                $(img)
+                .addClass('Sprite')
+
+                if (hoverImage.length < 3) {
+                // if (hoverImage === null || hoverImage === undefined) { // thought this would work it doesn't.
+                    myCSS(target, 'border', '5px dotted limegreen');
+                } else {
+                    myCSS($(img), 'background-image', `url('${hoverImage}')`)
+                    attrTool($(img), 'src', hoverImage);
+                }
+
+                myCSS($(img), 'background-size', 'no-repeat')
+                myCSS($(img), 'border', 'transparent')
+                $(target).append(img)
             }
     
             const doEmBoth = async () => {
