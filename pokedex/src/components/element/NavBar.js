@@ -64,14 +64,14 @@ else { console.log("no pokemon / home page or 3rd page")}
                 let lastSlashString = hrefCurrent.substring(hrefCurrent.lastIndexOf('/'))
                 console.log(lastSlashString)
 
-                let noNumberString = lastSlashString.replace(/[\/a-z]/g, '')
-                console.log('noNumberString')
-                console.log(noNumberString)
-                console.log(noNumberString.length) // escaping numbers will give /pokemon/id a length and /pokemon not
+                let onlyNumberString = lastSlashString.replace(/[\/a-z]/g, '')
+                console.log('onlyNumberString')
+                console.log(onlyNumberString)
+                console.log(onlyNumberString.length) // escaping numbers will give /pokemon/id a length and /pokemon not
                 // number regex to evaluate for a number because page 3 url = host:3000/pokemon/intId
                 // 
 
-                if (lastSlashString.includes('pokemon') && noNumberString.length === 0) {
+                if (lastSlashString.includes('pokemon') && onlyNumberString.length === 0) {
                     props.setCurrentUrl('TypeScreen')
                     // this isolates to: localhost:3000/pokemon and excludes /pokemon/1
                 }
@@ -79,11 +79,13 @@ else { console.log("no pokemon / home page or 3rd page")}
                     props.setCurrentUrl('MainScreen')
                     console.log("this condition is met and the home page is excluded")
                 } 
-                else {
+                else if (onlyNumberString.length === 1) {
+                    props.setCurrentUrl('InfoScreen')
+                    console.log("this is the third page and only the third page")
+                    console.log("the third page is now separated by existence of the number from the id url params")
 // if i leave this else block like this the TypeScreen will satisfy this condition
 // have to use .length and the existence of the int as the distinguishing .charAt() that separates pg 2 from 3
                 
-                    console.log("this is the third page and only the third page")
                 }
 
                 await props.setCurrentUrl(hrefCurrent)            
