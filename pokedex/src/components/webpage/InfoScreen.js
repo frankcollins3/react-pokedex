@@ -5,6 +5,7 @@ import InfoPokeImage from '../element/InfoPokeImage'
 import InfoBtnBar from '../element/InfoBtnBar'
 import InfoEndpoint from '../element/InfoEndpoint'
 import EndpointBar from '../element/InfoEndpointBar'
+import Nav from '../element/NavBar'
 // weird error. having:
 // import EndpointBar from element/InfoEndpoint.
 // this typo brought out the InfoEndpoint component stored as Endpointbar
@@ -27,7 +28,7 @@ function InfoScreen() {
     
 
     useEffect( () => {
-        $('.Info-Wrap').parents().css('background-image', `url(${'/img/blackpokedex.jpeg'})`)  
+        $('.Info-Wrap').parents().css('background-image', `url(${'/img/blackpokedex.png'})`)  
         $('.Info-Wrap').parents().css('background-size', 'cover')
         // $('.Info-Wrap').children().css('margin', '0 1em 0 1em')
         // $('.Info-Wrap').parents().css('background-color', 'whitesmoke')  
@@ -51,6 +52,8 @@ function InfoScreen() {
     // }, [paramPoke]) wouldn't have this because if the paramPoke changed the whole webpage would change anyways.
 
     return (
+        <>
+        <Nav />
         <div className="Info-Wrap Row-Between">
             {/* <button onClick={check} className="navBall" id="Pokeball"></button> */}
             <div className="Info-Left Column-Center">
@@ -78,7 +81,7 @@ function InfoScreen() {
             1) change state 
             2) and have different maps in useEffect 
             3) call APIpoke()        
-            */}
+        */}
             <EndpointBar
             headerText={headerText} setHeaderText={setHeaderText}
             clickedGloves={clickedGloves} setClickedGloves={setClickedGloves}
@@ -90,7 +93,8 @@ function InfoScreen() {
             
             </div>
 
-        </div>  // Info-Wrap Row-Between end
+        </div> 
+            </>
     )
 }
 
