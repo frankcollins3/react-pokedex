@@ -8,6 +8,7 @@ import GetChildren from '../utility/JqChildren'
 import attrTool from '../utility/attrTool' // selector, attr, value in most cases [$(obj), id || img-src, 'New-Value']
 import toggleHideShow from '../utility/hideShow'
 import ReturnTypes from '../utility/ReturnTypes'
+import ClassAction from '../utility/ClassAction'
 
 import { useInView } from 'react-intersection-observer'
 
@@ -28,6 +29,7 @@ function Captcha (props) {
     const [hoverImage, setHoverImage] = useState('')
     const [randomInt, setRandomInt] = useState(0); 
     const [hoverType, setHoverType] = useState('');
+    const [switchGear, setSwitchGear] = useState('false')
 
     let vanillaJSDiv = document.querySelectorAll('div');
     let container = $('.Captcha-Cont')
@@ -168,10 +170,15 @@ function Captcha (props) {
         // $(event.target).css('background-image', `url('${randomimage}')`
     }
 
-    // const divClick = async () => {
-    //     let children = await GetChildren($(container))
-    //     children.click()
-    // }
+    const switchGears = async (event) => {
+        setSwitchGear('true')
+        console.log('switching gears!');
+        let target = $(event.target)
+        
+        await ClassAction('add', $(event.target), 'tailWhip')
+    }
+
+    const nothing = () => console.info("null")
 
 
     
@@ -179,30 +186,36 @@ function Captcha (props) {
 
     return (
         <>
-        <div id="Gear"> </div>
+        <div onMouseEnter={switchGears} id="Gear"> </div>
+        <p
+            style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
+        > Welcome! We Just Want To Know If You're Human! </p>
 
         <div className="Captcha-Cont" id="Nine-By-Nine">
 
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing } className="Captcha-Box Column-Center">
         </div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
         </div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
         </div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
         </div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
         </div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
         </div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
         </div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
         </div>
-        <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
+        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
         </div>      
 
         </div> 
+        <p 
+             style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
+        > Find the Electric type and Click on it to see the Pokemon!</p>
         </>
     )
 }
