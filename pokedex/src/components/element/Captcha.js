@@ -44,12 +44,10 @@ function Captcha (props) {
 
     useEffect( () => {
         console.log("use effect is firing")
-        
-    
         if (props.lock === 'unlocked') {
             console.log("if statement over here in the useEf is firing")
             // props.setCatchEmAll('true')
-            props.setCatchEmAll('true');
+            // props.setCatchEmAll('true');
         }
     }, [])
 
@@ -249,7 +247,11 @@ function Captcha (props) {
 
     return (
         <>
-        <div onMouseEnter={switchGears} id="Gear"> </div>
+        <div 
+            style={ {display: props.catchEmAll === 'true' ? 'none' : 'block'}}
+            onMouseEnter={switchGears} id="Gear"> 
+        </div>
+
         <p
             className="Captcha-Text" id="Human-Text"
             style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
