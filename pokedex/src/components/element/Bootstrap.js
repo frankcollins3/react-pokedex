@@ -414,18 +414,31 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
             console.log('jqdoc')
             console.log(jqdoc)
             let bodystyles = jqdoc[0].body.attributes
-            let bg = $('#root').css('background-image')
+            let bg = $('.Home-Body').css('background-image')
 
             if (bg.includes('blackpokedex.png')) {
                 // myCSS($('#root'), 'background-image', '')
                 $('.Screen-Wrapper').parents().css('background-image', '')                  
+                $('body').css('background-image', '')  
+                $('body').css('background-size', 'cover')  
+                $('body').css('background-repeat', 'no-repeat')  
+                
+                
+                
+            } else {
+                console.log( $('.Screen-Wrapper').parents())
+                // $('#root').css("background-color", 'limegreen');
+                // $('.Home-Body').css("border", '5px solid hotpink')
+                $('.Home-Body').css('background-image', `url(${'/img/blackpokedex.png'})`)  
+                $('.Home-Body').css('background-size', 'cover')
+                $('.Home-Body').css('background-repeat', 'no-repeat')
                 
 
 
-            } else {
-                console.log($('.Screen-Wrapper').parents())
-                // $('.Screen-Wrapper').parents([0]).css('background-image', `url(${'/img/blackpokedex.png'})`)  
-                // $('.Screen-Wrapper').parents([0]).css('background-size', 'cover')
+                // $('body').css('background-repeat', 'no-repeat')  
+
+                // $('.Screen-Wrapper').parents([2]).css('background-image', `url(${'/img/blackpokedex.png'})`)  
+                // $('.Screen-Wrapper').parents([2]).css('background-size', 'cover')
         
                 // myCSS(bg, 'background-image', `url(${'/public/img/blackpokedex.png'})`)
             }
