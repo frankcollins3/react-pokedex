@@ -22,19 +22,14 @@
     import Watch from '../utility/TimerTool'
 import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
     
-    
-    
-
-    
-    
-
-
 
     let id = [1, 4, 7]
     let randomid = id[Math.floor(Math.random()*id.length)]
 
 
     function BootstrapScreen(props) {
+        console.log('props from the bootstrap ')
+        console.log(props)
         
         // state and jquery functions
             // ******** JQ/DOM reference
@@ -477,13 +472,23 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
                         // className="Pokedex Close-Pokedex Quarter-Size"                     
                         >
                         </div>
+
                         <input 
                         className="Pokedex-Input"
                         style = { { display: pokedexHover == 'false' ? "none" : "block" }}
                         id={'Screen-Input'} onMouseEnter={inputEnter} onMouseLeave={inputExit} onChange={handleInput}type="text"
                         />
+
                         { pokedexHover === 'true' ?
+                                        //  {props.thirdPage === true ?                    
+                        <>
+                                            <button
+                                            id="NightModeBtn"
+                                            className="Sprite Half-Size"
+                                            >
+                                            </button>
                         <Watch pokedexHover={pokedexHover} setPokedexHover={setPokedexHover}/>
+                        </>
                             :
                             ''
                         }
