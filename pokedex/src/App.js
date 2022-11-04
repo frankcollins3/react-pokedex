@@ -13,6 +13,8 @@ function App() {
   const [catchEmAll, setCatchEmAll] = useState('false')
   const [lock, setLock] = useState('locked')
 
+  const [currentUrl, setCurrentUrl] = useState('')
+
 
 
   return (
@@ -23,17 +25,22 @@ function App() {
 
       <Route path={'/'} element={
       <Main 
+       currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}
        fakeDbState={fakeDbState} setFakeDbState={setFakeDbState} ghost={ghost} setGhost={setGhost} 
        catchEmAll={catchEmAll} setCatchEmAll={setCatchEmAll} lock={lock} setLock={setLock}
-      />}/>
+       />}/>
 
       <Route path={'/pokemon'} element={
-      <TypeScreen 
+        <TypeScreen 
+      currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}
       fakeDbState = {fakeDbState} setFakeDbState={setFakeDbState} ghost={ghost} setGhost={setGhost}
       catchEmAll={catchEmAll} setCatchEmAll={setCatchEmAll} lock={lock} setLock={setLock}
       />}/>
+
+      <Route path={'/pokemon/:id'} element={
+      <InfoScreen       currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}
+      />}/>
       
-      <Route path={'/pokemon/:id'} element={<InfoScreen/>}/>
       </Routes>
 
       </Router>
