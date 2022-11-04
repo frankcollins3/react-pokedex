@@ -34,6 +34,8 @@ function Captcha (props) {
     const [lock, setLock] = useState('locked')
     let [clickType, setClickType] = useState('')
 
+    let [startingText, setStartingText] = useState('Find the Electric type and Click on it to see the Pokemon!')
+
     let typeText = $('#Type-Text')
 
     let vanillaJSDiv = document.querySelectorAll('div');
@@ -196,15 +198,28 @@ function Captcha (props) {
          if (imgsrc.length > 5) {
             console.log('length is there so URL is there')
         let cleanid = await CleanUrl(imgsrc)
-        let type = await ReturnTypes(cleanid)
-        let textStart = typeText.text()
+        let type = await ReturnTypes(cleanid) 
+        let textStart = typeText.text() // this was working but when you change the text then this variable gets stored as the new text when the function reruns because its being run from a mosueEvent 
         if (type === 'electric') {
             // declaring this to change text to a new message and to change it back to the first message. have to store first message as a variable.
             console.log('textStart')
             console.log(textStart)
             setLock('unlocked')
         } else {
-            await setClickType(type)
+            const setType = async () => await setClickType(type)
+            const changeMessage = async () => {
+                let newText = `That's not an Electric Pokemon. You found a wild ${clickType} pokemon!`
+                typeText.html(newText);
+                setTimeout(typeText.html(textStart), 2000)
+                typeText.css("border", '5px dotted orange');
+            }
+            const asyncfunc = async () => {
+                await setType()
+                await changeMessage()
+            }
+            asyncfunc()
+
+
         }
         
 
