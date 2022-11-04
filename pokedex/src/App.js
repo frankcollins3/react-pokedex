@@ -12,6 +12,7 @@ function App() {
   const [ghost, setGhost] = useState('false')
   const [catchEmAll, setCatchEmAll] = useState('false')
   const [lock, setLock] = useState('locked')
+  const [thirdPage, setThirdPage] = useState(false) // third eye
 
   const [currentUrl, setCurrentUrl] = useState('')
 
@@ -25,20 +26,22 @@ function App() {
 
       <Route path={'/'} element={
       <Main 
-       currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}
+       currentUrl={currentUrl} setCurrentUrl={setCurrentUrl} thirdPage={thirdPage} setThirdPage={setThirdPage}
        fakeDbState={fakeDbState} setFakeDbState={setFakeDbState} ghost={ghost} setGhost={setGhost} 
-       catchEmAll={catchEmAll} setCatchEmAll={setCatchEmAll} lock={lock} setLock={setLock}
+       catchEmAll={catchEmAll} setCatchEmAll={setCatchEmAll} lock={lock} setLock={setLock}      
        />}/>
 
       <Route path={'/pokemon'} element={
         <TypeScreen 
-      currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}
+      currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}  thirdPage={thirdPage} setThirdPage={setThirdPage}
       fakeDbState = {fakeDbState} setFakeDbState={setFakeDbState} ghost={ghost} setGhost={setGhost}
       catchEmAll={catchEmAll} setCatchEmAll={setCatchEmAll} lock={lock} setLock={setLock}
       />}/>
 
       <Route path={'/pokemon/:id'} element={
-      <InfoScreen       currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}
+      <InfoScreen       
+      thirdPage={thirdPage} setThirdPage={setThirdPage} 
+      currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}
       />}/>
       
       </Routes>
