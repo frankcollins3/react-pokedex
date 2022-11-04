@@ -23,6 +23,7 @@ let i = 0;
 
 
 function Captcha (props) {
+
     // let boxRef = useRef()
     // let curr = boxRef.current not doing scrolling. 9 by 9 still grid that resets after all grid boxes hovered upon + images generated as bg for captcha
 
@@ -41,6 +42,16 @@ function Captcha (props) {
     let vanillaJSDiv = document.querySelectorAll('div');
     let container = $('.Captcha-Cont')
 
+    useEffect( () => {
+        console.log("use effect is firing")
+        
+    
+        if (props.lock === 'unlocked') {
+            console.log("if statement over here in the useEf is firing")
+            // props.setCatchEmAll('true')
+            props.setCatchEmAll('true');
+        }
+    }, [])
 
     const imageGrab = async (event) => {
         // console.log(event)
