@@ -9,6 +9,7 @@ import attrTool from '../utility/attrTool' // selector, attr, value in most case
 import toggleHideShow from '../utility/hideShow'
 import ReturnTypes from '../utility/ReturnTypes'
 import ClassAction from '../utility/ClassAction'
+import CleanUrl from '../utility/CleanUrlTool'
 
 import { useInView } from 'react-intersection-observer'
 
@@ -30,20 +31,24 @@ function Captcha (props) {
     const [randomInt, setRandomInt] = useState(0); 
     const [hoverType, setHoverType] = useState('');
     const [switchGear, setSwitchGear] = useState('false')
+    const [lock, setLock] = useState('locked')
+    let [clickType, setClickType] = useState('')
+
+    let typeText = $('#Type-Text')
 
     let vanillaJSDiv = document.querySelectorAll('div');
     let container = $('.Captcha-Cont')
 
 
     const imageGrab = async (event) => {
-        console.log(event)
+        // console.log(event)
         let target = $(event.target)
          
         if (stateInt === 9) {
             setStateInt(0)
             let allDivBox = await GetChildren(container)
             let grandKids = await GetChildren(allDivBox)
-            console.log(allDivBox);
+            // console.log(allDivBox);
             toggleHideShow(grandKids, 'detach');
             // confused why allDivBox deletes the parent container when its the children that is specified.
             // more confusing when you see this code working for the children and not the parent  myCSS(allDivBox[0], 'border', '5px dotted orange');
@@ -97,8 +102,8 @@ function Captcha (props) {
             }
     
             const stateGetImageSet = async () => {
-                console.log('hoverImage');
-                console.log(hoverImage);
+                // console.log('hoverImage');
+                // console.log(hoverImage);
                 let targetSiblings = await GetSiblings(target);
                 let imageChild = await GetChildren(target);
                 // console.log('src')
@@ -113,7 +118,7 @@ function Captcha (props) {
                 // if (hoverImage === null || hoverImage === undefined) { // thought this would work it doesn't.
                 let names = ['squirtle', 'charmander', 'bulbasaur']
                 let value = await ReturnRandom(names)
-                console.log(value);
+                // console.log(value);
 
                 let image = await GetImage(value, 'front')
 
@@ -172,7 +177,7 @@ function Captcha (props) {
 
     const switchGears = async (event) => {
         setSwitchGear('true')
-        console.log('switching gears!');
+        // console.log('switching gears!');
         let target = $(event.target)
         
         await ClassAction('add', $(event.target), 'tailWhip')
@@ -180,7 +185,41 @@ function Captcha (props) {
 
     const nothing = () => console.info("null")
 
+    const divClick = async (event) => {
+        let tgt = $(event.target)
+        let children = await GetChildren(tgt)
+        console.log('children')
+        console.log(children)
 
+        let child = children.prevObject[0]
+        let imgsrc = child.currentSrc || 'whoa'
+         if (imgsrc.length > 5) {
+            console.log('length is there so URL is there')
+        let cleanid = await CleanUrl(imgsrc)
+        let type = await ReturnTypes(cleanid)
+        let textStart = typeText.text()
+        if (type === 'electric') {
+            // declaring this to change text to a new message and to change it back to the first message. have to store first message as a variable.
+            console.log('textStart')
+            console.log(textStart)
+            setLock('unlocked')
+        } else {
+            await setClickType(type)
+        }
+        
+
+         } else { console.log("no length we haven't hovered gear yet!")}
+        // can return id with CleanUrlTool(imgsrc.replace(/[/\/a-z]/g, '')) escape alphaCharacters and slashes
+
+        
+
+
+        let length = $(tgt).children().length
+        console.log('length');
+        console.log(length);
+
+
+    }
     
     
 
@@ -188,33 +227,37 @@ function Captcha (props) {
         <>
         <div onMouseEnter={switchGears} id="Gear"> </div>
         <p
+            className="Captcha-Text" id="Human-Text"
             style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
         > Welcome! We Just Want To Know If You're Human! </p>
 
-        <div className="Captcha-Cont" id="Nine-By-Nine">
+        <div
+         style={ {display: lock === 'locked' ? 'grid' : 'none'}}
+         className="Captcha-Cont" id="Nine-By-Nine">
 
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing } className="Captcha-Box Column-Center">
-        </div>
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
-        </div>
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
-        </div>
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
-        </div>
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
-        </div>
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
-        </div>
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
-        </div>
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
-        </div>
-        <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} className="Captcha-Box Column-Center">
-        </div>      
+             <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing } onClick={divClick} className="Captcha-Box Column-Center">
+            </div>
+            <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} onClick={divClick} className="Captcha-Box Column-Center">
+            </div>
+            <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} onClick={divClick} className="Captcha-Box Column-Center">
+            </div>
+            <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} onClick={divClick} className="Captcha-Box Column-Center">
+            </div>
+            <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} onClick={divClick} className="Captcha-Box Column-Center">
+            </div>
+            <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} onClick={divClick} className="Captcha-Box Column-Center">
+            </div>
+            <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} onClick={divClick} className="Captcha-Box Column-Center">
+            </div>
+            <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} onClick={divClick} className="Captcha-Box Column-Center">
+            </div>
+            <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing} onClick={divClick} className="Captcha-Box Column-Center">
+            </div>      
 
-        </div> 
+            </div> 
         <p 
-             style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
+            className="Captcha-Text" id="Type-Text"
+            style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
         > Find the Electric type and Click on it to see the Pokemon!</p>
         </>
     )
