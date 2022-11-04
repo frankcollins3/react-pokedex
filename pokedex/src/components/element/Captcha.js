@@ -210,6 +210,7 @@ function Captcha (props) {
             // declaring this to change text to a new message and to change it back to the first message. have to store first message as a variable.
             console.log('textStart')
             console.log(textStart)
+            toggleHideShow($('p'), 'detach')
             setLock('unlocked')
         } else {
             const setType = async () => await setClickType(type)
@@ -278,7 +279,7 @@ function Captcha (props) {
             </div> 
         <p 
             className="Captcha-Text" id="Type-Text"
-            style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
+            style={ {opacity: switchGear === 'true' ? '1.0' : '0.0', border: lock === 'locked' ? '5px solid pink' : 'transparent'}}
         > Find the Electric type and Click on it to see the Pokemon!</p>
         </>
     )
