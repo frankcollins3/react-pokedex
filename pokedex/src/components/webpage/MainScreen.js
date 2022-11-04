@@ -14,12 +14,17 @@ function Main (props) {
     // console.log(props.fakeDbState)
 
     useEffect( () => {
-        console.log('props.currentUrl')
-        console.log(props.currentUrl)
-        let doc = window ||  $(document) 
-        // document didn't work window did.
-        console.log('doc')
-        console.log(doc)
+
+        const checkURL = async () => {            
+            let doc = window ||  $(document) 
+            // document didn't work window did.
+            let loc = window.location
+            
+            let hrefCurrent = loc.href
+            await props.setCurrentUrl(hrefCurrent)            
+        }
+        checkURL()
+            
 
     }, [])
 
@@ -59,4 +64,4 @@ function Main (props) {
         // </>
     )
 }
-export default Main
+export default Main     
