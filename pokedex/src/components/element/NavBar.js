@@ -219,7 +219,16 @@ else { console.log("no pokemon / home page or 3rd page")}
                 
             }
 
+            const pokeball = () => {
+                if (props.currentUrl === 'MainScreen') {
+                    console.log("in the pokeball function in main screen")
+                }
+            }
+
             const ultraball = async (event) => {
+                console.log('props.thirdPage')
+                console.log(props.thirdPage)
+                
                 let directions = ['left', 'right'] // good old classic array
                 let intervals = [1000, 1500, 2000, 2500]
                 let target = $(event.target)
@@ -228,23 +237,11 @@ else { console.log("no pokemon / home page or 3rd page")}
                 if (props.currentUrl === 'MainScreen') {
                     let randomInt = await ReturnRandom(animateDegree)
                     let randomDirection = await ReturnRandom(directions)
-                    let randomInterval = await ReturnRandom(intervals)
-                    console.log('randomInt')
-                    console.log(randomInt)
-                    
-                    console.log($(event.target))
+                    let randomInterval = await ReturnRandom(intervals)                                                        
                     await ClassAction('add', target, 'rotateAnimation1')
                     const backToClass = async () => await ClassAction('remove', target, 'rotateAnimation1')
                     setTimeout(backToClass, 5000)
-
-
-
-                    console.log('randomDirection')
-                    console.log(randomDirection)
                     // let degreebucket = ['7, 5, 3, 2, 11']
-                    
-                    // .css('')
-                    // target.css('border', '5px solid hotpink')                    
                     return 
                 } else {
                     console.log("this is the ultraball function")
@@ -259,6 +256,7 @@ else { console.log("no pokemon / home page or 3rd page")}
 
                     {/* *** working <Link to  <li className="navBall Half-Size">  <Link to="/pokemon"> redirect </Link></li> */}
                 <button 
+                // onClick={props.currentUrl === 'MainScreen' ? pokeball : evalTargetRedirect}
                 onClick={evalTargetRedirect}
                 className="navBall Half-Size" id="Pokeball">
                 </button>
@@ -288,6 +286,17 @@ else { console.log("no pokemon / home page or 3rd page")}
                 id="Ghost" 
                 >
                 </button>
+
+                {props.thirdPage === true ?                    
+                <button
+                id="NightModeBtn"
+                className="Sprite Half-Size"
+                >
+                </button>
+                    :
+                    ''
+                }
+                    
                 
             </div>
         )
