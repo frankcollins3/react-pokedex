@@ -72,10 +72,19 @@ else { console.log("no pokemon / home page or 3rd page")}
                 // 
 
                 if (lastSlashString.includes('pokemon') && noNumberString.length === 0) {
+                    props.setCurrentUrl('TypeScreen')
                     // this isolates to: localhost:3000/pokemon and excludes /pokemon/1
-                    console.log("our condition is met")
                 }
-                console.log(lastSlashString);
+                if (!lastSlashString.length >= 1) { 
+                    props.setCurrentUrl('MainScreen')
+                    console.log("this condition is met and the home page is excluded")
+                } 
+                else {
+// if i leave this else block like this the TypeScreen will satisfy this condition
+// have to use .length and the existence of the int as the distinguishing .charAt() that separates pg 2 from 3
+                
+                    console.log("this is the third page and only the third page")
+                }
 
                 await props.setCurrentUrl(hrefCurrent)            
             }
