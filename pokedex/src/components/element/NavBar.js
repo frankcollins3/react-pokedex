@@ -23,40 +23,82 @@
     let ghostbtn = $('.ghostbtn')
 
     // 
+$('.navBall')
+.css('margin-top', '-400px')
 
+let location = $(document)[0].location
+let localsite = location.href
+if ((localsite).includes('pokemon')) $('.navBall').css('margin', '0 3em 0 3em')
+else { console.log("no pokemon / home page or 3rd page")}
 
+    
     // * MOUSEMOVE function that: -----> mousemoveCount % 100 === 0 { when modulo % ${random 25 50 75 or 100 2second timeout}
-    function Nav (props) {        
+    function Nav (props) {       
+            console.log('props from the nav')
+            console.log(props)
 
         const [ghostBucket, setGhostBucket] = useState([])
         const [ghostBallPoke, setGhostBallPoke] = useState([])
         const [starterGhost, setStarterGhost] = useState([])
         // stopGhost keyup command G to turn on/off
+        const [navigationError, setNavigationError] = useState([])
 
 
         let ghost = useRef()
         let navBarNavigate = useNavigate()
 
+        useEffect( () => {
 
+            const checkURL = async () => {            
+                let doc = window ||  $(document) 
+                // document didn't work window did.
+                let loc = window.location
+                console.log('loc')
+                console.log(loc)
+                
+                let hrefCurrent = loc.href
+                console.log('hrefCurrent')
+                console.log(hrefCurrent)
+
+                // was using 
+                let lastSlashString = hrefCurrent.substring(hrefCurrent.lastIndexOf('/'))
+                console.log(lastSlashString)
+
+                let noNumberString = lastSlashString.replace(/[\/a-z]/g, '')
+                console.log('noNumberString')
+                console.log(noNumberString)
+                console.log(noNumberString.length) // escaping numbers will give /pokemon/id a length and /pokemon not
+                // number regex to evaluate for a number because page 3 url = host:3000/pokemon/intId
+                // 
+
+                if (lastSlashString.includes('pokemon') && noNumberString.length === 0) {
+                    // this isolates to: localhost:3000/pokemon and excludes /pokemon/1
+                    console.log("our condition is met")
+                }
+                console.log(lastSlashString);
+
+                await props.setCurrentUrl(hrefCurrent)            
+            }
+            checkURL()
+                
+    
+        }, [])
 
 
         useEffect( () => {
             
             (async() => {            
-                let checkAgainstHomeRoute = () => {
-                    console.log($(document))
+                let checkAgainstHomeRoute = async () => {
                    let location = $(document.location)[0]
                    let path = location.pathname
-                   if (path.includes('/pokemon')) {
-                    // $('.ghostbtn').hide()
-                    toggleHideShow($('.ghostbtn'), 'hide')
-
-                    // i thought path wouldn't work with .includes since its not an array. didn't think it would be a far dig if it didn't work though
-                    console.log("hey path has that")
-                   } else { console.log("no it doesnt has that")}
-                    
-                //    3 mins on $(document).location
-                    
+                   try {
+                    if (path.includes('/pokemon')) await toggleHideShow($('.ghostbtn'), 'hide')
+                   }
+                   catch(err) {
+                    if (err) { 
+                        await setNavigationError(err)
+                    }
+                   }                
                 }
                 checkAgainstHomeRoute()
 
@@ -97,8 +139,6 @@
             })()
         }, [])
 
-        
-        
 
             const lookForGhosts = async (event) => {
                 let letsSee = await ProbAbility(22)
@@ -114,7 +154,8 @@
                 } else { setGhostBallPoke('') }
             }
 
-            const evalTargetRedirect = (event) => {                                    
+            const evalTargetRedirect = async (event) => {  
+                // props.setCatchEmAll('false')
                 let ballcheck = event.target.attributes[1].nodeValue
                 console.log('ballcheck')
                 console.log(ballcheck)
