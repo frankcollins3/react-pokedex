@@ -19,6 +19,7 @@
     import LocationTool from '../utility/LocRedirect'
     import TypeScreen from '../webpage/TypeScreen'
     import toggleHideShow from '../utility/hideShow'
+    import ClassAction from '../utility/ClassAction'
 
     let ghostbtn = $('.ghostbtn')
 
@@ -220,20 +221,23 @@ else { console.log("no pokemon / home page or 3rd page")}
 
             const ultraball = async (event) => {
                 let directions = ['left', 'right'] // good old classic array
+                let intervals = [1000, 1500, 2000, 2500]
                 let target = $(event.target)
                 console.log(props.currentUrl)
                 console.log(animateDegree)
                 if (props.currentUrl === 'MainScreen') {
                     let randomInt = await ReturnRandom(animateDegree)
                     let randomDirection = await ReturnRandom(directions)
+                    let randomInterval = await ReturnRandom(intervals)
                     console.log('randomInt')
                     console.log(randomInt)
                     
-                    function rotate(randomInt) {
-                        target.animate({
+                    console.log($(event.target))
+                    await ClassAction('add', target, 'rotateAnimation1')
+                    const backToClass = async () => await ClassAction('remove', target, 'rotateAnimation1')
+                    setTimeout(backToClass, 5000)
 
-                        })
-                    }
+
 
                     console.log('randomDirection')
                     console.log(randomDirection)
