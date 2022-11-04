@@ -56,7 +56,9 @@ else { console.log("no pokemon / home page or 3rd page")}
                 for (i; i < 11; i++ ) {
                     if (i % 2 !== 0) {
                         let number = i.toString()
+                        let negNumber = -Math.abs(number)
                         numberArray.push(number)
+                        numberArray.push(negNumber)
                         // setAnimateDegree([...animateDegree, number])
                     }
                 }
@@ -216,13 +218,27 @@ else { console.log("no pokemon / home page or 3rd page")}
                 
             }
 
-            const ultraball = (event) => {
+            const ultraball = async (event) => {
+                let directions = ['left', 'right'] // good old classic array
+                let target = $(event.target)
                 console.log(props.currentUrl)
                 console.log(animateDegree)
                 if (props.currentUrl === 'MainScreen') {
+                    let randomInt = await ReturnRandom(animateDegree)
+                    let randomDirection = await ReturnRandom(directions)
+                    console.log('randomInt')
+                    console.log(randomInt)
+                    
+                    function rotate(randomInt) {
+                        target.animate({
+
+                        })
+                    }
+
+                    console.log('randomDirection')
+                    console.log(randomDirection)
                     // let degreebucket = ['7, 5, 3, 2, 11']
-                    let random
-                    let target = $(event.target)
+                    
                     // .css('')
                     // target.css('border', '5px solid hotpink')                    
                     return 
