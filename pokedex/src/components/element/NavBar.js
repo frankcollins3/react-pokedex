@@ -42,12 +42,40 @@ else { console.log("no pokemon / home page or 3rd page")}
         const [starterGhost, setStarterGhost] = useState([])
         // stopGhost keyup command G to turn on/off
         const [navigationError, setNavigationError] = useState([])
+        const [animateDegree, setAnimateDegree] = useState([])
 
 
         let ghost = useRef()
         let navBarNavigate = useNavigate()
 
         useEffect( () => {
+            let numberArray = new Array() || []
+            let i = 1;
+            // console.log('number
+            const loopAndPush = async () => {
+                for (i; i < 11; i++ ) {
+                    if (i % 2 !== 0) {
+                        let number = i.toString()
+                        numberArray.push(number)
+                        // setAnimateDegree([...animateDegree, number])
+                    }
+                }
+            }
+            const BucketHandler = async () => {
+                console.log('numberArray in the useEffect navbar')
+                console.log(numberArray)
+                await setAnimateDegree([...numberArray])
+            }
+            const asyncdouble = async () => {
+                await loopAndPush()
+                await BucketHandler()
+            }
+            asyncdouble()
+            
+            // numberArray.forEach(async(item) => {
+            //     await setAnimateDegree([...animateDegree, item])
+            // })
+
 
             const checkURL = async () => {            
                 let doc = window ||  $(document) 
@@ -188,8 +216,15 @@ else { console.log("no pokemon / home page or 3rd page")}
                 
             }
 
-            const ultraball = () => {
+            const ultraball = (event) => {
+                console.log(props.currentUrl)
+                console.log(animateDegree)
                 if (props.currentUrl === 'MainScreen') {
+                    // let degreebucket = ['7, 5, 3, 2, 11']
+                    let random
+                    let target = $(event.target)
+                    // .css('')
+                    // target.css('border', '5px solid hotpink')                    
                     return 
                 } else {
                     console.log("this is the ultraball function")
