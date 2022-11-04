@@ -180,15 +180,19 @@ function Captcha (props) {
             doEmBoth()
 
         }
-        // $(event.target).css('background-image', `url('${randomimage}')`
     }
 
     const switchGears = async (event) => {
-        setSwitchGear('true')
-        // console.log('switching gears!');
-        let target = $(event.target)
-        
-        await ClassAction('add', $(event.target), 'tailWhip')
+        if (lock === 'unlocked') {
+            toggleHideShow($(event.target), 'detach')
+            props.setCatchEmAll('true');
+            
+        } else {
+            setSwitchGear('true')
+            let target = $(event.target)            
+            await ClassAction('add', $(event.target), 'tailWhip')
+        }
+
     }
 
     const nothing = () => console.info("null")
@@ -196,8 +200,7 @@ function Captcha (props) {
     const divClick = async (event) => {
         let tgt = $(event.target)
         let children = await GetChildren(tgt)
-        console.log('children')
-        console.log(children)
+        
 
         let child = children.prevObject[0]
         let imgsrc = child.currentSrc || 'whoa'
@@ -207,40 +210,28 @@ function Captcha (props) {
         let type = await ReturnTypes(cleanid) 
         let textStart = typeText.text() // this was working but when you change the text then this variable gets stored as the new text when the function reruns because its being run from a mosueEvent 
         if (type === 'electric') {
-            // declaring this to change text to a new message and to change it back to the first message. have to store first message as a variable.
-            console.log('textStart')
-            console.log(textStart)
+            // declaring this to change text to a new message and to change it back to the first message. have to store first message as a variable.            
             toggleHideShow($('p'), 'detach')
             setLock('unlocked')
         } else {
             const setType = async () => await setClickType(type)
             const changeMessage = async () => {
-                let newText = `That's not an Electric Pokemon. You found a wild ${clickType || type} pokemon!`
+                let newText = `That's not an Electric Pokemon. You found a wild ${type || clickType} pokemon!`  // using state instead of variable makes the type off by 1. itll change text to the last-1 piece of data clicked.
                 typeText.html(newText);
                 // setTimeout(typeText.html(startingText), 2000)
-                typeText.css("border", '5px dotted orange');
+                // typeText.css("border", '5px dotted orange');
             }
+            const changeBack = async () => { typeText.html(startingText)}
             const asyncfunc = async () => {
                 await setType()
                 await changeMessage()
+                setTimeout( changeBack, 3000) 
             }
             asyncfunc()
-
-
-        }
-        
-
+        }        
          } else { console.log("no length we haven't hovered gear yet!")}
         // can return id with CleanUrlTool(imgsrc.replace(/[/\/a-z]/g, '')) escape alphaCharacters and slashes
-
-        
-
-
         let length = $(tgt).children().length
-        console.log('length');
-        console.log(length);
-
-
     }
     
     
@@ -279,7 +270,7 @@ function Captcha (props) {
             </div> 
         <p 
             className="Captcha-Text" id="Type-Text"
-            style={ {opacity: switchGear === 'true' ? '1.0' : '0.0', border: lock === 'locked' ? '5px solid pink' : 'transparent'}}
+            style={ {opacity: switchGear === 'true' ? '1.0' : '0.0', display: lock === 'locked' ? 'none' : 'block'}}
         > Find the Electric type and Click on it to see the Pokemon!</p>
         </>
     )
