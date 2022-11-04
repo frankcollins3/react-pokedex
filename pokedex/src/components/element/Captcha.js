@@ -58,7 +58,10 @@ function Captcha (props) {
         } else {
 
             const stateSetImageGet = async () => {
-                setStateInt(stateInt + 1)
+                if ($(event.target).children().length < 1) {
+                    setStateInt(stateInt + 1)
+                }
+
 
                 let randompokemon = await ReturnRandomPoke(1);   
                 let name = randompokemon.name
@@ -111,10 +114,19 @@ function Captcha (props) {
                 console.log(value);
 
                 let image = await GetImage(value, 'front')
-                $(event.target).css('background-image', image)
-                $(event.target).css('background-size', 'cover')
-                $(event.target).css('background-repeat', 'no-repeat')
-                
+
+                // myCSS($(img), 'background-image', `url('${image}')`)
+                attrTool($(img), 'src', `${image}`)
+                myCSS($(img), 'background-size', 'no-repeat')
+                myCSS($(img), 'border', 'transparent')
+                if ($(target).children().length < 1) {
+                    $(target).append(img)
+                }
+
+                // $(event.target).css('background-image', image)
+                // $(event.target).css('background-size', 'cover')
+                // $(event.target).css('background-repeat', 'no-repeat')
+
                 
                     // const change = async () => {
                     //     let randomimage = ''
@@ -140,7 +152,10 @@ function Captcha (props) {
 
                 myCSS($(img), 'background-size', 'no-repeat')
                 myCSS($(img), 'border', 'transparent')
-                $(target).append(img)
+                if ($(target).children().length < 1) {
+                    $(target).append(img)
+                }
+
             }
     
             const doEmBoth = async () => {
@@ -164,37 +179,30 @@ function Captcha (props) {
 
     return (
         <>
-        <div onMouseEnter={divClick} id="Gear"> </div>
+        <div id="Gear"> </div>
 
         <div className="Captcha-Cont" id="Nine-By-Nine">
+
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
         </div>
         <div onMouseEnter={imageGrab} className="Captcha-Box Column-Center">
-            <img className="sprite" src=""/>
-        </div>                            
-        </div>
+        </div>      
+
+        </div> 
         </>
     )
 }
