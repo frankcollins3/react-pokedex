@@ -31,7 +31,7 @@ function Captcha (props) {
     const [randomInt, setRandomInt] = useState(0); 
     const [hoverType, setHoverType] = useState('');
     const [switchGear, setSwitchGear] = useState('false')
-    const [lock, setLock] = useState('locked')
+    // const [lock, setLock] = useState('locked')
     let [clickType, setClickType] = useState('')
 
     let [startingText, setStartingText] = useState('Find the Electric type and Click on it to see the Pokemon!')
@@ -183,7 +183,7 @@ function Captcha (props) {
     }
 
     const switchGears = async (event) => {
-        if (lock === 'unlocked') {
+        if (props.lock === 'unlocked') {
             toggleHideShow($(event.target), 'detach')
             props.setCatchEmAll('true');
             
@@ -212,7 +212,7 @@ function Captcha (props) {
         if (type === 'electric') {
             // declaring this to change text to a new message and to change it back to the first message. have to store first message as a variable.            
             toggleHideShow($('p'), 'detach')
-            setLock('unlocked')
+            props.setLock('unlocked')
         } else {
             const setType = async () => await setClickType(type)
             const changeMessage = async () => {
@@ -245,7 +245,7 @@ function Captcha (props) {
         > Welcome! We Just Want To Know If You're Human! </p>
 
         <div
-         style={ {display: lock === 'locked' ? 'grid' : 'none'}}
+         style={ {display: props.lock === 'locked' ? 'grid' : 'none'}}
          className="Captcha-Cont" id="Nine-By-Nine">
 
              <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing } onClick={divClick} className="Captcha-Box Column-Center">
@@ -270,7 +270,7 @@ function Captcha (props) {
             </div> 
         <p 
             className="Captcha-Text" id="Type-Text"
-            style={ {opacity: switchGear === 'true' ? '1.0' : '0.0', display: lock === 'locked' ? 'none' : 'block'}}
+            style={ {opacity: switchGear === 'true' ? '1.0' : '0.0', display: props.lock === 'locked' ? 'none' : 'block'}}
         > Find the Electric type and Click on it to see the Pokemon!</p>
         </>
     )
