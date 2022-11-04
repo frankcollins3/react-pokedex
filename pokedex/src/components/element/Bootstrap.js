@@ -71,6 +71,9 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
         const haunterHoveritem = useRef("")
 
         const [speedBump, setSpeedBump] = useState(0)
+        const doc = window || $(document)
+        const jqdoc = $(document)
+
 
         let pokeRefs = useRef([]);      
 
@@ -399,11 +402,34 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
                 $(pokemoncard)
                 .addClass('Poke-Card-Img')
                 .css('opacity', '1.0')
-            } else {
-               
+            } else {            
             }            
         }
         
+        const bodystyle = async () => {
+            console.log("we are hitting the bodystyle");
+            console.log('window')
+            console.log(window)
+
+            console.log('jqdoc')
+            console.log(jqdoc)
+            let bodystyles = jqdoc[0].body.attributes
+            let bg = $('#root').css('background-image')
+
+            if (bg.includes('blackpokedex.png')) {
+                // myCSS($('#root'), 'background-image', '')
+                $('.Screen-Wrapper').parents().css('background-image', '')                  
+                
+
+
+            } else {
+                console.log($('.Screen-Wrapper').parents())
+                // $('.Screen-Wrapper').parents([0]).css('background-image', `url(${'/img/blackpokedex.png'})`)  
+                // $('.Screen-Wrapper').parents([0]).css('background-size', 'cover')
+        
+                // myCSS(bg, 'background-image', `url(${'/public/img/blackpokedex.png'})`)
+            }
+        }
         
         
         if (props.pokedexClick == 'true') {
@@ -483,6 +509,7 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
                                         //  {props.thirdPage === true ?                    
                         <>
                                             <button
+                                            onClick={bodystyle}
                                             id="NightModeBtn"
                                             className="Sprite Half-Size"
                                             >
