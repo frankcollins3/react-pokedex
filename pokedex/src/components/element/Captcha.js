@@ -81,20 +81,26 @@ function Captcha (props) {
                 let childrensChildren = await GetChildren(containerChildren);
 
                 if (name === 'gastly' || name === 'haunter' || name === 'gengar') {
+                    toggleHideShow($(event.target).parents().siblings(), 'hide')
+
                     // let type = await ReturnTypes(name) I was going to use this code but i set up the ghosts to return psychic to accommodate the second page.
                     // leaving for proof-of-concept that i'd just keep the returned ghost array for (haunter,gastly,gengar) as [psychic, ghost]
                     // you would evaluate and if any type was ghost, make the ghost-based changes like change the background to whose-haunter.png
-                    setStateInt(8)
+                    setStateInt(9)
                     await attrTool(childrensChildren, 'src', '')
                     await toggleHideShow(childrensChildren, 'detach');
-
+                    
+                    
                     myCSS(containerChildren, 'background-image', `url(${'/img/haunter.png'})`);
                     myCSS(containerChildren, 'background-size', 'cover');
                     myCSS(containerChildren, 'background-repeat', 'no-repeat');    
+                    myCSS(childrensChildren, 'opacity', '0.0');
                     
                     // let ghostimage = await GetImage(name, 'back')
                     // setHoverImage(ghostimage);
                 }  else {
+                    toggleHideShow($(event.target).parents().siblings(), 'show')
+                    myCSS(childrensChildren, 'opacity', '1.0');
                     myCSS(containerChildren, 'background-image', `url(${'/img/openPokeBall.png'})`);    
                     myCSS(containerChildren, 'background-size', '1000%')                
                     let randomimage = await GetImage(name, 'front')
@@ -208,9 +214,9 @@ function Captcha (props) {
         } else {
             const setType = async () => await setClickType(type)
             const changeMessage = async () => {
-                let newText = `That's not an Electric Pokemon. You found a wild ${clickType} pokemon!`
+                let newText = `That's not an Electric Pokemon. You found a wild ${clickType || type} pokemon!`
                 typeText.html(newText);
-                setTimeout(typeText.html(textStart), 2000)
+                // setTimeout(typeText.html(startingText), 2000)
                 typeText.css("border", '5px dotted orange');
             }
             const asyncfunc = async () => {
