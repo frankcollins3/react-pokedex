@@ -42,6 +42,7 @@ function Main (props) {
         {pokedexClick === 'true'  ?
 
         <Nav
+         currentUrl={props.currentUrl} setCurrentUrl={props.setCurrentUrl}
          ghost={props.ghost} setGhost={props.setGhost}
          catchEmAll={props.catchEmAll} setCatchEmAll={props.setCatchEmAll}  lock={props.lock} setLock={props.setLock}
          />
@@ -64,4 +65,4 @@ function Main (props) {
         // </>
     )
 }
-export default Main     
+export default Main
