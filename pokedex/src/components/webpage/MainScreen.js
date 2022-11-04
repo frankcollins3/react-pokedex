@@ -4,6 +4,7 @@ import Screen from '../element/Screen'
 import BootstrapScreen from '../element/Bootstrap'
 import Captcha from '../element/Captcha'
 import Nav from '../element/NavBar'
+import Footer from '../element/MoonShoe'
 import { $ } from 'react-jquery-plugin'
 
 
@@ -21,7 +22,18 @@ function Main (props) {
             let loc = window.location
             
             let hrefCurrent = loc.href
-            await props.setCurrentUrl(hrefCurrent)            
+            await props.setCurrentUrl(hrefCurrent)
+            let lastSlashString = hrefCurrent.substring(hrefCurrent.lastIndexOf('/'))
+            console.log('lastSlashString')
+            console.log(lastSlashString)
+            let slashStrLen = lastSlashString.length
+            if (!slashStrLen >= 1) {
+                console.log('our condition is met for the homepage to be excluded')
+            } else {
+                
+            }
+
+            // ? bg to peachpuff committ with: had bug where black bg sticks after pg 3 just thought of moonmode
         }
         checkURL()
             
@@ -56,10 +68,16 @@ function Main (props) {
         setPokedexClick={setPokedexClick}
         ghost={props.ghost} setGhost={props.setGhost}
         fakeDbState={props.fakeDbState} setFakeDbState={props.setFakeDbState}
-        />
+        />        
         :
         ''
             }
+        {
+        props.thirdPage === true ? 
+        <Footer />
+        : 
+        ''
+        }
         </div>
     
         // </>
