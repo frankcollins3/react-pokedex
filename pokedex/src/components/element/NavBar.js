@@ -63,6 +63,7 @@ else { console.log("no pokemon / home page or 3rd page")}
                 // was using 
                 let lastSlashString = hrefCurrent.substring(hrefCurrent.lastIndexOf('/'))
                 console.log(lastSlashString)
+                console.log(lastSlashString.length)
 
                 let onlyNumberString = lastSlashString.replace(/[\/a-z]/g, '')
                 console.log('onlyNumberString')
@@ -72,23 +73,23 @@ else { console.log("no pokemon / home page or 3rd page")}
                 // 
 
                 if (lastSlashString.includes('pokemon') && onlyNumberString.length === 0) {
-                    props.setCurrentUrl('TypeScreen')
+                    await props.setCurrentUrl('TypeScreen')
+
                     // this isolates to: localhost:3000/pokemon and excludes /pokemon/1
                 }
-                if (!lastSlashString.length >= 1) { 
-                    props.setCurrentUrl('MainScreen')
-                    console.log("this condition is met and the home page is excluded")
+                if (lastSlashString.length === 1) { 
+                    await props.setCurrentUrl('MainScreen')
+                    console.log("home page")
                 } 
                 else if (onlyNumberString.length === 1) {
-                    props.setCurrentUrl('InfoScreen')
-                    console.log("this is the third page and only the third page")
-                    console.log("the third page is now separated by existence of the number from the id url params")
-// if i leave this else block like this the TypeScreen will satisfy this condition
-// have to use .length and the existence of the int as the distinguishing .charAt() that separates pg 2 from 3
-                
+                    await props.setCurrentUrl('InfoScreen')
+                    
                 }
 
-                await props.setCurrentUrl(hrefCurrent)            
+// if i leave this else block like this the TypeScreen will satisfy this condition
+// have to use .length and the existence of the int as the distinguishing .charAt() that separates pg 2 from 3
+
+                // await props.setCurrentUrl(hrefCurrent) wow leaving this line of code obviously negated any above changes.            
             }
             checkURL()
                 
@@ -187,6 +188,14 @@ else { console.log("no pokemon / home page or 3rd page")}
                 
             }
 
+            const ultraball = () => {
+                if (props.currentUrl === 'MainScreen') {
+                    return 
+                } else {
+                    console.log("this is the ultraball function")
+                    console.log(props.currentUrl)
+                }
+            }
             
         return (
             <div onMouseMove={lookForGhosts} className="Nav-Bar">            
@@ -204,7 +213,16 @@ else { console.log("no pokemon / home page or 3rd page")}
                 className="navBall Half-Size" id="Greatball">
                 </button>
 
-                <button className="navBall Half-Size" id="Ultraball"></button>
+                <button
+                 style={{ 
+                    border: props.currentUrl === 'InfoScreen' ? "5px solid orange" : '',
+                    // pointerEvents: props.currentUrl === 'MainScreen' ? 'none' : '',
+                    cursor: props.currentUrl === 'MainScreen' ? 'not-allowed' : 'pointer'
+                }}
+                onClick={ultraball}
+                 className="navBall Half-Size" id="Ultraball">                    
+                </button>
+
                 <button 
                 onClick={ghostBallPoke.includes('usercontent') ? ghostClick : nofunction }
                 style= {{ 
