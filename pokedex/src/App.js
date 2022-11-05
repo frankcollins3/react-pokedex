@@ -2,10 +2,13 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Main from './components/webpage/MainScreen'
 import TypeScreen from './components/webpage/TypeScreen'
 import InfoScreen from './components/webpage/InfoScreen'
+import {Container} from './components/styles/Container.styled.js'
 
 import React, { useEffect, useState} from 'react'
 
 import './App.css';
+import './styles.scss';
+// bring in a new scss file and do them both at the same time
 
 function App() {
   const [fakeDbState, setFakeDbState] = useState([])
