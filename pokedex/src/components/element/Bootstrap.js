@@ -18,9 +18,45 @@
     import animate from '../utility/animationTool'
     import EventTool from '../utility/EventTool'
     import CleanUrl from '../utility/CleanUrlTool'
-
+    import {Container} from '../styles/Container.styled'
     import Watch from '../utility/TimerTool'
-import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
+    import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
+    console.log({Container})
+    {Container: {…}}
+Container
+$$typeof
+Symbol(react.forward_ref)
+attrs
+[]
+componentStyle
+[]
+render
+ƒ (e, t)
+shouldForwardProp
+undefined
+styledComponentId
+"sc-bcXHqe"
+target
+"div"
+toString
+ƒ ()
+warnTooManyClasses
+ƒ (o)
+withComponent
+ƒ (e)
+defaultProps
+(...)
+displayName
+(...)
+get defaultProps
+ƒ ()
+set defaultProps
+ƒ (t)
+get displayName
+ƒ ()
+set displayName
+ƒ (name)
+
     
 
     let id = [1, 4, 7]
@@ -422,9 +458,7 @@ import NavbarToggle from 'react-bootstrap/esm/NavbarToggle';
                 $('body').css('background-image', '')  
                 $('body').css('background-size', 'cover')  
                 $('body').css('background-repeat', 'no-repeat')  
-                
-                
-                
+                                    
             } else {
                 console.log( $('.Screen-Wrapper').parents())
                 // $('#root').css("background-color", 'limegreen');
