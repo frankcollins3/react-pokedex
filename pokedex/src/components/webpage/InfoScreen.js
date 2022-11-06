@@ -59,6 +59,7 @@ function InfoScreen(props) {
     useEffect( () => {
         console.log("endpoint is changed")
         if (parseInt(wrapwidth) < 450) {
+            let newendpoint = []
             console.log("atleast were less than 400")
             // no need for parseint i thought it was a string
             $('.Info-Wrap').css('border', '5px solid olive');
@@ -66,12 +67,44 @@ function InfoScreen(props) {
             myCSS(containerchildren, 'font-family', '10px')
             // let allptags = document.querySelectorAll('p')
             // myCSS(allptags, 'border', '5px solid hotpink');
-            $('p').each( (idx, textitem) => {
-                console.log('textitem')
-                console.log(textitem)
+
+            const loopAndPush = () => {
+                let presubstring = endpoint.split(' ')
+                console.log('presubstring')
+                console.log(presubstring)
+                presubstring.forEach( (substr, index) => {
+                    console.log('substr')
+                    console.log(substr)
+                    newendpoint.push(substr)
+                    if (index % 2 !== 0) {
+                        newendpoint.push('\n')
+                    }
+                })
+            }
+
+            const checkbuckets = async () => {
+                console.log('newenpoint from checkbuckets')
+                console.log(newendpoint)
+            }
+            const doubleAsync = async () => {
+                await loopAndPush()
+                await checkbuckets()                
+            }
+            doubleAsync()
+
+
+            // let text1 = $('p')[0]
+            // let text2 = $('p')[1]
+
+            // let substring = text1.substring()
+            // console.log('substring')
+            // console.log(substring)
+            // $('p').each( (idx, textitem) => {
+            //     console.log('textitem')
+            //     console.log(textitem)
+            // })
 
                 
-            })
         } else if (intwidth > 400) {
             console.log('more than 400!!!!')
         }
