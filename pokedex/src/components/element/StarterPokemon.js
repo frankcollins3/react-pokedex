@@ -55,27 +55,22 @@ function StarterPokemon (props) {
 
                 let prechain1 = await Axios.get(one)
                 let chain1 = prechain1.data.chain
+                let evolveTo1 = chain1.evolves_to
                 let firsturl = chain1.species.url
                 let firstid = await CleanUrl(firsturl)
-
+                
                 let prechain2 = await Axios.get(two)
                 let chain2 = prechain2.data.chain
+                let evolveTo2 = chain2.evolves_to
                 let chain2firsturl = chain2.species.url
                 let chain2id = await CleanUrl(chain2firsturl)
-
+                
                 let prechain3 = await Axios.get(three)
                 let chain3 = prechain3.data.chain
+                let evolveTo3 = chain3.evolves_to
                 let chain3firsturl = chain3.species.url
                 let chain3id = await CleanUrl(chain3firsturl)
-
-                console.log(firstid)
-                console.log(chain2id)
-                console.log(chain3id)
-
-                console.log(typeof firstid)
-                console.log(typeof randomPokemon)
-                console.log('randomPokemon')
-                console.log(randomPokemon)
+                
 
                 if (stringint === firstid || stringint === chain2id || stringint === chain3id) {
                     console.log('in the conditional')
@@ -83,22 +78,58 @@ function StarterPokemon (props) {
                     console.log(randomPokemon)
 
                     if (stringint === firstid) {
-                        console.log(chain1)
-                        chain1.map( (mapitem) => {
+                        console.log(chain1)    
+                        console.log(evolveTo1)  
+                        evolveTo1.map( (map1) => {
+                            console.log('map1')
+                            console.log(map1)
+                            let name = map1.species.name
 
-                        })
-                        console.log('it equals first id')                        
+                            evolveTo1.map( (map1) => {
+                                console.log('map1')
+                                console.log(map1)
+                                let name = map1.species.name
+                                map1.evolves_to.map( (map1again) => {
+                                    console.log('map1again')
+                                    console.log(map1again)
+                                })
+                            })              
+                        
+                        })      
+                          
                     }
                     else if (stringint === chain2id) {
                         console.log('it equals second id')
+                        console.log(chain2)
+                        console.log(evolveTo2)   
 
-                        chain2.map(async(mapitem) => {
-                            console.log('mapitem')
-                            console.log(mapitem)
-                        })
+                        evolveTo2.map( (map2) => {
+                            console.log('map1')
+                            console.log(map2)
+                            let name = map2.species.name
+                            map2.evolves_to.map( (map2again) => {
+                                console.log('map2again')
+                                console.log(map2again)
+                            })
+                        })              
+                        
                     }
                     else if (stringint === chain3id) {
                         console.log('it equals the third id')                        
+                        console.log(chain3)
+                        console.log(evolveTo3)         
+                        
+                        evolveTo3.map( (map3) => {
+                            console.log('map3')
+                            console.log(map3)
+                            let name = map3.species.name
+                            map3.evolves_to.map( (map3again) => {
+                                console.log('map3again')
+                                console.log(map3again)
+                            })
+                        })              
+
+                         
                     }
                 }
                 
