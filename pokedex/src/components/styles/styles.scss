@@ -1,0 +1,161 @@
+* {
+    text-align: center;
+}
+// * MainScreen
+.Screen {
+    height: 40rem;
+    width: 40rem;   
+    // max-width: 100%;
+}
+
+.Pokedex {
+    height: 20rem;
+    width: 20rem;
+}
+
+// * /pokemon pg2
+// .Type-Wrap {
+    
+// }
+
+.Real-Screen {
+    height: 20rem;
+    width: 20rem;
+}
+
+.Circle {
+    height: 5rem;
+    width: 5rem;
+}
+
+#Info-Pokemon {
+    height: 10rem;
+    width: 10rem;
+}
+
+
+
+
+// * /pokemon pg2
+
+
+// * captcha
+.Captcha-Box {
+    // border: 5px solid hotpink;
+    height: 10rem;
+    width: 10rem;
+}
+
+#Gear {
+    height: 12rem;
+    width: 12rem;
+}
+
+@media (max-width: 1200px) {
+    body {
+        background-size: cover;
+        background-size: cover;
+        min-height: 100vh;
+        width: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #Gear {
+
+        // border: 5px solid orange;
+        height: 4rem;
+        width: 4rem;
+    }
+    .Home-Body {
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        width: 100vh;
+    }
+    // position: relative;
+    // left: -200px;
+
+    // .Type-Wrap {
+    //     display: flex;
+    //     flex-direction: column;
+    //     flex-wrap: wrap;
+    //     justify-content: center;
+    //     align-items: center;
+    //     height: 100vh;
+    //     width: 100vh;
+    // }
+
+    // .Type-Bar {
+    //    flex-wrap: wrap;
+    // }
+}
+
+@media (max-width: 600px) {
+    .Home-Body {        
+        // border: 5px dotted orange;
+        min-height: 100vh; 
+        overflow: hidden;        
+        // min-height: 100vh;
+        // overflow: hidden;
+    }
+
+    .Info-Wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        border: 5px solid orange;
+
+        div {
+            border: 5px dotted pink;
+        }
+    }
+
+
+
+
+    // margin: 0 auto;
+    // height: 250vh;
+
+    .Type-Wrap {
+        display: flex;
+        flex-direction: column;
+        // flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: -400px -400px;
+        height: 100vh;
+        width: 100vh;
+    }
+}
+
+@media only screen and (max-width: 900px) and (min-width: 374px) {
+.Home-Body {
+    min-height: 100vh;
+}
+
+
+.Real-Screen {
+    height: 20rem;
+    width: 20rem;
+}
+
+.Type-Wrap {
+    min-width: 100vh;
+    min-height: 100vh;
+}
+}
+// * captcha
+
+
+
+
+
+// * /pokemon
+
+// * /pokemon
