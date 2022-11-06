@@ -23,6 +23,7 @@ function StarterPokemon (props) {
         $(event.target).siblings().detach()
         let options = [1, 4, 7]
         let randomPokemon = await ReturnRandom(options)
+        let stringint = randomPokemon.toString()
         await props.setStarterPokemon(randomPokemon)
         let pokedata = await APIcall('specify', randomPokemon)
     
@@ -62,11 +63,44 @@ function StarterPokemon (props) {
                 let chain2firsturl = chain2.species.url
                 let chain2id = await CleanUrl(chain2firsturl)
 
-                let prechain3 = await Axios.get(two)
+                let prechain3 = await Axios.get(three)
                 let chain3 = prechain3.data.chain
                 let chain3firsturl = chain3.species.url
                 let chain3id = await CleanUrl(chain3firsturl)
 
+                console.log(firstid)
+                console.log(chain2id)
+                console.log(chain3id)
+
+                console.log(typeof firstid)
+                console.log(typeof randomPokemon)
+                console.log('randomPokemon')
+                console.log(randomPokemon)
+
+                if (stringint === firstid || stringint === chain2id || stringint === chain3id) {
+                    console.log('in the conditional')
+                    console.log('randomPokemon')
+                    console.log(randomPokemon)
+
+                    if (stringint === firstid) {
+                        console.log(chain1)
+                        chain1.map( (mapitem) => {
+
+                        })
+                        console.log('it equals first id')                        
+                    }
+                    else if (stringint === chain2id) {
+                        console.log('it equals second id')
+
+                        chain2.map(async(mapitem) => {
+                            console.log('mapitem')
+                            console.log(mapitem)
+                        })
+                    }
+                    else if (stringint === chain3id) {
+                        console.log('it equals the third id')                        
+                    }
+                }
                 
                 
                 
