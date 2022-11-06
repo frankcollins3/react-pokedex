@@ -2,6 +2,7 @@ import React, { useEffect, useState} from 'react'
 import ReturnRandom from '../utility/ReturnRandom'
 import APIcall from '../utility/pokeAPI'
 import { $ } from 'react-jquery-plugin'
+import EvolutionChain from '../utility/Evolution'
 
 
 function StarterPokemon (props) {
@@ -19,7 +20,13 @@ function StarterPokemon (props) {
         let randomPokemon = await ReturnRandom(options)
         await props.setStarterPokemon(randomPokemon)
         let pokedata = await APIcall('specify', randomPokemon)
+        let chain = await EvolutionChain(randomPokemon)
+        console.log('chain')
+        console.log(chain)
+
+        console.log('pokedata')
         console.log(pokedata)
+
     }
 
     const doNothing = () => console.info('nothing')
@@ -57,11 +64,7 @@ function StarterPokemon (props) {
             // onClick={starterpokemon}
             onClick={start === true ? doNothing : starterpokemon}
             >
-                </li>
-            
-            
-            
-            
+                </li>            
         </ul>
     )
 }
