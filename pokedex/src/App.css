@@ -3,14 +3,16 @@
 * {
   text-align: center;
   font-family: 'Open Sans';       /* will change but looks nice for now.  */
+  overflow: hidden;
 }
  
 /* Home Nav & Main Screen */
 .Home-Body {
+  overflow: hidden;
   text-align: center;
   background-color: peachpuff;
-  min-height: 100vh;
-  min-width: 100vh;
+  min-height: 100vh; 
+  min-width: 100vh; 
 }
 
 .Main-Wrap {
@@ -102,7 +104,8 @@
 
 /* SCREEN */
 .Screen {  
-  padding: 4em 0 4em 0;
+  /* padding: 4em 0 4em 0; */
+  
   overflow-y: scroll;
   /* overflow: hidden; */
   display: flex;
@@ -138,7 +141,7 @@
 
 .Poke-Bar-Pokemon {
   list-style-type: none;
-  margin: 0 1em 0 1em;
+  /* margin: 0 1em 0 1em; */
 }
 
 .Pokedex {
@@ -174,13 +177,13 @@
 }
 
 .Bootstrap-Screen-Btn {
-  margin-top: -1.25em;
-  background-image: url("/public/img/pokeball.png");
+   margin-top: -1.25em; 
+   background-image: url("/public/img/pokeball.png"); 
   background-size: cover;
   background-repeat: no-repeat;
   background-color: transparent;
   border-color: transparent;
-  pointer-events: none;
+  pointer-events: none; 
 }
 
 .Invisible-P {
@@ -249,6 +252,14 @@
 .Quarter-Size { transform: scale(0.25);}
 .Tenth-Size { transform: scale(0.1);}
 .Invisible { display: none;}
+
+@media (max-width: 1200px) {
+  .Home-Body {
+    /* background-color: purple; */
+  }
+}
+
+
 /* SCREEN */
 
 
@@ -377,9 +388,11 @@ animation-iteration-count: 1
 /* **** TypeScreen / Page2 / Greatball Click */
 .Type-Wrap {
   /* border: 5px solid hotpink; */
-  margin-top: -500px;
-  padding: 0;
-  margin: 0 auto;
+  /* margin-top: -500px; */
+
+  /* padding: 0;
+  margin: 0 auto; */
+
   /* overflow-y: hidden; */
   height: 100vh;
   width: 100vw;  
@@ -390,18 +403,18 @@ animation-iteration-count: 1
 
 
 .Real-Screen {
-  padding: 0%;
+  /* padding: 0%; */
   overflow-x: scroll;
   /* overflow-y: scroll; */
-    margin-top: 5%;
+    /* margin-top: 5%; */
     background-image: url('/public/img/nicePokedex.png');
     background-size: cover;
     background-repeat: no-repeat;
     border: 1.5px solid rgb(61, 46, 61);
     box-shadow: 1px 1px 1px rgb(61, 46, 61);
     padding-top: 3%;
-    height: 500px;
-    width: 500px;
+    /* height: 500px;
+    width: 500px; */
 }
 
 .Screen-Parents {
@@ -435,8 +448,8 @@ animation-iteration-count: 1
     /* margin: 0 5% 0 5%; padding: 0 5% 0 5%; */
     border: 1.5px solid rgb(61, 46, 61);
     box-shadow: 1.5px 1.5px 1.5px rgb(19, 14, 19);
-    height: 120px;
-    width: 120px;
+    /* height: 120px;
+    width: 120px; */
     border-radius: 50%;
     /* padding: 2% 2% 0 2%; */
     margin-top: 2%;
@@ -455,8 +468,10 @@ animation-iteration-count: 1
 
 .Info-Image-Container {
   /* border: 5px solid hotpink; */
+
   height: 50vh;
   width: 20vw;
+
   background-image: url('/public/img/whiteCard.jpg');
   background-size: cover;
   background-repeat: no-repeat;
@@ -574,5 +589,83 @@ animation-iteration-count: 1
   font-size: 55px;
   color: white;
 }
+
+.Captcha-Text {
+  color: #C4C4C4;
+  font-size: 18px;
+  letter-spacing: 0.125em;
+}
+
+#Gear {
+  background-image: url('/public/img/gear.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  height: 150px;
+  width: 150px;
+  position: relative;
+  top: -1em;
+}
+
+.tailWhip {
+  animation: swift 5s infinite
+}
+@keyframes swift { 
+  0% {
+  }
+  25% {
+  transform: rotate(45deg)
+}
+  50% {
+  transform: rotate(90deg)
+}
+  60% {
+  transform: rotate(135deg)
+  }
+  80% {
+  transform: rotate(180deg)
+  }
+  100% {
+    transform: rotate (360deg)
+  }
+}
+
+.rotateAnimation1 {
+  animation: ball1 4s 1;
+}
+
+@keyframes ball1 {
+  0%, 100% {
+    transform: rotate(0deg)
+  }
+  20% {
+    transform: rotate(2deg)
+  }
+  40% {
+    transform: rotate(-2deg)
+  }
+  60% {
+    transform: rotate(4deg)
+  }
+  65% {
+    transform: rotate(-3deg)
+  }
+  70% {
+    transform: rotate(2deg)
+  }
+  80% {
+    transform: rotate(-1deg)
+  } 
+}
+
+#NightModeBtn {  
+  background-image: url('/public/img/nightmode.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  border: transparent;
+  border-radius: 50%;
+}
+
 
 /* *** Captcha  */
