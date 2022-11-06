@@ -8,7 +8,6 @@
     import Axios from 'axios'
 
     function InfoPokeImage(props) {
-        console.log('props')
         // console.log(props)     {paramPoke: '1', setParamPoke: ƒ}
         const [imageBucket, setImageBucket] = useState([])
 
@@ -49,18 +48,10 @@
             })()
         }, [])  // error set state run over and over no dependency array to trigger end. 
 
-        const seeState = async () => {
-            console.log('imageBucket')
-            console.log(imageBucket)
+        const seeState = async () => {            
         }
 
-        const inspectcont = async (event) => {
-            // setTimeout(async() => {
-            //     let shinyparam = await GetImage(props.paramPoke, 'shiny')            
-            //     setImageUrl(shinyparam)            
-            // }, "2000")
-            // setTimeout( () => {
-            //     }, "3000")
+        const inspectcont = async (event) => {            
             let frontimg = await GetImage(props.paramPoke, 'front')
             props.setImageUrl(frontimg)
         }
@@ -71,40 +62,21 @@
             await props.setImageUrl(pokemonfront)        
         }
             
-        const elemshiny = async () => {
-            // let preimage = await APIcall('specify', props.paramPoke)
-            // let image = preimage[1].image
-            // await 
-            let shinyimg = await GetImage(props.paramPoke, 'shiny')
-            console.log(shinyimg)
-            console.log('image from the elemShiny')        
-            await props.setImageUrl(shinyimg)
-            
-        }
-            // await setImageUrl()
-            // onMouseLeave={hoverDefaults}
+        const elemshiny = async () => {            
+            let shinyimg = await GetImage(props.paramPoke, 'shiny')            
+            await props.setImageUrl(shinyimg)            
+        }            
         return (
-            <div onMouseEnter={inspectcont} onMouseLeave={hoverDefaults}  className="Info-Image-Container Column-Center">
-                {/* <p onMouseEnter={seeState}>  Pokemon Image Demo text</p> */}
+            <div             
+              className="Info-Image-Container Column-Center">                
                 {props.imageUrl.length ?
                 <img 
                 onClick={elemshiny}
-                className="Sprite Quadruple"src={props.imageUrl} />
+                id="Info-Pokemon" src={props.imageUrl} />
                 :
                 <p ref={inforef} className="Invisible" onClick={seeState}> no state no image</p>
             }
-
             </div>
         )
     }
     export default InfoPokeImage
-
-                    // https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png
-                    // InfoPokeImage.js:26 null
-                    // InfoPokeImage.js:26 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png
-                    // InfoPokeImage.js:26 null
-                    // InfoPokeImage.js:26 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png
-                    // InfoPokeImage.js:26 null
-                    // InfoPokeImage.js:26 https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png
-                    // InfoPokeImage.js:26 null
-                    // setImageBucket([...imageBucket, `${images[img]}`])
