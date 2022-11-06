@@ -6,10 +6,15 @@
     import { $ } from 'react-jquery-plugin' 
     import toggleHideShow from '../utility/hideShow'
     import Axios from 'axios'
+import { createImportSpecifier } from 'typescript'
 
     function InfoPokeImage(props) {
         // console.log(props)     {paramPoke: '1', setParamPoke: ƒ}
         const [imageBucket, setImageBucket] = useState([])
+        const [evenOdd, setEvenOdd] = useState(true) // true if even
+
+        const infopoke = $('#Info-Pokemon')
+
 
         // const [imageUrl, setImageUrl] = useState('')
 
@@ -66,8 +71,25 @@
             let shinyimg = await GetImage(props.paramPoke, 'shiny')            
             await props.setImageUrl(shinyimg)            
         }            
+
+        const ImageHoverHandler = async () => {
+            console.log('evenOdd before setting it')
+            console.log(evenOdd)
+
+            console.log("were hovering over the image");
+            if (evenOdd === true) {
+                await setEvenOdd(false)
+                await myCSS(infopoke, 'opacity', '0.2')
+                await myCSS(infopoke, 'align-self', 'flex-end')
+            } else {
+                setEvenOdd(true) 
+            }
+
+        }
+
         return (
-            <div             
+            <div       
+                onMouseEnter={ImageHoverHandler}      
               className="Info-Image-Container Column-Center">                
                 {props.imageUrl.length ?
                 <img 
