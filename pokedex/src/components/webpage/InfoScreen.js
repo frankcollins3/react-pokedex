@@ -7,6 +7,7 @@ import InfoEndpoint from '../element/InfoEndpoint'
 import EndpointBar from '../element/InfoEndpointBar'
 import Nav from '../element/NavBar'
 import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
+import myCSS from '../utility/CSStool'
 // weird error. having:
 // import EndpointBar from element/InfoEndpoint.
 // this typo brought out the InfoEndpoint component stored as Endpointbar
@@ -24,19 +25,16 @@ function InfoScreen(props) {
     const [moveIndex, setMoveIndex] = useState(0)
     const [clickedGloves, setClickedGloves] = useState('false')
 
+    const [stringForSplit, setStringForSplit] = useState('')
+
     let wrapwidth = $('.Info-Wrap').width() * 2
     let intwidth = parseInt(wrapwidth)
+    console.log('wrapwidth')
+    console.log(wrapwidth)
     console.log(`wrapwidth type ${typeof wrapwidth}`)
     console.log(`intwidth type ${typeof intwidth}`)
 
     useEffect( () => {
-        if (parseInt(wrapwidth) < 400) {
-            // no need for parseint i thought it was a string
-            $('.Info-Wrap').css('border', '5px solid olive');
-            console.log("atleast were less than 400")
-        } else {
-            console.log('more than 400!!!!')
-        }
         
         props.setThirdPage(true)
         
@@ -57,6 +55,27 @@ function InfoScreen(props) {
         }
         paramState()        
     }, [])
+
+    useEffect( () => {
+        console.log("endpoint is changed")
+        if (parseInt(wrapwidth) < 450) {
+            console.log("atleast were less than 400")
+            // no need for parseint i thought it was a string
+            $('.Info-Wrap').css('border', '5px solid olive');
+            let containerchildren = $('.Info-Wrap').children()
+            myCSS(containerchildren, 'font-family', '10px')
+            // let allptags = document.querySelectorAll('p')
+            // myCSS(allptags, 'border', '5px solid hotpink');
+            $('p').each( (idx, textitem) => {
+                console.log('textitem')
+                console.log(textitem)
+
+                
+            })
+        } else if (intwidth > 400) {
+            console.log('more than 400!!!!')
+        }
+    }, [endpoint])
     
     const check = () => {        
         // paramPoke InfoScreen.js:32 1 parampoke now returns 1 because of our export function t
