@@ -6,13 +6,14 @@ import InfoBtnBar from '../element/InfoBtnBar'
 import InfoEndpoint from '../element/InfoEndpoint'
 import EndpointBar from '../element/InfoEndpointBar'
 import Nav from '../element/NavBar'
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
 // weird error. having:
 // import EndpointBar from element/InfoEndpoint.
 // this typo brought out the InfoEndpoint component stored as Endpointbar
 
 
 // this is a webpage that will import multiple components that have access to the same urlparam state.
-function InfoScreen() {
+function InfoScreen(props) {
     const [paramPoke, setParamPoke] = useState('')
     const [imageUrl, setImageUrl] = useState('')
     const [endpointState, setEndpointState] = useState('change', 'the', 'state')    // populates with all state
@@ -20,16 +21,20 @@ function InfoScreen() {
     const [headerText, setHeaderText] = useState('') 
     const [endpoint, setEndpoint] = useState('') // checks populated state and grabs a value. This is the value cont.display based
 
-
     const [moveIndex, setMoveIndex] = useState(0)
     const [clickedGloves, setClickedGloves] = useState('false')
 
-
-    
+    let wrapwidth = $('.Info-Wrap').width() * 2
+    console.log('wrapwidth')
+    console.log(wrapwidth)
 
     useEffect( () => {
+        
+        props.setThirdPage(true)
+        
         $('.Info-Wrap').parents().css('background-image', `url(${'/img/blackpokedex.png'})`)  
         $('.Info-Wrap').parents().css('background-size', 'cover')
+
         // $('.Info-Wrap').children().css('margin', '0 1em 0 1em')
         // $('.Info-Wrap').parents().css('background-color', 'whitesmoke')  
         let jqdoc = $(document)
@@ -53,7 +58,8 @@ function InfoScreen() {
 
     return (
         <>
-        <Nav />
+        <Nav        currentUrl={props.currentUrl} setCurrentUrl={props.setCurrentUrl} thirdPage={props.thirdPage} setThirdPage={props.setThirdPage}
+        />
         <div className="Info-Wrap Row-Between">
             {/* <button onClick={check} className="navBall" id="Pokeball"></button> */}
             <div className="Info-Left Column-Center">
