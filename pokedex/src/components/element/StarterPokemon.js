@@ -1,9 +1,10 @@
 import React, { useEffect, useState} from 'react'
 import ReturnRandom from '../utility/ReturnRandom'
 import APIcall from '../utility/pokeAPI'
+import { $ } from 'react-jquery-plugin'
 
 
-function StarterPokemon () {
+function StarterPokemon (props) {
     const [ulHover, setUlHover] = useState(false)
     const [start, setStart] = useState(false)
  
@@ -11,10 +12,12 @@ function StarterPokemon () {
         setUlHover(true)
     }
 
-    const starterpokemon = async () => {
+    const starterpokemon = async (event) => {
         await setStart(true)
+        $(event.target).siblings().detach()
         let options = [1, 4, 7]
         let randomPokemon = await ReturnRandom(options)
+        await props.setStarterPokemon(randomPokemon)
         let pokedata = await APIcall('specify', randomPokemon)
         console.log(pokedata)
     }
