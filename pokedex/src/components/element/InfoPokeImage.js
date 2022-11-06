@@ -6,12 +6,23 @@
     import { $ } from 'react-jquery-plugin' 
     import toggleHideShow from '../utility/hideShow'
     import Axios from 'axios'
-import { createImportSpecifier } from 'typescript'
 
     function InfoPokeImage(props) {
         // console.log(props)     {paramPoke: '1', setParamPoke: ƒ}
         const [imageBucket, setImageBucket] = useState([])
         const [evenOdd, setEvenOdd] = useState(true) // true if even
+
+        const [name, setName] = useState('')
+        const [id, setId] = useState('') // was going to use int but want it to be: [id: int] not just [int]
+        const [description, setDescription] = useState('')
+
+        // const [info, setInfo] = useState([]) 
+        // I was going to use state and have an array of object endpoints to select from.
+        // instead there will be a [name, id, description] set of 3 different stateful variables
+        // conditional rendering based on evenOdd state
+
+
+
 
         const infopoke = $('#Info-Pokemon')
 
@@ -73,16 +84,31 @@ import { createImportSpecifier } from 'typescript'
         }            
 
         const ImageHoverHandler = async () => {
-            console.log('evenOdd before setting it')
-            console.log(evenOdd)
+            let href = window.location.href
+            let len = href.length
+            console.log('href')
+            console.log(href)
+
+            let preclean = href.slice(len - 4)
+            console.log('preclean')
+            console.log(preclean)
+            let cleanid = preclean.replace(/[\/a-z]/g, '')
+            console.log('cleanid')
+            console.log(cleanid)
+
+            // const localid = $(document).location.href.replace(/[\a-z]/g, '')
+
+            
+            
 
             console.log("were hovering over the image");
             if (evenOdd === true) {
                 await setEvenOdd(false)
-                await myCSS(infopoke, 'opacity', '0.2')
-                await myCSS(infopoke, 'align-self', 'flex-end')
+                // await myCSS(infopoke, 'opacity', '0.2')
+                // await myCSS(infopoke, 'align-self', 'flex-end')
             } else {
                 setEvenOdd(true) 
+                // await myCSS(infopoke, 'opacity', '1.0')
             }
 
         }
@@ -92,9 +118,16 @@ import { createImportSpecifier } from 'typescript'
                 onMouseEnter={ImageHoverHandler}      
               className="Info-Image-Container Column-Center">                
                 {props.imageUrl.length ?
+                <>
                 <img 
+                style={{ opacity: evenOdd === true ? '1.0' : '0.1'}}
                 onClick={elemshiny}
                 id="Info-Pokemon" src={props.imageUrl} />
+                <p
+                style={{ display: evenOdd === true ? 'none' : 'inline'}}
+                > hi </p>
+                
+                </>
                 :
                 <p ref={inforef} className="Invisible" onClick={seeState}> no state no image</p>
             }
