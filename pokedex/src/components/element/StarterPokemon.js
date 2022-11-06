@@ -3,6 +3,8 @@ import ReturnRandom from '../utility/ReturnRandom'
 import APIcall from '../utility/pokeAPI'
 import { $ } from 'react-jquery-plugin'
 import EvolutionChain from '../utility/Evolution'
+import CleanUrl from '../utility/CleanUrlTool'
+import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript'
 
 
 function StarterPokemon (props) {
@@ -20,14 +22,24 @@ function StarterPokemon (props) {
         let randomPokemon = await ReturnRandom(options)
         await props.setStarterPokemon(randomPokemon)
         let pokedata = await APIcall('specify', randomPokemon)
+    
         let chain = await EvolutionChain(randomPokemon)
-        console.log('chain')
-        console.log(chain)
+        
+        const chainpromise =  Promise.resolve(chain)
+        chainpromise.then(async(promiseparam) => {
+            await console.log(promiseparam)
+            promiseparam.map( (mapitem) => {
+                console.log('mapitem')
+                console.log(mapitem)
+            })                 
+        })
+        console.log('chainpromise')
+        console.log(chainpromise)
 
-        console.log('pokedata')
-        console.log(pokedata)
-
+        
     }
+
+
 
     const doNothing = () => console.info('nothing')
 
