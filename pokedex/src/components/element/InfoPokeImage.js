@@ -8,13 +8,16 @@
     import Axios from 'axios'
    
     import rootpokemon from '../JSON/pokeinfo.json'
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
+import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript'
 
 
     function InfoPokeImage(props) {
         // console.log(props)     {paramPoke: '1', setParamPoke: ƒ}
         const [imageBucket, setImageBucket] = useState([])
         const [evenOdd, setEvenOdd] = useState(true) // true if even
+
+        let pokemon = rootpokemon.rootpokemon
+        
 
         const [name, setName] = useState('')
         const [id, setId] = useState('') // was going to use int but want it to be: [id: int] not just [int]
@@ -89,16 +92,31 @@ import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
         }            
 
         const ImageHoverHandler = async () => {
-            console.log('rootpokemon')
-            console.log(rootpokemon)
-
+            
             let href = window.location.href
             let len = href.length
-        
+            
             let preclean = href.slice(len - 4)
             console.log('preclean')
             console.log(preclean)
             let cleanid = preclean.replace(/[\/a-z]/g, '')
+            console.log(`typeof cleanid ${typeof cleanid}`)
+
+
+            pokemon.forEach(async(poke) => {
+                console.log(poke.id)
+                console.log(`typeof pokeid ${typeof poke.id}`)
+                if (poke.id === parseInt(cleanid)) {
+
+                    console.log("now were back over here again")
+                    let describe = poke.description1
+                    console.log('describe')
+                    console.log(describe)
+                    
+                    await setDescription(describe)
+
+                }    
+            })
 
             let pokemondata = await APIcall('specify', cleanid)
             let pokename = pokemondata[0].name
@@ -149,7 +167,7 @@ import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
 
                 <p
                 style={{ display: evenOdd === true ? 'none' : 'inline'}}
-                > {id === null || id === undefined ? '' : description } </p>
+                > {description === null || description === undefined ? '' : description } </p>
                 
                 </>
                 :
