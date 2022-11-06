@@ -7,7 +7,7 @@ import {Container} from './components/styles/Container.styled.js'
 import React, { useEffect, useState} from 'react'
 
 import './App.css';
-import './styles.scss';
+import './components/styles/styles.scss';
 // bring in a new scss file and do them both at the same time
 
 function App() {
@@ -16,6 +16,8 @@ function App() {
   const [catchEmAll, setCatchEmAll] = useState('false')
   const [lock, setLock] = useState('locked')
   const [thirdPage, setThirdPage] = useState(false) // third eye
+
+  const [starterPokemon, setStarterPokemon] = useState('')
 
   const [currentUrl, setCurrentUrl] = useState('')
 
@@ -29,6 +31,7 @@ function App() {
 
       <Route path={'/'} element={
       <Main 
+       starterPokemon={starterPokemon} setStarterPokemon={setStarterPokemon}
        currentUrl={currentUrl} setCurrentUrl={setCurrentUrl} thirdPage={thirdPage} setThirdPage={setThirdPage}
        fakeDbState={fakeDbState} setFakeDbState={setFakeDbState} ghost={ghost} setGhost={setGhost} 
        catchEmAll={catchEmAll} setCatchEmAll={setCatchEmAll} lock={lock} setLock={setLock}      
