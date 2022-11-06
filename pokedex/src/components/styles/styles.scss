@@ -111,9 +111,14 @@
 
         border: 5px solid orange;
 
-        div {
-            border: 5px dotted pink;
+        // div {
+        //     border: 5px dotted pink;
+        // }
+
+        > div {
+            border: 5px solid pink;
         }
+      
     }
 
 
