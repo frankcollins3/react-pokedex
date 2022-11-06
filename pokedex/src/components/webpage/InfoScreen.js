@@ -25,10 +25,18 @@ function InfoScreen(props) {
     const [clickedGloves, setClickedGloves] = useState('false')
 
     let wrapwidth = $('.Info-Wrap').width() * 2
-    console.log('wrapwidth')
-    console.log(wrapwidth)
+    let intwidth = parseInt(wrapwidth)
+    console.log(`wrapwidth type ${typeof wrapwidth}`)
+    console.log(`intwidth type ${typeof intwidth}`)
 
     useEffect( () => {
+        if (parseInt(wrapwidth) < 400) {
+            // no need for parseint i thought it was a string
+            $('.Info-Wrap').css('border', '5px solid olive');
+            console.log("atleast were less than 400")
+        } else {
+            console.log('more than 400!!!!')
+        }
         
         props.setThirdPage(true)
         
