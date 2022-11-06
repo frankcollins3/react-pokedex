@@ -60,6 +60,7 @@ function InfoScreen(props) {
         console.log("endpoint is changed")
         if (parseInt(wrapwidth) < 450) {
             let newendpoint = []
+            let newstr = ''
             console.log("atleast were less than 400")
             // no need for parseint i thought it was a string
             $('.Info-Wrap').css('border', '5px solid olive');
@@ -76,21 +77,24 @@ function InfoScreen(props) {
                     console.log('substr')
                     console.log(substr)
                     newendpoint.push(substr)
+                    newstr += substr
                     if (index % 2 !== 0) {
                         newendpoint.push('\n')
+                        newstr += '\n'                
                     }
                 })
             }
 
             const checkbuckets = async () => {
-                console.log('newenpoint from checkbuckets')
                 console.log(newendpoint)
+                await setEndpoint(newstr)
             }
-            const doubleAsync = async () => {
-                await loopAndPush()
-                await checkbuckets()                
+
+            const asyncdouble = async () => {
+                await loopAndPush() 
+                await checkbuckets()
             }
-            doubleAsync()
+            asyncdouble()
 
 
             // let text1 = $('p')[0]
