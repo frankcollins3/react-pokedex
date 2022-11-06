@@ -6,6 +6,10 @@
     import { $ } from 'react-jquery-plugin' 
     import toggleHideShow from '../utility/hideShow'
     import Axios from 'axios'
+   
+    import rootpokemon from '../JSON/pokeinfo.json'
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
+
 
     function InfoPokeImage(props) {
         // console.log(props)     {paramPoke: '1', setParamPoke: ƒ}
@@ -15,6 +19,7 @@
         const [name, setName] = useState('')
         const [id, setId] = useState('') // was going to use int but want it to be: [id: int] not just [int]
         const [description, setDescription] = useState('')
+        // * FLAVOR TEXT FOR THE DESCRIPTION! CALL IT A DAY!!!!!
 
         // const [info, setInfo] = useState([]) 
         // I was going to use state and have an array of object endpoints to select from.
@@ -84,6 +89,8 @@
         }            
 
         const ImageHoverHandler = async () => {
+            console.log('rootpokemon')
+            console.log(rootpokemon)
 
             let href = window.location.href
             let len = href.length
