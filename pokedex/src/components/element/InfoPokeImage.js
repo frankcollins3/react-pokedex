@@ -84,17 +84,25 @@
         }            
 
         const ImageHoverHandler = async () => {
+
             let href = window.location.href
             let len = href.length
-            console.log('href')
-            console.log(href)
-
+        
             let preclean = href.slice(len - 4)
             console.log('preclean')
             console.log(preclean)
             let cleanid = preclean.replace(/[\/a-z]/g, '')
-            console.log('cleanid')
-            console.log(cleanid)
+
+            let pokemondata = await APIcall('specify', cleanid)
+            let pokename = pokemondata[0].name
+            let upperchar = pokename.charAt(0).toUpperCase()
+            let restOfChar = pokename.slice(1)
+
+            let newName = `${upperchar}${restOfChar}`
+
+            setId(cleanid)
+            await setName(newName)
+            
 
             // const localid = $(document).location.href.replace(/[\a-z]/g, '')
 
@@ -123,9 +131,18 @@
                 style={{ opacity: evenOdd === true ? '1.0' : '0.1'}}
                 onClick={elemshiny}
                 id="Info-Pokemon" src={props.imageUrl} />
+
                 <p
                 style={{ display: evenOdd === true ? 'none' : 'inline'}}
-                > hi </p>
+                > {name === null || id === undefined ? '' : `#${id}: ${name}` } </p>
+
+                {/* <p
+                style={{ display: evenOdd === true ? 'none' : 'inline'}}
+                > {id === null || id === undefined ? '' : id } </p> */}
+
+                <p
+                style={{ display: evenOdd === true ? 'none' : 'inline'}}
+                > {id === null || id === undefined ? '' : description } </p>
                 
                 </>
                 :
