@@ -43,6 +43,7 @@ function Captcha (props) {
     let container = $('.Captcha-Cont')
 
     useEffect( () => {
+        console.log(props.starterPokemon)
         console.log("use effect is firing")
         if (props.lock === 'unlocked') {
             console.log("if statement over here in the useEf is firing")
@@ -214,7 +215,6 @@ function Captcha (props) {
         let child = children.prevObject[0]
         let imgsrc = child.currentSrc || 'whoa'
          if (imgsrc.length > 5) {
-            console.log('length is there so URL is there')
         let cleanid = await CleanUrl(imgsrc)
         let type = await ReturnTypes(cleanid) 
         let textStart = typeText.text() // this was working but when you change the text then this variable gets stored as the new text when the function reruns because its being run from a mosueEvent 
@@ -247,15 +247,16 @@ function Captcha (props) {
 
     return (
         <>
-        <div 
-            style={ {display: props.catchEmAll === 'true' ? 'none' : 'block'}}
-            onMouseEnter={switchGears} id="Gear"> 
-        </div>
 
         <p
             className="Captcha-Text" id="Human-Text"
             style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
         > Welcome! We Just Want To Know If You're Human! </p>
+        
+        <div 
+            style={ {display: props.catchEmAll === 'true' ? 'none' : 'block'}}
+            onMouseEnter={switchGears} id="Gear"> 
+        </div>
 
         <div
          style={ {display: props.lock === 'locked' ? 'grid' : 'none'}}
