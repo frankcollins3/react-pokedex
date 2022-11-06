@@ -40,9 +40,7 @@ function InfoScreen(props) {
         
         $('.Info-Wrap').parents().css('background-image', `url(${'/img/blackpokedex.png'})`)  
         $('.Info-Wrap').parents().css('background-size', 'cover')
-
-        // $('.Info-Wrap').children().css('margin', '0 1em 0 1em')
-        // $('.Info-Wrap').parents().css('background-color', 'whitesmoke')  
+        
         let jqdoc = $(document)
         let win = window        
         // * we are digging for that urlparam which is our /pokemon/:id  
@@ -61,21 +59,13 @@ function InfoScreen(props) {
         if (parseInt(wrapwidth) < 450) {
             let newendpoint = []
             let newstr = ''
-            console.log("atleast were less than 400")
-            // no need for parseint i thought it was a string
-            $('.Info-Wrap').css('border', '5px solid olive');
             let containerchildren = $('.Info-Wrap').children()
             myCSS(containerchildren, 'font-family', '10px')
-            // let allptags = document.querySelectorAll('p')
-            // myCSS(allptags, 'border', '5px solid hotpink');
+            
 
             const loopAndPush = () => {
-                let presubstring = endpoint.split(' ')
-                console.log('presubstring')
-                console.log(presubstring)
-                presubstring.forEach( (substr, index) => {
-                    console.log('substr')
-                    console.log(substr)
+                let presubstring = endpoint.split(' ')                
+                presubstring.forEach( (substr, index) => {                    
                     newendpoint.push(substr)
                     newstr += substr
                     if (index % 2 !== 0) {
@@ -85,30 +75,16 @@ function InfoScreen(props) {
                 })
             }
 
-            const checkbuckets = async () => {
-                console.log(newendpoint)
+            const checkbuckets = async () => {                
                 await setEndpoint(newstr)
-            }
-
+            }        
             const asyncdouble = async () => {
                 await loopAndPush() 
                 await checkbuckets()
             }
             asyncdouble()
-
-
-            // let text1 = $('p')[0]
-            // let text2 = $('p')[1]
-
             // let substring = text1.substring()
-            // console.log('substring')
-            // console.log(substring)
-            // $('p').each( (idx, textitem) => {
-            //     console.log('textitem')
-            //     console.log(textitem)
-            // })
 
-                
         } else if (intwidth > 400) {
             console.log('more than 400!!!!')
         }
@@ -124,9 +100,9 @@ function InfoScreen(props) {
         <>
         <Nav        currentUrl={props.currentUrl} setCurrentUrl={props.setCurrentUrl} thirdPage={props.thirdPage} setThirdPage={props.setThirdPage}
         />
-        <div className="Info-Wrap Row-Between">
+        <div className="Info Info-Wrap Row-Between">
             {/* <button onClick={check} className="navBall" id="Pokeball"></button> */}
-            <div className="Info-Left Column-Center">
+            <div className="Info Info-Left Column-Center">
             <InfoPokeImage
              paramPoke={paramPoke} setParamPoke={setParamPoke}
              imageUrl={imageUrl} setImageUrl={setImageUrl}
@@ -138,7 +114,7 @@ function InfoScreen(props) {
             />
             </div>        
 
-            <div className="Info-Right Column-Center">
+            <div className="Info Info-Right Column-Center">
             <InfoEndpoint
             headerText={headerText} setHeaderText={setHeaderText}
             clickedGloves={clickedGloves} setClickedGloves={setClickedGloves}
