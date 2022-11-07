@@ -50,7 +50,20 @@ function Captcha (props) {
     let container = $('.Captcha-Cont')
 
     useEffect( () => {
-        console.log("atleast were over here")
+        if (token) {
+            
+             props.setLock('unlocked')
+             setSwitchGear('true')
+             toggleHideShow($('#secretSignIn'), 'detach')     
+             toggleHideShow($('#signInDiv'), 'detach')     
+             toggleHideShow($('#Start-List'), 'detach')       
+             toggleHideShow($('.Captcha-Text'), 'detach')  
+            //  myCSS($('.Captcha-Text'), 'color', 'purple')     
+        }
+
+    }, [token])
+
+    useEffect( () => {        
         props.google.accounts.id.initialize({
             client_id: '391925163312-b27vd8l3b0ic5lcshtno1reo3rkktqk6.apps.googleusercontent.com',
             callback: (accessToken) => {
@@ -61,11 +74,7 @@ function Captcha (props) {
                 
                 toggleHideShow($('#signInDiv'), 'detach')
                 setSwitchGear('true')
-                props.setLock('unlocked')
-                console.log('userObject')
-                console.log(userObject)
-                
-
+                props.setLock('unlocked')                    
             }
         })
         props.google.accounts.id.renderButton(
@@ -75,18 +84,8 @@ function Captcha (props) {
 
     }, [])
 
-    useEffect( () => {
-        console.log(props.starterPokemon)
-        console.log("use effect is firing")
-        if (props.lock === 'unlocked') {
-            console.log("if statement over here in the useEf is firing")
-            // props.setCatchEmAll('true')
-            // props.setCatchEmAll('true');
-        }
-    }, [])
 
     const imageGrab = async (event) => {
-        // console.log(event)
         let target = $(event.target)
          
         if (stateInt === 9) {
@@ -101,12 +100,9 @@ function Captcha (props) {
                     setStateInt(stateInt + 1)
                 }
 
-
                 let randompokemon = await ReturnRandomPoke(1);   
                 let name = randompokemon.name
-                // let randompokemon = 'gastly' 
-                // let name = 'haunter'
-
+                
                 let containerChildren = await GetChildren(container)
                 let childrensChildren = await GetChildren(containerChildren);
 
@@ -206,9 +202,7 @@ function Captcha (props) {
         }
     }
 
-    const switchGears = async (event) => {
-        console.log('props.fakeDbState')
-        console.log(props.fakeDbState)
+    const switchGears = async (event) => {        
 
         if (props.lock === 'unlocked') {
             toggleHideShow($(event.target), 'detach')
@@ -230,9 +224,7 @@ function Captcha (props) {
        
 
         let tgt = $(event.target)
-        let children = await GetChildren(tgt)
-        
-
+        let children = await GetChildren(tgt)    
         let child = children.prevObject[0]
         let imgsrc = child.currentSrc || 'whoa'
          if (imgsrc.length > 5) {
@@ -317,6 +309,7 @@ function Captcha (props) {
             className="Captcha-Text" id="Type-Text"
             style={ {opacity: switchGear === 'true' ? '1.0' : '0.0', display: props.lock === 'locked' ? 'none' : 'block'}}
         > Find the Electric type and Click on it to see the Pokemon!</p>
+
 
         <StarterPokemon
         fakeDbState={props.fakeDbState} setFakeDbState={props.setFakeDbState}
