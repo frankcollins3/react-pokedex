@@ -1,7 +1,15 @@
+* {
+    text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    // overflow: hidden;
+}
+// * MainScreen
 .Screen {
-    // max-width: 100%;
     height: 40rem;
     width: 40rem;   
+    overflow-y: scroll;
+    // max-width: 100%;
 }
 
 .Pokedex {
@@ -9,10 +17,39 @@
     width: 20rem;
 }
 
+// * /pokemon pg2
+// .Type-Wrap {
+    
+// }
 
-// * captcha
+.Real-Screen {
+    height: 20rem;
+    width: 20rem;
+}
+
+.Circle {
+    height: 5rem;
+    width: 5rem;
+}
+
+#Info-Pokemon {
+    height: 10rem;
+    width: 10rem;
+}
+
+
+
+
+// * /pokemon pg2
+
+
+
+.Captcha-Cont {
+    // border: 5px solid maroon;
+}
+
 .Captcha-Box {
-    border: 5px solid hotpink;
+    // border: 5px solid hotpink;
     height: 10rem;
     width: 10rem;
 }
@@ -23,16 +60,138 @@
 }
 
 @media (max-width: 1200px) {
+    body {
+        background-size: cover;
+        background-size: cover;
+        min-height: 100vh;
+        min-width: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
     #Gear {
-        border: 5px solid orange;
+
+        // border: 5px solid orange;
         height: 4rem;
         width: 4rem;
     }
     .Home-Body {
-        // padding: s;
-        height: 250vh;
-        overflow: hidden;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        min-width: 100vh;
+    }
+    // position: relative;
+    // left: -200px;
+
+    .Type-Wrap {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        min-width: 100vh;
+    }
+
+    // .Type-Bar {
+    //    flex-wrap: wrap;
+    // }
+}
+
+@media (max-width: 600px) {
+    .Home-Body {        
+        // border: 5px dotted orange;
+        min-height: 100vh; 
+        overflow: hidden;        
+        // min-height: 100vh;
+        // overflow: hidden;
+    }
+
+    .Info-Wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;                    
+        min-height: 100vh;    
+        overflow-x: hidden;            
+        // border: 5px solid purple;
+        p {
+            font-size: 14px;
+        }
+    }
+
+    .Endpoint-Text {
+        // color: orange;
+        height: 100%;
+    }
+
+    .Info-Image-Container {
+        height: 15rem;
+        width: 100rem;
+    }
+    
+    .Endpoint-Container {
+        height: 15rem;
+        width: 100rem;
+    }
+
+    .Info {
+        // border: 5px solid purple;
+        width: 25rem;
+    }
+        
+
+    // margin: 0 auto;
+    // height: 250vh;
+
+    .Type-Wrap {
+        display: flex;
+        flex-direction: column;
+        // flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vh;
     }
 }
 
-// * captcha
+@media only screen and (max-width: 900px) and (min-width: 374px) {
+.Home-Body {
+    min-height: 100vh;
+}
+
+
+.Real-Screen {
+    height: 20rem;
+    width: 20rem;
+}
+
+.Type-Wrap {
+    min-width: 100vh;
+    min-height: 100vh;
+}
+}
+
+#Start-List {
+    position: relative;
+    left: -0.9rem;
+    margin-top: 0.5em;
+    list-style-type: none;    
+    // border: 5px solid limegreen;
+    min-width: 45%;
+    max-width: 65%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-around;
+
+    li {
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+    }
+}
