@@ -56,10 +56,10 @@ function App() {
 
   return (
     <div className="Home-Body Column-Center">
-      <h1> hey </h1> 
+      {/* <h1> hey </h1> 
       <h1> hi  </h1> 
-      <h1> ho  </h1> 
-
+      <h1> ho  </h1>  */}
+    {/*  was checking to see if i could access the functions from JWT but didn't understand the methods were hidden in <Script src="google/gsi/client" */}
       <Router>
 
       <Routes>
