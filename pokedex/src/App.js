@@ -3,14 +3,45 @@ import Main from './components/webpage/MainScreen'
 import TypeScreen from './components/webpage/TypeScreen'
 import InfoScreen from './components/webpage/InfoScreen'
 import {Container} from './components/styles/Container.styled.js'
-
 import React, { useEffect, useState} from 'react'
-
 import './App.css';
 import './components/styles/styles.scss';
+
+
+
+
 // bring in a new scss file and do them both at the same time
 
 function App() {
+
+  
+
+  const client = ''
+  const access_token = '' 
+
+  const handlefunctionresponse = (response) => {
+    console.log(`encoded JWT ID Token` + response.token)
+  }
+
+
+
+  useEffect( () => {
+
+    /* global google  */
+    // google.accounts.id.initiate
+    console.log(google)
+    // google.accounts.id.initiate({
+    //   client_id: '391925163312-b27vd8l3b0ic5lcshtno1reo3rkktqk6.apps.googleusercontent.com',
+    //   callback: handlefunctionresponse      
+    // })
+    // callback argument says: whenever someone logs in, what function do we run 
+
+    //  google.accounts.id.renderButton(
+    //   document.getElementById('signInDiv'),
+    //   { theme: "outline", size: "large" }
+    //  )
+  }, [])
+
   const [fakeDbState, setFakeDbState] = useState([])
   const [ghost, setGhost] = useState('false')
   const [catchEmAll, setCatchEmAll] = useState('false')
@@ -25,6 +56,10 @@ function App() {
 
   return (
     <div className="Home-Body Column-Center">
+      <h1> hey </h1> 
+      <h1> hi  </h1> 
+      <h1> ho  </h1> 
+
       <Router>
 
       <Routes>
