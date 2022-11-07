@@ -10,6 +10,7 @@ import toggleHideShow from '../utility/hideShow'
 import ReturnTypes from '../utility/ReturnTypes'
 import ClassAction from '../utility/ClassAction'
 import CleanUrl from '../utility/CleanUrlTool'
+import StarterPokemon from '../element/StarterPokemon'
 
 import { useInView } from 'react-intersection-observer'
 
@@ -252,7 +253,7 @@ function Captcha (props) {
             className="Captcha-Text" id="Human-Text"
             style={ {opacity: switchGear === 'true' ? '1.0' : '0.0'}}
         > Welcome! We Just Want To Know If You're Human! </p>
-        
+
         <div 
             style={ {display: props.catchEmAll === 'true' ? 'none' : 'block'}}
             onMouseEnter={switchGears} id="Gear"> 
@@ -286,6 +287,12 @@ function Captcha (props) {
             className="Captcha-Text" id="Type-Text"
             style={ {opacity: switchGear === 'true' ? '1.0' : '0.0', display: props.lock === 'locked' ? 'none' : 'block'}}
         > Find the Electric type and Click on it to see the Pokemon!</p>
+
+        <StarterPokemon
+        fakeDbState={props.fakeDbState} setFakeDbState={props.setFakeDbState}
+        starterPokemon={props.starterPokemon} setStarterPokemon={props.setStarterPokemon}
+        />
+
         </>
     )
 }
