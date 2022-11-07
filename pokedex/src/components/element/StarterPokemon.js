@@ -5,7 +5,7 @@ import { $ } from 'react-jquery-plugin'
 import EvolutionChain from '../utility/Evolution'
 import CleanUrl from '../utility/CleanUrlTool'
 import Axios from 'axios'
-import { isPropertyAssignment, preProcessFile } from 'typescript'
+import toggleHideShow from '../utility/hideShow'
 
 let evolutionUrl = `https://pokeapi.co/api/v2/evolution-chain`
 
@@ -20,6 +20,23 @@ function StarterPokemon (props) {
     }
 
     const starterpokemon = async (event) => {
+        let target = $(event.target)
+        $(event.target)
+        .animate({
+            opacity: 0.8
+        }, 1000)
+        .animate({
+            opacity: 0.5
+            
+        }, 1000)
+        .animate({
+            opacity: 0.2
+        }, 1000)
+        .animate({
+            opacity: 0.1
+        }, 2000, async (event) => {
+            await toggleHideShow(target, 'detach')
+        })
         await setStart(true)
         $(event.target).siblings().detach()
         let options = [1, 4, 7]
