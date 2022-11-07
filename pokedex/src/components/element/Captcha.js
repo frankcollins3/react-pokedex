@@ -13,6 +13,7 @@ import CleanUrl from '../utility/CleanUrlTool'
 import StarterPokemon from '../element/StarterPokemon'
 import DB from '../databasepg.js'
 import myCSS from '../utility/CSStool';
+import jwt_decode from 'jwt-decode'
 import { useInView } from 'react-intersection-observer'
 import { getModeForUsageLocation } from 'typescript';
 
@@ -37,6 +38,8 @@ function Captcha (props) {
     const [randomInt, setRandomInt] = useState(0); 
     const [hoverType, setHoverType] = useState('');
     const [switchGear, setSwitchGear] = useState('false')
+
+    const [token, setToken] = useState('')
     // const [lock, setLock] = useState('locked')
     let [clickType, setClickType] = useState('')
 
@@ -54,6 +57,12 @@ function Captcha (props) {
             callback: (accessToken) => {
                 console.log('accessToken')
                 console.log(accessToken)
+                setToken(accessToken)
+                let userObject = jwt_decode(accessToken.credential)
+                console.log('userObject')
+                console.log(userObject)
+                
+
             }
         })
         props.google.accounts.id.renderButton(
@@ -215,7 +224,7 @@ function Captcha (props) {
     }
 
     const divClick = async (event) => {
-        
+       
 
         let tgt = $(event.target)
         let children = await GetChildren(tgt)
@@ -245,7 +254,20 @@ function Captcha (props) {
             }
             asyncfunc()
         }        
-         } else { console.log("no length we haven't hovered gear yet!")}        
+         } else {
+             console.log(props.google)
+             console.log("no length we haven't hovered gear yet!")
+             console.log($("#signInDiv"))
+            //  console.log($("#signInDiv").text()) // this will not access the text on the "Sign-In-With-Google" btn
+             console.log('token')
+             console.log(token)
+
+             console.log(jwt_decode)
+
+
+             // "<div class=\"S9gUrf-YoZ4jf\" style=\"position: relative;\"><div></div><iframe src=\"https://accounts.google.com/gsi/button?theme=outline&amp;size=large&amp;client_id=391925163312-b27vd8l3
+              
+        }        
         let length = $(tgt).children().length
     }
     
