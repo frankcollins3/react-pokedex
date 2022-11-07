@@ -5,6 +5,7 @@ import { $ } from 'react-jquery-plugin'
 import EvolutionChain from '../utility/Evolution'
 import CleanUrl from '../utility/CleanUrlTool'
 import Axios from 'axios'
+import { isPropertyAssignment, preProcessFile } from 'typescript'
 
 let evolutionUrl = `https://pokeapi.co/api/v2/evolution-chain`
 
@@ -23,6 +24,9 @@ function StarterPokemon (props) {
         $(event.target).siblings().detach()
         let options = [1, 4, 7]
         let randomPokemon = await ReturnRandom(options)
+
+    
+
         let stringint = randomPokemon.toString()
         await props.setStarterPokemon(randomPokemon)
         let pokedata = await APIcall('specify', randomPokemon)
@@ -42,7 +46,7 @@ function StarterPokemon (props) {
             // let evolvecall =  Axios.get(evolutionUrl).then( (data) => {
             Axios.get(evolutionUrl).then(async(data) => {
                 console.log('data')
-                console.log(data)
+                console.log(data)   
                 let results = data.data.results
                 
                 let one = results[0].url
@@ -70,64 +74,154 @@ function StarterPokemon (props) {
                 let evolveTo3 = chain3.evolves_to
                 let chain3firsturl = chain3.species.url
                 let chain3id = await CleanUrl(chain3firsturl)
-                
 
-                if (stringint === firstid || stringint === chain2id || stringint === chain3id) {
-                    console.log('in the conditional')
-                    console.log('randomPokemon')
-                    console.log(randomPokemon)
+       
 
+                if (stringint === firstid || stringint === chain2id || stringint === chain3id) {                    
+                    
                     if (stringint === firstid) {
-                        console.log(chain1)    
-                        console.log(evolveTo1)  
-                        evolveTo1.map( (map1) => {
-                            console.log('map1')
-                            console.log(map1)
-                            let name = map1.species.name
+                        let idbucket1 = new Array() || []
+                        
+                        let name = chain1.species.name
+                        
+                        let preid1 = chain1.species.url
+                        idbucket1.push(preid1)
+
+                        
+
+
+                        // let idIsClean = await CleanUrl(preid)     
+                        const mapFunction = () => {
 
                             evolveTo1.map( (map1) => {
-                                console.log('map1')
-                                console.log(map1)
-                                let name = map1.species.name
-                                map1.evolves_to.map( (map1again) => {
-                                    console.log('map1again')
-                                    console.log(map1again)
-                                })
-                            })              
-                        
-                        })      
-                          
+                                
+                            let name = map1.species.name
+                            let preid = map1.species.url
+                            console.log('preid')
+                            console.log(preid)
+                            idbucket1.push(preid)                                
+                            map1.evolves_to.map(async(map1again) => {
+                                
+                                let middlename = map1again.species.name
+                                let premiddleid = map1again.species.url
+                                
+                                
+                                let cleanmiddleid = await CleanUrl(premiddleid)
+                                
+                                idbucket1.push(premiddleid)    
+                            })
+                        })                                                            
+                    }   
+                    // mapFunction()
+                    
+                    const changeState = async () => {
+                        console.log('now were changing state')
+                        idbucket1.forEach(async(bucketitem) => {
+                           let cleanid = await CleanUrl(bucketitem)
+                           console.log('bucketitem')
+                           console.log(cleanid)
+                           await props.setFakeDbState([...props.fakeDbState, cleanid])
+                        })
+                        // await checkdb()
+                    }
+
+                    const twofunctions = async () => {
+                        await mapFunction()
+                        await changeState()
+                    }
+                    twofunctions()
+                                
                     }
                     else if (stringint === chain2id) {
-                        console.log('it equals second id')
-                        console.log(chain2)
-                        console.log(evolveTo2)   
+                        let idbucket2 = [] 
+                        console.log('it equals second id')                        
 
-                        evolveTo2.map( (map2) => {
-                            console.log('map1')
-                            console.log(map2)
-                            let name = map2.species.name
-                            map2.evolves_to.map( (map2again) => {
-                                console.log('map2again')
-                                console.log(map2again)
+                        let preid = chain2.species.url
+                        idbucket2.push(preid)
+                        let idIsClean = await CleanUrl(preid)                        
+
+                        const mapFunction = () => {                            
+                            evolveTo2.map(async(map2) => {                            
+                                let name = map2.species.name     
+                            let preid2 = map2.species.url  
+                            idbucket2.push(preid2)                     
+                            let cleanid2 = await CleanUrl(preid2)
+                            console.log(cleanid2)
+                            
+                            map2.evolves_to.map(async(map2again) => {                                                                
+                                let middlename = map2again.species.name
+                                let middleid2 = map2again.species.url
+                                idbucket2.push(middleid2)
+                                let cleanmiddleid2 = await CleanUrl(middleid2)                                
+                                let evolveAgain = map2again.evolves_to
+                                console.log('evolveAgain')
+                                console.log(evolveAgain)                                
                             })
                         })              
+                    }
+
+                    const changeState = async () => {
+                        idbucket2.forEach(async(item) => {
+                            let cleanid = await CleanUrl(item)
+                            console.log('cleanid')
+                            console.log(cleanid)
+                            await props.setFakeDbState([...props.fakeDbState, cleanid])
+                        })
+                        // await checkdb()
+                    }
+
+                    const pushDataChangeState = async () => {
+                        console.log('idbucket2')
+                        console.log(idbucket2)
+                        await mapFunction()
+                        await changeState()
+                        
+                    }
+                    pushDataChangeState()
+                        
                         
                     }
                     else if (stringint === chain3id) {
+                        let idbucket3 = new Array() || []
                         console.log('it equals the third id')                        
-                        console.log(chain3)
-                        console.log(evolveTo3)         
-                        
-                        evolveTo3.map( (map3) => {
-                            console.log('map3')
-                            console.log(map3)
-                            let name = map3.species.name
-                            map3.evolves_to.map( (map3again) => {
-                                console.log('map3again')
-                                console.log(map3again)
+                   
+                        let preid = chain3.species.url
+                        idbucket3.push(preid)
+                        let idIsClean = await CleanUrl(preid)
+                        console.log('idIsClean')
+                        console.log(idIsClean)
+
+                        const mapFunction = () => {
+                            evolveTo3.map(async(map3) => {
+                                
+                                let preid = map3.species.url
+                                idbucket3.push(preid)
+                                let idIsClean = await CleanUrl(preid)                                                        
+                                
+                                map3.evolves_to.map(async(map3again) => {                                    
+                                    
+                                    let thirdname = map3again.species.name
+                                    let preid3 = map3again.species.url
+                                    idbucket3.push(preid3)                                    
+                                })
+                            })              
+                        }
+
+                        const changeState = async () => {
+                            console.log('idbucket3')
+                            console.log(idbucket3)
+                            idbucket3.forEach(async(preid) => {
+                                let actualIdInt = await CleanUrl(preid)
+                                await props.setFakeDbState([...props.fakeDbState, actualIdInt])
                             })
-                        })              
+                            // await checkdb()
+                        }
+
+                        const idHandler = async () => {
+                            await mapFunction()
+                            await changeState()
+                        }
+                        idHandler()
 
                          
                     }
@@ -165,7 +259,11 @@ function StarterPokemon (props) {
 
 
 
-    const doNothing = () => console.info('nothing')
+    const doNothing = () => {
+        console.log('props.fakeDbState')
+        console.log(props.fakeDbState)
+        console.info('nothing')
+    }
 
     return (
         <ul onMouseEnter={listHover} id="Start-List">
