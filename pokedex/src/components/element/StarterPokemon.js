@@ -116,12 +116,21 @@ function StarterPokemon (props) {
                     
                     const changeState = async () => {
                         console.log('now were changing state')
-                        idbucket1.forEach(async(bucketitem) => {
-                           let cleanid = await CleanUrl(bucketitem)
-                           console.log('bucketitem')
-                           console.log(cleanid)
-                           await props.setFakeDbState([...props.fakeDbState, cleanid])
-                        })
+                        let stateArray = []
+                        const loopAndPush = async () => {
+                            idbucket1.forEach(async(bucketitem) => {
+                                let cleanid = await CleanUrl(bucketitem)
+                                await stateArray.push(cleanid)
+                                //    await props.setFakeDbState([...props.fakeDbState, cleanid])
+                            })
+                        }
+                        const stateFunc = async () => {
+                            await props.setFakeDbState([...stateArray])
+                        }
+                        await loopAndPush()
+                        await stateFunc()
+
+
                         // await checkdb()
                     }
 
@@ -161,12 +170,23 @@ function StarterPokemon (props) {
                     }
 
                     const changeState = async () => {
-                        idbucket2.forEach(async(item) => {
-                            let cleanid = await CleanUrl(item)
-                            console.log('cleanid')
-                            console.log(cleanid)
-                            await props.setFakeDbState([...props.fakeDbState, cleanid])
-                        })
+                        let stateArray = [] || new Array()
+                        const loopAndPush = async () => {
+                            idbucket2.forEach(async(item) => {
+                                let cleanid = await CleanUrl(item)
+                                console.log('cleanid')
+                                console.log(cleanid)
+                                await stateArray.push(cleanid)
+                                // await props.setFakeDbState([...props.fakeDbState, cleanid])
+                            })
+                        }
+                        const waitAndChange = async () => {
+                            await props.setFakeDbState([...stateArray])
+                        }
+                        await loopAndPush()
+                        await waitAndChange()
+                    
+
                         // await checkdb()
                     }
 
@@ -183,13 +203,11 @@ function StarterPokemon (props) {
                     }
                     else if (stringint === chain3id) {
                         let idbucket3 = new Array() || []
-                        console.log('it equals the third id')                        
+                        
                    
                         let preid = chain3.species.url
                         idbucket3.push(preid)
-                        let idIsClean = await CleanUrl(preid)
-                        console.log('idIsClean')
-                        console.log(idIsClean)
+                        let idIsClean = await CleanUrl(preid)                   
 
                         const mapFunction = () => {
                             evolveTo3.map(async(map3) => {
@@ -208,13 +226,21 @@ function StarterPokemon (props) {
                         }
 
                         const changeState = async () => {
-                            console.log('idbucket3')
-                            console.log(idbucket3)
-                            idbucket3.forEach(async(preid) => {
-                                let actualIdInt = await CleanUrl(preid)
-                                await props.setFakeDbState([...props.fakeDbState, actualIdInt])
-                            })
-                            // await checkdb()
+                            let stateArray = []
+                            const loopAndPush = async () => {
+                                idbucket3.forEach(async(preid) => {
+                                    let actualIdInt = await CleanUrl(preid)
+                                    stateArray.push(actualIdInt)
+                                    // await props.setFakeDbState([...props.fakeDbState, actualIdInt])
+                                })
+                            }
+                            const checkAndChange = async () => {
+                                if (typeof stateArray === 'object') {
+                                    await props.setFakeDbState(stateArray)
+                                }                            
+                            }
+                            await loopAndPush()
+                            await checkAndChange()                                                            
                         }
 
                         const idHandler = async () => {
@@ -225,36 +251,16 @@ function StarterPokemon (props) {
 
                          
                     }
-                }
-                
-                
-                
-        
-
-                // these just return the URL data
-                // Axios.get(`${evolutionUrl}/1`).then( (data) => {
-                //     console.log('data')
-                //     console.log(data)
-                // })
-                
+                }                                        
             })
 
 
             resolve(chain);
           });          
           chainpromise.then(arr => {
-            if (arr.length > 0) {
-            console.log('arr')
-            console.log(arr)
-              // loop over arr          
+            if (arr.length > 0) {            
             }
-          });
-
-
-        console.log('chainpromise')
-        console.log(chainpromise)
-
-        
+          });        
     }
 
 
