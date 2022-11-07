@@ -15,7 +15,6 @@ import DB from '../databasepg.js'
 import myCSS from '../utility/CSStool';
 import jwt_decode from 'jwt-decode'
 import { useInView } from 'react-intersection-observer'
-import { getModeForUsageLocation } from 'typescript';
 
 
 
@@ -59,6 +58,10 @@ function Captcha (props) {
                 console.log(accessToken)
                 setToken(accessToken)
                 let userObject = jwt_decode(accessToken.credential)
+                
+                toggleHideShow($('#signInDiv'), 'detach')
+                setSwitchGear('true')
+                props.setLock('unlocked')
                 console.log('userObject')
                 console.log(userObject)
                 
