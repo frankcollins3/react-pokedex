@@ -1,10 +1,15 @@
 * {
+    margin-top: 0.25em;
     text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    // overflow: hidden;
 }
 // * MainScreen
 .Screen {
     height: 40rem;
     width: 40rem;   
+    overflow-y: scroll;
     // max-width: 100%;
 }
 
@@ -39,7 +44,21 @@
 // * /pokemon pg2
 
 
-// * captcha
+
+.Captcha-Cont {
+    // border: 5px solid maroon;
+}
+
+.Outer-Layer {
+    // border: 5px solid yellowgreen;
+
+    li {
+        // border: 5px solid mediumvioletred;
+        margin: 0 0.25em;
+        
+    }
+}
+
 .Captcha-Box {
     // border: 5px solid hotpink;
     height: 10rem;
@@ -47,8 +66,9 @@
 }
 
 #Gear {
-    height: 12rem;
-    width: 12rem;
+    margin-top: 1em;
+    height: 6rem;
+    width: 6rem;
 }
 
 @media (max-width: 1200px) {
@@ -56,7 +76,7 @@
         background-size: cover;
         background-size: cover;
         min-height: 100vh;
-        width: 100vh;
+        min-width: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -74,20 +94,20 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        width: 100vh;
+        min-width: 100vh;
     }
     // position: relative;
     // left: -200px;
 
-    // .Type-Wrap {
-    //     display: flex;
-    //     flex-direction: column;
-    //     flex-wrap: wrap;
-    //     justify-content: center;
-    //     align-items: center;
-    //     height: 100vh;
-    //     width: 100vh;
-    // }
+    .Type-Wrap {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        min-width: 100vh;
+    }
 
     // .Type-Bar {
     //    flex-wrap: wrap;
@@ -107,28 +127,35 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
-
-        // border: 5px solid orange;
-
-        // div {
-        //     border: 5px dotted pink;
-        // }
-
-        // > div {
-        //     border: 5px solid pink;
-        // }
-        :nth-child(1) {
-            width: 40rem;
+        align-items: center;                    
+        min-height: 100vh;    
+        overflow-x: hidden;            
+        // border: 5px solid purple;
+        p {
+            font-size: 14px;
         }
-        :nth-child(2) {
-            width: 40rem;
-        }
-      
     }
 
+    .Endpoint-Text {
+        // color: orange;
+        height: 100%;
+    }
 
+    .Info-Image-Container {
+        height: 15rem;
+        width: 100rem;
+    }
+    
+    .Endpoint-Container {
+        height: 15rem;
+        width: 100rem;
+    }
 
+    .Info {
+        // border: 5px solid purple;
+        width: 25rem;
+    }
+        
 
     // margin: 0 auto;
     // height: 250vh;
@@ -139,7 +166,6 @@
         // flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        gap: -400px -400px;
         height: 100vh;
         width: 100vh;
     }
@@ -161,11 +187,40 @@
     min-height: 100vh;
 }
 }
+
+#Start-List {
+    position: relative;
+    left: -0.9rem;
+    margin-top: 0.5em;
+    list-style-type: none;    
+    // border: 5px solid limegreen;
+    min-width: 45%;
+    max-width: 65%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-around;
+
+    li {
+        height: 35px;
+        width: 35px;
+        border-radius: 50%;
+    }
+}
+
+#secretSignIn {
+    margin-top: -0.5rem;
+    #signInDiv { 
+        opacity: 0.01; 
+        margin-top: -0.5rem;
+    };
+}
+
+
+
+
+
 // * captcha
-
-
-
-
 
 // * /pokemon
 
