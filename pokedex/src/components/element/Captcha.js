@@ -39,6 +39,14 @@ function Captcha (props) {
     const [switchGear, setSwitchGear] = useState('false')
 
     const [token, setToken] = useState('')
+
+    const [userName, setUserName] = useState('')
+    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('')
+
+    const [persistentUser, setPersistentUser] = useState('')
+    const [pickPokemon, setPickPokemon] = useState(false)
+
     // const [lock, setLock] = useState('locked')
     let [clickType, setClickType] = useState('')
 
@@ -63,15 +71,24 @@ function Captcha (props) {
 
     }, [token])
 
+    const test = (event) => {
+        console.log('event')
+        console.log(event)
+        
+        console.log('test')
+    
+    }
+
     useEffect( () => {        
         props.google.accounts.id.initialize({
             client_id: '391925163312-b27vd8l3b0ic5lcshtno1reo3rkktqk6.apps.googleusercontent.com',
-            callback: (accessToken) => {
-                console.log('accessToken')
-                console.log(accessToken)
+            callback: (accessToken) => {                
                 setToken(accessToken)
                 let userObject = jwt_decode(accessToken.credential)
-                
+
+                console.log('userObject')
+                console.log(userObject)
+                                
                 toggleHideShow($('#signInDiv'), 'detach')
                 setSwitchGear('true')
                 props.setLock('unlocked')                    
@@ -107,11 +124,7 @@ function Captcha (props) {
                 let childrensChildren = await GetChildren(containerChildren);
 
                 if (name === 'gastly' || name === 'haunter' || name === 'gengar') {
-                    toggleHideShow($(event.target).parents().siblings(), 'hide')
-
-                    // let type = await ReturnTypes(name) I was going to use this code but i set up the ghosts to return psychic to accommodate the second page.
-                    // leaving for proof-of-concept that i'd just keep the returned ghost array for (haunter,gastly,gengar) as [psychic, ghost]
-                    // you would evaluate and if any type was ghost, make the ghost-based changes like change the background to whose-haunter.png
+                    toggleHideShow($(event.target).parents().siblings(), 'hide')                    
                     setStateInt(9)
                     await attrTool(childrensChildren, 'src', '')
                     await toggleHideShow(childrensChildren, 'detach');
@@ -158,27 +171,6 @@ function Captcha (props) {
                     $(target).append(img)
                 }
 
-                // $(event.target).css('background-image', image)
-                // $(event.target).css('background-size', 'cover')
-                // $(event.target).css('background-repeat', 'no-repeat')
-
-                
-                    // const change = async () => {
-                    //     let randomimage = ''
-                    //     randomimage = await GetImage(value, 'front');
-                    //     setHoverImage(randomimage)
-                    //     // let randomimage = await GetImage(value, 'front');
-                    //     console.log(randomimage);
-                    // }
-                    // const setImage = async () => {
-                    //   await attrTool($(img), 'src', hoverImage);
-                    // }
-
-                    // const bothFunctions = async () => {
-                    //     await change()
-                    //     await setImage()
-                    // }
-                    // bothFunctions()
 
                 } else {
                     myCSS($(img), 'background-image', `url('${hoverImage}')`)
@@ -203,15 +195,18 @@ function Captcha (props) {
     }
 
     const switchGears = async (event) => {        
-
-        if (props.lock === 'unlocked') {
-            toggleHideShow($(event.target), 'detach')
-            props.setCatchEmAll('true');
-            
+        if (pickPokemon === true) {            
+            if (props.lock === 'unlocked') {
+                toggleHideShow($(event.target), 'detach')
+                props.setCatchEmAll('true');
+                
+            } else {
+                setSwitchGear('true')
+                let target = $(event.target)            
+                await ClassAction('add', $(event.target), 'tailWhip')
+            }
         } else {
-            setSwitchGear('true')
-            let target = $(event.target)            
-            await ClassAction('add', $(event.target), 'tailWhip')
+            return
         }
 
     }
@@ -269,7 +264,7 @@ function Captcha (props) {
     
 
     return (
-        <>
+        <div className="Outer-Layer Column-Center">
 
         <p
             className="Captcha-Text" id="Human-Text"
@@ -282,7 +277,7 @@ function Captcha (props) {
         </div>
 
         <div
-         style={ {display: props.lock === 'locked' ? 'grid' : 'none'}}
+         style={ {display: props.lock === 'locked' ? 'grid' : 'none'}}        
          className="Captcha-Cont" id="Nine-By-Nine">
 
              <div onMouseEnter={switchGear === 'true' ? imageGrab : nothing } onClick={divClick} className="Captcha-Box Column-Center">
@@ -312,11 +307,12 @@ function Captcha (props) {
 
 
         <StarterPokemon
+        pickPokemon={pickPokemon} setPickPokemon={setPickPokemon}
         fakeDbState={props.fakeDbState} setFakeDbState={props.setFakeDbState}
         starterPokemon={props.starterPokemon} setStarterPokemon={props.setStarterPokemon}
         />
 
-        </>
+        </div>
     )
 }
 
