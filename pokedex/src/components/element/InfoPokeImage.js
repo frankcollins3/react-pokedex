@@ -16,7 +16,7 @@ import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTem
         const [imageBucket, setImageBucket] = useState([])
         const [evenOdd, setEvenOdd] = useState(true) // true if even
 
-        let pokemon = rootpokemon.rootpokemon
+//         let pokemon = rootpokemon.rootpokemon
         
 
         const [name, setName] = useState('')
