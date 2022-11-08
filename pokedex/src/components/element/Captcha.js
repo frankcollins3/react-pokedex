@@ -11,7 +11,7 @@ import ReturnTypes from '../utility/ReturnTypes'
 import ClassAction from '../utility/ClassAction'
 import CleanUrl from '../utility/CleanUrlTool'
 import StarterPokemon from '../element/StarterPokemon'
-import DB from '../databasepg.js'
+// import DB from '../databasepg.js'
 import myCSS from '../utility/CSStool';
 import jwt_decode from 'jwt-decode'
 import { useInView } from 'react-intersection-observer'
