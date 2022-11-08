@@ -7,7 +7,7 @@
     import toggleHideShow from '../utility/hideShow'
     import Axios from 'axios'
    
-    import rootpokemon from '../JSON/pokeinfo.json'
+//     import rootpokemon from '../JSON/pokeinfo.json'
 import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript'
 
 
