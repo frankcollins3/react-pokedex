@@ -6,6 +6,8 @@ import Captcha from '../element/Captcha'
 import Nav from '../element/NavBar'
 import Footer from '../element/MoonShoe'
 import { $ } from 'react-jquery-plugin'
+import {Container} from '../styles/Container.styled.js'
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript'
 
 
 function Main (props) {
@@ -15,6 +17,9 @@ function Main (props) {
     // console.log(props.fakeDbState)
 
     useEffect( () => {
+        for (let i = 0 ; i < 9; i++) {
+            console.log(i)
+        }
 
         const checkURL = async () => {            
             let doc = window ||  $(document) 
@@ -49,35 +54,41 @@ function Main (props) {
         // <>
         <div className="Column-Center">   
         <Captcha
-         catchEmAll={props.catchEmAll} setCatchEmAll={props.setCatchEmAll}  lock={props.lock} setLock={props.setLock}
+            google={props.google}
+            fakeDbState={props.fakeDbState} setFakeDbState={props.setFakeDbState}
+            starterPokemon={props.starterPokemon} setStarterPokemon={props.setStarterPokemon}
+            catchEmAll={props.catchEmAll} setCatchEmAll={props.setCatchEmAll}  lock={props.lock} setLock={props.setLock}
          />                     
         {pokedexClick === 'true'  ?
 
         <Nav
-         currentUrl={props.currentUrl} setCurrentUrl={props.setCurrentUrl}
-         ghost={props.ghost} setGhost={props.setGhost}
-         catchEmAll={props.catchEmAll} setCatchEmAll={props.setCatchEmAll}  lock={props.lock} setLock={props.setLock}
-         />
-         :
-         ''
+            google={props.google}
+            thirdPage={props.thirdPage} setThirdPage={props.setThirdPage}
+            currentUrl={props.currentUrl} setCurrentUrl={props.setCurrentUrl}
+            ghost={props.ghost} setGhost={props.setGhost}
+            catchEmAll={props.catchEmAll} setCatchEmAll={props.setCatchEmAll}  lock={props.lock} setLock={props.setLock}
+            />
+            :
+            ''
         }
         { props.catchEmAll === 'true' ? 
-        <BootstrapScreen 
+        <BootstrapScreen         
+        google={props.google}
         catchEmAll={props.catchEmAll} setCatchEmAll={props.setCatchEmAll}  lock={props.lock} setLock={props.setLock}
-        pokedexClick={pokedexClick}
-        setPokedexClick={setPokedexClick}
+        pokedexClick={pokedexClick} setPokedexClick={setPokedexClick}
+        thirdPage={props.thirdPage} 
         ghost={props.ghost} setGhost={props.setGhost}
         fakeDbState={props.fakeDbState} setFakeDbState={props.setFakeDbState}
         />        
         :
         ''
             }
-        {
+        {/* {
         props.thirdPage === true ? 
         <Footer />
         : 
         ''
-        }
+        } */}
         </div>
     
         // </>
