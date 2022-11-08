@@ -7,8 +7,8 @@
     import toggleHideShow from '../utility/hideShow'
     import Axios from 'axios'
    
-//     import rootpokemon from '../JSON/pokeinfo.json'
-import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript'
+    import rootpokemon from '../JSON/pokeinfo.json'
+    import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTemplateLiteral } from 'typescript'
 
 
     function InfoPokeImage(props) {
@@ -16,7 +16,7 @@ import { collapseTextChangeRangesAcrossMultipleVersions, createNoSubstitutionTem
         const [imageBucket, setImageBucket] = useState([])
         const [evenOdd, setEvenOdd] = useState(true) // true if even
 
-//         let pokemon = rootpokemon.rootpokemon
+        let pokemon = rootpokemon.rootpokemon
         
 
         const [name, setName] = useState('')
