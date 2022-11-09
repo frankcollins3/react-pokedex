@@ -3,7 +3,7 @@
 * {
   text-align: center;
   font-family: 'Open Sans';       /* will change but looks nice for now.  */
-  overflow: hidden;
+  /* overflow: hidden; */
 }
  
 /* Home Nav & Main Screen */
@@ -253,11 +253,11 @@
 .Tenth-Size { transform: scale(0.1);}
 .Invisible { display: none;}
 
-@media (max-width: 1200px) {
-  .Home-Body {
+/* @media (max-width: 1200px) { */
+  /* .Home-Body { */
     /* background-color: purple; */
-  }
-}
+  /* } */
+/* } */
 
 
 /* SCREEN */
@@ -290,7 +290,7 @@
     opacity: 0.2;
   }
   100% {
-    opacity: 0.0
+    opacity: 0.0;
   }
 }
 #Screen-Input {
@@ -303,11 +303,11 @@
 
 @keyframes Float {
   0% {    
-    transform: skewY(-5deg)
+    transform: skewY(-5deg);
   }
   10% {
     position: relative;
-    transform: skewY(+5deg)
+    transform: skewY(+5deg);
   }
   20% {
     position: relative;
@@ -352,48 +352,41 @@
 
 .Pokeball-Animate {
 animation: Gentle-Rotate 4s; 
-animation-iteration-count: 1
+animation-iteration-count: 1;
 }
 
 @keyframes Gentle-Rotate {
   0% {
-    transform: rotate()
+    transform: rotate();
   }
   20% {
     transform: rotate(-9deg);
   }
   40% {
-    transform: rotate(18deg)
+    transform: rotate(18deg);
   }
   43% {
-    transform: rotate(0deg)
+    transform: rotate(0deg);
   }
   46% {
-    transform: rotate(-3deg)
+    transform: rotate(-3deg);
   }
   49% {
-    transform: rotate(3deg)
+    transform: rotate(3deg);
   }
   65% {
-    transform: rotate(-3deg)
+    transform: rotate(-3deg);
   }
   80% {
-    transform: rotate(5deg)
+    transform: rotate(5deg);
   }
   100% {
-    transform: rotate(0)
+    transform: rotate(0);
   }
 }
 
 /* **** TypeScreen / Page2 / Greatball Click */
 .Type-Wrap {
-  /* border: 5px solid hotpink; */
-  /* margin-top: -500px; */
-
-  /* padding: 0;
-  margin: 0 auto; */
-
-  /* overflow-y: hidden; */
   height: 100vh;
   width: 100vw;  
   background-image: url("/public/img/noScreenPokedex.jpeg");
@@ -403,18 +396,13 @@ animation-iteration-count: 1
 
 
 .Real-Screen {
-  /* padding: 0%; */
   overflow-x: scroll;
-  /* overflow-y: scroll; */
-    /* margin-top: 5%; */
     background-image: url('/public/img/nicePokedex.png');
     background-size: cover;
     background-repeat: no-repeat;
     border: 1.5px solid rgb(61, 46, 61);
     box-shadow: 1px 1px 1px rgb(61, 46, 61);
-    padding-top: 3%;
-    /* height: 500px;
-    width: 500px; */
+    padding-top: 3%;    
 }
 
 .Screen-Parents {
@@ -422,12 +410,10 @@ animation-iteration-count: 1
   overflow: scroll;
   height: 100px;
   box-shadow: 4px 4px 4px lightcyan;
-  /* margin-top: 10em; */
 }
 
 .Real-Screen-P {
   width: 30%;
-  /* border: '5px dotted orange'; */
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -438,59 +424,39 @@ animation-iteration-count: 1
   width: 800px;
 }
 
-.Circle {
-  /* border-radius: 50%;
-  border: 5px solid orange; */
-    overflow: hidden;
-    /* opacity: 0.1; */
+.Circle {  
+    overflow: hidden;  
     display: flex;
-    top: 0; left  : 0; /* nice to know you can do positioning css I wonder if you can do margin and padding the same line-reducing way.... */
-    /* margin: 0 5% 0 5%; padding: 0 5% 0 5%; */
+    top: 0; left  : 0;     
     border: 1.5px solid rgb(61, 46, 61);
-    box-shadow: 1.5px 1.5px 1.5px rgb(19, 14, 19);
-    /* height: 120px;
-    width: 120px; */
-    border-radius: 50%;
-    /* padding: 2% 2% 0 2%; */
+    box-shadow: 1.5px 1.5px 1.5px rgb(19, 14, 19);    
+    border-radius: 50%;    
     margin-top: 2%;
-    background-size: cover;
-    /* background-repeat: no-repeat; */
-    /* from .circle div: */
-
+    background-size: cover;    
 }
 /* **** ____________ end of page 2 */
 
 
 /* ? PAGE 3 !!!!  */
-/* .Info-Wrap {
-
-} */
 
 .Info-Image-Container {
-  /* border: 5px solid hotpink; */
-
   height: 50vh;
   width: 20vw;
-
   background-image: url('/public/img/whiteCard.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  /* margin: 0 1em 0 1em; */
 }
 
 .Endpoint-Container {
-  /* border: 5px solid hotpink; */
   height: 50vh;
   width: 20vw;
   background-image: url('/public/img/whiteCard.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  /* margin: -2.5em -1em 0em -1em; */
 }
 
-.Info-Endpoint-Bar {
-  /* border: 3px solid green; */
-}
+/* .Info-Endpoint-Bar {
+} */
 
 .Bg-Btn {
   margin: 0.5em 1em 0 1em;
@@ -502,27 +468,12 @@ animation-iteration-count: 1
   background-repeat: no-repeat;
 }
 
-#Diamond {
-  /* border: 5px solid brown; */
-  /* margin: 0.5em 1em 0 1em;
-  height: 50px;
-  width: 50px;
-  border: none;
-  background-color: transparent; */
-  /* background-size: cover;
-  background-repeat: no-repeat; */
+#Diamond {  
   background-image: url('/public/img/diamond.png');
 }
 
-#Mirror {
-  /* margin: 0.5em 1em 0 1em;
-  height: 50px;
-  width: 50px;
-  border: none;
-  background-color: transparent; */
-  background-image: url('/public/img/mirror.png');
-  /* background-size: cover;
-  background-repeat: no-repeat; */
+#Mirror {  
+  background-image: url('/public/img/mirror.png');  
 }
 
 .Header-Text {
@@ -540,19 +491,19 @@ animation-iteration-count: 1
 }
 
 #moves {
-  background-image: url('/public/img/moves.png')
+  background-image: url('/public/img/moves.png');
 }
 #ability {
-  background-image: url('/public/img/ability.png')
+  background-image: url('/public/img/ability.png');
 }
 #damage {
-  background-image: url('/public/img/damage.png')
+  background-image: url('/public/img/damage.png');
 }
 #Info-Pokeball {
-  background-image: url('/public/img/pokeball.png')
+  background-image: url('/public/img/pokeball.png');
 }
 #Gear {
-  background-image: url('/public/img/gear.png')
+  background-image: url('/public/img/gear.png');
 }
 
 .Display-Poke {
@@ -561,28 +512,21 @@ animation-iteration-count: 1
   background-size: cover;
   background-repeat: no-repeat;
 }
-/* color: transparent; */
 
 /* ? ****** ______________ end of page 3   */
 
 
 
 /* *** Captcha  */
-.Captcha-Cont {
-  /* border: 5px solid brown;   */
-  /* height: 30em; */
-  /* width: 30em; */
-  /* overflow-y: scroll; */
-}
+/* .Captcha-Cont {
+} */
 
 .Captcha-Box {
   height: 250px;
   width: 250px;
-  /* border: 5px solid rebeccapurple; */
   background-image: url('/public/img/openPokeBall.png');
   background-size: 1000%;
   margin: 0.25em;
-  /* margin-top: 7.75em; */
 }
 
 .Captcha-P {
@@ -600,7 +544,6 @@ animation-iteration-count: 1
   background-image: url('/public/img/gear.png');
   background-size: cover;
   background-repeat: no-repeat;
-
   height: 150px;
   width: 150px;
   position: relative;
@@ -608,25 +551,25 @@ animation-iteration-count: 1
 }
 
 .tailWhip {
-  animation: swift 5s infinite
+  animation: swift 5s infinite;
 }
 @keyframes swift { 
   0% {
   }
   25% {
-  transform: rotate(45deg)
+  transform: rotate(45deg);
 }
   50% {
-  transform: rotate(90deg)
+  transform: rotate(90deg);
 }
   60% {
-  transform: rotate(135deg)
+  transform: rotate(135deg);
   }
   80% {
-  transform: rotate(180deg)
+  transform: rotate(180deg);
   }
   100% {
-    transform: rotate (360deg)
+    transform: rotate (360deg);
   }
 }
 
@@ -636,25 +579,25 @@ animation-iteration-count: 1
 
 @keyframes ball1 {
   0%, 100% {
-    transform: rotate(0deg)
+    transform: rotate(0deg);
   }
   20% {
-    transform: rotate(2deg)
+    transform: rotate(2deg);
   }
   40% {
-    transform: rotate(-2deg)
+    transform: rotate(-2deg);
   }
   60% {
-    transform: rotate(4deg)
+    transform: rotate(4deg);
   }
   65% {
-    transform: rotate(-3deg)
+    transform: rotate(-3deg);
   }
   70% {
-    transform: rotate(2deg)
+    transform: rotate(2deg);
   }
   80% {
-    transform: rotate(-1deg)
+    transform: rotate(-1deg);
   } 
 }
 
@@ -662,10 +605,18 @@ animation-iteration-count: 1
   background-image: url('/public/img/nightmode.png');
   background-size: cover;
   background-repeat: no-repeat;
-
   border: transparent;
   border-radius: 50%;
 }
 
+/* #signInDiv {    
+} */
 
+#secretSignIn {
+  height: 2rem;
+  width: 2rem;
+  background-image: url('/public/img/google.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 /* *** Captcha  */
