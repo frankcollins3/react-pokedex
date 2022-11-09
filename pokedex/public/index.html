@@ -27,6 +27,44 @@
     <title>React Pokedex </title>
     <script src="https://accounts.google.com/gsi/client" onLoad="initClient()" async defer></script>
 
+    <script>
+      var client;
+      var access_token;
+
+      function initClient() {
+        client = google.accounts.oauth2.initTokenClient({
+          client_id: '391925163312-b27vd8l3b0ic5lcshtno1reo3rkktqk6.apps.googleusercontent.com',
+          scope: 
+              `https://www.googleapis.com/auth/userinfo.profile`,
+                //  'https://www.googleapis.com/auth/calendar.readonly' 
+                  // https://www.googleapis.com/auth/contacts.readonly',
+          callback: (tokenResponse) => {
+            console.log('tokenResponse')
+            console.log(tokenResponse)
+            access_token = tokenResponse.access_token;
+          },
+        });
+      }
+      function getToken() {
+        client.requestAccessToken();
+      }
+      function revokeToken() {
+        google.accounts.oauth2.revoke(access_token, () => {console.log('access token revoked')});
+      }
+      function loadCalendar() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://www.googleapis.com/calendar/v3/calendars/primary/events');
+        xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
+        xhr.send();
+      }
+
+      function hello() {
+        console.log("hey how are you?")
+      }
+
+    </script>
+
+
     <!-- this script will give us access to a couple of javascript objects  -->
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
