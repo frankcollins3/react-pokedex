@@ -96,19 +96,14 @@ function InfoPokeImage(props) {
         console.log(href)
         let len = href.length        
         let preclean = href.slice(len - 4)        
-        // let preclean2 = href.length - 1
-        let preclean2 = href.charAt(len-1)
-        console.log('preclean2')
-        console.log(preclean2)
 
         
 
-        console.log(preclean)
-        console.log('preclean2')
-        console.log(preclean2)
+        // let preclean2 = href.length - 1
+        // let preclean2 = href.charAt(len-1)      
+
         let cleanid = preclean.replace(/[\/a-z]/g, '')   
-        console.log('come see my cleanid')
-        console.log(cleanid)
+        
         pokemon.forEach(async(poke) => {
             console.log(`typeof pokeid ${typeof poke.id}`)
             if (poke.id === parseInt(cleanid)) {                
