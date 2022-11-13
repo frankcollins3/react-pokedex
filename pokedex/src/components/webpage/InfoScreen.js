@@ -104,6 +104,7 @@ function InfoScreen(props) {
             {/* <button onClick={check} className="navBall" id="Pokeball"></button> */}
             <div className="Info Info-Left Column-Center">
             <InfoPokeImage
+             thirdPagePoke={props.thirdPagePoke} setThirdPagePoke={props.setThirdPagePoke}
              paramPoke={paramPoke} setParamPoke={setParamPoke}
              imageUrl={imageUrl} setImageUrl={setImageUrl}
              />
