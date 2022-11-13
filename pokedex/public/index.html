@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <!-- <link rel="icon" href="%PUBLIC_URL%/favicon.ico" /> -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -33,15 +33,16 @@
 
       function initClient() {
         client = google.accounts.oauth2.initTokenClient({
-          client_id: '391925163312-b27vd8l3b0ic5lcshtno1reo3rkktqk6.apps.googleusercontent.com',
+          client_id: `%REACT_APP_SECRET_ID%`,
+          // client_id: process.env.REACT_APP_SECRET_ID,
           scope: 
               `https://www.googleapis.com/auth/userinfo.profile`,
                 //  'https://www.googleapis.com/auth/calendar.readonly' 
                   // https://www.googleapis.com/auth/contacts.readonly',
           callback: (tokenResponse) => {
+            access_token = tokenResponse.access_token;
             console.log('tokenResponse')
             console.log(tokenResponse)
-            access_token = tokenResponse.access_token;
           },
         });
       }
