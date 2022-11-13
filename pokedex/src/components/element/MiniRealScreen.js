@@ -17,10 +17,13 @@ let imagenavigate = useNavigate()
         // let hoverimage = event.target.currentSrc // not right this brings back the <img. you can see the element, not as a string.
         let hoverimage = event.target.attributes[1].nodeValue
         let cleanurl = hoverimage.slice(0, hoverimage.length-4).replace(/[\#./:a-z]/gi, '')
+        
+        await props.thirdPagePoke(cleanurl)
+
         // const redirect = async () => {
             try {
                 console.log("atleast were trying to redirect")
-                LocationTool(null || undefined, `/pokemon/${cleanurl}`, imagenavigate)
+                // LocationTool(null || undefined, `/pokemon/${cleanurl}`, imagenavigate)
                 // await navBarNavigate('/')
             }
             catch { 
