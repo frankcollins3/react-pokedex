@@ -9,6 +9,7 @@ import './App.css';
 import './components/styles/styles.scss';
 import myCSS from './components/utility/CSStool'
 
+
 // import * as env from 'dotenv'
 // env.config()
 // console.log(process.env.hi)
@@ -20,7 +21,18 @@ import myCSS from './components/utility/CSStool'
 // bring in a new scss file and do them both at the same time
 
 function App() {
+console.log(window)
+  const FB = window.FB
+  console.log(FB)
 
+  
+    
+  
+  // console.log(process.env.TITLE)
+  // console.log(process.env.REACT_APP_TITLE)
+  // console.log(process.env.REACT_APP_Pokedex)
+  
+  // console.log(process.env.REACT_APP.Pokedex)
   
 
   const client = ''
