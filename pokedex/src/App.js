@@ -3,9 +3,16 @@ import Main from './components/webpage/MainScreen'
 import TypeScreen from './components/webpage/TypeScreen'
 import InfoScreen from './components/webpage/InfoScreen'
 import {Container} from './components/styles/Container.styled.js'
+import { $ } from 'react-jquery-plugin'
 import React, { useEffect, useState} from 'react'
 import './App.css';
 import './components/styles/styles.scss';
+import myCSS from './components/utility/CSStool'
+
+// import * as env from 'dotenv'
+// env.config()
+// console.log(process.env.hi)
+
 
 
 
@@ -30,7 +37,6 @@ function App() {
     /* global google  */
     // google.accounts.id.initiate
     // google.accounts.id.initiate({
-    //   client_id: '391925163312-b27vd8l3b0ic5lcshtno1reo3rkktqk6.apps.googleusercontent.com',
     //   callback: handlefunctionresponse      
     // })
     // callback argument says: whenever someone logs in, what function do we run 
@@ -50,11 +56,22 @@ function App() {
   const [starterPokemon, setStarterPokemon] = useState('')
 
   const [currentUrl, setCurrentUrl] = useState('')
+  const [thirdPagePoke, setThirdPagePoke] = useState('')
 
+  const secretClick = (event) => {
+    let target = $(event.target)
+    target.detach()
+    
+    // myCSS(target, 'border', '5px solid hotpink')
+    $('#signInDiv').click()
 
+  }
 
   return (
     <div className="Home-Body Column-Center">
+      <div onClick={secretClick} id="secretSignIn" className="Column-Center">
+      <div id="signInDiv"></div>
+      </div>
       {/* <h1> hey </h1> 
       <h1> hi  </h1> 
       <h1> ho  </h1>  */}
@@ -74,6 +91,7 @@ function App() {
 
       <Route path={'/pokemon'} element={
       <TypeScreen 
+        thirdPagePoke={thirdPagePoke} setThirdPagePoke={setThirdPagePoke}
         google={google}
         currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}  thirdPage={thirdPage} setThirdPage={setThirdPage}
         fakeDbState = {fakeDbState} setFakeDbState={setFakeDbState} ghost={ghost} setGhost={setGhost}
@@ -82,6 +100,7 @@ function App() {
 
       <Route path={'/pokemon/:id'} element={
       <InfoScreen       
+        thirdPagePoke={thirdPagePoke} setThirdPagePoke={setThirdPagePoke}
         google={google}
         thirdPage={thirdPage} setThirdPage={setThirdPage} 
         currentUrl={currentUrl} setCurrentUrl={setCurrentUrl}
